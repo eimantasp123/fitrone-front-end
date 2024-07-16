@@ -1,0 +1,43 @@
+import { Box, Alert, AlertIcon, AlertDescription, Flex, CloseButton } from "@chakra-ui/react";
+import PropTypes from "prop-types";
+
+const ErrorAlert = ({ error, clearError }) => {
+  if (!error) return null;
+
+  return (
+    <Box mt={3}>
+      <Alert
+        status="error"
+        variant="subtle"
+        borderRadius={8}
+        position="relative"
+        sx={{
+          backgroundColor: "#F4F4F4",
+          borderColor: "red.500",
+          borderWidth: "1px",
+          _hover: {
+            backgroundColor: "#FFFFFF",
+          },
+          transition: "background-color 0.3s",
+        }}
+      >
+        <Flex direction="row" align="center" justify="space-between" width="100%">
+          <Flex align="center" width="90%">
+            <AlertIcon boxSize="16px" color="red.500" />
+            <AlertDescription fontSize="15px" ml={2} lineHeight="short">
+              {error}
+            </AlertDescription>
+          </Flex>
+          <CloseButton position="absolute" right="8px" top="8px" size="sm" onClick={clearError} />
+        </Flex>
+      </Alert>
+    </Box>
+  );
+};
+
+ErrorAlert.propTypes = {
+  error: PropTypes.string,
+  clearError: PropTypes.func.isRequired,
+};
+
+export default ErrorAlert;

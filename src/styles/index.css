@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+/* Add this to your CSS file */
+input[type="date"]::placeholder {
+  color: #eeeeee; /* Match this color with other placeholders */
+  opacity: 0.4; /* Ensure the color applies fully */
+}

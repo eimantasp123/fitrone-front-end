@@ -21,16 +21,13 @@ const InputField = ({
       <div
         className={`relative py-2 px-4 rounded-lg border transition-all duration-300 ${
           errors[name] ? "border-red-500" : "border-gray-300"
-        } hover:border-transparent hover:ring-2 hover:ring-blue-400 focus-within:border-transparent focus-within:ring-2 focus-within:ring-blue-500`}
+        } hover:border-gray-400  focus-within:hover:border-transparent focus-within:border-transparent focus-within:ring-1 focus-within:ring-accent1Dark bg-backgroundLight`}
       >
-        <label
-          className="block text-gray-700 text-sm font-semibold"
-          htmlFor={name}
-        >
+        <label className="block text-gray-700 text-sm font-semibold" htmlFor={name}>
           {label}
         </label>
         <input
-          className="w-full text-gray-700 leading-tight focus:outline-none"
+          className="w-full text-gray-700 bg-transparent leading-tight focus:outline-none focus:ring-0"
           id={name}
           type={type}
           placeholder={placeholder || label}
@@ -38,10 +35,7 @@ const InputField = ({
         />
         {Icon && <Icon className="absolute right-4 bottom-3 text-gray-700" />}
         {showPasswordToggle && (
-          <div
-            onClick={togglePasswordVisibility}
-            className="absolute cursor-pointer right-4 bottom-3"
-          >
+          <div onClick={togglePasswordVisibility} className="absolute cursor-pointer right-4 bottom-3">
             {type === "password" ? (
               <IoEye className="text-lg text-gray-700" />
             ) : (
@@ -52,9 +46,7 @@ const InputField = ({
       </div>
       {errors[name] && (
         <div className="flex pl-2 mt-[-6px] mb-[-2px]">
-          <span className="text-red-500 text-[13px]">
-            {errors[name].message}
-          </span>
+          <span className="text-red-500 text-[13px]">{errors[name].message}</span>
         </div>
       )}
     </>

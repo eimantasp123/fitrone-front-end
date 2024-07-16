@@ -1,243 +1,158 @@
-import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useCookies } from "react-cookie";
+import useAsync from "../hooks/useAsync";
+import * as authService from "../services/authService";
 
 const AuthContext = createContext();
-const MOCK_API = "http://localhost:5000";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [is2FAStep, setIs2FAStep] = useState(false);
   const [userId, setUserId] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecking, setAuthChecking] = useState(true);
   const [resetUserEmail, setResetUserEmail] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkUserLoggedIn = async () => {
-      setAuthChecking(true);
+    const checkAuth = async () => {
       try {
-        const token = cookies.token;
-        if (!token) throw new Error("No token found");
-        const response = await axios.get(`${MOCK_API}/auth/user`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-        });
-        setUser(response.data);
-      } catch (err) {
-        setUser(null);
+        const data = await authService.getUser();
+        if (data.code === "REFRESH_TOKENS") {
+          const refreshedData = await authService.refreshToken();
+          setUser(refreshedData);
+          setIsAuthenticated(true);
+        } else if (data.code === "NO_TOKENS") {
+          return;
+        } else {
+          setUser(data);
+          setIsAuthenticated(true);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          setIsAuthenticated(false);
+          setUser(null);
+        }
       } finally {
         setAuthChecking(false);
       }
     };
-    checkUserLoggedIn();
-  }, [cookies]);
 
-  const closeErrorModalHandler = () => {
-    setError(null);
-  };
+    checkAuth();
+  }, []);
 
-  const refreshToken = async () => {
-    try {
-      const response = await axios.post(
-        `${MOCK_API}/auth/refresh-token`,
-        {},
-        { withCredentials: true }
-      );
-      const newAccessToken = response.data.accessToken;
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${newAccessToken}`;
-      setUser(response.data.user);
-    } catch (err) {
-      setUser(null);
-    }
-  };
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        await authService.refreshToken();
+      } catch (error) {
+        console.error("Error refreshing token:", error.response.data.message);
+      }
+    }, 14 * 60 * 1000); // Every 14 minutes
 
-  const handleSignUp = () => {
-    navigate("/register");
-    clearMessages();
-  };
-
-  const handleForgotPassword = () => {
-    navigate("/forgot-password");
-    clearMessages();
-  };
-
-  const handleSignIn = () => {
-    navigate("/login", { replace: true });
-    clearMessages();
-  };
+    return () => clearInterval(interval);
+  }, []);
 
   const clearMessages = () => {
-    setError(null);
     setSuccessMessage(null);
     setResetUserEmail("");
   };
 
-  const login = async (email, password) => {
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        `${MOCK_API}/auth/login`,
-        { email, password },
-        { withCredentials: true }
-      );
-      setError(null);
-      if (response.data.userId && !response.data.role) {
-        setUserId(response.data.userId);
-        setIs2FAStep(true);
-      } else {
-        navigate("/dashboard", { replace: true });
-      }
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const verifyLogin = async (userId, code) => {
-    try {
-      setLoading(true);
-      await axios.post(
-        `${MOCK_API}/auth/verify-login`,
-        { userId, code },
-        { withCredentials: true }
-      );
-      setError(null);
-      setIs2FAStep(false);
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const forgotPassword = async (email) => {
-    try {
-      setLoading(true);
-      const response = await axios.post(`${MOCK_API}/auth/forgot-password`, {
-        email,
-      });
-      setSuccessMessage(response.data.message);
-      setResetUserEmail(response.data.email);
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
-      setSuccessMessage("");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const resetPassword = async (token, password) => {
-    try {
-      setLoading(true);
-      const response = await axios.post(`${MOCK_API}/auth/reset-password`, {
-        token,
-        password,
-      });
-      setSuccessMessage(response.data.message);
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogleLogin = async (response) => {
-    try {
-      await axios.post(
-        `${MOCK_API}/auth/google`,
-        {
-          token: response.access_token,
-        },
-        { withCredentials: true }
-      );
-
+  const login = useAsync(async (email, password, signal) => {
+    const data = await authService.login(email, password, signal);
+    clearMessages();
+    if (data.is2FA) {
+      setUserId(data.userId);
+      setIs2FAStep(true);
+    } else {
+      setUser(data);
+      setIsAuthenticated(true);
       navigate("/dashboard", { replace: true });
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
     }
-  };
+  });
 
-  const handleFacebookLogin = async (response) => {
-    try {
-      await axios.post(
-        `${MOCK_API}/auth/facebook`,
-        {
-          accessToken: response.accessToken,
-          userID: response.userID,
-        },
-        { withCredentials: true }
-      );
-      navigate("/dashboard", { replace: true });
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
-    }
-  };
+  const verifyLogin = useAsync(async (userId, code, signal) => {
+    const data = await authService.verifyLogin(userId, code, signal);
+    clearMessages();
+    setIs2FAStep(false);
+    setUser(data);
+    setIsAuthenticated(true);
+    navigate("/dashboard", { replace: true });
+  });
 
-  const register = async (data) => {
-    try {
-      setLoading(true);
-      const response = await axios.post(`${MOCK_API}/auth/register`, data);
-      setSuccessMessage(response.data.message);
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const resendCode = useAsync(async (userId, signal) => {
+    await authService.resendCode(userId, signal);
+  });
 
-  const logout = async () => {
-    try {
-      await axios.post(
-        `${MOCK_API}/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
-      setUser(null);
-      navigate("/login", { replace: true });
-    } catch (err) {
-      console.error("Error logging out: ", err);
-      setError(err.response?.data?.message || "An error occurred");
-    }
-  };
+  const forgotPassword = useAsync(async (email, signal) => {
+    const data = await authService.forgotPassword(email, signal);
+    setSuccessMessage(data.message);
+    setResetUserEmail(data.email);
+  });
+
+  const resetPassword = useAsync(async (token, password, signal) => {
+    const data = await authService.resetPassword(token, password, signal);
+    setSuccessMessage(data.message);
+  });
+
+  const handleGoogleLogin = useAsync(async (tokenResponse, signal) => {
+    const responseData = await authService.handleGoogleLogin(tokenResponse, signal);
+    setUser(responseData);
+    setIsAuthenticated(true);
+    navigate("/dashboard", { replace: true });
+  });
+
+  const handleFacebookLogin = useAsync(async (data, signal) => {
+    const responseData = await authService.handleFacebookLogin(data, signal);
+    setUser(responseData);
+    setIsAuthenticated(true);
+    navigate("/dashboard", { replace: true });
+  });
+
+  const register = useAsync(async (data, signal) => {
+    const responseData = await authService.register(data, signal);
+    setSuccessMessage(responseData.message);
+  });
+
+  const logout = useAsync(async (signal) => {
+    await authService.logout(signal);
+    setUser(null);
+    setIsAuthenticated(false);
+  });
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        loading,
-        error,
-        login,
-        register,
-        successMessage,
-        handleGoogleLogin,
-        refreshToken,
-        handleFacebookLogin,
-        verifyLogin,
-        closeErrorModalHandler,
-        handleSignUp,
-        handleSignIn,
-        handleForgotPassword,
+        is2FAStep,
+        userId,
         authChecking,
         resetUserEmail,
-        is2FAStep,
-        setError,
-        clearMessages,
+        successMessage,
+        isAuthenticated,
+        login,
+        register,
+        verifyLogin,
         forgotPassword,
         resetPassword,
-        userId,
         logout,
+        resendCode,
+        handleGoogleLogin,
+        handleFacebookLogin,
+        handleSignUp: () => {
+          navigate("/register");
+          clearMessages();
+        },
+        handleForgotPassword: () => {
+          navigate("/forgot-password");
+          clearMessages();
+        },
+        handleSignIn: () => {
+          navigate("/login");
+          clearMessages();
+        },
       }}
     >
       {children}
