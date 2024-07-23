@@ -85,7 +85,7 @@ const SearchInput = ({ className }) => {
   }, []);
 
   return (
-    <div ref={containerRef} className={`relative min-w-[250px] max-w-[50%] ${className} mx-auto  `}>
+    <div ref={containerRef} className={`relative min-w-[200px] max-w-[650px] ${className} mx-auto  `}>
       <div className="flex items-center  ">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
           <MdSearch className="text-gray-600 text-xl" />
@@ -94,7 +94,7 @@ const SearchInput = ({ className }) => {
           value={searchQuery}
           onChange={handleSearch}
           type="text"
-          placeholder="Search for your clients"
+          placeholder="Search what you're looking for"
           className={`w-full py-2 px-14  ${
             searchQuery.length > 2 && showResults
               ? " rounded-tl-[20px] rounded-tr-[20px] focus:border-t-1 shadow-none focus:border-l-1 focus:border-r-1  border-b-transparent "

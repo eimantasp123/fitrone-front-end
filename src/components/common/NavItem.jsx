@@ -1,16 +1,20 @@
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const NavItem = ({ to, icon: Icon, label }) => {
+const NavItem = ({
+  to,
+  icon: Icon,
+  label,
+  isActiveLink = " bg-[#c9c9c924] border  text-secondary",
+  NotActive = "text-secondary border border-transparent hover:bg-text2 hover:bg-opacity-20",
+}) => {
   return (
     <li>
       <NavLink
         to={to}
         className={({ isActive }) =>
-          `flex items-center gap-3 py-2 px-4 duration-200 ease-in-out rounded-lg transition-colors ${
-            isActive
-              ? " shadow-custom-light2  bg-backgroundLight   text-secondary"
-              : "text-secondary hover:bg-text2 hover:bg-opacity-20"
+          `flex items-center gap-3 py-2 px-4 duration-200 ease-in-out rounded-full transition-colors ${
+            isActive ? isActiveLink : NotActive
           }`
         }
       >
@@ -25,6 +29,8 @@ NavItem.propTypes = {
   to: PropTypes.string.isRequired,
   icon: PropTypes.elementType.isRequired,
   label: PropTypes.string.isRequired,
+  isActiveLink: PropTypes.string,
+  NotActive: PropTypes.string,
 };
 
 export default NavItem;

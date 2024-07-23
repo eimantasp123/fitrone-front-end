@@ -1,10 +1,7 @@
-const ClientSportPlans = () => {
+export default function ClientSportPlans() {
   return (
-    <div>
-      <h1>Client Sport Plans</h1>
-      {/* Add more content specific to clients */}
+    <div className=" container mx-auto max-w-[1400px] flex flex-col h-[700px] scrollbar-none overflow-y-auto w-full flex-grow p-4 md:p-8">
+      Sport plans
     </div>
   );
-};
-
-export default ClientSportPlans;
+}

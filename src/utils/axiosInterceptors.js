@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const MOCK_API = "http://localhost:5000";
+// const MOCK_API = "https://5ce5-85-190-238-82.ngrok-free.app";
 
 const axiosInstance = axios.create({
   baseURL: MOCK_API,
@@ -9,7 +10,7 @@ const axiosInstance = axios.create({
 
 const refreshToken = async () => {
   try {
-    await axiosInstance.post("/auth/refresh-token");
+    await axiosInstance.get("/auth/refresh-token");
   } catch (error) {
     console.error("Error refreshing token:", error);
     throw error;
@@ -29,21 +30,6 @@ axiosInstance.interceptors.response.use(
         console.error("Token refresh failed", refreshError);
         return Promise.reject(refreshError);
       }
-    }
-
-    if (error.response && error.response.status === 403) {
-      // Handle 403 error
-    }
-
-    if (error.response && error.response.status === 500) {
-      // Handle 500 error
-    }
-    if (error.response && error.response.status === 404) {
-      // Handle 404 error
-    }
-
-    if (error.response && error.response.status === 400) {
-      // Handle 400 error
     }
     return Promise.reject(error);
   }

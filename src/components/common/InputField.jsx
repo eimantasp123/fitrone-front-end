@@ -1,10 +1,9 @@
 import { useFormContext } from "react-hook-form";
-import { IoCloseCircleSharp, IoEye } from "react-icons/io5";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 import PropTypes from "prop-types";
 
 const InputField = ({
   name,
-  label,
   type = "text",
   icon: Icon = null,
   showPasswordToggle = false,
@@ -21,26 +20,19 @@ const InputField = ({
       <div
         className={`relative py-2 px-4 rounded-lg border transition-all duration-300 ${
           errors[name] ? "border-red-500" : "border-gray-300"
-        } hover:border-gray-400  focus-within:hover:border-transparent focus-within:border-transparent focus-within:ring-1 focus-within:ring-accent1Dark bg-backgroundLight`}
+        } hover:border-gray-400  focus-within:hover:border-transparent focus-within:border-transparent focus-within:ring-1 focus-within:ring-secondary bg-backgroundLight`}
       >
-        <label className="block text-gray-700 text-sm font-semibold" htmlFor={name}>
-          {label}
-        </label>
         <input
-          className="w-full text-gray-700 bg-transparent leading-tight focus:outline-none focus:ring-0"
+          className="w-full py-1 text-gray-700 bg-transparent leading-tight focus:outline-none focus:ring-0"
           id={name}
           type={type}
-          placeholder={placeholder || label}
+          placeholder={placeholder}
           {...register(name)}
         />
-        {Icon && <Icon className="absolute right-4 bottom-3 text-gray-700" />}
+        {Icon && <Icon className="absolute right-4 bottom-3 text-gray-400" />}
         {showPasswordToggle && (
           <div onClick={togglePasswordVisibility} className="absolute cursor-pointer right-4 bottom-3">
-            {type === "password" ? (
-              <IoEye className="text-lg text-gray-700" />
-            ) : (
-              <IoCloseCircleSharp className="text-lg text-gray-700" />
-            )}
+            {type === "password" ? <IoEye className="text-lg text-gray-400" /> : <IoEyeOff className="text-lg text-gray-400" />}
           </div>
         )}
       </div>

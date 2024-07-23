@@ -33,10 +33,10 @@ export default function ResetPasswordForm() {
   }, [clearError]);
 
   return (
-    <div className="w-full max-w-md h-screen flex flex-col justify-center px-6 lg:p-6">
+    <div className="w-full max-w-md flex flex-col justify-center px-2  md:px-6 lg:p-6">
       <div className="text-center mb-10">
         <img src="/logoIcon.png" alt="Logo" className="w-24 h-24 mx-auto flex items-center justify-center" />
-        <h2 className="text-4xl font-bold">Reset Password</h2>
+        <h2 className="text-2xl lg:text-3xl font-bold">Reset Password</h2>
       </div>
       {successMessage ? (
         <>
@@ -55,8 +55,7 @@ export default function ResetPasswordForm() {
           <form className="gap-3 flex flex-col" onSubmit={methods.handleSubmit(onSubmit)}>
             <InputField
               name="password"
-              label="New Password"
-              placeholder="••••••••••"
+              placeholder="New Password"
               type={passwordVisibleFirst ? "text" : "password"}
               showPasswordToggle={true}
               togglePasswordVisibility={() => setPasswordVisibleFirst(!passwordVisibleFirst)}
@@ -64,13 +63,12 @@ export default function ResetPasswordForm() {
             <PasswordStrengthIndicator password={password} />
             <InputField
               name="confirmPassword"
-              label="Confirm New Password"
-              placeholder="••••••••••"
+              placeholder="Confirm New Password"
               type={passwordVisibleSecond ? "text" : "password"}
               showPasswordToggle={true}
               togglePasswordVisibility={() => setPasswordVisibleSecond(!passwordVisibleSecond)}
             />
-            <div className="mt-2">
+            <div className="mt-3">
               <FormButton isFormValid={password && confirmPassword} loading={loading}>
                 Reset Password
               </FormButton>

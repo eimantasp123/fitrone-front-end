@@ -3,18 +3,18 @@ import { NavLink } from "react-router-dom";
 
 const MobileBottomMenu = ({ navItems }) => {
   return (
-    <div className="fixed inset-x-0 bottom-0 md:hidden bg-secondary overflow-hidden flex justify-between items-center">
+    <div className="fixed z-40  inset-x-0 bottom-0 shadow-custom-light3 bg-backgroundLight lg:hidden border m-4 rounded-full overflow-hidden flex justify-between items-center">
       {navItems.map(({ path, icon: Icon }) => (
         <NavLink
           key={path}
           to={path}
           className={({ isActive }) =>
             `transition-colors duration-300 ease-in-out items-center justify-center w-1/4 py-4 flex ${
-              isActive ? "bg-secondaryLight text-accent1" : "text-accent2 hover:bg-accent1Light hover:text-accent3"
+              isActive ? "bg-secondary text-accent1" : "text-secondary hover:bg-[#c7c7c777]  hover:text-accent3"
             }`
           }
         >
-          <Icon className="text-2xl" />
+          <Icon className="text-lg md:text-xl" />
         </NavLink>
       ))}
     </div>

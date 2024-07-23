@@ -12,12 +12,9 @@ const ErrorAlert = ({ error, clearError }) => {
         borderRadius={8}
         position="relative"
         sx={{
-          backgroundColor: "#F4F4F4",
+          backgroundColor: "red.50",
           borderColor: "red.500",
           borderWidth: "1px",
-          _hover: {
-            backgroundColor: "#FFFFFF",
-          },
           transition: "background-color 0.3s",
         }}
       >
@@ -28,7 +25,7 @@ const ErrorAlert = ({ error, clearError }) => {
               {error}
             </AlertDescription>
           </Flex>
-          <CloseButton position="absolute" right="8px" top="8px" size="sm" onClick={clearError} />
+          <CloseButton position="absolute" right="8px" top="8px" size="sm" onClick={clearError} _hover={{ bg: "transparent" }} />
         </Flex>
       </Alert>
     </Box>

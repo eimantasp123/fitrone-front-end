@@ -4,7 +4,7 @@ import { Spinner } from "@chakra-ui/react";
 const FormButton = ({ isFormValid, loading, children, className = "" }) => {
   return (
     <button
-      className={` bg-accent1Dark text-secondary mt-[-10px] ${className} shadow transition-all hover:shadow-custom-light hover:bg-accent1 duration-200 ease-in-out font-semibold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full ${
+      className={` bg-accent1Dark text-secondary mt-[-10px] ${className} shadow transition-all hover:shadow-custom-light hover:bg-accent1 duration-200 ease-in-out font-semibold py-3 px-4 rounded-full focus:outline-none focus:shadow-outline w-full ${
         !isFormValid || loading ? "opacity-50 cursor-not-allowed" : ""
       }`}
       type="submit"

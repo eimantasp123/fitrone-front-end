@@ -17,6 +17,8 @@ import Messages from "../pages/Messages/Messages";
 import Support from "../pages/Support/Support";
 import ProfileSettings from "../pages/AccountSettings/ProfileSettings";
 import Help from "../pages/Help/Help";
+import ManageSubscriptionPlan from "../pages/Subscription/ManageSubscriptionPlan";
+import AnalyticsAndReports from "../pages/AnalyticsAndReports/AnalyticsAndReports";
 
 const AppRoutes = () => (
   <Routes>
@@ -34,6 +36,7 @@ const AppRoutes = () => (
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="sport-plans" element={<SportPlans />} />
         <Route path="diet-plans" element={<DietPlans />} />
+        <Route path="subscription" element={<ManageSubscriptionPlan />} />
         <Route element={<TrainerRoute />}>
           <Route path="clients" element={<TrainerClients />} />
         </Route>
@@ -41,6 +44,7 @@ const AppRoutes = () => (
           <Route path="trainers" element={<Trainers />} />
         </Route>
         <Route path="messages" element={<Messages />} />
+        <Route path="analytics" element={<AnalyticsAndReports />} />
         <Route path="support" element={<Support />} />
         <Route path="profile/*" element={<ProfileSettings />} />
         <Route path="help" element={<Help />} />
