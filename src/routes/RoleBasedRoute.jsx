@@ -2,9 +2,11 @@ import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import Spinner from "../components/common/Spinner";
+import { useSelector } from "react-redux";
 
 export const TrainerRoute = () => {
-  const { user, isAuthenticated, authChecking } = useContext(AuthContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
+  const { isAuthenticated, authChecking } = useContext(AuthContext);
 
   if (authChecking) {
     return <Spinner />;

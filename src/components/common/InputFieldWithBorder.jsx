@@ -17,12 +17,6 @@ const InputFieldWithBorder = ({
     formState: { errors },
   } = useFormContext();
 
-  const handleFocus = (event) => {
-    if (type === "date") {
-      event.target.showPicker(); // This will trigger the date picker to show
-    }
-  };
-
   return (
     <>
       <div className="relative py-2">
@@ -33,15 +27,14 @@ const InputFieldWithBorder = ({
         </div>
         <div className="relative">
           <input
-            className={`w-full text-gray-700 transition-all duration-300 ease-in-out border p-3 rounded-lg  leading-tight outline-none  ${
+            className={`w-full text-gray-700  placeholder-gray-400 transition-all duration-300 ease-in-out border px-3 py-[9px] rounded-md  leading-tight outline-none  ${
               !disabled ? " bg-backgroundLight focus-within:border-[#000] border-[#8f8f8f80]" : "border-gray-300 bg-transparent"
             }`}
             id={name}
             type={type}
-            placeholder={placeholder || label}
+            placeholder={placeholder}
             {...register(name)}
             disabled={disabled}
-            onFocus={handleFocus}
           />
           {Icon && (
             <div className="absolute text-sm right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -62,7 +55,7 @@ const InputFieldWithBorder = ({
           )}
         </div>
         {errors[name] && (
-          <div className="flex mt-[-6px] mb-[-2px]">
+          <div className="flex mt-[6px] mb-[-2px]">
             <span className="text-red-500 text-[13px]">{errors[name].message}</span>
           </div>
         )}

@@ -1,60 +1,146 @@
-import { useState } from "react";
-import { Switch, useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Spinner, Switch } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
-import InputFieldWithBorder from "../common/InputFieldWithBorder";
+import { useSelector } from "react-redux";
+import CustomPhoneInput from "../common/CustomPhoneInput";
+import { FaPhone } from "react-icons/fa";
+import useCustomToast from "../../hooks/useCustomToast";
+import { useDispatch } from "react-redux";
+import { updatePersonalDetails, request2FA, verify2FA } from "../../services/reduxSlices/Profile/personalDetailsSlice";
+import { editPhoneNumberSchema } from "../../utils/validationSchema";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const TwoFactorAuth = () => {
-  const user = {
-    phoneNumber: "1234567890",
-  };
-
+  const { details: user, updateDetailsLoading, verify2FALoading } = useSelector((state) => state.personalDetails);
+  const [enabled, setEnabled] = useState(() => user?.is2FAEnabled ?? false);
+  const [editMode, setEditMode] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [resendLoading, setResendLoading] = useState(false);
+  const dispatch = useDispatch();
+  const customToast = useCustomToast();
   const methods = useForm({
-    defaultValues: {
-      phoneNumber: user?.phoneNumber || "",
-    },
+    resolver: yupResolver(editPhoneNumberSchema),
   });
 
-  const [enabled, setEnabled] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const toast = useToast();
+  useEffect(() => {
+    if (user) {
+      methods.reset({
+        phone: user.phone,
+      });
+    }
+  }, [user, methods]);
 
-  const handleToggle = () => {
-    if (methods.watch("phoneNumber")) {
-      setEnabled(!enabled);
+  const handleToggle = async () => {
+    if (!enabled) {
+      if (!methods.watch("phone")) {
+        customToast({
+          title: "Error",
+          description: "Please provide a phone number before enabling Two-Factor Authentication.",
+          status: "error",
+        });
+        return;
+      }
+      setShowModal(true);
+      try {
+        await dispatch(request2FA()).unwrap();
+      } catch (error) {
+        customToast({
+          title: "Error",
+          description: error.message,
+          status: "error",
+        });
+      }
     } else {
-      toast({
+      setShowModal(true);
+      try {
+        await dispatch(request2FA()).unwrap();
+      } catch (error) {
+        customToast({
+          title: "Error",
+          description: error.message,
+          status: "error",
+        });
+      }
+    }
+  };
+
+  const handleVerificationSubmit = async () => {
+    try {
+      await dispatch(verify2FA({ code: verificationCode, enable: !enabled })).unwrap();
+      setEnabled(!enabled);
+      customToast({
+        title: "Success",
+        description: `Two-Factor Authentication ${!enabled ? "enabled" : "disabled"} successfully.`,
+        status: "success",
+      });
+      setShowModal(false);
+      setVerificationCode("");
+    } catch (error) {
+      customToast({
         title: "Error",
-        description: "Please add a valid phone number before enabling 2FA.",
+        description: error.message,
         status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
       });
     }
   };
 
   const onSubmit = async (data) => {
-    // Simulate saving the phone number
-    console.log(data);
+    try {
+      await dispatch(updatePersonalDetails({ phone: data.phone })).unwrap();
+      customToast({
+        title: "Phone number updated successfully.",
+        status: "success",
+      });
+      setEditMode(false);
+      console.log("Phone number updated successfully.");
+      console.log(user);
+    } catch (error) {
+      customToast({
+        title: "Error updating phone number",
+        description: error.message,
+        status: "error",
+      });
+    }
+  };
+
+  const handleResendCode = async () => {
+    setResendLoading(true);
+    try {
+      await dispatch(request2FA()).unwrap();
+      customToast({
+        title: "Success",
+        description: "Verification code sent to your phone.",
+        status: "success",
+      });
+    } catch (error) {
+      customToast({
+        title: "Error",
+        description: error.message,
+        status: "error",
+      });
+    }
+    setResendLoading(false);
+  };
+
+  const handelDisabledEditMode = () => {
     setEditMode(false);
-    setEnabled(true);
-    toast({
-      title: "Success",
-      description: "Phone number saved successfully.",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-      position: "bottom",
-    });
+    methods.reset({ phone: user.phone || "" });
+    methods.clearErrors();
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setVerificationCode("");
   };
 
   return (
-    <div className="flex flex-col px-8 py-4 xl:flex-col  w-full">
-      <h2 className="text-lg font-semibold ">Two Factor Autentication</h2>
+    <div className="flex bg-backgroundLight rounded-lg shadow-custom-dark2 flex-col p-8 xl:flex-col  w-full">
+      {/* <h2 className="text-lg font-semibold ">Two Factor Autentication</h2> */}
       <div className="px-5 flex flex-col gap-5">
         <FormProvider {...methods}>
-          <div className="space-y-4 w-full ">
-            <div className="flex justify-end items-center">
+          <div className="space-y-2 w-full ">
+            <div className="flex justify-end mb-[-10px] items-center">
               <Switch isChecked={enabled} onChange={handleToggle} colorScheme="customAccent" />
             </div>
             <div>
@@ -70,57 +156,106 @@ const TwoFactorAuth = () => {
                 </p>
               )}
             </div>
-            <div className="mt-4">
-              <div className="flex flex-col md:flex-row  md:justify-between items-start md:items-center">
-                <p className="text-gray-600">
-                  {methods.watch("phoneNumber")
-                    ? `Current Phone Number: ${methods.watch("phoneNumber")}`
-                    : "No phone number provided."}
-                </p>
+            <div className="">
+              <div className="flex flex-col md:flex-row w-full md:justify-between items-start md:items-center">
+                {!editMode ? (
+                  <p className="text-gray-600">
+                    {methods.watch("phone") ? `Current Phone Number: ${methods.watch("phone")}` : "No phone number provided."}
+                  </p>
+                ) : (
+                  <form onSubmit={methods.handleSubmit(onSubmit)} className=" flex w-full ">
+                    <div className="w-2/3 flex-1 ">
+                      <CustomPhoneInput
+                        value={methods.watch("phone")}
+                        onChange={(value) => methods.setValue("phone", value)}
+                        placeholder="(123) 456-7890"
+                        disabled={!editMode}
+                        Icon={FaPhone}
+                        error={methods.formState.errors.phone?.message}
+                      />
+                    </div>
+                    <div className="flex gap-4 mt-[13px] w-1/3 items-start justify-end">
+                      <button
+                        className="cursor-pointer text-sm bg-accent1 text-secondary py-2 px-6 rounded-full"
+                        type="submit"
+                        style={{ width: "180px" }}
+                        disabled={!methods.watch("phone") || methods.formState.isSubmitting}
+                      >
+                        {updateDetailsLoading ? <Spinner size="sm" /> : "Save Phone Number"}
+                      </button>
+                      <button
+                        className="cursor-pointer text-sm bg-secondary text-text1 py-2 px-6 rounded-full"
+                        type="button"
+                        onClick={handelDisabledEditMode}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                )}
                 {!editMode && (
                   <button
                     onClick={() => setEditMode(true)}
                     className="mt-2 cursor-pointer bg-accent1 text-sm  text-secondary py-2 px-6 rounded-full"
                     type="button"
                   >
-                    {methods.watch("phoneNumber") ? "Edit Phone Number" : "Add Number"}
+                    {!editMode ? `${methods.watch("phone") ? "Edit Phone Number" : "Add Number"}` : "Save Phone Number"}
                   </button>
                 )}
-              </div>
-              <div
-                className={`transition-all ease-in-out duration-200 transform ${
-                  editMode ? "opacity-100 my-4 translate-y-0 max-h-70" : "opacity-0 max-h-0 -translate-y-[-20px]"
-                } ${!editMode && "hidden-after-transition"}`}
-                style={{
-                  transitionProperty: "opacity, transform, max-height",
-                  maxHeight: editMode ? "400px" : "0px",
-                  overflow: "hidden",
-                }}
-              >
-                <form onSubmit={methods.handleSubmit(onSubmit)} className=" flex flex-col space-y-2">
-                  <InputFieldWithBorder name="phoneNumber" type="text" placeholder="Enter your phone number" />
-                  <div className="flex space-x-4">
-                    <button
-                      className="cursor-pointer text-sm bg-accent1 text-secondary py-2 px-6 rounded-full"
-                      type="submit"
-                      disabled={!methods.watch("phoneNumber") || methods.formState.isSubmitting}
-                    >
-                      Save Phone Number
-                    </button>
-                    <button
-                      className="cursor-pointer text-sm bg-secondary text-text1 py-2 px-6 rounded-full"
-                      type="button"
-                      onClick={() => setEditMode(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
               </div>
             </div>
           </div>
         </FormProvider>
       </div>
+      <Modal isOpen={showModal} onClose={handleCloseModal} size="xl">
+        <ModalOverlay />
+        <ModalContent sx={{ padding: "1.5rem", borderRadius: "0.5rem" }}>
+          <ModalHeader>Enter Verification Code</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <p className="text-gray-600 mb-4">
+              A verification code has been sent to <strong>{methods.watch("phone")}.</strong> Please enter the code below to{" "}
+              {enabled ? "disable" : "enable"} Two-Factor Authentication.
+            </p>
+            <div className="flex w-full gap-5  items-center">
+              <input
+                className="`w-1/2 w-full  text-gray-700  placeholder-gray-400 transition-all duration-300 ease-in-out border px-3 py-[9px] rounded-lg  leading-tight outline-none 
+                bg-backgroundLight focus-within:border-[#000] border-[#8f8f8f80] border-gray-300 bg-transparent
+                "
+                id="verificationCode"
+                type="text"
+                placeholder="Enter 2FA code"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+              />
+              <div className="flex gap-3 items-center justify-end w-1/2">
+                <button
+                  className="cursor-pointer text-sm bg-accent1 text-secondary py-2 px-6 rounded-full"
+                  style={{ width: "90px" }}
+                  onClick={handleVerificationSubmit}
+                  disabled={verify2FALoading}
+                >
+                  {verify2FALoading ? <Spinner size="sm" /> : "Verify"}
+                </button>
+                <button
+                  className="cursor-pointer text-sm bg-secondary text-text1 py-2 px-6 rounded-full"
+                  onClick={handleCloseModal}
+                  style={{ width: "90px" }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+            <button
+              className="cursor-pointer pl-2 mt-3 text-sm font-medium text-secondary"
+              onClick={handleResendCode}
+              disabled={resendLoading}
+            >
+              {resendLoading ? <Spinner size="sm" /> : "Resend Code"}
+            </button>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

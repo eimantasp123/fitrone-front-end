@@ -1,7 +1,5 @@
 import * as yup from "yup";
 
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
 export const loginSchema = yup.object().shape({
   email: yup.string().email("Invalid email format").required("Email is required"),
   password: yup.string().required("Password is required").min(4, "Password must be at least 4 characters long"),
@@ -12,7 +10,7 @@ export const verifySchema = yup.object().shape({
 });
 
 export const forgotPasswordSchema = yup.object().shape({
-  email: yup.string().matches(emailRegex, "Invalid email format").required("Email is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
 });
 
 const passwordCriteria = {
@@ -34,31 +32,43 @@ const passwordValidation = yup
 
 export const resetPasswordSchema = yup.object().shape({
   password: passwordValidation,
-  confirmPassword: yup
+  passwordConfirm: yup
     .string()
     .required("Confirm Password is required")
     .oneOf([yup.ref("password"), null], "Passwords must match"),
+});
+
+export const changePasswordSchema = yup.object().shape({
+  oldPassword: yup.string().required("Old Password is required"),
+  newPassword: passwordValidation,
+  confirmNewPassword: yup
+    .string()
+    .required("Confirm New Password is required")
+    .oneOf([yup.ref("newPassword"), null], "Passwords must match"),
+});
+
+export const registerEmailSchema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Email is required"),
 });
 
 export const registerSchema = yup.object().shape({
-  email: yup
-    .string()
-    .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Invalid email format")
-    .required("Email is required"),
+  firstName: yup.string().required("First Name is required").min(3, "First Name must be at least 3 characters long"),
+  lastName: yup.string(),
   password: passwordValidation,
-  confirmPassword: yup
+  passwordConfirm: yup
     .string()
     .required("Confirm Password is required")
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
+const phoneRegex = /^\+?[1-9]\d{6,14}$/;
+
 export const editProfileSchema = yup.object().shape({
-  firstName: yup.string().required("First Name is required"),
-  lastName: yup.string().required("Last Name is required"),
-  email: yup.string().email("Invalid email").required("Email is required"),
-  phoneNumber: yup.string().optional(),
-  birthday: yup.date().optional(),
-  nationality: yup.string().optional(),
-  gender: yup.string().oneOf(["Male", "Female", "Other"]).optional(),
-  backupEmail: yup.string().email("Invalid email").optional(),
+  firstName: yup.string().required("First Name is required").min(3, "First Name must be at least 3 characters long"),
+  lastName: yup.string(),
+  phone: yup.string().matches(phoneRegex, { message: "Invalid phone number", excludeEmptyString: true }),
+});
+
+export const editPhoneNumberSchema = yup.object().shape({
+  phone: yup.string().matches(phoneRegex, { message: "Invalid phone number", excludeEmptyString: false }),
 });

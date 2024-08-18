@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { MdManageAccounts, MdOutlinePassword, MdOutlinePayments, MdOutlineSecurity } from "react-icons/md";
 import { IoTrashOutline } from "react-icons/io5";
 
@@ -14,18 +13,14 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="flex flex-col ">
-      <ul className="w-full flex flex-col gap-2 sm:grid sm:grid-cols-3 sm:gap-4 xl:flex xl:flex-col xl:gap-2 ">
+    <div className="flex  flex-col ">
+      <ul className="w-full flex flex-col  gap-2 sm:grid sm:grid-cols-3 sm:gap-4 xl:flex xl:flex-col xl:gap-2 ">
         {navLinks.map((link) => (
           <NavItem key={link.to} to={link.to} icon={link.icon} label={link.label} />
         ))}
       </ul>
     </div>
   );
-};
-
-Sidebar.propTypes = {
-  user: PropTypes.object.isRequired,
 };
 
 export default Sidebar;

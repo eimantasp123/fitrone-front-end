@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
 import TrainerSportPlans from "./TrainerSportPlans";
 import ClientSportPlans from "./ClientSportPlans";
 import AdminSportPlans from "./AdminSportPlans";
+import { useSelector } from "react-redux";
 
 const SportPlans = () => {
-  const { user } = useContext(AuthContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

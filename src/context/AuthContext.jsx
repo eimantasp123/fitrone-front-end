@@ -2,38 +2,44 @@ import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import useAsync from "../hooks/useAsync";
-import * as authService from "../services/authService";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
+import axiosInstance from "../utils/axiosInterceptors";
 
 const AuthContext = createContext();
+const MOCK_API = "http://localhost:5000";
+const API = axios.create({
+  baseURL: MOCK_API,
+  withCredentials: true,
+});
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
   const [is2FAStep, setIs2FAStep] = useState(false);
   const [userId, setUserId] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecking, setAuthChecking] = useState(true);
-  const [resetUserEmail, setResetUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState("example@gmail.com");
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const checkAuth = async () => {
+      const isAutenticated = localStorage.getItem("authenticated") === "true";
+      if (!isAutenticated) {
+        setIsAuthenticated(false);
+        setAuthChecking(false);
+        return;
+      }
       try {
-        const data = await authService.getUser();
-        if (data.code === "REFRESH_TOKENS") {
-          const refreshedData = await authService.refreshToken();
-          setUser(refreshedData);
-          setIsAuthenticated(true);
-        } else if (data.code === "NO_TOKENS") {
-          return;
-        } else {
-          setUser(data);
-          setIsAuthenticated(true);
-        }
+        const response = await axiosInstance.get("/auth/user");
+        dispatch(setUserDetails(response.data.user));
+        setIsAuthenticated(true);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           setIsAuthenticated(false);
-          setUser(null);
+          dispatch(setUserDetails(null));
         }
       } finally {
         setAuthChecking(false);
@@ -41,106 +47,133 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkAuth();
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        await authService.refreshToken();
-      } catch (error) {
-        console.error("Error refreshing token:", error.response.data.message);
-      }
-    }, 14 * 60 * 1000); // Every 14 minutes
-
-    return () => clearInterval(interval);
-  }, []);
+  }, [dispatch, authChecking]);
 
   const clearMessages = () => {
     setSuccessMessage(null);
-    setResetUserEmail("");
+    setUserEmail("");
   };
 
-  const login = useAsync(async (email, password, signal) => {
-    const data = await authService.login(email, password, signal);
+  const login = useAsync(async (email, password) => {
+    const response = await API.post("/auth/login", { email, password });
     clearMessages();
-    if (data.is2FA) {
-      setUserId(data.userId);
+    if (response.data.is2FA) {
+      setUserId(response.data.userId);
       setIs2FAStep(true);
     } else {
-      setUser(data);
-      setIsAuthenticated(true);
-      navigate("/dashboard", { replace: true });
+      localStorage.setItem("authenticated", true);
+      setAuthChecking(true);
     }
   });
 
-  const verifyLogin = useAsync(async (userId, code, signal) => {
-    const data = await authService.verifyLogin(userId, code, signal);
+  const verifyLogin = useAsync(async (userId, code) => {
+    const response = await API.post("/auth/verify-login", { userId, code });
     clearMessages();
     setIs2FAStep(false);
-    setUser(data);
-    setIsAuthenticated(true);
-    navigate("/dashboard", { replace: true });
+    dispatch(setUserDetails(response.data));
+    localStorage.setItem("authenticated", true);
+    setAuthChecking(true);
   });
 
-  const resendCode = useAsync(async (userId, signal) => {
-    await authService.resendCode(userId, signal);
+  const resendCode = useAsync(async (userId) => {
+    const response = await API.post("/auth/resend-code", { userId });
+    return response.data;
   });
 
-  const forgotPassword = useAsync(async (email, signal) => {
-    const data = await authService.forgotPassword(email, signal);
-    setSuccessMessage(data.message);
-    setResetUserEmail(data.email);
+  const forgotPassword = useAsync(async (email) => {
+    const response = await API.post("/auth/forgot-password", { email });
+    setSuccessMessage(response.data.message);
+    setUserEmail(response.data.email);
   });
 
-  const resetPassword = useAsync(async (token, password, signal) => {
-    const data = await authService.resetPassword(token, password, signal);
-    setSuccessMessage(data.message);
+  const resetPassword = useAsync(async (token, data) => {
+    const response = await API.post(`/auth/reset-password/${token}`, { data });
+    setSuccessMessage(response.data.message);
   });
 
-  const handleGoogleLogin = useAsync(async (tokenResponse, signal) => {
-    const responseData = await authService.handleGoogleLogin(tokenResponse, signal);
-    setUser(responseData);
-    setIsAuthenticated(true);
-    navigate("/dashboard", { replace: true });
+  const handleGoogleLogin = useAsync(async (tokenResponse) => {
+    const token = tokenResponse.access_token;
+    const response = await API.post(
+      "/auth/google",
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    if (response.data.is2FA) {
+      setUserId(response.data.userId);
+      setIs2FAStep(true);
+    } else {
+      localStorage.setItem("authenticated", true);
+      setAuthChecking(true);
+    }
   });
 
-  const handleFacebookLogin = useAsync(async (data, signal) => {
-    const responseData = await authService.handleFacebookLogin(data, signal);
-    setUser(responseData);
-    setIsAuthenticated(true);
-    navigate("/dashboard", { replace: true });
+  const handleFacebookLogin = useAsync(async (details) => {
+    const response = await API.post("/auth/facebook", {}, { headers: { Authorization: `Bearer ${details.accessToken}` } });
+    if (response.data.is2FA) {
+      setUserId(response.data.userId);
+      setIs2FAStep(true);
+    } else {
+      localStorage.setItem("authenticated", true);
+      setAuthChecking(true);
+    }
   });
 
-  const register = useAsync(async (data, signal) => {
-    const responseData = await authService.register(data, signal);
-    setSuccessMessage(responseData.message);
+  const registerEmail = useAsync(async (data) => {
+    const response = await API.post("/auth/register-email", data);
+    if (response.data) {
+      setSuccessMessage(response.data.message);
+      setUserEmail(response.data.email);
+      navigate("/verify-email");
+    }
   });
 
-  const logout = useAsync(async (signal) => {
-    await authService.logout(signal);
-    setUser(null);
-    setIsAuthenticated(false);
+  const verifyEmail = useAsync(async (data) => {
+    await API.post("/auth/verify-email", data);
+    navigate("/register-done");
+  });
+
+  const completeRegistration = useAsync(async (data) => {
+    await API.post("/auth/complete-registration", data);
+    localStorage.setItem("authenticated", true);
+    setAuthChecking(true);
+  });
+
+  const resendEmailVerifyCode = useAsync(async () => {
+    const response = await API.post("/auth/resend-email-verify-code", { email: userEmail });
+    return response.data;
+  });
+
+  const logout = useAsync(async () => {
+    await API.post("/auth/logout");
+    dispatch(setUserDetails(null));
+    localStorage.removeItem("authenticated");
+    setAuthChecking(true);
   });
 
   return (
     <AuthContext.Provider
       value={{
-        user,
         is2FAStep,
         userId,
         authChecking,
-        resetUserEmail,
+        userEmail,
         successMessage,
         isAuthenticated,
         login,
-        register,
+        registerEmail,
         verifyLogin,
+        completeRegistration,
         forgotPassword,
+        verifyEmail,
         resetPassword,
+        resendEmailVerifyCode,
         logout,
         resendCode,
         handleGoogleLogin,
         handleFacebookLogin,
+        setIsAuthenticated,
         handleSignUp: () => {
           navigate("/register");
           clearMessages();

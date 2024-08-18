@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
 import AdminDashboard from "./AdminDashboard";
 import TrainerDashboard from "./TrainerDashboard";
 import ClientDashboard from "./ClientDashboard";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

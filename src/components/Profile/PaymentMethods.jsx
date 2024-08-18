@@ -73,13 +73,13 @@ const PaymentMethods = () => {
   };
 
   return (
-    <div className="flex flex-col px-8 py-4 xl:flex-col  w-full">
-      <h2 className="text-lg font-semibold ">Payment Methods</h2>
+    <div className="flex bg-backgroundLight rounded-lg shadow-custom-dark2 flex-col p-8 xl:flex-col  w-full">
+      {/* <h2 className="text-lg font-semibold ">Payment Methods</h2> */}
       <div className="px-5 flex flex-col gap-5">
         <FormProvider {...methods}>
           <div className="space-y-4 w-full ">
             <div className="flex justify-end items-center">
-              <button type="button" onClick={() => setEditMode(!editMode)} className="text-sm font-medium ">
+              <button type="button" onClick={() => setEditMode(!editMode)} className="text-sm mb-[-20px] font-medium ">
                 + Add new card
               </button>
             </div>

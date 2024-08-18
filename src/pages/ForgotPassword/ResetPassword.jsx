@@ -19,12 +19,12 @@ export default function ResetPasswordForm() {
   });
   const { token } = useParams();
   const password = methods.watch("password");
-  const confirmPassword = methods.watch("confirmPassword");
+  const passwordConfirm = methods.watch("passwordConfirm");
 
   const { execute: resetNewPassword, loading, error, clearError } = resetPassword;
 
   const onSubmit = async (data) => {
-    await resetNewPassword(token, data.password);
+    await resetNewPassword(token, data);
   };
 
   useEffect(() => {
@@ -62,14 +62,14 @@ export default function ResetPasswordForm() {
             />
             <PasswordStrengthIndicator password={password} />
             <InputField
-              name="confirmPassword"
+              name="passwordConfirm"
               placeholder="Confirm New Password"
               type={passwordVisibleSecond ? "text" : "password"}
               showPasswordToggle={true}
               togglePasswordVisibility={() => setPasswordVisibleSecond(!passwordVisibleSecond)}
             />
             <div className="mt-3">
-              <FormButton isFormValid={password && confirmPassword} loading={loading}>
+              <FormButton isFormValid={password && passwordConfirm} loading={loading}>
                 Reset Password
               </FormButton>
               <ErrorAlert error={error} clearError={clearError} />

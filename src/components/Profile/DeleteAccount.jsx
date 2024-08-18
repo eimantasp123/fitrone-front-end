@@ -1,34 +1,51 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Text,
-  useToast,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Spinner,
 } from "@chakra-ui/react";
+import useCustomToast from "../../hooks/useCustomToast";
+import { deleteAccount } from "../../services/reduxSlices/Profile/personalDetailsSlice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 
 const DeleteAccount = () => {
   const [verificationInput, setVerificationInput] = useState("");
   const [secondVerificationInput, setSecondVerificationInput] = useState("");
+  const { updateLoading } = useSelector((state) => state.personalDetails);
+  const { setIsAuthenticated } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
+  const customToast = useCustomToast();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleDelete = () => {
-    // Logic to delete the account
-    console.log("Account deleted");
-    toast({
-      title: "Account Deleted",
-      description: "Your account has been successfully deleted.",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
-    onClose();
+  const handleDelete = async () => {
+    try {
+      await dispatch(deleteAccount()).unwrap();
+      localStorage.removeItem("authenticated");
+      customToast({
+        title: "Account Deleted",
+        description: "Your account has been successfully deleted.",
+        status: "success",
+      });
+      onClose();
+      setIsAuthenticated(false);
+      navigate("/login", { replace: true });
+    } catch (error) {
+      customToast({
+        title: "Account Deletion Failed",
+        description: error.message,
+        status: "error",
+      });
+    }
   };
 
   const handleOpenModal = () => {
@@ -39,19 +56,23 @@ const DeleteAccount = () => {
     if (verificationInput === "DELETE" && secondVerificationInput === "DELETE") {
       handleDelete();
     } else {
-      toast({
+      customToast({
         title: "Verification Failed",
         description: "Please type DELETE in both input fields to confirm.",
         status: "error",
-        duration: 5000,
-        isClosable: true,
       });
     }
   };
 
+  const closeModal = () => {
+    onClose();
+    setVerificationInput("");
+    setSecondVerificationInput("");
+  };
+
   return (
-    <div className="flex flex-col px-8 py-4 xl:flex-col  w-full">
-      <h2 className="text-lg font-semibold mb-8 ">Delete Account</h2>
+    <div className="flex bg-backgroundLight rounded-lg shadow-custom-dark2 flex-col  p-8 xl:flex-col  w-full">
+      {/* <h2 className="text-lg font-semibold mb-8 ">Delete Account</h2> */}
       <div className="px-5 flex flex-col ">
         <div className="space-y-8  w-full  ">
           <div>
@@ -64,14 +85,14 @@ const DeleteAccount = () => {
               history.
             </p>
           </div>
-          <div className="flex justify-end">
-            <button className="bg-red-500 text-sm text-white py-2 px-4 rounded-lg" onClick={handleOpenModal}>
+          <div className="flex">
+            <button className="bg-red-500 text-sm text-white py-2 px-4 rounded-full" onClick={handleOpenModal}>
               Delete Account
             </button>
           </div>
         </div>
       </div>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={closeModal} size="lg">
         <ModalOverlay />
         <ModalContent sx={{ padding: "1.5rem", borderRadius: "0.75rem" }}>
           <ModalHeader>Confirm Account Deletion</ModalHeader>
@@ -80,30 +101,39 @@ const DeleteAccount = () => {
             <Text mb={4}>
               Please type <strong>DELETE</strong> in the fields below to confirm you want to delete your account.
             </Text>
-
             <input
-              name="verificationInput"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-3"
+              className="`w-1/2 w-full mb-2  text-gray-700  placeholder-gray-400 transition-all duration-300 ease-in-out border px-3 py-[9px] rounded-lg  leading-tight outline-none 
+                bg-backgroundLight focus-within:border-[#000] border-[#8f8f8f80] border-gray-300 bg-transparent
+                "
+              id="verificationInput"
+              type="text"
               placeholder="Type DELETE to confirm"
               value={verificationInput}
               onChange={(e) => setVerificationInput(e.target.value)}
             />
             <input
-              name="secondVerificationInput"
-              className="w-full border border-gray-300 rounded-lg p-2 "
+              className="`w-1/2 w-full  text-gray-700  placeholder-gray-400 transition-all duration-300 ease-in-out border px-3 py-[9px] rounded-lg  leading-tight outline-none 
+                bg-backgroundLight focus-within:border-[#000] border-[#8f8f8f80] border-gray-300 bg-transparent
+                "
+              id="secondVerificationInput"
+              type="text"
               placeholder="Type DELETE again to confirm"
               value={secondVerificationInput}
               onChange={(e) => setSecondVerificationInput(e.target.value)}
             />
+            <div className="flex justify-end mt-5 gap-2">
+              <button
+                style={{ width: "150px" }}
+                className="bg-red-500 text-white text-sm py-2 px-6 rounded-full "
+                onClick={handleConfirmDelete}
+              >
+                {updateLoading ? <Spinner size="sm" /> : "Confirm Delete"}
+              </button>
+              <button className="bg-secondary text-sm text-white py-2 px-6 rounded-full" onClick={closeModal}>
+                Cancel
+              </button>
+            </div>
           </ModalBody>
-          <ModalFooter sx={{ paddingTop: "1rem" }}>
-            <button className="bg-red-500 text-white text-sm py-2 px-6 rounded-lg mr-3" onClick={handleConfirmDelete}>
-              Confirm Delete
-            </button>
-            <button className="bg-gray-500 text-sm text-white py-2 px-6 rounded-lg" onClick={onClose}>
-              Cancel
-            </button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </div>

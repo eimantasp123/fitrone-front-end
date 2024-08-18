@@ -5,7 +5,6 @@ import {
   FormControl,
   FormLabel,
   Textarea,
-  useToast,
   Heading,
   Modal,
   ModalOverlay,
@@ -19,7 +18,6 @@ import PropTypes from "prop-types";
 export default function FeedbackFormModal({ isOpen, onClose }) {
   const [rating, setRating] = useState(null);
   const [comment, setComment] = useState("");
-  const toast = useToast();
 
   const handleRatingClick = (ratingValue) => {
     setRating(ratingValue);
@@ -35,18 +33,17 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
     // Reset form fields
     setRating(null);
     setComment("");
-    toast({
-      title: "Feedback Submitted",
-      description: "Thank you for your feedback!",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
     onClose();
   };
 
+  const handelClose = () => {
+    onClose();
+    setRating(null);
+    setComment("");
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal isOpen={isOpen} onClose={handelClose} isCentered>
       <ModalOverlay />
       <ModalContent p={6} borderRadius="lg" maxWidth="600px">
         <ModalHeader>Feedback</ModalHeader>

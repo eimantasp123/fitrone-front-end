@@ -1,18 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  display: none;
-}
-/* Add this to your CSS file */
-input[type="date"]::placeholder {
-  color: #eeeeee; /* Match this color with other placeholders */
-  opacity: 0.4; /* Ensure the color applies fully */
-}
-
-/* Custom CSS for outward rounded right edges */
-.outward-rounded-right {
-  border-top-right-radius: 50% 100%;
-  border-bottom-right-radius: 50% 100%;
-}

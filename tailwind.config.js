@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-
 import tailwindScrollbar from "tailwind-scrollbar";
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -16,7 +15,9 @@ export default {
       },
       colors: {
         // background: "#F8F8F8",
+        // background: "#f0f2f5",
         background: "#F7F7F8",
+        // background: "#FFFFF9",
         backgroundDark: "#2D2D2D",
         backgroundLight: "#FFFFFF", // Hover over this color to see the preview
         secondary: "#1A1A1D", // Hover over this color to see the preview
@@ -36,16 +37,5 @@ export default {
       },
     },
   },
-  plugins: [
-    tailwindScrollbar,
-    function ({ addUtilities }) {
-      const newUtilities = {
-        ".outward-rounded-right": {
-          "border-top-right-radius": "50% 100%",
-          "border-bottom-right-radius": "50% 100%",
-        },
-      };
-      addUtilities(newUtilities, ["responsive", "hover"]);
-    },
-  ],
+  plugins: [tailwindScrollbar],
 };

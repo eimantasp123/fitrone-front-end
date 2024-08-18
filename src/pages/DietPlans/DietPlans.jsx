@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
 import AdminDietPlans from "./AdminDietPlans";
 import TrainerDietPlans from "./TrainerDietPlans";
 import ClientDietPlans from "./ClientDietPlans";
+import { useSelector } from "react-redux";
 
 const DietPlans = () => {
-  const { user } = useContext(AuthContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

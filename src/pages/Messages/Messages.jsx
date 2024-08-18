@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
 import TrainerMessages from "./TrainerMessages";
 import AdminMessages from "./AdminMessages";
 import ClientMessages from "./ClientsMessages";
+import { useSelector } from "react-redux";
 
 const Messages = () => {
-  const { user } = useContext(AuthContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

@@ -5,15 +5,15 @@ const NavItem = ({
   to,
   icon: Icon,
   label,
-  isActiveLink = " bg-[#c9c9c924] border  text-secondary",
-  NotActive = "text-secondary border border-transparent hover:bg-text2 hover:bg-opacity-20",
+  isActiveLink = " bg-backgroundLight shadow-custom-dark2  text-secondary",
+  NotActive = "text-secondary  hover:bg-text2 hover:bg-opacity-20",
 }) => {
   return (
     <li>
       <NavLink
         to={to}
         className={({ isActive }) =>
-          `flex items-center gap-3 py-2 px-4 duration-200 ease-in-out rounded-full transition-colors ${
+          `flex items-center gap-3 py-2 px-4 duration-200 ease-in-out rounded-lg transition-colors ${
             isActive ? isActiveLink : NotActive
           }`
         }

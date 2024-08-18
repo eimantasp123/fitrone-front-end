@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
 import TrainerHeader from "./TrainerHeader";
 import AdminHeader from "./AdminHeader";
 import ClientHeader from "./ClientHeader";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  const { user } = useContext(AuthContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

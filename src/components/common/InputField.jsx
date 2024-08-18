@@ -18,7 +18,7 @@ const InputField = ({
   return (
     <>
       <div
-        className={`relative py-2 px-4 rounded-lg border transition-all duration-300 ${
+        className={`relative py-[6px] px-4 rounded-md border transition-all duration-300 ${
           errors[name] ? "border-red-500" : "border-gray-300"
         } hover:border-gray-400  focus-within:hover:border-transparent focus-within:border-transparent focus-within:ring-1 focus-within:ring-secondary bg-backgroundLight`}
       >
@@ -47,7 +47,6 @@ const InputField = ({
 
 InputField.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
   type: PropTypes.string,
   icon: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
   showPasswordToggle: PropTypes.bool,

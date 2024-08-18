@@ -10,7 +10,7 @@ import SuccessulAlert from "../../components/common/SuccessulAlert";
 import FormButton from "../../components/common/FormButton";
 
 export default function ForgotPasswordForm() {
-  const { forgotPassword, handleSignIn, successMessage, resetUserEmail } = useContext(AuthContext);
+  const { forgotPassword, handleSignIn, successMessage, userEmail } = useContext(AuthContext);
   const methods = useForm({
     resolver: yupResolver(forgotPasswordSchema),
   });
@@ -40,7 +40,7 @@ export default function ForgotPasswordForm() {
           successMessage={successMessage}
           description={
             <>
-              An email is on the way to <strong>{resetUserEmail}</strong> with instructions for resetting your password.
+              An email is on the way to <strong>{userEmail}</strong> with instructions for resetting your password.
             </>
           }
         />

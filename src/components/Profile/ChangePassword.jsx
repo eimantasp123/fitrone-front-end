@@ -4,34 +4,64 @@ import InputFieldWithoutBorder from "../common/InputFieldWithBorder";
 import FormButton from "../../components/common/FormButton";
 import PasswordStrengthIndicator from "../../components/common/PasswordStrenghtIndicator";
 import { MdEdit } from "react-icons/md";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { changePasswordSchema } from "../../utils/validationSchema";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { Spinner } from "@chakra-ui/react";
+import useCustomToast from "../../hooks/useCustomToast";
+import { changePassword } from "../../services/reduxSlices/Profile/personalDetailsSlice";
 
 const ChangePassword = () => {
-  const methods = useForm();
   const [editMode, setEditMode] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { updateLoading } = useSelector((state) => state.personalDetails);
+  const dispatch = useDispatch();
+  const customToast = useCustomToast();
+  const methods = useForm({
+    resolver: yupResolver(changePasswordSchema),
+  });
 
   const onSubmit = async (data) => {
-    // Handle form submission logic
-    console.log(data);
-    setEditMode(false);
+    try {
+      await dispatch(changePassword(data)).unwrap();
+      methods.reset();
+      customToast({
+        title: "Password updated successfully.",
+        description: "Your password has been updated successfully.",
+        status: "success",
+      });
+      setEditMode(false);
+    } catch (error) {
+      customToast({
+        title: "Error changing password",
+        description: error.message,
+        status: "error",
+      });
+    }
+  };
+
+  const editHandler = () => {
+    setEditMode(!editMode);
+    methods.reset();
   };
 
   return (
-    <div className="flex flex-col px-8 py-4 xl:flex-col  w-full">
-      <h2 className="text-lg font-semibold ">Change Password</h2>
+    <div className="flex flex-col bg-backgroundLight rounded-lg shadow-custom-dark2 p-8 xl:flex-col  w-full">
+      {/* <h2 className="text-lg font-semibold ">Change Password</h2> */}
       <div className="px-5 flex flex-col gap-5">
         <FormProvider {...methods}>
           <div className="space-y-0 w-full ">
             <div className="flex justify-end items-center">
-              <button type="button" onClick={() => setEditMode(!editMode)} className="text-secondary flex items-center">
+              <button type="button" onClick={editHandler} className="text-secondary flex items-center">
                 {editMode ? (
-                  <div>Close</div>
+                  <div className="text-sm">Close</div>
                 ) : (
                   <div className="flex items-center">
                     <MdEdit className="mr-1" />
-                    <span>Edit</span>
+                    <span className="text-sm">Edit</span>
                   </div>
                 )}
               </button>
@@ -79,7 +109,7 @@ const ChangePassword = () => {
                     }
                     loading={methods.formState.isSubmitting}
                   >
-                    Save Changes
+                    {updateLoading ? <Spinner size="sm" /> : "Save Changes"}
                   </FormButton>
                 </div>
               </div>

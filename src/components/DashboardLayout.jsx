@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import AuthContext from "../context/AuthContext";
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const DashboardLayout = () => {
-  const { user } = useContext(AuthContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

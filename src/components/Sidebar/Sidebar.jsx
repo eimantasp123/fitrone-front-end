@@ -1,13 +1,12 @@
-import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
 import AdminMenu from "./AdminMenu";
 import TrainerMenu from "./TrainerMenu";
 import ClientMenu from "./ClientMenu";
 import { MdDashboard, MdFitnessCenter, MdMessage, MdPeople, MdRestaurantMenu, MdSupportAgent } from "react-icons/md";
 import MobileBottomMenu from "../MobileBottomMenu";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
-  const { user } = useContext(AuthContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
 
@@ -35,14 +34,10 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Sidebar for extra large screens */}
-      <aside className="hidden lg:flex flex-col lg:w-64 xl:w-72 3xl:w-[350px] bg-backgroundLight border-r p-5 transition-all duration-300 ease-in-out">
-        {/* <img src="Logo.png" alt="logo" className="w-[140px] h-auto" /> */}
-        <h2 className="text-xl font-semibold text-center text-primary ">LOGO</h2>
-        <nav className="flex sticky top-14 flex-col mt-10">{renderMenu()}</nav>
+      <aside className="hidden lg:flex flex-col lg:w-64 xl:w-[250px] 3xl:w-[350px] bg-secondary transition-all duration-300 ease-in-out">
+        <h2 className="text-xl mt-4 font-semibold text-center text-text1">LOGO</h2>
+        <nav className="flex h-full flex-col mt-8">{renderMenu()}</nav>
       </aside>
-
-      {/* Mobile bottom menu */}
       <MobileBottomMenu navItems={navItems} />
     </>
   );

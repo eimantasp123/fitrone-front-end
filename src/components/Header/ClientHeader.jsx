@@ -24,10 +24,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 export default function ClientHeader() {
   const [todayDate, setTodayDate] = useState("");
-  const { user, logout } = useContext(authContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
+  const { logout } = useContext(authContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isNotificationsOpen, onOpen: onNotificationsOpen, onClose: onNotificationsClose } = useDisclosure();
 

@@ -19,6 +19,8 @@ import ProfileSettings from "../pages/AccountSettings/ProfileSettings";
 import Help from "../pages/Help/Help";
 import ManageSubscriptionPlan from "../pages/Subscription/ManageSubscriptionPlan";
 import AnalyticsAndReports from "../pages/AnalyticsAndReports/AnalyticsAndReports";
+import VerifyEmaiil from "../pages/VerifyEmail/VerifyEmail";
+import RegisterDone from "../pages/Register/RegisterDone";
 
 const AppRoutes = () => (
   <Routes>
@@ -28,6 +30,8 @@ const AppRoutes = () => (
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
         <Route path="/reset-password/:token" element={<ResetPasswordForm />} />
+        <Route path="/verify-email" element={<VerifyEmaiil />} />
+        <Route path="/register-done" element={<RegisterDone />} />
       </Route>
     </Route>
     <Route element={<PrivateRoute />}>

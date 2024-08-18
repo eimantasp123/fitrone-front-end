@@ -1,28 +1,36 @@
 import { MdEmail } from "react-icons/md";
-import { useContext, useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa";
+import { useCallback, useContext, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import InputField from "../../components/common/InputField";
-import { registerSchema } from "../../utils/validationSchema";
+import { registerEmailSchema } from "../../utils/validationSchema";
 import AuthContext from "../../context/AuthContext";
 import ErrorAlert from "../../components/common/ErrorAlert";
-import SuccessulAlert from "../../components/common/SuccessulAlert";
-import PasswordStrengthIndicator from "../../components/common/PasswordStrenghtIndicator";
 import FormButton from "../../components/common/FormButton";
 import SignUpPrompt from "../../components/common/SignUpPrompt";
-// import CustomCheckbox from "../../components/common/CustomCheckBox";
+import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+import FacebookLogin from "@greatsumini/react-facebook-login";
+import { FaFacebook } from "react-icons/fa";
+
+const FACEBOOK_APP_ID = "1552748628609748";
 
 export default function RegisterForm() {
-  const [passwordVisibleFirst, setPasswordVisibleFirst] = useState(false);
-  const [passwordVisibleSecond, setPasswordVisibleSecond] = useState(false);
-  // const [termsAccepted, setTermsAccepted] = useState(false);
-  const { register, successMessage, handleSignIn } = useContext(AuthContext);
+  const { registerEmail, successMessage, handleSignIn, handleGoogleLogin, handleFacebookLogin } = useContext(AuthContext);
+  const { execute: executeGoogleLogin, error: googleLoginError, clearError: clearGoogleLoginError } = handleGoogleLogin;
+  const { execute: executeFacebookLogin, error: facebookLoginError, clearError: clearFacebookLoginError } = handleFacebookLogin;
+  const { execute: registerUser, loading, error: registerError, clearError: clearRegisterError } = registerEmail;
 
-  const { execute: registerUser, loading, error, clearError } = register;
+  const clearAllErrors = useCallback(() => {
+    clearGoogleLoginError();
+    clearFacebookLoginError();
+    clearRegisterError();
+  }, [clearGoogleLoginError, clearFacebookLoginError, clearRegisterError]);
+
+  const combinedError = registerError || googleLoginError || facebookLoginError;
 
   const methods = useForm({
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(registerEmailSchema),
   });
 
   const onSubmit = async (data) => {
@@ -30,77 +38,72 @@ export default function RegisterForm() {
   };
 
   const email = methods.watch("email");
-  const firstName = methods.watch("firstName");
-  const lastName = methods.watch("lastName");
-  const password = methods.watch("password");
-  const confirmPassword = methods.watch("confirmPassword");
-
-  const isFormValid = email && firstName && lastName && password && confirmPassword;
 
   useEffect(() => {
-    clearError();
-    return () => clearError();
-  }, [clearError]);
+    clearAllErrors();
+    return () => clearAllErrors();
+  }, [clearAllErrors]);
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: executeGoogleLogin,
+    onError: (error) => console.error("Google login error:", error),
+  });
 
   return (
     <div className="w-full max-w-md flex flex-col justify-center px-2 md:px-6 lg:p-6">
-      <div className="text-center mb-10">
+      <div className="text-center mb-7">
         <img src="/logoIcon.png" alt="Logo" className="w-24 h-24 mx-auto flex items-center justify-center" />
-        <h2 className="text-2xl lg:text-3xl  font-bold">Tell us about yourself</h2>
-        <p className="text-gray-500 mt-2">Enter your details to proceed further</p>
+        <h2 className="text-2xl lg:text-3xl  font-bold">Create an account</h2>
+        {!successMessage && (
+          <SignUpPrompt
+            handleSignUp={handleSignIn}
+            message="Do you already have an account?"
+            linkText="Sign In"
+            className="mt-5"
+          />
+        )}
       </div>
-      {successMessage ? (
-        <SuccessulAlert
-          successMessage="Your registraction was successful!"
-          description=" Please check your email to verify your account."
-        />
-      ) : (
-        <FormProvider {...methods}>
-          <form className="flex gap-3 flex-col" onSubmit={methods.handleSubmit(onSubmit)}>
-            <InputField name="email" type="email" placeholder="Email Address" icon={MdEmail} />
-            <div className="flex gap-3">
-              <div className="w-1/2">
-                <InputField name="firstName" type="text" placeholder="John" icon={FaUser} />
-              </div>
-              <div className="w-1/2">
-                <InputField name="lastName" type="text" placeholder="Doe" icon={FaUser} />
-              </div>
-            </div>
-            <InputField
-              name="password"
-              type={passwordVisibleFirst ? "text" : "password"}
-              placeholder="Password"
-              showPasswordToggle={true}
-              togglePasswordVisibility={() => setPasswordVisibleFirst(!passwordVisibleFirst)}
-            />
-            <PasswordStrengthIndicator password={password} />
-            <InputField
-              name="confirmPassword"
-              type={passwordVisibleSecond ? "text" : "password"}
-              placeholder="Confirm Password"
-              showPasswordToggle={true}
-              togglePasswordVisibility={() => setPasswordVisibleSecond(!passwordVisibleSecond)}
-            />
-            {/* <div className="flex items-center justify-between mb-4">
-              <CustomCheckbox
-                label="I agree with terms & conditions"
-                isChecked={termsAccepted}
-                onChange={(e) => setTermsAccepted(e.target.checked)}
-              />
-            </div> */}
-
-            <div className="mt-3">
-              <FormButton isFormValid={isFormValid} loading={loading}>
-                Continue
-              </FormButton>
-            </div>
-          </form>
-          <ErrorAlert error={error} clearError={clearError} />
-        </FormProvider>
-      )}
-      {!successMessage && (
-        <SignUpPrompt handleSignUp={handleSignIn} message="Do you already have an account?" linkText="Sign In" className="mt-5" />
-      )}
+      <div className="flex flex-col  gap-3">
+        <div className="text-center">
+          <button
+            className="bg-backgroundLight border shadow-none transition-shadow duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2 border-gray-300 text-gray-700  py-3 px-4 rounded-full w-full flex items-center justify-center"
+            onClick={() => googleLogin()}
+          >
+            <FcGoogle className="text-xl" /> Sign up with Google
+          </button>
+        </div>
+        <div className="text-center ">
+          <FacebookLogin
+            appId={FACEBOOK_APP_ID}
+            onSuccess={executeFacebookLogin}
+            onFail={(error) => console.error("Facebook login error:", error)}
+            render={(renderProps) => (
+              <button
+                className="bg-backgroundLight border shadow-none transition-shadow duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2 border-gray-300 text-gray-700  py-3 px-4 rounded-full w-full flex items-center justify-center"
+                onClick={renderProps.onClick}
+              >
+                <FaFacebook className="text-lg text-blue-600  " /> Sign up with Facebook
+              </button>
+            )}
+          />
+        </div>
+      </div>
+      <div className="flex w-full  justify-center items-center ">
+        <hr className="my-5 w-2/5" />
+        <p className="text-gray-500 w-3/5 flex justify-center my-5 ">Or continue with</p>
+        <hr className="my-5 w-2/5" />
+      </div>
+      <FormProvider {...methods}>
+        <form className="flex gap-3 flex-col" onSubmit={methods.handleSubmit(onSubmit)}>
+          <InputField name="email" type="email" placeholder="Email Address" icon={MdEmail} />
+          <div className="mt-3">
+            <FormButton isFormValid={email} loading={loading}>
+              Continue
+            </FormButton>
+          </div>
+        </form>
+        <ErrorAlert error={combinedError} clearError={clearAllErrors} />
+      </FormProvider>
     </div>
   );
 }

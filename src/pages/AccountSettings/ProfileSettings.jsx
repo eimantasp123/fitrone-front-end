@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
 import AdminProfileSettings from "./AdminProfileSettings";
 import TrainerProfileSettings from "./TrainerProfileSettings";
 import ClientProfileSettings from "./ClientProfileSettings";
+import { useSelector } from "react-redux";
 
 const ProfileSettings = () => {
-  const { user } = useContext(AuthContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
 import AdminAnalyticsAndReports from "./AdminAnalyticsAndReports";
 import TrainerAnalyticsAndReports from "./TrainerAnalyticsAndReports";
 import ClientAnalyticsAndReports from "./ClientAnalyticsAndReports";
+import { useSelector } from "react-redux";
 
 const AnalyticsAndReports = () => {
-  const { user } = useContext(AuthContext);
+  const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

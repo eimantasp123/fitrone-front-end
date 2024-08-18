@@ -13,6 +13,7 @@ import FormButton from "../../components/common/FormButton";
 import SignUpPrompt from "../../components/common/SignUpPrompt";
 import { useGoogleLogin } from "@react-oauth/google";
 import ErrorAlert from "../../components/common/ErrorAlert";
+import useCustomToast from "../../hooks/useCustomToast";
 
 const FACEBOOK_APP_ID = "1552748628609748";
 
@@ -30,6 +31,7 @@ export default function LoginForm() {
     handleFacebookLogin,
     resendCode,
   } = useContext(AuthContext);
+  const customToast = useCustomToast();
 
   const loginMethods = useForm({
     resolver: yupResolver(loginSchema),
@@ -65,7 +67,13 @@ export default function LoginForm() {
   };
 
   const onResendCode = async () => {
-    await executeResendCode(userId);
+    const response = await executeResendCode(userId);
+    if (response) {
+      customToast({
+        title: `${response.message}`,
+        status: "success",
+      });
+    }
   };
 
   const googleLogin = useGoogleLogin({
@@ -89,7 +97,7 @@ export default function LoginForm() {
   return (
     <div className="w-full max-w-md flex  flex-col justify-center px-2 md:px-6 lg:p-6">
       <div className="text-center mb-10">
-        <img src="/Logo.png" alt="Logo" className="w-[170px] h-auto mx-auto mb-10 flex items-center justify-center" />
+        <img src="/Logo.png" alt="Logo" className="w-[150px] h-auto mx-auto mb-6 flex items-center justify-center" />
         <h2 className="text-2xl lg:text-3xl font-bold">Hello Again!</h2>
         <p className="text-gray-500 mt-2">Enter your details to proceed further</p>
       </div>
