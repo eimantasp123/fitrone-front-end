@@ -10,16 +10,17 @@ export default function SuccessulAlert({ successMessage = "", description = "" }
         flexDirection="column"
         alignItems="center"
         borderRadius="lg"
-        bg="#fff"
+        bg="#F7F7F8"
         justifyContent="center"
         textAlign="center"
         height="auto"
         py={6}
+        px={6}
         boxShadow="0 4px 6px rgba(0, 0, 0, 0.02), 0 10px 20px rgba(0, 0, 0, 0.02)"
       >
         <AlertIcon color="gray.800" boxSize="20px" mb={5} />
         <Box>
-          <AlertTitle mb={2} fontSize="17px" lineHeight="short">
+          <AlertTitle mb={2} lineHeight="short">
             {successMessage}
           </AlertTitle>
           <AlertDescription maxWidth="sm" lineHeight="short">
