@@ -1,3 +1,3 @@
 export default function ClientAnalyticsAndReports() {
-  return <div>ClientAnalyticsAndReports</div>;
+  return <div>Client Analytics And Reports</div>;
 }

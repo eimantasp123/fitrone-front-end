@@ -1,3 +1,3 @@
 export default function TrainerAnalyticsAndReports() {
-  return <div>TrainerAnalyticsAndReports</div>;
+  return <div>Trainer Analytics And Reports</div>;
 }
