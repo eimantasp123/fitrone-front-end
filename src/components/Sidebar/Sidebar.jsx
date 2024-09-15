@@ -35,8 +35,8 @@ const Sidebar = () => {
   return (
     <>
       <aside className="hidden lg:flex flex-col lg:w-64 xl:w-[250px] 3xl:w-[350px] bg-secondary transition-all duration-300 ease-in-out">
-        <h2 className="text-xl mt-4 font-semibold text-center text-text1">LOGO</h2>
-        <nav className="flex h-full flex-col mt-8">{renderMenu()}</nav>
+        <img src="/logo-white.png" alt="Logo" className="w-[100px] h-auto my-6 mx-6" />
+        <nav className="flex h-full flex-col mt-4">{renderMenu()}</nav>
       </aside>
       <MobileBottomMenu navItems={navItems} />
     </>

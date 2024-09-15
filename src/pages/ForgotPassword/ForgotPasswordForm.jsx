@@ -29,21 +29,29 @@ export default function ForgotPasswordForm() {
   }, [clearError]);
 
   return (
-    <div className="w-full max-w-md flex flex-col justify-center px-2 md:px-6 lg:p-6">
+    <div className="w-full max-w-md text-textPrimary flex flex-col justify-center px-2 md:px-6 lg:p-6">
       <div className="text-center mb-10">
-        <img src="/logoIcon.png" alt="Logo" className="w-24 h-24 mx-auto flex items-center justify-center" />
+        {/* <img src="/logo-dark.png" alt="Logo" className="w-[130px] h-auto mx-auto mb-10 flex items-center justify-center" /> */}
         <h2 className="text-2xl lg:text-3xl  font-bold">Forgot Password</h2>
-        <p className="text-gray-500 mt-2">Enter your details to proceed further</p>
+        <p className=" mt-2">Enter your details to proceed further</p>
       </div>
       {successMessage ? (
-        <SuccessulAlert
-          successMessage={successMessage}
-          description={
-            <>
-              An email is on the way to <strong>{userEmail}</strong> with instructions for resetting your password.
-            </>
-          }
-        />
+        <>
+          <SuccessulAlert
+            successMessage={successMessage}
+            description={
+              <>
+                An email is on the way to <strong>{userEmail}</strong> with instructions for resetting your password.
+              </>
+            }
+          />
+          <div className="text-center mt-10">
+            <span onClick={handleSignIn} className="text-textPrimary cursor-pointer ">
+              Did not receive an email after 2 min?{" "}
+              <span className="font-semibold hover:text-textSecondary transition-colors duration-200 ease-in-out">Resend</span>
+            </span>
+          </div>
+        </>
       ) : (
         <FormProvider {...methods}>
           <form className="gap-3 flex flex-col" onSubmit={methods.handleSubmit(onSubmit)}>
@@ -61,7 +69,7 @@ export default function ForgotPasswordForm() {
       {!successMessage && (
         <>
           <div className="text-center mt-10">
-            <span onClick={handleSignIn} className="text-secondary cursor-pointer font-semibold">
+            <span onClick={handleSignIn} className="text-textPrimary cursor-pointer font-semibold">
               Back to Login
             </span>
           </div>

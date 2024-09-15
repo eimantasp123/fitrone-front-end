@@ -35,8 +35,7 @@ export default function ResetPasswordForm() {
   return (
     <div className="w-full max-w-md flex flex-col justify-center px-2  md:px-6 lg:p-6">
       <div className="text-center mb-10">
-        <img src="/logoIcon.png" alt="Logo" className="w-24 h-24 mx-auto flex items-center justify-center" />
-        <h2 className="text-2xl lg:text-3xl font-bold">Reset Password</h2>
+        {!successMessage && <h2 className="text-2xl lg:text-3xl font-bold">Reset Password</h2>}
       </div>
       {successMessage ? (
         <>
@@ -45,7 +44,7 @@ export default function ResetPasswordForm() {
             description="Password reset successfully. You can now log in with your new password."
           />
           <div className="text-center mt-10">
-            <span onClick={handleSignIn} className="text-gray-800 cursor-pointer font-semibold">
+            <span onClick={handleSignIn} className="text-textSecondary cursor-pointer font-semibold">
               Back to Login
             </span>
           </div>

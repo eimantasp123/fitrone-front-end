@@ -5,10 +5,6 @@ export const loginSchema = yup.object().shape({
   password: yup.string().required("Password is required").min(4, "Password must be at least 4 characters long"),
 });
 
-export const verifySchema = yup.object().shape({
-  code: yup.string().required("Verification code is required"),
-});
-
 export const forgotPasswordSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
 });
@@ -48,7 +44,7 @@ export const changePasswordSchema = yup.object().shape({
 });
 
 export const registerEmailSchema = yup.object().shape({
-  email: yup.string().email("Invalid email").required("Email is required"),
+  email: yup.string().email("Invalid email").required("Email is required").max(50, "Email must be at most 50 characters long"),
 });
 
 export const registerSchema = yup.object().shape({

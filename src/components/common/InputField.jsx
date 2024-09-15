@@ -18,21 +18,25 @@ const InputField = ({
   return (
     <>
       <div
-        className={`relative py-[6px] px-4 rounded-md border transition-all duration-300 ${
-          errors[name] ? "border-red-500" : "border-gray-300"
-        } hover:border-gray-400  focus-within:hover:border-transparent focus-within:border-transparent focus-within:ring-1 focus-within:ring-secondary bg-backgroundLight`}
+        className={`relative px-4 rounded-md border transition-colors duration-300 ${
+          errors[name] ? "border-red-500" : "border-borderColor"
+        } hover:border-textSecondary  focus-within:hover:border-textPrimary focus-within:border-textSecondary focus-within:ring-1 focus-within:ring-textSecondary `}
       >
         <input
-          className="w-full py-1 text-gray-700 bg-transparent leading-tight focus:outline-none focus:ring-0"
+          className="w-full py-4  lg:py-3 placeholder:text-textSecondary text-textPrimary bg-transparent leading-tight focus:outline-none focus:ring-0"
           id={name}
           type={type}
           placeholder={placeholder}
           {...register(name)}
         />
-        {Icon && <Icon className="absolute right-4 bottom-3 text-gray-400" />}
+        {Icon && <Icon className="absolute right-4 bottom-[14px] text-textSecondary" />}
         {showPasswordToggle && (
           <div onClick={togglePasswordVisibility} className="absolute cursor-pointer right-4 bottom-3">
-            {type === "password" ? <IoEye className="text-lg text-gray-400" /> : <IoEyeOff className="text-lg text-gray-400" />}
+            {type === "password" ? (
+              <IoEye className="text-lg text-textSecondary" />
+            ) : (
+              <IoEyeOff className="text-lg text-textSecondary" />
+            )}
           </div>
         )}
       </div>

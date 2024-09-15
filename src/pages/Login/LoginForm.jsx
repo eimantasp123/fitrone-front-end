@@ -1,24 +1,29 @@
 import { MdEmail } from "react-icons/md";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema, verifySchema } from "../../utils/validationSchema";
+import { loginSchema } from "../../utils/validationSchema";
 import InputField from "../../components/common/InputField";
 import { useCallback, useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { Navigate } from "react-router-dom";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import { FaFacebook } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 import FormButton from "../../components/common/FormButton";
 import SignUpPrompt from "../../components/common/SignUpPrompt";
 import { useGoogleLogin } from "@react-oauth/google";
 import ErrorAlert from "../../components/common/ErrorAlert";
 import useCustomToast from "../../hooks/useCustomToast";
+import { FaGoogle } from "react-icons/fa";
+import { HStack, PinInput, PinInputField } from "@chakra-ui/react";
+import { useColorMode } from "@chakra-ui/react";
 
 const FACEBOOK_APP_ID = "1552748628609748";
 
 export default function LoginForm() {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [code, setCode] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
+  const { colorMode } = useColorMode();
   const {
     user,
     login,
@@ -37,10 +42,6 @@ export default function LoginForm() {
     resolver: yupResolver(loginSchema),
   });
 
-  const verifyMethods = useForm({
-    resolver: yupResolver(verifySchema),
-  });
-
   const { execute: executeLogin, loading: loginLoading, error: loginError, clearError: clearLoginError } = login;
   const { execute: executeVerifyLogin, loading: verifyLoading, error: verifyError, clearError: clearVerifyError } = verifyLogin;
   const { execute: executeResendCode, loading: resendLoading } = resendCode;
@@ -56,14 +57,13 @@ export default function LoginForm() {
 
   const email = loginMethods.watch("email");
   const password = loginMethods.watch("password");
-  const code = verifyMethods.watch("code");
 
   const onSubmit = async (data) => {
     await executeLogin(data.email, data.password);
   };
 
-  const onVerifySubmit = async (data) => {
-    await executeVerifyLogin(userId, data.code);
+  const onVerifySubmit = async () => {
+    await executeVerifyLogin(userId, code);
   };
 
   const onResendCode = async () => {
@@ -86,41 +86,62 @@ export default function LoginForm() {
     return () => clearAllErrors();
   }, [clearAllErrors]);
 
+  useEffect(() => {
+    setIsFormValid(code.length === 6);
+  }, [code]);
+
   if (user) {
     return <Navigate to="/dashboard" replace />;
   }
 
   const isLoginDisabled = !email || !password || loginLoading;
-  const isVerifyDisabled = !code || verifyLoading;
   const combinedError = loginError || verifyError || googleLoginError || facebookLoginError;
 
+  const numberOfFields = 6;
   return (
-    <div className="w-full max-w-md flex  flex-col justify-center px-2 md:px-6 lg:p-6">
+    <div className="w-full max-w-md flex text-textPrimary  flex-col justify-center px-2 md:px-6 lg:p-6">
       <div className="text-center mb-10">
-        <img src="/Logo.png" alt="Logo" className="w-[150px] h-auto mx-auto mb-6 flex items-center justify-center" />
-        <h2 className="text-2xl lg:text-3xl font-bold">Hello Again!</h2>
-        <p className="text-gray-500 mt-2">Enter your details to proceed further</p>
+        <h2 className="text-2xl lg:text-3xl font-bold">{is2FAStep ? "Two Factor Authentication" : "Hello Again!"}</h2>
+        <p className=" mt-2 text-textSecondary">{!is2FAStep && "Enter your details to proceed further"}</p>
       </div>
       {is2FAStep ? (
-        <FormProvider {...verifyMethods}>
-          <form className="flex gap-2 flex-col" onSubmit={verifyMethods.handleSubmit(onVerifySubmit)}>
-            <InputField name="code" placeholder="Enter the code sent to your phone" type="text" />
-            <div className="pt-2">
-              <FormButton isFormValid={!isVerifyDisabled} loading={verifyLoading}>
-                Verify
-              </FormButton>
-              <ErrorAlert error={verifyError} clearError={clearVerifyError} />
-              <div className="text-center mt-4">
-                <p className="text-gray-500">
-                  Didn&apos;t receive the code after 1 minute?{" "}
-                  <span onClick={onResendCode} className="text-blue-500 cursor-pointer font-semibold">
-                    {resendLoading ? "Sending..." : "Resend"}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </form>
-        </FormProvider>
+        <>
+          <div className="flex items-center justify-center">
+            <HStack>
+              <PinInput
+                onChange={(value) => setCode(value)}
+                placeholder="•"
+                focusBorderColor={colorMode === "light" ? "light.primaryDark" : "dark.borderPrimary"}
+              >
+                {/* <PinInputField /> */}
+                {Array.from({ length: numberOfFields }).map((_, index) => (
+                  <PinInputField
+                    key={index}
+                    sx={{
+                      borderColor: colorMode === "light" ? "gray.400" : "dark.borderLight",
+                      _hover: {
+                        borderColor: colorMode === "light" ? "gray.600" : "dark.borderPrimary",
+                      },
+                    }}
+                  />
+                ))}
+              </PinInput>
+            </HStack>
+          </div>
+          <p className="text-center text-sm mt-4 text-textSecondary">Enter the 6-digit code sent to your phone</p>
+          <FormButton onClick={onVerifySubmit} className="mt-[30px]" isFormValid={isFormValid} loading={verifyLoading}>
+            Verify
+          </FormButton>
+          <ErrorAlert error={verifyError} clearError={clearVerifyError} />
+          <div className="text-center mt-4">
+            <p className="text-textSecondary">
+              Didn&apos;t receive the code after 1 minute?{" "}
+              <span onClick={onResendCode} className="hover:text-textSecondary text-textPrimary cursor-pointer font-semibold">
+                {resendLoading ? "Sending..." : "Resend"}
+              </span>
+            </p>
+          </div>
+        </>
       ) : (
         <>
           <FormProvider {...loginMethods}>
@@ -155,10 +176,10 @@ export default function LoginForm() {
           <div className="flex flex-col mt-8 gap-2">
             <div className="text-center">
               <button
-                className="bg-backgroundLight border shadow-none transition-shadow duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2 border-gray-300 text-gray-700  py-3 px-4 rounded-full w-full flex items-center justify-center"
+                className="  border-borderPrimary bg-hoverPrimary hover:border-borderColor  border-[1px] shadow-none transition-all duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2  text-textPrimary  py-3 px-4 rounded-full w-full flex items-center justify-center"
                 onClick={() => googleLogin()}
               >
-                <FcGoogle className="text-xl" /> Sign in with Google
+                <FaGoogle className="text-lg" /> Sign in with Google
               </button>
             </div>
             <div className="text-center ">
@@ -168,10 +189,10 @@ export default function LoginForm() {
                 onFail={(error) => console.error("Facebook login error:", error)}
                 render={(renderProps) => (
                   <button
-                    className="bg-backgroundLight border shadow-none transition-shadow duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2 border-gray-300 text-gray-700  py-3 px-4 rounded-full w-full flex items-center justify-center"
+                    className=" border-borderPrimary bg-hoverPrimary hover:border-borderColor   border-[1px] shadow-none transition-all duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2  text-textPrimary  py-3 px-4 rounded-full w-full flex items-center justify-center"
                     onClick={renderProps.onClick}
                   >
-                    <FaFacebook className="text-lg text-blue-600  " /> Sign in with Facebook
+                    <FaFacebook className="text-lg text-textPrimary " /> Sign in with Facebook
                   </button>
                 )}
               />

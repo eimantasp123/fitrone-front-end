@@ -9,14 +9,13 @@ import ErrorAlert from "../../components/common/ErrorAlert";
 import FormButton from "../../components/common/FormButton";
 import SignUpPrompt from "../../components/common/SignUpPrompt";
 import { useGoogleLogin } from "@react-oauth/google";
-import { FcGoogle } from "react-icons/fc";
 import FacebookLogin from "@greatsumini/react-facebook-login";
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
 
 const FACEBOOK_APP_ID = "1552748628609748";
 
 export default function RegisterForm() {
-  const { registerEmail, successMessage, handleSignIn, handleGoogleLogin, handleFacebookLogin } = useContext(AuthContext);
+  const { registerEmail, handleSignIn, handleGoogleLogin, handleFacebookLogin } = useContext(AuthContext);
   const { execute: executeGoogleLogin, error: googleLoginError, clearError: clearGoogleLoginError } = handleGoogleLogin;
   const { execute: executeFacebookLogin, error: facebookLoginError, clearError: clearFacebookLoginError } = handleFacebookLogin;
   const { execute: registerUser, loading, error: registerError, clearError: clearRegisterError } = registerEmail;
@@ -50,48 +49,11 @@ export default function RegisterForm() {
   });
 
   return (
-    <div className="w-full max-w-md flex flex-col justify-center px-2 md:px-6 lg:p-6">
+    <div className="w-full max-w-md text-textPrimary flex flex-col justify-center px-2 md:px-6 lg:p-6">
       <div className="text-center mb-7">
-        <img src="/logoIcon.png" alt="Logo" className="w-24 h-24 mx-auto flex items-center justify-center" />
-        <h2 className="text-2xl lg:text-3xl  font-bold">Create an account</h2>
-        {!successMessage && (
-          <SignUpPrompt
-            handleSignUp={handleSignIn}
-            message="Do you already have an account?"
-            linkText="Sign In"
-            className="mt-5"
-          />
-        )}
-      </div>
-      <div className="flex flex-col  gap-3">
-        <div className="text-center">
-          <button
-            className="bg-backgroundLight border shadow-none transition-shadow duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2 border-gray-300 text-gray-700  py-3 px-4 rounded-full w-full flex items-center justify-center"
-            onClick={() => googleLogin()}
-          >
-            <FcGoogle className="text-xl" /> Sign up with Google
-          </button>
-        </div>
-        <div className="text-center ">
-          <FacebookLogin
-            appId={FACEBOOK_APP_ID}
-            onSuccess={executeFacebookLogin}
-            onFail={(error) => console.error("Facebook login error:", error)}
-            render={(renderProps) => (
-              <button
-                className="bg-backgroundLight border shadow-none transition-shadow duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2 border-gray-300 text-gray-700  py-3 px-4 rounded-full w-full flex items-center justify-center"
-                onClick={renderProps.onClick}
-              >
-                <FaFacebook className="text-lg text-blue-600  " /> Sign up with Facebook
-              </button>
-            )}
-          />
-        </div>
-      </div>
-      <div className="flex w-full  justify-center items-center ">
-        <hr className="my-5 w-2/5" />
-        <p className="text-gray-500 w-3/5 flex justify-center my-5 ">Or continue with</p>
-        <hr className="my-5 w-2/5" />
+        {/* <img src="/logo-dark.png" alt="Logo" className="w-[130px] h-auto mx-auto mb-10 flex items-center justify-center" /> */}
+        <h2 className="text-2xl lg:text-3xl mb-3  font-bold">Create an account</h2>
+        <p className="text-textSecondary">Enter your email below to create your account</p>
       </div>
       <FormProvider {...methods}>
         <form className="flex gap-3 flex-col" onSubmit={methods.handleSubmit(onSubmit)}>
@@ -104,6 +66,39 @@ export default function RegisterForm() {
         </form>
         <ErrorAlert error={combinedError} clearError={clearAllErrors} />
       </FormProvider>
+      <div className="flex w-full  justify-center items-center ">
+        <hr className="my-5 w-2/5" />
+        <p className="text-textPrimary w-3/5 flex justify-center my-5 ">Or continue with</p>
+        <hr className="my-5 w-2/5" />
+      </div>
+
+      <div className="flex flex-col  gap-3">
+        <div className="text-center">
+          <button
+            className="  border-borderPrimary bg-hoverPrimary hover:border-borderColor  border-[1px] shadow-none transition-all duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2  text-textPrimary  py-3 px-4 rounded-full w-full flex items-center justify-center"
+            onClick={() => googleLogin()}
+          >
+            <FaGoogle className="text-lg" /> Sign up with Google
+          </button>
+        </div>
+        <div className="text-center ">
+          <FacebookLogin
+            appId={FACEBOOK_APP_ID}
+            onSuccess={executeFacebookLogin}
+            onFail={(error) => console.error("Facebook login error:", error)}
+            render={(renderProps) => (
+              <button
+                className=" border-borderPrimary bg-hoverPrimary hover:border-borderColor   border-[1px] shadow-none transition-all duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2  text-textPrimary  py-3 px-4 rounded-full w-full flex items-center justify-center"
+                onClick={renderProps.onClick}
+              >
+                <FaFacebook className="text-lg text-textPrimary " /> Sign up with Facebook
+              </button>
+            )}
+          />
+        </div>
+      </div>
+
+      <SignUpPrompt handleSignUp={handleSignIn} message="Do you already have an account?" linkText="Sign In" className="mt-5" />
     </div>
   );
 }

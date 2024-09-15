@@ -12,7 +12,7 @@ const ErrorAlert = ({ error, clearError }) => {
         borderRadius={6}
         position="relative"
         sx={{
-          backgroundColor: "#ff8e8622",
+          backgroundColor: "#ff494932",
           borderColor: "#ff11002b",
           borderWidth: "1px",
           transition: "background-color 0.3s",

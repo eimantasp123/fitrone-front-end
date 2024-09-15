@@ -40,12 +40,12 @@ export default function RegisterDone() {
   }, [clearError]);
 
   return (
-    <div className="w-full max-w-md flex flex-col justify-center px-2 md:px-6 lg:p-6">
+    <div className="w-full max-w-md flex text-textPrimary flex-col justify-center px-2 md:px-6 lg:p-6">
       <div className="text-center">
-        <img src="/logoIcon.png" alt="Logo" className="w-24 h-24 mx-auto flex items-center justify-center" />
+        {/* <img src="/logo-dark.png" alt="Logo" className="w-[130px] h-auto mx-auto mb-10 flex items-center justify-center" /> */}
         <h2 className="text-2xl lg:text-3xl font-semibold mb-6">Complete registration</h2>
         <div className="flex justify-center items-center">
-          <div className="border shadow-custom-light3  mb-8 py-2 px-6 rounded-full">{userEmail}</div>
+          <div className="border border-borderColor shadow-custom-light3  mb-8 py-2 px-6 rounded-full">{userEmail}</div>
         </div>
       </div>
 
