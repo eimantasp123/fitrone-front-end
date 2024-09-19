@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import PropTypes from "prop-types";
+import { useColorMode } from "@chakra-ui/react";
 
 const plans = [
   {
     name: "Basic",
     price: "€29/month",
-    description: "Ideal for individual trainers to manage diet and sport programs.",
+    description:
+      "Ideal for individual trainers to manage diet and sport programs.",
     features: [
       "Create and manage diet plans",
       "Create and manage sport programs",
@@ -41,41 +43,62 @@ const plans = [
   },
 ];
 
-const PlanCard = ({ plan, selectedPlan, onSelect }) => (
-  <div
-    className={`py-10 px-10 border rounded-xl shadow-custom-dark2 transition-all duration-300 ${
-      selectedPlan === plan.name ? "border-accent1Darker bg-accent3 text-accent1" : "bg-backgroundLight"
-    }`}
-  >
-    <div className="flex justify-between items-center mb-4">
-      <h4 className={`text-lg font-semibold ${selectedPlan === plan.name ? "text-accent1" : "text-secondary"}`}>{plan.name}</h4>
-      {selectedPlan === plan.name && <FaCheckCircle className="text-accent1" />}
-    </div>
-    <p className={`text-2xl mb-1 font-bold ${selectedPlan === plan.name ? "text-text1" : "text-secondary"}`}>{plan.price}</p>
-    <p className={`text-sm mb-4 ${selectedPlan === plan.name ? "text-text1" : "text-secondary"}`}>{plan.description}</p>
-    <button
-      className={`w-full mt-5 ${
-        selectedPlan === plan.name ? "text-secondary bg-background" : "text-text1 bg-secondaryLight"
-      } py-2 rounded-lg transition-all duration-300 ease-in-out`}
-      onClick={() => onSelect(plan.name)}
+const PlanCard = ({ plan, selectedPlan, onSelect }) => {
+  const { colorMode } = useColorMode();
+
+  return (
+    <div
+      className={`rounded-xl border border-borderColor px-10 py-10 shadow-custom-dark2 transition-all duration-300 ${
+        selectedPlan === plan.name
+          ? `${colorMode === "dark" ? "border-border bg-sidebarPrimary text-white" : "bg-buttonPrimaryDark text-white"}`
+          : `${colorMode === "dark" ? "border-borderColor bg-[#2c2c2c]" : "bg-background"}`
+      }`}
     >
-      {selectedPlan === plan.name ? "Selected Plan" : "Upgrade"}
-    </button>
-    {plan.freeTrialEnd && (
-      <p className={`text-sm mb-[-10px] text-center mt-2 ${selectedPlan === plan.name ? "text-text1" : "text-secondary"}`}>
-        Free Trial End: {plan.freeTrialEnd}
-      </p>
-    )}
-    <ul className={`text-sm mt-8 ${selectedPlan === plan.name ? "text-text1" : "text-secondary"}`}>
-      {plan.features.map((feature, index) => (
-        <li key={index} className="flex gap-2 items-center mb-1">
-          <FaCheckCircle className={`${selectedPlan === plan.name ? "text-accent1" : "text-secondary"}`} />
-          {feature}
-        </li>
-      ))}
-    </ul>
-  </div>
-);
+      <div className="mb-4 flex items-center justify-between">
+        <h4 className="text-lg font-semibold">{plan.name}</h4>
+        {selectedPlan === plan.name && (
+          <FaCheckCircle className="text-primary" />
+        )}
+      </div>
+      <p className="mb-1 text-2xl font-bold">{plan.price}</p>
+      <p className="mb-4 text-sm">{plan.description}</p>
+      {/* Button */}
+      <button
+        className={`mt-5 w-full border border-borderColor ${
+          selectedPlan === plan.name
+            ? "border-primary bg-primary text-black"
+            : `${
+                colorMode === "dark"
+                  ? "border-white bg-white text-black"
+                  : "border-buttonPrimaryDark bg-buttonPrimaryDark text-white hover:bg-buttonPrimaryDarkHover"
+              }`
+        } rounded-full py-2 transition-all duration-300 ease-in-out`}
+        onClick={() => onSelect(plan.name)}
+      >
+        {selectedPlan === plan.name ? "Selected Plan" : "Upgrade"}
+      </button>
+      {/* Free trial text */}
+      {plan.freeTrialEnd && (
+        <p className="mb-[-10px] mt-2 text-center text-sm">
+          Free Trial End: {plan.freeTrialEnd}
+        </p>
+      )}
+      {/* List for */}
+      <ul
+        className={`mt-8 text-sm ${selectedPlan === plan.name ? "text-white" : "text-textPrimary"}`}
+      >
+        {plan.features.map((feature, index) => (
+          <li key={index} className="mb-1 flex items-center gap-2">
+            <FaCheckCircle
+              className={`${selectedPlan === plan.name ? "text-accent1" : "text-secondary"}`}
+            />
+            {feature}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 PlanCard.propTypes = {
   plan: PropTypes.object.isRequired,
@@ -88,25 +111,35 @@ const ManageSubscription = () => {
   const freeTrialEnd = "2023-12-31";
 
   return (
-    <div className="flex h-[700px] scrollbar-none w-full overflow-y-auto flex-col 2xl:flex-col gap-10 mt-0 3xl:mt-10 py-8 px-12 md:px-2 md:py-14 ">
-      <div className="container mx-auto flex flex-col max-w-[1200px] xl:flex-col gap-6  w-full  ">
-        <div className="flex 2xl:w-full flex-col gap-10 ">
-          <div className="flex flex-col xl:flex-row gap-2 xl:gap-6">
-            <h3 className=" md:w-1/3 dark:text-text1  px-2 xl:px-0 text-xl font-semibold">Manage Subscription</h3>
+    <div className="h-fit-content mt-0 flex w-full flex-col gap-10 overflow-y-auto px-12 py-8 scrollbar-none md:px-2 md:py-14 2xl:flex-col 3xl:mt-10">
+      <div className="container mx-auto flex w-full max-w-[1200px] flex-col gap-6 xl:flex-col">
+        <div className="flex flex-col gap-10 2xl:w-full">
+          <div className="flex flex-col gap-2 xl:flex-row xl:gap-6">
+            <h3 className="dark:text-text1 px-2 text-xl font-semibold text-textPrimary md:w-1/3 xl:px-0">
+              Manage Subscription
+            </h3>
             {freeTrialEnd && (
-              <p className=" md:w-2/3  text-sm  text-gray-700 dark:text-text1 2xl:text-end px-2">
-                Your free trial ends on <span className="font-semibold dark:text-text1 text-red-600">{freeTrialEnd}</span>.
-                Upgrade your plan to avoid interruption.
+              <p className="dark:text-text1 px-2 text-sm text-textPrimary md:w-2/3 2xl:text-end">
+                Your free trial ends on{" "}
+                <span className="dark:text-text1 font-semibold text-red-600">
+                  {freeTrialEnd}
+                </span>
+                . Upgrade your plan to avoid interruption.
               </p>
             )}
           </div>
-          <div className=" grid-cols-1 md:grid-cols-3  grid gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {plans.map((plan) => (
-              <PlanCard key={plan.name} plan={plan} selectedPlan={selectedPlan} onSelect={setSelectedPlan} />
+              <PlanCard
+                key={plan.name}
+                plan={plan}
+                selectedPlan={selectedPlan}
+                onSelect={setSelectedPlan}
+              />
             ))}
           </div>
           <div className="text-center md:text-end">
-            <button className="text-red-600 dark:text-text1 hover:text-red-800 font-semibold text-sm transition-colors duration-200 ease-in-out">
+            <button className="dark:text-text1 text-sm font-semibold text-red-600 transition-colors duration-200 ease-in-out hover:text-red-800">
               Cancel Subscription
             </button>
           </div>

@@ -13,7 +13,8 @@ import FormButton from "../../components/common/FormButton";
 export default function ResetPasswordForm() {
   const [passwordVisibleFirst, setPasswordVisibleFirst] = useState(false);
   const [passwordVisibleSecond, setPasswordVisibleSecond] = useState(false);
-  const { resetPassword, handleSignIn, successMessage } = useContext(AuthContext);
+  const { resetPassword, handleSignIn, successMessage } =
+    useContext(AuthContext);
   const methods = useForm({
     resolver: yupResolver(resetPasswordSchema),
   });
@@ -21,7 +22,12 @@ export default function ResetPasswordForm() {
   const password = methods.watch("password");
   const passwordConfirm = methods.watch("passwordConfirm");
 
-  const { execute: resetNewPassword, loading, error, clearError } = resetPassword;
+  const {
+    execute: resetNewPassword,
+    loading,
+    error,
+    clearError,
+  } = resetPassword;
 
   const onSubmit = async (data) => {
     await resetNewPassword(token, data);
@@ -33,9 +39,11 @@ export default function ResetPasswordForm() {
   }, [clearError]);
 
   return (
-    <div className="w-full max-w-md flex flex-col justify-center px-2  md:px-6 lg:p-6">
-      <div className="text-center mb-10">
-        {!successMessage && <h2 className="text-2xl lg:text-3xl font-bold">Reset Password</h2>}
+    <div className="flex w-full max-w-md flex-col justify-center px-2 md:px-6 lg:p-6">
+      <div className="mb-10 text-center">
+        {!successMessage && (
+          <h2 className="text-2xl font-bold lg:text-3xl">Reset Password</h2>
+        )}
       </div>
       {successMessage ? (
         <>
@@ -43,21 +51,29 @@ export default function ResetPasswordForm() {
             successMessage={successMessage}
             description="Password reset successfully. You can now log in with your new password."
           />
-          <div className="text-center mt-10">
-            <span onClick={handleSignIn} className="text-textSecondary cursor-pointer font-semibold">
+          <div className="mt-10 text-center">
+            <span
+              onClick={handleSignIn}
+              className="cursor-pointer font-semibold text-textSecondary"
+            >
               Back to Login
             </span>
           </div>
         </>
       ) : (
         <FormProvider {...methods}>
-          <form className="gap-3 flex flex-col" onSubmit={methods.handleSubmit(onSubmit)}>
+          <form
+            className="flex flex-col gap-3"
+            onSubmit={methods.handleSubmit(onSubmit)}
+          >
             <InputField
               name="password"
               placeholder="New Password"
               type={passwordVisibleFirst ? "text" : "password"}
               showPasswordToggle={true}
-              togglePasswordVisibility={() => setPasswordVisibleFirst(!passwordVisibleFirst)}
+              togglePasswordVisibility={() =>
+                setPasswordVisibleFirst(!passwordVisibleFirst)
+              }
             />
             <PasswordStrengthIndicator password={password} />
             <InputField
@@ -65,10 +81,15 @@ export default function ResetPasswordForm() {
               placeholder="Confirm New Password"
               type={passwordVisibleSecond ? "text" : "password"}
               showPasswordToggle={true}
-              togglePasswordVisibility={() => setPasswordVisibleSecond(!passwordVisibleSecond)}
+              togglePasswordVisibility={() =>
+                setPasswordVisibleSecond(!passwordVisibleSecond)
+              }
             />
             <div className="mt-3">
-              <FormButton isFormValid={password && passwordConfirm} loading={loading}>
+              <FormButton
+                isFormValid={password && passwordConfirm}
+                loading={loading}
+              >
                 Reset Password
               </FormButton>
               <ErrorAlert error={error} clearError={clearError} />

@@ -1,7 +1,6 @@
-import TrainerHeader from "./TrainerHeader";
-import AdminHeader from "./AdminHeader";
-import ClientHeader from "./ClientHeader";
 import { useSelector } from "react-redux";
+import AdminHeader from "./AdminHeader";
+import GeneralHeader from "./GeneralHeader";
 
 const Header = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
@@ -11,8 +10,8 @@ const Header = () => {
   return (
     <>
       {user.role === "admin" && <AdminHeader />}
-      {user.role === "trainer" && <TrainerHeader />}
-      {user.role === "client" && <ClientHeader />}
+      {user.role === "trainer" && <GeneralHeader />}
+      {user.role === "client" && <GeneralHeader />}
     </>
   );
 };

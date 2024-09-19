@@ -42,21 +42,44 @@ export default function LoginForm() {
     resolver: yupResolver(loginSchema),
   });
 
-  const { execute: executeLogin, loading: loginLoading, error: loginError, clearError: clearLoginError } = login;
-  const { execute: executeVerifyLogin, loading: verifyLoading, error: verifyError, clearError: clearVerifyError } = verifyLogin;
+  const email = loginMethods.watch("email");
+  const password = loginMethods.watch("password");
+
+  const {
+    execute: executeLogin,
+    loading: loginLoading,
+    error: loginError,
+    clearError: clearLoginError,
+  } = login;
+  const {
+    execute: executeVerifyLogin,
+    loading: verifyLoading,
+    error: verifyError,
+    clearError: clearVerifyError,
+  } = verifyLogin;
   const { execute: executeResendCode, loading: resendLoading } = resendCode;
-  const { execute: executeGoogleLogin, error: googleLoginError, clearError: clearGoogleLoginError } = handleGoogleLogin;
-  const { execute: executeFacebookLogin, error: facebookLoginError, clearError: clearFacebookLoginError } = handleFacebookLogin;
+  const {
+    execute: executeGoogleLogin,
+    error: googleLoginError,
+    clearError: clearGoogleLoginError,
+  } = handleGoogleLogin;
+  const {
+    execute: executeFacebookLogin,
+    error: facebookLoginError,
+    clearError: clearFacebookLoginError,
+  } = handleFacebookLogin;
 
   const clearAllErrors = useCallback(() => {
     clearLoginError();
     clearVerifyError();
     clearGoogleLoginError();
     clearFacebookLoginError();
-  }, [clearLoginError, clearVerifyError, clearGoogleLoginError, clearFacebookLoginError]);
-
-  const email = loginMethods.watch("email");
-  const password = loginMethods.watch("password");
+  }, [
+    clearLoginError,
+    clearVerifyError,
+    clearGoogleLoginError,
+    clearFacebookLoginError,
+  ]);
 
   const onSubmit = async (data) => {
     await executeLogin(data.email, data.password);
@@ -82,27 +105,32 @@ export default function LoginForm() {
   });
 
   useEffect(() => {
+    setIsFormValid(code.length === 6);
+  }, [code]);
+
+  useEffect(() => {
     clearAllErrors();
     return () => clearAllErrors();
   }, [clearAllErrors]);
-
-  useEffect(() => {
-    setIsFormValid(code.length === 6);
-  }, [code]);
 
   if (user) {
     return <Navigate to="/dashboard" replace />;
   }
 
   const isLoginDisabled = !email || !password || loginLoading;
-  const combinedError = loginError || verifyError || googleLoginError || facebookLoginError;
+  const combinedError =
+    loginError || verifyError || googleLoginError || facebookLoginError;
 
   const numberOfFields = 6;
   return (
-    <div className="w-full max-w-md flex text-textPrimary  flex-col justify-center px-2 md:px-6 lg:p-6">
-      <div className="text-center mb-10">
-        <h2 className="text-2xl lg:text-3xl font-bold">{is2FAStep ? "Two Factor Authentication" : "Hello Again!"}</h2>
-        <p className=" mt-2 text-textSecondary">{!is2FAStep && "Enter your details to proceed further"}</p>
+    <div className="flex w-full max-w-md flex-col justify-center px-2 text-textPrimary md:px-6 lg:p-6">
+      <div className="mb-10 text-center">
+        <h2 className="text-2xl font-bold lg:text-3xl">
+          {is2FAStep ? "Two Factor Authentication" : "Hello Again!"}
+        </h2>
+        <p className="mt-2 text-textSecondary">
+          {!is2FAStep && "Enter your details to proceed further"}
+        </p>
       </div>
       {is2FAStep ? (
         <>
@@ -111,16 +139,24 @@ export default function LoginForm() {
               <PinInput
                 onChange={(value) => setCode(value)}
                 placeholder="•"
-                focusBorderColor={colorMode === "light" ? "light.primaryDark" : "dark.borderPrimary"}
+                focusBorderColor={
+                  colorMode === "light"
+                    ? "light.primaryDark"
+                    : "dark.borderPrimary"
+                }
               >
                 {/* <PinInputField /> */}
                 {Array.from({ length: numberOfFields }).map((_, index) => (
                   <PinInputField
                     key={index}
                     sx={{
-                      borderColor: colorMode === "light" ? "gray.400" : "dark.borderLight",
+                      borderColor:
+                        colorMode === "light" ? "gray.400" : "dark.borderLight",
                       _hover: {
-                        borderColor: colorMode === "light" ? "gray.600" : "dark.borderPrimary",
+                        borderColor:
+                          colorMode === "light"
+                            ? "gray.600"
+                            : "dark.borderPrimary",
                       },
                     }}
                   />
@@ -128,15 +164,25 @@ export default function LoginForm() {
               </PinInput>
             </HStack>
           </div>
-          <p className="text-center text-sm mt-4 text-textSecondary">Enter the 6-digit code sent to your phone</p>
-          <FormButton onClick={onVerifySubmit} className="mt-[30px]" isFormValid={isFormValid} loading={verifyLoading}>
+          <p className="mt-4 text-center text-sm text-textSecondary">
+            Enter the 6-digit code sent to your phone
+          </p>
+          <FormButton
+            onClick={onVerifySubmit}
+            className="mt-[30px]"
+            isFormValid={isFormValid}
+            loading={verifyLoading}
+          >
             Verify
           </FormButton>
           <ErrorAlert error={verifyError} clearError={clearVerifyError} />
-          <div className="text-center mt-4">
+          <div className="mt-4 text-center">
             <p className="text-textSecondary">
               Didn&apos;t receive the code after 1 minute?{" "}
-              <span onClick={onResendCode} className="hover:text-textSecondary text-textPrimary cursor-pointer font-semibold">
+              <span
+                onClick={onResendCode}
+                className="cursor-pointer font-semibold text-textPrimary hover:text-textSecondary"
+              >
                 {resendLoading ? "Sending..." : "Resend"}
               </span>
             </p>
@@ -145,26 +191,37 @@ export default function LoginForm() {
       ) : (
         <>
           <FormProvider {...loginMethods}>
-            <form className="gap-3 flex flex-col" onSubmit={loginMethods.handleSubmit(onSubmit)}>
-              <InputField name="email" placeholder="Email address" type="email" icon={MdEmail} />
+            <form
+              className="flex flex-col gap-3"
+              onSubmit={loginMethods.handleSubmit(onSubmit)}
+            >
+              <InputField
+                name="email"
+                placeholder="Email address"
+                type="email"
+                icon={MdEmail}
+              />
               <InputField
                 name="password"
                 placeholder="Password"
                 type={passwordVisible ? "text" : "password"}
                 showPasswordToggle={true}
-                togglePasswordVisibility={() => setPasswordVisible(!passwordVisible)}
+                togglePasswordVisibility={() =>
+                  setPasswordVisible(!passwordVisible)
+                }
               />
               <div className="pt-3">
-                <FormButton isFormValid={!isLoginDisabled} loading={loginLoading}>
+                <FormButton
+                  isFormValid={!isLoginDisabled}
+                  loading={loginLoading}
+                >
                   Log In
                 </FormButton>
                 <ErrorAlert error={combinedError} clearError={clearAllErrors} />
               </div>
-              <div className="flex mt-1 items-center justify-center">
+              <div className="mt-1 flex items-center justify-center">
                 <span
-                  className="inline-block align-baseline cursor-pointer font-semibold text-sm transition-colors
-                    
-                  duration-200 ease-in-out"
+                  className="inline-block cursor-pointer align-baseline text-sm font-semibold transition-colors duration-200 ease-in-out"
                   onClick={handleForgotPassword}
                 >
                   Forgot password
@@ -173,32 +230,40 @@ export default function LoginForm() {
             </form>
           </FormProvider>
 
-          <div className="flex flex-col mt-8 gap-2">
+          <div className="mt-8 flex flex-col gap-2">
             <div className="text-center">
               <button
-                className="  border-borderPrimary bg-hoverPrimary hover:border-borderColor  border-[1px] shadow-none transition-all duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2  text-textPrimary  py-3 px-4 rounded-full w-full flex items-center justify-center"
+                className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-hoverPrimary px-4 py-3 text-textPrimary shadow-none transition-all duration-200 ease-in-out hover:border-borderColor hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)]"
                 onClick={() => googleLogin()}
               >
                 <FaGoogle className="text-lg" /> Sign in with Google
               </button>
             </div>
-            <div className="text-center ">
+            <div className="text-center">
               <FacebookLogin
                 appId={FACEBOOK_APP_ID}
                 onSuccess={executeFacebookLogin}
-                onFail={(error) => console.error("Facebook login error:", error)}
+                onFail={(error) =>
+                  console.error("Facebook login error:", error)
+                }
                 render={(renderProps) => (
                   <button
-                    className=" border-borderPrimary bg-hoverPrimary hover:border-borderColor   border-[1px] shadow-none transition-all duration-200 ease-in-out hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)] gap-2  text-textPrimary  py-3 px-4 rounded-full w-full flex items-center justify-center"
+                    className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-hoverPrimary px-4 py-3 text-textPrimary shadow-none transition-all duration-200 ease-in-out hover:border-borderColor hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)]"
                     onClick={renderProps.onClick}
                   >
-                    <FaFacebook className="text-lg text-textPrimary " /> Sign in with Facebook
+                    <FaFacebook className="text-lg text-textPrimary" /> Sign in
+                    with Facebook
                   </button>
                 )}
               />
             </div>
           </div>
-          <SignUpPrompt handleSignUp={handleSignUp} message="Don't have an account yet?" linkText="Sign Up" className="mt-10" />
+          <SignUpPrompt
+            handleSignUp={handleSignUp}
+            message="Don't have an account yet?"
+            linkText="Sign Up"
+            className="mt-10"
+          />
         </>
       )}
     </div>

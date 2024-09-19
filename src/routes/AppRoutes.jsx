@@ -1,26 +1,23 @@
-// src/routes/AppRoutes.js
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
-import LoginForm from "../pages/Login/LoginForm";
-import RegisterForm from "../pages/Register/RegisterForm";
+import DashboardLayout from "../components/DashboardLayout";
+import Dashboard from "../pages/Dashboard/Dashboard";
 import ForgotPasswordForm from "../pages/ForgotPassword/ForgotPasswordForm";
 import ResetPasswordForm from "../pages/ForgotPassword/ResetPassword";
-import { PublicRoute, PrivateRoute } from "./RouteWrappers";
-import DashboardLayout from "../components/DashboardLayout";
-import SportPlans from "../pages/SportPlans/SportPlans";
-import Dashboard from "../pages/Dashboard/Dashboard";
-import DietPlans from "../pages/DietPlans/DietPlans";
-import { AdminRoute, TrainerRoute } from "./RoleBasedRoute";
-import TrainerClients from "../pages/TrainerClients/TrainerClients";
-import Trainers from "../pages/TrainersForAdmin/Trainers";
-import Messages from "../pages/Messages/Messages";
-import Support from "../pages/Support/Support";
+import LoginForm from "../pages/Login/LoginForm";
+import MealPlans from "../pages/MealPlans/MealPlans";
+import RegisterForm from "../pages/Register/RegisterForm";
+import { PrivateRoute, PublicRoute } from "./RouteWrappers";
 import ProfileSettings from "../pages/AccountSettings/ProfileSettings";
 import Help from "../pages/Help/Help";
+import Messages from "../pages/Messages/Messages";
 import ManageSubscriptionPlan from "../pages/Subscription/ManageSubscriptionPlan";
-import AnalyticsAndReports from "../pages/AnalyticsAndReports/AnalyticsAndReports";
-import VerifyEmaiil from "../pages/VerifyEmail/VerifyEmail";
+import Support from "../pages/Support/Support";
+import Devices from "../pages/Devices/Devices";
+import Notifications from "../pages/Notifications/Notifications";
+import Progress from "../pages/Progress/Progress";
 import RegisterDone from "../pages/Register/RegisterDone";
+import VerifyEmaiil from "../pages/VerifyEmail/VerifyEmail";
 
 const AppRoutes = () => (
   <Routes>
@@ -36,19 +33,14 @@ const AppRoutes = () => (
     </Route>
     <Route element={<PrivateRoute />}>
       <Route path="/" element={<DashboardLayout />}>
-        <Route index element={<Navigate replace to="dashboard" />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="sport-plans" element={<SportPlans />} />
-        <Route path="diet-plans" element={<DietPlans />} />
+        <Route index path="/" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Navigate replace to="/" />} />
+        <Route path="progress" element={<Progress />} />
+        <Route path="meal-plans" element={<MealPlans />} />
+        <Route path="devices" element={<Devices />} />
+        <Route path="notifications" element={<Notifications />} />
         <Route path="subscription" element={<ManageSubscriptionPlan />} />
-        <Route element={<TrainerRoute />}>
-          <Route path="clients" element={<TrainerClients />} />
-        </Route>
-        <Route element={<AdminRoute />}>
-          <Route path="trainers" element={<Trainers />} />
-        </Route>
         <Route path="messages" element={<Messages />} />
-        <Route path="analytics" element={<AnalyticsAndReports />} />
         <Route path="support" element={<Support />} />
         <Route path="profile/*" element={<ProfileSettings />} />
         <Route path="help" element={<Help />} />

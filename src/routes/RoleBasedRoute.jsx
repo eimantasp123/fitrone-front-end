@@ -12,7 +12,11 @@ export const TrainerRoute = () => {
     return <Spinner />;
   }
 
-  return isAuthenticated && user.role === "trainer" ? <Outlet /> : <Navigate to="/dashboard" replace />;
+  return isAuthenticated && user.role === "trainer" ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/dashboard" replace />
+  );
 };
 
 export const AdminRoute = () => {
@@ -22,5 +26,9 @@ export const AdminRoute = () => {
     return <Spinner />;
   }
 
-  return isAuthenticated && user.role === "admin" ? <Outlet /> : <Navigate to="/dashboard" replace />;
+  return isAuthenticated && user.role === "admin" ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/dashboard" replace />
+  );
 };

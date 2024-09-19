@@ -15,7 +15,10 @@ const ImageWithSkeleton = ({ src, alt, size = "44px", className = "mr-4" }) => {
   // }, [src]);
 
   return (
-    <div className={`relative w-${size} h-${size} ${className}`} style={{ width: size, height: size }}>
+    <div
+      className={`relative w-${size} h-${size} ${className}`}
+      style={{ width: size, height: size }}
+    >
       {!imageLoaded && (
         <div className="absolute inset-0 flex items-center justify-center">
           <SkeletonCircle size={size} />

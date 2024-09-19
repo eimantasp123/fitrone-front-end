@@ -1,17 +1,17 @@
+import { Spinner } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
-import InputFieldWithoutBorder from "../common/InputFieldWithBorder";
+import { FormProvider, useForm } from "react-hook-form";
+import { MdEdit } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import FormButton from "../../components/common/FormButton";
 import PasswordStrengthIndicator from "../../components/common/PasswordStrenghtIndicator";
-import { MdEdit } from "react-icons/md";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { changePasswordSchema } from "../../utils/validationSchema";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { Spinner } from "@chakra-ui/react";
 import useCustomToast from "../../hooks/useCustomToast";
 import { changePassword } from "../../services/reduxSlices/Profile/personalDetailsSlice";
+import { changePasswordSchema } from "../../utils/validationSchema";
+import InputField from "../common/InputField";
 
+// ChangePassword component
 const ChangePassword = () => {
   const [editMode, setEditMode] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
@@ -24,6 +24,7 @@ const ChangePassword = () => {
     resolver: yupResolver(changePasswordSchema),
   });
 
+  // Submit form data to update user password
   const onSubmit = async (data) => {
     try {
       await dispatch(changePassword(data)).unwrap();
@@ -43,19 +44,24 @@ const ChangePassword = () => {
     }
   };
 
+  // Toggle edit mode
   const editHandler = () => {
     setEditMode(!editMode);
     methods.reset();
   };
 
   return (
-    <div className="flex flex-col bg-backgroundLight rounded-lg shadow-custom-dark2 p-8 xl:flex-col  w-full">
+    <div className="border-border flex w-full flex-col rounded-2xl border bg-background p-5 shadow-custom-dark2 sm:p-8 xl:flex-col">
       {/* <h2 className="text-lg font-semibold ">Change Password</h2> */}
-      <div className="px-5 flex flex-col gap-5">
+      <div className="flex flex-col gap-5">
         <FormProvider {...methods}>
-          <div className="space-y-0 w-full ">
-            <div className="flex justify-end items-center">
-              <button type="button" onClick={editHandler} className="text-secondary flex items-center">
+          <div className="w-full space-y-0">
+            <div className="flex items-center justify-end">
+              <button
+                type="button"
+                onClick={editHandler}
+                className="text-secondary flex items-center"
+              >
                 {editMode ? (
                   <div className="text-sm">Close</div>
                 ) : (
@@ -66,46 +72,61 @@ const ChangePassword = () => {
                 )}
               </button>
             </div>
-            <form onSubmit={methods.handleSubmit(onSubmit)} className="grid grid-cols-1 overflow-hidden">
-              <InputFieldWithoutBorder
+            <form
+              onSubmit={methods.handleSubmit(onSubmit)}
+              className="grid grid-cols-1 gap-4 overflow-hidden"
+            >
+              <InputField
                 name="oldPassword"
                 label="Old Password"
                 type={showOldPassword ? "text" : "password"}
                 disabled={!editMode}
                 placeholder="Enter your old password"
                 showPasswordToggle={true}
-                togglePasswordVisibility={() => setShowOldPassword(!showOldPassword)}
+                togglePasswordVisibility={() =>
+                  setShowOldPassword(!showOldPassword)
+                }
               />
-              <InputFieldWithoutBorder
+              <InputField
                 name="newPassword"
                 label="New Password"
                 type={showNewPassword ? "text" : "password"}
                 disabled={!editMode}
                 placeholder="Enter your new password"
                 showPasswordToggle={true}
-                togglePasswordVisibility={() => setShowNewPassword(!showNewPassword)}
+                togglePasswordVisibility={() =>
+                  setShowNewPassword(!showNewPassword)
+                }
               />
               <div className="mb-4">
-                <PasswordStrengthIndicator password={methods.watch("newPassword")} />
+                <PasswordStrengthIndicator
+                  password={methods.watch("newPassword")}
+                />
               </div>
-              <InputFieldWithoutBorder
+              <InputField
                 name="confirmNewPassword"
                 label="Confirm New Password"
                 type={showConfirmPassword ? "text" : "password"}
                 disabled={!editMode}
                 placeholder="Confirm your new password"
                 showPasswordToggle={true}
-                togglePasswordVisibility={() => setShowConfirmPassword(!showConfirmPassword)}
+                togglePasswordVisibility={() =>
+                  setShowConfirmPassword(!showConfirmPassword)
+                }
               />
               <div
-                className={`transition-all pt-2 md:pt-3 ease-in-out duration-500 transform ${
-                  editMode ? "opacity-100 my-4 translate-y-0 max-h-40" : "opacity-0 max-h-0 -translate-y-[-50px]"
+                className={`transform pt-2 transition-all duration-500 ease-in-out md:pt-3 ${
+                  editMode
+                    ? "my-4 max-h-40 translate-y-0 opacity-100"
+                    : "max-h-0 -translate-y-[-50px] opacity-0"
                 }`}
               >
                 <div className="w-full">
                   <FormButton
                     isFormValid={
-                      methods.watch("oldPassword") && methods.watch("newPassword") && methods.watch("confirmNewPassword")
+                      methods.watch("oldPassword") &&
+                      methods.watch("newPassword") &&
+                      methods.watch("confirmNewPassword")
                     }
                     loading={methods.formState.isSubmitting}
                   >

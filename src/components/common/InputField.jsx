@@ -1,50 +1,114 @@
+import { useColorMode } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { IoEye, IoEyeOff } from "react-icons/io5";
-import PropTypes from "prop-types";
 
 const InputField = ({
   name,
+  label = "",
   type = "text",
-  icon: Icon = null,
+  placeholder = "",
+  disabled = false,
   showPasswordToggle = false,
   togglePasswordVisibility = null,
-  placeholder = "",
+  icon: Icon = null,
 }) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
+  const { colorMode } = useColorMode();
+
+  // Handle conditional classes for input styling
+  const getInputClassNames = () => {
+    // Base classes
+    let classNames = `w-full  text-textPrimary  border transition-colors duration-300 ease-in-out px-4 py-[12px] rounded-md leading-tight outline-none`;
+
+    // Disabled state
+    if (disabled) {
+      classNames += ` bg-background text-stone-500 cursor-not-allowed  ${
+        colorMode === "light" ? "border-[#d4d4d4]" : "border-[#272727]"
+      } `;
+    }
+
+    if (errors[name]) {
+      // Error state: red border
+      classNames += ` border-red-500 focus:border-red-500 bg-backgroundSecondary`;
+    } else {
+      // No error state
+      if (colorMode === "light") {
+        classNames += ` bg-transparent border-[#b6b6b6] placeholder-stone-500 focus:border-textPrimary`;
+      } else {
+        classNames += ` bg-background border-[#494949] placeholder-stone-500 focus:border-[#e6e6e6]`;
+      }
+    }
+
+    return classNames;
+  };
 
   return (
     <>
-      <div
-        className={`relative px-4 rounded-md border transition-colors duration-300 ${
-          errors[name] ? "border-red-500" : "border-borderColor"
-        } hover:border-textSecondary  focus-within:hover:border-textPrimary focus-within:border-textSecondary focus-within:ring-1 focus-within:ring-textSecondary `}
-      >
-        <input
-          className="w-full py-4  lg:py-3 placeholder:text-textSecondary text-textPrimary bg-transparent leading-tight focus:outline-none focus:ring-0"
-          id={name}
-          type={type}
-          placeholder={placeholder}
-          {...register(name)}
-        />
-        {Icon && <Icon className="absolute right-4 bottom-[14px] text-textSecondary" />}
-        {showPasswordToggle && (
-          <div onClick={togglePasswordVisibility} className="absolute cursor-pointer right-4 bottom-3">
-            {type === "password" ? (
-              <IoEye className="text-lg text-textSecondary" />
-            ) : (
-              <IoEyeOff className="text-lg text-textSecondary" />
-            )}
+      {/* Input field */}
+      <div className="">
+        {/* Label */}
+        {label && (
+          <div className="flex justify-between">
+            <label
+              className="mb-2 block pl-1 text-sm text-textPrimary"
+              htmlFor={name}
+            >
+              {label}
+            </label>
+          </div>
+        )}
+
+        {/* Input element */}
+        <div className="relative">
+          <input
+            className={getInputClassNames()}
+            id={name}
+            type={type}
+            placeholder={placeholder}
+            {...register(name)}
+            disabled={disabled}
+            onKeyPress={(event) => {
+              if (type === "text" && /[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
+          />
+
+          {/* Icon field */}
+          {Icon && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 transform text-textSecondary">
+              <Icon />
+            </div>
+          )}
+
+          {/* Password visibility toggle */}
+          {showPasswordToggle && !disabled && (
+            <div
+              onClick={togglePasswordVisibility}
+              className="absolute right-3 top-1/2 -translate-y-1/2 transform cursor-pointer"
+            >
+              {type === "password" ? (
+                <IoEye className="text-lg text-textPrimary transition-all duration-700 ease-in-out" />
+              ) : (
+                <IoEyeOff className="text-lg text-textPrimary transition-all duration-700 ease-in-out" />
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Error message */}
+        {errors[name] && (
+          <div className="flex">
+            <span className="mt-1 text-[13px] text-red-500">
+              {errors[name].message}
+            </span>
           </div>
         )}
       </div>
-      {errors[name] && (
-        <div className="flex pl-2 mt-[-6px] mb-[-2px]">
-          <span className="text-red-500 text-[13px]">{errors[name].message}</span>
-        </div>
-      )}
     </>
   );
 };
@@ -52,10 +116,14 @@ const InputField = ({
 InputField.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string,
-  icon: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
   showPasswordToggle: PropTypes.bool,
   togglePasswordVisibility: PropTypes.func,
   placeholder: PropTypes.string,
+  label: PropTypes.string,
+  disabled: PropTypes.bool,
+  icon: PropTypes.elementType,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
 };
 
 export default InputField;

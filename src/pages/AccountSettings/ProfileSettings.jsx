@@ -1,6 +1,5 @@
 import AdminProfileSettings from "./AdminProfileSettings";
 import TrainerProfileSettings from "./TrainerProfileSettings";
-import ClientProfileSettings from "./ClientProfileSettings";
 import { useSelector } from "react-redux";
 
 const ProfileSettings = () => {
@@ -11,8 +10,7 @@ const ProfileSettings = () => {
   return (
     <>
       {user.role === "admin" && <AdminProfileSettings />}
-      {user.role === "trainer" && <TrainerProfileSettings />}
-      {user.role === "client" && <ClientProfileSettings />}
+      {user.role === "trainer" || (user.role === "client" && <TrainerProfileSettings />)}
     </>
   );
 };

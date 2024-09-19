@@ -49,11 +49,13 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, [dispatch, authChecking]);
 
+  // Clear messages function
   const clearMessages = () => {
     setSuccessMessage(null);
     setUserEmail("");
   };
 
+  // Login function
   const login = useAsync(async (email, password) => {
     const response = await API.post("/auth/login", { email, password });
     clearMessages();
@@ -66,6 +68,7 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  // Verify login function
   const verifyLogin = useAsync(async (userId, code) => {
     const response = await API.post("/auth/verify-login", { userId, code });
     clearMessages();
@@ -75,22 +78,26 @@ export const AuthProvider = ({ children }) => {
     setAuthChecking(true);
   });
 
+  // Resend code function
   const resendCode = useAsync(async (userId) => {
     const response = await API.post("/auth/resend-code", { userId });
     return response.data;
   });
 
+  // Forgot password function
   const forgotPassword = useAsync(async (email) => {
     const response = await API.post("/auth/forgot-password", { email });
     setSuccessMessage(response.data.message);
     setUserEmail(response.data.email);
   });
 
+  // Reset password function
   const resetPassword = useAsync(async (token, data) => {
     const response = await API.post(`/auth/reset-password/${token}`, { data });
     setSuccessMessage(response.data.message);
   });
 
+  // Google login function
   const handleGoogleLogin = useAsync(async (tokenResponse) => {
     const token = tokenResponse.access_token;
     const response = await API.post(
@@ -98,7 +105,7 @@ export const AuthProvider = ({ children }) => {
       {},
       {
         headers: { Authorization: `Bearer ${token}` },
-      }
+      },
     );
     if (response.data.is2FA) {
       setUserId(response.data.userId);
@@ -109,8 +116,13 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  // Facebook login function
   const handleFacebookLogin = useAsync(async (details) => {
-    const response = await API.post("/auth/facebook", {}, { headers: { Authorization: `Bearer ${details.accessToken}` } });
+    const response = await API.post(
+      "/auth/facebook",
+      {},
+      { headers: { Authorization: `Bearer ${details.accessToken}` } },
+    );
     if (response.data.is2FA) {
       setUserId(response.data.userId);
       setIs2FAStep(true);
@@ -120,6 +132,7 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  // Register email function
   const registerEmail = useAsync(async (data) => {
     const response = await API.post("/auth/register-email", data);
     if (response.data) {
@@ -129,24 +142,30 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  // Verify email function
   const verifyEmail = useAsync(async (data) => {
     await API.post("/auth/verify-email", data);
     navigate("/register-done");
   });
 
+  // Complete registration function
   const completeRegistration = useAsync(async (data) => {
     await API.post("/auth/complete-registration", data);
     localStorage.setItem("authenticated", true);
     setAuthChecking(true);
   });
 
+  // Resend email verify code function
   const resendEmailVerifyCode = useAsync(async () => {
-    const response = await API.post("/auth/resend-email-verify-code", { email: userEmail });
+    const response = await API.post("/auth/resend-email-verify-code", {
+      email: userEmail,
+    });
     return response.data;
   });
 
+  // Logout function
   const logout = useAsync(async () => {
-    await API.post("/auth/logout");
+    await axiosInstance.post("/auth/logout");
     dispatch(setUserDetails(null));
     localStorage.removeItem("authenticated");
     setAuthChecking(true);

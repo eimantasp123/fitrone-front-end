@@ -3,7 +3,7 @@ import TrainerDietPlans from "./TrainerDietPlans";
 import ClientDietPlans from "./ClientDietPlans";
 import { useSelector } from "react-redux";
 
-const DietPlans = () => {
+const MealPlans = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
@@ -17,4 +17,4 @@ const DietPlans = () => {
   );
 };
 
-export default DietPlans;
+export default MealPlans;

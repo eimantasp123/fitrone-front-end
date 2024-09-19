@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../../utils/axiosInterceptors";
 
+// Initial state for personal details slice
 const initialState = {
   details: {},
   updateLoading: false,
@@ -12,78 +13,112 @@ const initialState = {
   error: null,
 };
 
+// Async Thunks for updating user personal details
 export const updatePersonalDetails = createAsyncThunk(
   "personalDetails/updatePerosnalDetails",
   async (details, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch("/profile/details", details);
-      console.log(response.data);
       return response.data.updatedFields;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(
+        error.response?.data || "Failed to update details",
+      );
     }
-  }
+  },
 );
 
-export const updateUserImage = createAsyncThunk("personalDetails/updateUserImage", async (imageData, { rejectWithValue }) => {
-  const formData = new FormData();
-  formData.append("image", imageData);
-  try {
-    const response = await axiosInstance.patch("/profile/image", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
-});
+// Async Thunks for updating user image
+export const updateUserImage = createAsyncThunk(
+  "personalDetails/updateUserImage",
+  async (imageData, { rejectWithValue }) => {
+    const formData = new FormData();
+    formData.append("image", imageData);
+    try {
+      const response = await axiosInstance.patch("/profile/image", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to update image");
+    }
+  },
+);
 
-export const deleteUserImage = createAsyncThunk("personalDetails/deleteProfileImage", async (_, { rejectWithValue }) => {
-  try {
-    const response = await axiosInstance.delete("/profile/image");
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
-});
+// Async Thunks for deleting user image
+export const deleteUserImage = createAsyncThunk(
+  "personalDetails/deleteProfileImage",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete("/profile/image");
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to delete image");
+    }
+  },
+);
 
-export const changePassword = createAsyncThunk("personalDetails/changePassword", async (passwords, { rejectWithValue }) => {
-  try {
-    await axiosInstance.patch("/profile/password", passwords);
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
-});
+// Async Thunks for changing user password
+export const changePassword = createAsyncThunk(
+  "personalDetails/changePassword",
+  async (passwords, { rejectWithValue }) => {
+    try {
+      await axiosInstance.patch("/profile/password", passwords);
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to change password",
+      );
+    }
+  },
+);
 
-export const request2FA = createAsyncThunk("personalDetails/request2FA", async (_, { rejectWithValue }) => {
-  try {
-    const response = await axiosInstance.put("/profile/2fa/request");
-    return response.data.message;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
-});
+// Async Thunks for requesting 2FA
+export const request2FA = createAsyncThunk(
+  "personalDetails/request2FA",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put("/profile/2fa/request");
+      return response.data.message;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to request 2FA");
+    }
+  },
+);
 
-export const verify2FA = createAsyncThunk("personalDetails/verify2FA", async ({ code, enable }, { rejectWithValue }) => {
-  try {
-    const response = await axiosInstance.put("/profile/2fa/verify", { code, enable });
-    return response.data.message;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
-});
+// Async Thunks for verifying 2FA
+export const verify2FA = createAsyncThunk(
+  "personalDetails/verify2FA",
+  async ({ code, enable }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put("/profile/2fa/verify", {
+        code,
+        enable,
+      });
+      return response.data.message;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to verify 2FA");
+    }
+  },
+);
 
-export const deleteAccount = createAsyncThunk("personalDetails/deleteAccount", async (_, { rejectWithValue }) => {
-  try {
-    const response = await axiosInstance.delete("/profile/account");
-    return response.data.message;
-  } catch (error) {
-    return rejectWithValue(error.response.data);
-  }
-});
+// Async Thunks for deleting user account
+export const deleteAccount = createAsyncThunk(
+  "personalDetails/deleteAccount",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete("/profile/account");
+      return response.data.message;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to delete account",
+      );
+    }
+  },
+);
 
+// Personal Details Slice
 const personalDetailsSlice = createSlice({
   name: "personalDetails",
   initialState,

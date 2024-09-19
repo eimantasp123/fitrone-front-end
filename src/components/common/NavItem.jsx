@@ -13,7 +13,7 @@ const NavItem = ({
       <NavLink
         to={to}
         className={({ isActive }) =>
-          `flex items-center gap-3 py-2 px-4 duration-200 ease-in-out rounded-lg transition-colors ${
+          `flex items-center gap-3 rounded-lg px-4 py-2 transition-colors duration-200 ease-in-out ${
             isActive ? isActiveLink : NotActive
           }`
         }

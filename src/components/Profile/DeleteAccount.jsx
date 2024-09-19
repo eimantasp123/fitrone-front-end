@@ -1,25 +1,27 @@
-import { useContext, useState } from "react";
 import {
-  Text,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   useDisclosure,
-  Spinner,
 } from "@chakra-ui/react";
-import useCustomToast from "../../hooks/useCustomToast";
-import { deleteAccount } from "../../services/reduxSlices/Profile/personalDetailsSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useContext } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
+import useCustomToast from "../../hooks/useCustomToast";
+import { deleteAccount } from "../../services/reduxSlices/Profile/personalDetailsSlice";
+import { deleteProfileSchema } from "../../utils/validationSchema";
+import InputField from "../common/InputField";
+import RedButton from "../common/RedButton";
+import TextButton from "../common/TextButton";
 
+// DeleteAccount component
 const DeleteAccount = () => {
-  const [verificationInput, setVerificationInput] = useState("");
-  const [secondVerificationInput, setSecondVerificationInput] = useState("");
   const { updateLoading } = useSelector((state) => state.personalDetails);
   const { setIsAuthenticated } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,6 +29,12 @@ const DeleteAccount = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Form methods
+  const methods = useForm({
+    resolver: yupResolver(deleteProfileSchema),
+  });
+
+  // Delete user account from the server
   const handleDelete = async () => {
     try {
       await dispatch(deleteAccount()).unwrap();
@@ -48,91 +56,80 @@ const DeleteAccount = () => {
     }
   };
 
-  const handleOpenModal = () => {
-    onOpen();
-  };
-
-  const handleConfirmDelete = () => {
-    if (verificationInput === "DELETE" && secondVerificationInput === "DELETE") {
-      handleDelete();
-    } else {
-      customToast({
-        title: "Verification Failed",
-        description: "Please type DELETE in both input fields to confirm.",
-        status: "error",
-      });
-    }
-  };
-
+  // Close modal
   const closeModal = () => {
+    methods.clearErrors();
     onClose();
-    setVerificationInput("");
-    setSecondVerificationInput("");
   };
 
   return (
-    <div className="flex bg-backgroundLight rounded-lg shadow-custom-dark2 flex-col  p-8 xl:flex-col  w-full">
-      {/* <h2 className="text-lg font-semibold mb-8 ">Delete Account</h2> */}
-      <div className="px-5 flex flex-col ">
-        <div className="space-y-8  w-full  ">
-          <div>
-            <p className="text-gray-600">
-              Deleting your account will permanently remove all your data and you will not be able to recover it. Please consider
-              this action carefully.
+    <div className="border-border flex w-full flex-col rounded-2xl border bg-background p-6 shadow-custom-dark2 md:p-8 xl:flex-col">
+      {/* Content */}
+      <div className="flex flex-col">
+        <div className="w-full space-y-8">
+          <div className="flex flex-col gap-2">
+            <p className="text-textPrimary">
+              Deleting your account will permanently remove all your data and
+              you will not be able to recover it. Please consider this action
+              carefully.
             </p>
-            <p className="text-red-600 mt-4">
-              This action is irreversible and will delete all your account data, including settings, preferences, and usage
-              history.
+            <p className="mt-1 text-red-600">
+              This action is irreversible and will delete all your account data,
+              including settings, preferences, and usage history.
             </p>
           </div>
-          <div className="flex">
-            <button className="bg-red-500 text-sm text-white py-2 px-4 rounded-full" onClick={handleOpenModal}>
+          <div className="flex justify-end">
+            <button
+              className="text-sm font-semibold text-red-600"
+              onClick={onOpen}
+            >
               Delete Account
             </button>
           </div>
         </div>
       </div>
-      <Modal isOpen={isOpen} onClose={closeModal} size="lg">
+      {/* Modal */}
+      <Modal
+        isOpen={isOpen}
+        onClose={closeModal}
+        size={{ base: "sm", md: "lg" }}
+      >
         <ModalOverlay />
-        <ModalContent sx={{ padding: "1.5rem", borderRadius: "0.75rem" }}>
+        <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
           <ModalHeader>Confirm Account Deletion</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton marginTop="2" />
           <ModalBody sx={{ padding: "1rem" }}>
-            <Text mb={4}>
-              Please type <strong>DELETE</strong> in the fields below to confirm you want to delete your account.
-            </Text>
-            <input
-              className="`w-1/2 w-full mb-2  text-gray-700  placeholder-gray-400 transition-all duration-300 ease-in-out border px-3 py-[9px] rounded-lg  leading-tight outline-none 
-                bg-backgroundLight focus-within:border-[#000] border-[#8f8f8f80] border-gray-300 bg-transparent
-                "
-              id="verificationInput"
-              type="text"
-              placeholder="Type DELETE to confirm"
-              value={verificationInput}
-              onChange={(e) => setVerificationInput(e.target.value)}
-            />
-            <input
-              className="`w-1/2 w-full  text-gray-700  placeholder-gray-400 transition-all duration-300 ease-in-out border px-3 py-[9px] rounded-lg  leading-tight outline-none 
-                bg-backgroundLight focus-within:border-[#000] border-[#8f8f8f80] border-gray-300 bg-transparent
-                "
-              id="secondVerificationInput"
-              type="text"
-              placeholder="Type DELETE again to confirm"
-              value={secondVerificationInput}
-              onChange={(e) => setSecondVerificationInput(e.target.value)}
-            />
-            <div className="flex justify-end mt-5 gap-2">
-              <button
-                style={{ width: "150px" }}
-                className="bg-red-500 text-white text-sm py-2 px-6 rounded-full "
-                onClick={handleConfirmDelete}
+            <FormProvider {...methods}>
+              <p className="mb-4 pl-1 text-textSecondary">
+                Please type <strong>DELETE</strong> in the fields below to
+                confirm you want to delete your account.
+              </p>
+              <form
+                onSubmit={methods.handleSubmit(handleDelete)}
+                className="flex flex-col gap-3"
               >
-                {updateLoading ? <Spinner size="sm" /> : "Confirm Delete"}
-              </button>
-              <button className="bg-secondary text-sm text-white py-2 px-6 rounded-full" onClick={closeModal}>
-                Cancel
-              </button>
-            </div>
+                <InputField
+                  name="verificationInput"
+                  placeholder="Type DELETE to confirm"
+                  type="text"
+                />
+                <InputField
+                  name="secondVerificationInput"
+                  placeholder="Type DELETE again to confirm"
+                  type="text"
+                />
+
+                {/*  */}
+                <div className="mt-3 flex justify-end gap-2">
+                  <RedButton
+                    updateLoading={updateLoading}
+                    text="Confirm Delete"
+                    width="150px"
+                  />
+                  <TextButton text="Cancel" onClick={closeModal} />
+                </div>
+              </form>
+            </FormProvider>
           </ModalBody>
         </ModalContent>
       </Modal>

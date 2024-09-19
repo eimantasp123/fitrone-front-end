@@ -1,4 +1,11 @@
-import { Box, Alert, AlertIcon, AlertDescription, Flex, CloseButton } from "@chakra-ui/react";
+import {
+  Box,
+  Alert,
+  AlertIcon,
+  AlertDescription,
+  Flex,
+  CloseButton,
+} from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
 const ErrorAlert = ({ error, clearError }) => {
@@ -18,14 +25,26 @@ const ErrorAlert = ({ error, clearError }) => {
           transition: "background-color 0.3s",
         }}
       >
-        <Flex direction="row" align="center" justify="space-between" width="100%">
+        <Flex
+          direction="row"
+          align="center"
+          justify="space-between"
+          width="100%"
+        >
           <Flex align="center" width="90%">
             <AlertIcon boxSize="16px" color="red.500" />
             <AlertDescription fontSize="15px" ml={2} lineHeight="short">
               {error}
             </AlertDescription>
           </Flex>
-          <CloseButton position="absolute" right="4px" top="4px" size="sm" onClick={clearError} _hover={{ bg: "transparent" }} />
+          <CloseButton
+            position="absolute"
+            right="4px"
+            top="4px"
+            size="sm"
+            onClick={clearError}
+            _hover={{ bg: "transparent" }}
+          />
         </Flex>
       </Alert>
     </Box>

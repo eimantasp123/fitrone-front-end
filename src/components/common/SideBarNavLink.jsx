@@ -1,27 +1,22 @@
 import { NavLink as RouterNavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const SidebarNavLink = ({
-  to = "/",
-  icon: Icon,
-  text,
-  isActiveColor = " bg-[#e9e9e91f]  text-accent1",
-  isHoverColor = "hover:bg-[#c9c9c91d] text-text1 ",
-  bgColor = "",
-  onClick,
-}) => {
+const SidebarNavLink = ({ to = "/", icon: Icon, text, onClick }) => {
   return (
     <RouterNavLink
       to={to}
       onClick={onClick}
       className={({ isActive }) =>
-        `transition-colors duration-300 ease-in-out items-center 
-          py-[9px] pl-5 gap-3 flex  ${isActive ? isActiveColor : isHoverColor} ${bgColor} relative overflow-hidden`
+        `flex items-center gap-3 rounded-lg py-[9px] pl-4 transition-colors duration-300 ease-in-out hover:bg-[#313131] ${
+          isActive
+            ? "border-primary bg-[#212121] text-white hover:bg-[#212121]"
+            : "hover:text-white lg:text-[#a7a7a7]"
+        } relative overflow-hidden`
       }
     >
-      <div className="flex gap-3 items-center">
-        <Icon className="text-lg " />
-        <span className="text-base">{text}</span>
+      <div className="flex items-center gap-3">
+        <Icon className="mb-[-1px] text-lg" />
+        <span className="text-[15px]">{text}</span>
       </div>
     </RouterNavLink>
   );

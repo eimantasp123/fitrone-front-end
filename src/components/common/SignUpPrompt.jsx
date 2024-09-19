@@ -7,7 +7,7 @@ const SignUpPrompt = ({ handleSignUp, message, linkText, className = "" }) => {
         {message}{" "}
         <span
           onClick={handleSignUp}
-          className="text-textPrimary hover:text-textSecondary transition-colors duration-300 ease-in-out cursor-pointer font-semibold"
+          className="cursor-pointer font-semibold text-textPrimary transition-colors duration-300 ease-in-out hover:text-textSecondary"
         >
           {linkText}
         </span>

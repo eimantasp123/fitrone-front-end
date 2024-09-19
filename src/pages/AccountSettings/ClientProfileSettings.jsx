@@ -8,14 +8,14 @@ import PaymentMethodsWrapper from "../../components/Profile/PaymentMethods";
 
 const ClientProfileSettings = () => {
   return (
-    <div className=" container mx-auto max-w-[1400px] gap-6 flex flex-col h-[700px] scrollbar-none overflow-y-auto w-full flex-grow p-4 md:px-4 md:py-8">
+    <div className="container mx-auto flex h-[700px] w-full max-w-[1400px] flex-grow flex-col gap-6 overflow-y-auto p-4 scrollbar-none md:px-4 md:py-8">
       {/* Profile image update container */}
 
-      <div className="flex flex-col xl:flex-row bg-backgroundLight rounded-lg h-screen shadow-custom-dark2 p-5 gap-8  w-full  ">
-        <div className="w-full mt-5 xl:w-2/6 2xl:w-1/6">
+      <div className="bg-backgroundLight flex h-screen w-full flex-col gap-8 rounded-lg p-5 shadow-custom-dark2 xl:flex-row">
+        <div className="mt-5 w-full xl:w-2/6 2xl:w-1/6">
           <ProfileSettingsSidebar />
         </div>
-        <div className="w-full xl:4/6 2xl:w-5/6 ">
+        <div className="xl:4/6 w-full 2xl:w-5/6">
           <Routes>
             <Route index element={<Navigate replace to="edit" />} />
             <Route path="edit" element={<EditProfile />} />

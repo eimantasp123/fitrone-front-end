@@ -6,13 +6,19 @@ import useCustomToast from "../../hooks/useCustomToast";
 import { useColorMode } from "@chakra-ui/react";
 
 export default function ResetPasswordForm() {
-  const { verifyEmail, userEmail, successMessage, resendEmailVerifyCode } = useContext(AuthContext);
+  const { verifyEmail, userEmail, successMessage, resendEmailVerifyCode } =
+    useContext(AuthContext);
   const [code, setCode] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
   const customToast = useCustomToast();
   const { colorMode } = useColorMode();
 
-  const { execute: verifyEmailHandler, loading, error: verifyEmailError, clearError: clearVerifyError } = verifyEmail;
+  const {
+    execute: verifyEmailHandler,
+    loading,
+    error: verifyEmailError,
+    clearError: clearVerifyError,
+  } = verifyEmail;
   const {
     execute: resendEmailVerifyCodeHandler,
     loading: resendCodeLoading,
@@ -56,13 +62,17 @@ export default function ResetPasswordForm() {
   const numberOfFields = 6;
 
   return (
-    <div className="w-full h-full  text-textPrimary max-w-md flex flex-col justify-center items-center px-2 md:px-6 lg:p-6">
+    <div className="flex h-full w-full max-w-md flex-col items-center justify-center px-2 text-textPrimary md:px-6 lg:p-6">
       <div className="text-center">
         {/* <img src="/logo-dark.png" alt="Logo" className="w-[130px] h-auto mx-auto mb-10 flex items-center justify-center" /> */}
-        <h2 className="text-2xl lg:text-3xl font-semibold mb-2">Verify your email</h2>
-        <p className=" mt-2">{successMessage}</p>
-        <div className="flex justify-center items-center">
-          <div className="border border-borderColor shadow-custom-light3 mt-4 mb-8 py-2 px-6 rounded-full">{userEmail}</div>
+        <h2 className="mb-2 text-2xl font-semibold lg:text-3xl">
+          Verify your email
+        </h2>
+        <p className="mt-2">{successMessage}</p>
+        <div className="flex items-center justify-center">
+          <div className="mb-8 mt-4 rounded-full border border-borderColor px-6 py-2 shadow-custom-light3">
+            {userEmail}
+          </div>
         </div>
       </div>
       <div className="flex items-center justify-center">
@@ -70,16 +80,20 @@ export default function ResetPasswordForm() {
           <PinInput
             onChange={(value) => setCode(value)}
             placeholder="•"
-            focusBorderColor={colorMode === "light" ? "light.primaryDark" : "dark.borderPrimary"}
+            focusBorderColor={
+              colorMode === "light" ? "light.primaryDark" : "dark.borderPrimary"
+            }
           >
             {/* <PinInputField /> */}
             {Array.from({ length: numberOfFields }).map((_, index) => (
               <PinInputField
                 key={index}
                 sx={{
-                  borderColor: colorMode === "light" ? "gray.400" : "dark.borderLight",
+                  borderColor:
+                    colorMode === "light" ? "gray.400" : "dark.borderLight",
                   _hover: {
-                    borderColor: colorMode === "light" ? "gray.600" : "dark.borderPrimary",
+                    borderColor:
+                      colorMode === "light" ? "gray.600" : "dark.borderPrimary",
                   },
                 }}
               />
@@ -88,11 +102,13 @@ export default function ResetPasswordForm() {
         </HStack>
       </div>
 
-      <p className="text-center text-textSecondary text-sm mt-4">Enter the 6-digit code sent to your email</p>
+      <p className="mt-4 text-center text-sm text-textSecondary">
+        Enter the 6-digit code sent to your email
+      </p>
 
       <button
-        className={`bg-primary text-stone-800 text-sm mt-10 text-secondary shadow transition-all hover:shadow-custom-light hover:bg-accent1Dark duration-300 ease-in-out font-semibold py-3 px-4 rounded-full focus:outline-none focus:shadow-outline w-full ${
-          !isFormValid || loading ? "opacity-50 cursor-not-allowed" : ""
+        className={`text-secondary hover:bg-accent1Dark focus:shadow-outline mt-10 w-full rounded-full bg-primary px-4 py-3 text-sm font-semibold text-stone-800 shadow transition-all duration-300 ease-in-out hover:shadow-custom-light focus:outline-none ${
+          !isFormValid || loading ? "cursor-not-allowed opacity-50" : ""
         }`}
         type="submit"
         onClick={onSubmit}
@@ -105,9 +121,12 @@ export default function ResetPasswordForm() {
         <ErrorAlert error={errors} clearError={clearAllErrors} />
       </div>
 
-      <div className="flex text-textSecondary items-center text-sm justify-center mt-4 gap-2">
+      <div className="mt-4 flex items-center justify-center gap-2 text-sm text-textSecondary">
         <p>Didn&apos;t receive the code in 1 minute?</p>
-        <p className="cursor-pointer text-textPrimary font-semibold" onClick={resendVerifyCode}>
+        <p
+          className="cursor-pointer font-semibold text-textPrimary"
+          onClick={resendVerifyCode}
+        >
           {resendCodeLoading ? "Sending..." : "Resend code"}
         </p>
       </div>

@@ -23,23 +23,41 @@ const PasswordStrengthIndicator = ({ password = "" }) => {
   return (
     <div className="mx-4">
       <p className="text-sm font-medium">Password required:</p>
-      <ul className="flex items-center gap-5 mt-2">
+      <ul className="mt-2 flex items-center gap-5">
         <li className="flex items-center">
-          {strength.length ? <IoCheckmarkSharp className="text-green-700 " /> : <IoCloseSharp className="text-red-500" />}
+          {strength.length ? (
+            <IoCheckmarkSharp className="text-green-700" />
+          ) : (
+            <IoCloseSharp className="text-red-500" />
+          )}
 
-          <span className="ml-2 text-sm leading-none mt-[-2px]">[8+ chars]</span>
+          <span className="ml-2 mt-[-2px] text-sm leading-none">
+            [8+ chars]
+          </span>
         </li>
         <li className="flex items-center">
-          {strength.number ? <IoCheckmarkSharp className="text-green-700" /> : <IoCloseSharp className="text-red-500" />}
-          <span className="ml-2 text-sm leading-none mt-[-2px]">[0-9]</span>
+          {strength.number ? (
+            <IoCheckmarkSharp className="text-green-700" />
+          ) : (
+            <IoCloseSharp className="text-red-500" />
+          )}
+          <span className="ml-2 mt-[-2px] text-sm leading-none">[0-9]</span>
         </li>
         <li className="flex items-center">
-          {strength.uppercase ? <IoCheckmarkSharp className="text-green-700" /> : <IoCloseSharp className="text-red-500" />}
-          <span className="ml-2 text-sm leading-none mt-[-2px]">[A-Z]</span>
+          {strength.uppercase ? (
+            <IoCheckmarkSharp className="text-green-700" />
+          ) : (
+            <IoCloseSharp className="text-red-500" />
+          )}
+          <span className="ml-2 mt-[-2px] text-sm leading-none">[A-Z]</span>
         </li>
         <li className="flex items-center">
-          {strength.symbol ? <IoCheckmarkSharp className="text-green-700" /> : <IoCloseSharp className="text-red-500" />}
-          <span className="ml-2 text-sm leading-none mt-[-2px]">[@-#]</span>
+          {strength.symbol ? (
+            <IoCheckmarkSharp className="text-green-700" />
+          ) : (
+            <IoCloseSharp className="text-red-500" />
+          )}
+          <span className="ml-2 mt-[-2px] text-sm leading-none">[@-#]</span>
         </li>
       </ul>
     </div>

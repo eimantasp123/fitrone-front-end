@@ -1,35 +1,49 @@
-import { MdDashboard, MdFitnessCenter, MdRestaurantMenu, MdAnalytics, MdOutlineFeedback } from "react-icons/md";
-import { BiSelectMultiple } from "react-icons/bi";
-import SidebarNavLink from "../common/SideBarNavLink";
 import { useDisclosure } from "@chakra-ui/react";
+import { AiOutlineMessage } from "react-icons/ai";
+import { IoBarChart, IoFastFood, IoNotifications, IoWatch } from "react-icons/io5";
+import { MdDashboard } from "react-icons/md";
+import { SiVivawallet } from "react-icons/si";
+import { VscFeedback } from "react-icons/vsc";
+import SidebarNavLink from "../common/SideBarNavLink";
 import FeedbackFormModal from "../FeedbackFormModal";
+import PropTypes from "prop-types";
 
-export default function ClientMenu() {
+export default function ClientMenu({ onClose: closeDrawer }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
+      <p className="lg:text-stone-500 text-sm mb-2 pl-3 ">Main</p>
       <ul className="w-full flex flex-col gap-2">
-        <SidebarNavLink to="/dashboard" icon={MdDashboard} text="Dashboard" />
-        <SidebarNavLink to="/sport-plans" icon={MdFitnessCenter} text="Sport Plans" />
-        <SidebarNavLink to="/diet-plans" icon={MdRestaurantMenu} text="Diet Plans" />
-        <SidebarNavLink to="/analytics" icon={MdAnalytics} text="Analytics" />
-        <SidebarNavLink to="/subscription" icon={BiSelectMultiple} text="Subscription" />
-        {/* <hr className=" my-2 border-gray-700 w-60 mx-auto" /> */}
-        <div className="relative my-2 w-full">
-          <div className="absolute left-0 right-0 mx-auto w-52 h-[1px] bg-background bg-opacity-20"></div>
-        </div>
+        {/*  */}
+        <SidebarNavLink onClick={closeDrawer} to="/" icon={MdDashboard} text="Dashboard" />
+        <SidebarNavLink onClick={closeDrawer} to="/progress" icon={IoBarChart} text="My Progress" />
+        <SidebarNavLink onClick={closeDrawer} to="/meal-plans" icon={IoFastFood} text="Meal Plans" />
+        <SidebarNavLink onClick={closeDrawer} to="/devices" icon={IoWatch} text="Devices" />
+        <SidebarNavLink onClick={closeDrawer} to="/notifications" icon={IoNotifications} text="Notifications" />
+        <SidebarNavLink onClick={closeDrawer} to="/messages" icon={AiOutlineMessage} text="Messages" />
+        {/*  */}
+        <p className="lg:text-stone-500 text-sm mt-4 pl-3 ">Preferences</p>
+        <SidebarNavLink onClick={closeDrawer} to="/subscription" icon={SiVivawallet} text="Subscription" />
+        {/* Give feedback button */}
         <button
-          className=" items-center 
-          py-3 pl-5
-         rounded-tl-full text-text1  rounded-bl-full  gap-3 flex
-           "
           onClick={onOpen}
+          className="
+        transition-colors rounded-lg  duration-300 ease-in-out items-center 
+          py-[9px] pl-4 gap-3 flex   hover:bg-[#313131]   
+               border-primary  lg:text-[#a7a7a7] hover:text-white
+          relative overflow-hidden"
         >
-          <MdOutlineFeedback className="text-xl text-surface" />
-          Give Feedback
+          <div className="flex gap-3 items-center">
+            <VscFeedback className="text-lg mb-[-1px] " />
+            <span className="text-[15px]">Give Feedback</span>
+          </div>
         </button>
       </ul>
       <FeedbackFormModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 }
+
+ClientMenu.propTypes = {
+  onClose: PropTypes.func,
+};

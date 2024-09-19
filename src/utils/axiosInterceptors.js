@@ -9,7 +9,9 @@ const axiosInstance = axios.create({
 
 const refreshToken = async () => {
   try {
-    await axios.get(`${MOCK_API}/auth/refresh-token`, { withCredentials: true });
+    await axios.get(`${MOCK_API}/auth/refresh-token`, {
+      withCredentials: true,
+    });
   } catch (error) {
     return Promise.reject(error);
   }
@@ -19,7 +21,11 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
       try {
         await refreshToken();
@@ -34,7 +40,7 @@ axiosInstance.interceptors.response.use(
     } else {
       return Promise.reject(error);
     }
-  }
+  },
 );
 
 export default axiosInstance;

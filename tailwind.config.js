@@ -2,6 +2,7 @@
 import tailwindScrollbar from "tailwind-scrollbar";
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       boxShadow: {
@@ -14,15 +15,30 @@ export default {
       },
 
       colors: {
+        // Primary Colors
         primary: "var(--color-primary)",
         primaryDark: "var(--color-primary-dark)",
+        // Background Colors
         background: "var(--color-background)",
         backgroundSecondary: "var(--color-background-secondary)",
+        backgroundTertiary: "var(--color-background-tertiary)",
+        // Text Colors
         textPrimary: "var(--color-text-primary)",
         textSecondary: "var(--color-text-secondary)",
+        textPrimaryLight: "var(--color-text-primary-light)",
+        textSecondaryLight: "var(--color-text-secondary-light)",
+        // Border Colors
         borderColor: "var(--color-border)",
         borderPrimary: "var(--color-border-primary)",
+        // Hover Colors
         hoverPrimary: "var(--color-hover-primary)",
+        // Sidebar Colors
+        sidebarPrimary: "var(--color-sidebar-primary)",
+        sidebarText: "var(--color-sidebar-text)",
+        sidebarTextActive: "var(--color-sidebar-text-active)",
+        // Buttons
+        buttonPrimaryDark: "var(--color-button-primary-dark)",
+        buttonPrimaryDarkHover: "var(--color-button-primary-dark-hover)",
       },
 
       screens: {

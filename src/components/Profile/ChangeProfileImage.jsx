@@ -1,18 +1,24 @@
-import PropTypes from "prop-types";
-import { FiUpload, FiTrash } from "react-icons/fi";
-import { useDispatch } from "react-redux";
-import { deleteUserImage, updateUserImage } from "../../services/reduxSlices/Profile/personalDetailsSlice";
-import { useSelector } from "react-redux";
 import { Spinner } from "@chakra-ui/react";
-import useCustomToast from "../../hooks/useCustomToast";
+import PropTypes from "prop-types";
 import { useRef } from "react";
+import { FiTrash, FiUpload } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
+import useCustomToast from "../../hooks/useCustomToast";
+import {
+  deleteUserImage,
+  updateUserImage,
+} from "../../services/reduxSlices/Profile/personalDetailsSlice";
 
+// ChangeProfileImage component
 export default function ChangeProfileImage() {
   const dispatch = useDispatch();
   const customToast = useCustomToast();
-  const { details, imageLoading, deleteImageLoading } = useSelector((state) => state.personalDetails);
+  const { details, imageLoading, deleteImageLoading } = useSelector(
+    (state) => state.personalDetails,
+  );
   const fileInputRef = useRef(null);
 
+  // Upload image to the server
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -35,6 +41,7 @@ export default function ChangeProfileImage() {
     }
   };
 
+  // Delete user profile image
   const handleImageDelete = async () => {
     try {
       await dispatch(deleteUserImage()).unwrap();
@@ -52,13 +59,18 @@ export default function ChangeProfileImage() {
   };
 
   return (
-    <div className="flex gap-8 px-2 py-5 items-center ">
-      <img src={details.profileImage} alt="Profile" className="lg:size-[65px] size-[60px] rounded-full " />
+    <div className="flex select-none items-center gap-8 px-2 py-5">
+      <img
+        src={details.profileImage}
+        alt="Profile"
+        className="size-[60px] rounded-full lg:size-[65px]"
+      />
       <div className="flex gap-4">
+        {/* Upload button */}
         <label
           htmlFor="profileImageUpload"
           style={{ width: "120px" }}
-          className="cursor-pointer text-secondary transition-shadow duration-300 ease-in-out  hover:shadow-custom-light2 bg-accent1 flex items-center justify-center text-sm gap-2 border py-2 px-4 md:px-6 rounded-full "
+          className="tansition-all flex cursor-pointer items-center justify-center gap-2 rounded-full border border-borderColor bg-buttonPrimaryDark px-4 py-2 text-sm text-white duration-300 ease-in-out hover:bg-buttonPrimaryDarkHover hover:shadow-custom-light2 md:px-6"
         >
           {imageLoading ? (
             <Spinner size="xs" />
@@ -77,11 +89,13 @@ export default function ChangeProfileImage() {
             onChange={handleImageUpload}
           />
         </label>
+
+        {/* Remove button */}
         <button
           type="button"
           onClick={handleImageDelete}
           style={{ width: "120px" }}
-          className=" text-sm   transition-shadow duration-300 ease-in-out  hover:shadow-custom-light2 bg-backgroundLight flex justify-center items-center gap-2 border py-2 px-4  md:px-6  rounded-full"
+          className="flex items-center justify-center gap-2 rounded-full border border-borderColor bg-background px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:shadow-custom-light2 md:px-6"
         >
           {deleteImageLoading ? (
             <Spinner size="xs" />

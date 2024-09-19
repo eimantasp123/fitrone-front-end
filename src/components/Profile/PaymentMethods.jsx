@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useColorMode } from "@chakra-ui/react";
+import {
+  CardElement,
+  Elements,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { useForm, FormProvider } from "react-hook-form";
-import { MdDelete, MdCreditCard } from "react-icons/md";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { MdCreditCard, MdDelete } from "react-icons/md";
 
 const stripePromise = loadStripe("your-publishable-key-here");
 
+// PaymentMethods component
 const PaymentMethods = () => {
+  const { colorMode } = useColorMode();
   const [editMode, setEditMode] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState([
     {
@@ -34,6 +42,7 @@ const PaymentMethods = () => {
   const stripe = useStripe();
   const elements = useElements();
 
+  // Submit payment method
   const onSubmit = async () => {
     const cardElement = elements.getElement(CardElement);
     if (!stripe || !cardElement) return;
@@ -62,62 +71,111 @@ const PaymentMethods = () => {
     }
   };
 
+  // Set default payment method
   const handleSetDefault = (id) => {
     setPaymentMethods((prevMethods) =>
-      prevMethods.map((method) => (method.id === id ? { ...method, default: true } : { ...method, default: false }))
+      prevMethods.map((method) =>
+        method.id === id
+          ? { ...method, default: true }
+          : { ...method, default: false },
+      ),
     );
   };
 
+  // Remove payment method
   const handleRemoveCard = (id) => {
-    setPaymentMethods((prevMethods) => prevMethods.filter((method) => method.id !== id));
+    setPaymentMethods((prevMethods) =>
+      prevMethods.filter((method) => method.id !== id),
+    );
+  };
+
+  // Card element options for Stripe
+  const cardElementOptions = {
+    style: {
+      base: {
+        color: colorMode === "dark" ? "#ffffff" : "#000000",
+        fontWeight: "500",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontSize: "15px",
+        "::placeholder": {
+          color: colorMode === "dark" ? "#c5c5c5" : "#3a3a3a",
+        },
+        backgroundColor: "transparent",
+        iconColor: colorMode === "dark" ? "#ffffff" : "#000000",
+      },
+    },
+    hidePostalCode: true,
   };
 
   return (
-    <div className="flex bg-backgroundLight rounded-lg shadow-custom-dark2 flex-col p-8 xl:flex-col  w-full">
-      {/* <h2 className="text-lg font-semibold ">Payment Methods</h2> */}
-      <div className="px-5 flex flex-col gap-5">
+    <div className="border-border flex w-full flex-col rounded-2xl border bg-background p-6 shadow-custom-dark2 sm:p-8 xl:flex-col">
+      <div className="flex flex-col gap-5">
         <FormProvider {...methods}>
-          <div className="space-y-4 w-full ">
-            <div className="flex justify-end items-center">
-              <button type="button" onClick={() => setEditMode(!editMode)} className="text-sm mb-[-20px] font-medium ">
+          <div className="w-full space-y-4">
+            <div className="mb-6 flex items-center justify-between">
+              <p className="w-[60%] text-textPrimary">
+                Manage your credit cards and payment options.
+              </p>
+              <button
+                type="button"
+                onClick={() => setEditMode(!editMode)}
+                className="w-[40%] text-end text-sm font-medium"
+              >
                 + Add new card
               </button>
             </div>
-            <p className="text-gray-600">Manage your credit cards and payment options.</p>
             <div className="space-y-4">
               {paymentMethods.length > 0 ? (
                 paymentMethods.map((method) => (
-                  <div key={method.id} className="flex justify-between items-center p-4 border rounded-lg bg-white ">
+                  <div
+                    key={method.id}
+                    className="flex items-center justify-between rounded-lg border border-borderColor bg-background p-4"
+                  >
                     <div className="flex items-center">
-                      <MdCreditCard className="text-2xl mr-4" />
+                      <MdCreditCard className="mr-4 text-2xl text-textSecondary" />
                       <div>
-                        <p className="font-semibold">Card ending in {method.card.last4}</p>
-                        <p className="text-sm text-gray-500">
-                          Exp. date {method.card.exp_month}/{method.card.exp_year}
+                        <p className="font-semibold text-textPrimary">
+                          Card ending in {method.card.last4}
+                        </p>
+                        <p className="text-sm text-textSecondary">
+                          Exp. date {method.card.exp_month}/
+                          {method.card.exp_year}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-4">
                       {method.default ? (
-                        <span className="px-4 py-1 border  bg-accent1 text-sm rounded-full">Default</span>
+                        <span className="rounded-full border border-borderColor bg-buttonPrimaryDark px-4 py-1 text-sm text-white">
+                          Default
+                        </span>
                       ) : (
-                        <button onClick={() => handleSetDefault(method.id)} className=" text-sm">
+                        <button
+                          onClick={() => handleSetDefault(method.id)}
+                          className="text-sm"
+                        >
                           Set as Default
                         </button>
                       )}
-                      <button onClick={() => handleRemoveCard(method.id)} className="text-red-500 hover:text-red-700">
+                      <button
+                        onClick={() => handleRemoveCard(method.id)}
+                        className="text-red-500 hover:text-red-700"
+                      >
                         <MdDelete className="text-xl" />
                       </button>
                     </div>
                   </div>
                 ))
               ) : (
-                <p>No payment methods available.</p>
+                <p className="text-textSecondary">
+                  No payment methods available.
+                </p>
               )}
             </div>
             <div
-              className={`transition-all pt-2 md:pt-0 ease-in-out duration-500 transform ${
-                editMode ? "opacity-100 my-4 translate-y-0 max-h-40" : "opacity-0 max-h-0 -translate-y-[-50px]"
+              className={`transform pt-2 transition-all duration-300 ease-in-out md:pt-0 ${
+                editMode
+                  ? "my-4 max-h-40 translate-y-0 opacity-100"
+                  : "max-h-0 -translate-y-[-50px] opacity-0"
               }`}
               style={{
                 transitionProperty: "opacity, transform, max-height",
@@ -126,14 +184,23 @@ const PaymentMethods = () => {
               }}
             >
               {editMode && (
-                <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-6">
-                  <CardElement options={{ hidePostalCode: true }} className="p-4 border rounded-lg bg-white " />
+                <form
+                  onSubmit={methods.handleSubmit(onSubmit)}
+                  className="space-y-6"
+                >
+                  <CardElement
+                    options={cardElementOptions}
+                    className="rounded-lg border border-borderColor p-4"
+                  />
                   <div className="flex justify-end space-x-4">
-                    <button className="bg-accent1 text-sm py-2 px-6 rounded-full" type="submit">
+                    <button
+                      className="rounded-full border border-borderColor bg-buttonPrimaryDark px-6 py-2 text-sm text-white transition-colors duration-200 ease-in-out hover:bg-buttonPrimaryDarkHover"
+                      type="submit"
+                    >
                       Save Payment Method
                     </button>
                     <button
-                      className="bg-secondary text-white py-2 px-6 rounded-full text-sm"
+                      className="bg-secondary rounded-full px-6 py-2 text-sm"
                       type="button"
                       onClick={() => setEditMode(false)}
                     >

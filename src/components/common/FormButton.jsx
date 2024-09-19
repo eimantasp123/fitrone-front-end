@@ -1,11 +1,17 @@
 import PropTypes from "prop-types";
 import { Spinner } from "@chakra-ui/react";
 
-const FormButton = ({ isFormValid, loading, children, onClick, className = "" }) => {
+const FormButton = ({
+  isFormValid,
+  loading,
+  children,
+  onClick,
+  className = "",
+}) => {
   return (
     <button
-      className={` bg-primary text-sm text-stone-800 mt-[-10px] ${className} shadow transition-all hover:shadow-custom-light hover:bg-primaryDark duration-300 ease-in-out font-semibold py-3 px-4 rounded-full focus:outline-none focus:shadow-outline w-full ${
-        !isFormValid || loading ? "opacity-50 cursor-not-allowed" : ""
+      className={`mt-[-10px] bg-primary text-sm text-stone-800 ${className} focus:shadow-outline w-full rounded-full px-4 py-3 font-semibold shadow transition-all duration-300 ease-in-out hover:bg-primaryDark hover:shadow-custom-light focus:outline-none ${
+        !isFormValid || loading ? "cursor-not-allowed opacity-50" : ""
       }`}
       type="submit"
       onClick={onClick}
