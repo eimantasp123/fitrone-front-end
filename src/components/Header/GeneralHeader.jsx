@@ -1,53 +1,30 @@
 import {
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerOverlay,
-  Tooltip,
   useBreakpointValue,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
-import { BiSupport } from "react-icons/bi";
-import { CiDark, CiLight } from "react-icons/ci";
+import { useContext } from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
-import { IoNotificationsOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import authContext from "../../context/AuthContext";
-import ClientMenu from "../Sidebar/ClientMenu";
+import NotificationButton from "../NotificationButton";
+import Support from "../Support";
+import LightAndDarkMode from "../common/LightAndDarkMode";
+import SideBarDrawer from "../common/SideBarDrawer";
 import UserProfileButton from "./UserProfileButton";
 
 // Client Header
 export default function GeneralHeader() {
   const { details: user } = useSelector((state) => state.personalDetails);
   const { logout } = useContext(authContext);
-  const [isDarkMode, setIsDarkMode] = useState(
-    localStorage.getItem("chakra-ui-color-mode") === "dark" ? true : false,
-  );
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isDrawerVisible = useBreakpointValue({ base: true, lg: false });
+  const location = useLocation();
 
   // Logout execute function
   const { execute: executeLogout } = logout;
-
-  // Toggle Dark Mode
-  const toggleDarkMode = () => {
-    const root = document.documentElement;
-    root.classList.add("disable-transitions");
-    const currentTheme = root.getAttribute("data-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    root.setAttribute("data-theme", newTheme);
-    //
-    setIsDarkMode((el) => !el);
-    toggleColorMode();
-    setTimeout(() => {
-      root.classList.remove("disable-transitions");
-    }, 0);
-  };
 
   // Logout Function
   const handleLogout = async () => {
@@ -58,87 +35,56 @@ export default function GeneralHeader() {
     }
   };
 
+  const pathArray = location.pathname.split("/").filter((segment) => segment);
+
+  const breadcrumb = pathArray.map((segment) => {
+    if (segment.includes("-")) {
+      return segment
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+    }
+    return segment.charAt(0).toUpperCase() + segment.slice(1);
+  });
+
   return (
     <>
-      <header className="flex min-h-20 items-center justify-between gap-10 border-b-[1px] border-borderColor bg-backgroundSecondary px-2 text-textPrimary md:px-4">
+      <header className="flex min-h-20 select-none items-center justify-between gap-10 border-b-[1px] border-borderColor bg-backgroundSecondary px-2 text-textPrimary md:px-4">
         {/*  */}
         <div className="flex items-center gap-4">
           <HiMenuAlt2
             onClick={onOpen}
             className="ml-1 cursor-pointer text-2xl lg:hidden"
           />
-          <div className="flex w-[20%] text-lg font-semibold">Dashboard</div>
+          <div className="flex w-fit pl-1 text-lg font-semibold">
+            {breadcrumb.length > 0 ? breadcrumb[0] : "Dashboard"}
+          </div>
         </div>
 
         <div className="flex items-center gap-2 md:gap-3">
           {/* Support button*/}
-          <div className="hidden md:block">
-            <Tooltip sx={{ fontSize: "14px" }} label="Support" fontSize="md">
-              <Link
-                to="/support"
-                className="right-4 flex size-9 cursor-pointer items-center justify-center rounded-full border border-borderColor bg-background text-textPrimary transition-colors duration-200 ease-in-out"
-              >
-                <BiSupport className="text-md" />
-              </Link>
-            </Tooltip>
-          </div>
+          <Support />
 
           {/* Dark Mode ON/OFF */}
-          <Tooltip
-            sx={{ fontSize: "14px" }}
-            label={colorMode === "dark" ? "Light Mode" : "Dark Mode"}
-            fontSize="md"
-          >
-            <div
-              onClick={toggleDarkMode}
-              className="right-4 flex size-9 cursor-pointer items-center justify-center rounded-full border border-borderColor bg-background text-textPrimary transition-colors duration-200 ease-in-out"
-            >
-              {isDarkMode ? (
-                <CiLight className="text-xl" />
-              ) : (
-                <CiDark className="text-xl" />
-              )}
-            </div>
-          </Tooltip>
+          <LightAndDarkMode />
 
           {/* Notifications */}
-          <Tooltip
-            sx={{ fontSize: "14px" }}
-            label="Notifications"
-            fontSize="md"
-          >
-            <Link
-              to="/notifications"
-              className="relative flex size-9 cursor-pointer items-center justify-center rounded-full border border-borderColor bg-background transition-colors duration-200 ease-in-out"
-            >
-              <IoNotificationsOutline className="text-lg text-textPrimary" />
-              <div className="absolute right-[0px] top-[-0px] z-20 size-2 rounded-full bg-primaryDark" />
-            </Link>
-          </Tooltip>
+          {user.plan === "pro" || user.plan === "premium" ? (
+            <NotificationButton />
+          ) : null}
 
           {/* User Profile */}
           <UserProfileButton user={user} handleLogout={handleLogout} />
         </div>
       </header>
+
       {/* Side bar mobile menu */}
-
       {isDrawerVisible && (
-        <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton />
-
-            <img
-              src={`${colorMode === "dark" ? "/logo-white.png" : "/logo-black.png"}`}
-              alt="Logo"
-              className="mx-4 my-3 h-auto w-[90px]"
-            />
-
-            <DrawerBody>
-              <ClientMenu onClose={onClose} />
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
+        <SideBarDrawer
+          isOpen={isOpen}
+          onClose={onClose}
+          colorMode={colorMode}
+        />
       )}
     </>
   );

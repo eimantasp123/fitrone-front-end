@@ -59,7 +59,7 @@ export default function ChangeProfileImage() {
   };
 
   return (
-    <div className="flex select-none items-center gap-8 px-2 py-5">
+    <div className="flex select-none flex-col items-center gap-8 px-2 py-5 sm:flex-row">
       <img
         src={details.profileImage}
         alt="Profile"

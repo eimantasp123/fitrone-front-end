@@ -75,8 +75,8 @@ export default function UserProfileButton({ user, handleLogout }) {
           </MenuGroup>
           <MenuDivider />
           <MenuGroup title="Help">
-            <MenuItem icon={<FaQuestion />} onClick={() => navigate("/help")}>
-              Faq
+            <MenuItem icon={<FaQuestion />} onClick={() => navigate("/faq")}>
+              FAQ
             </MenuItem>
           </MenuGroup>
         </MenuList>

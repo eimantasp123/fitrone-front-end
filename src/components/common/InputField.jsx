@@ -12,6 +12,7 @@ const InputField = ({
   showPasswordToggle = false,
   togglePasswordVisibility = null,
   icon: Icon = null,
+  required = false,
 }) => {
   const {
     register,
@@ -32,10 +33,8 @@ const InputField = ({
     }
 
     if (errors[name]) {
-      // Error state: red border
-      classNames += ` border-red-500 focus:border-red-500 bg-backgroundSecondary`;
+      classNames += ` border-red-500 placeholder:text-stone-500 focus:border-red-500 bg-border `;
     } else {
-      // No error state
       if (colorMode === "light") {
         classNames += ` bg-transparent border-[#b6b6b6] placeholder-stone-500 focus:border-textPrimary`;
       } else {
@@ -58,6 +57,7 @@ const InputField = ({
               htmlFor={name}
             >
               {label}
+              <span className="text-red-600"> {required && "*"}</span>
             </label>
           </div>
         )}
@@ -124,6 +124,7 @@ InputField.propTypes = {
   icon: PropTypes.elementType,
   onChange: PropTypes.func,
   value: PropTypes.string,
+  required: PropTypes.bool,
 };
 
 export default InputField;

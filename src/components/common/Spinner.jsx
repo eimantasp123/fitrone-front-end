@@ -1,14 +1,7 @@
 import { Spinner as ChakraSpinner } from "@chakra-ui/react";
 
 const Spinner = () => (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",
-    }}
-  >
+  <div className="flex h-screen w-full items-center justify-center bg-background">
     <ChakraSpinner size="xl" />
   </div>
 );

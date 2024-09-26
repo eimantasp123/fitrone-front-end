@@ -13,6 +13,9 @@ const useCustomToast = () => {
   const customToast = (options) => {
     const { status, title, description } = options;
 
+    // Close any existing toasts
+    toast.closeAll();
+
     toast({
       position: "bottom",
       duration: 4000,
@@ -27,9 +30,9 @@ const useCustomToast = () => {
           key={id}
           className={`${getToastStyle(status).bg} ${getToastStyle(status).border} ${
             getToastStyle(status).textColor
-          } flex w-full gap-2 rounded-r-lg border-l-2 bg-white px-2 py-3 shadow-custom-light`}
+          } flex w-full gap-3 rounded-lg border-[1px] p-3 shadow-custom-light`}
         >
-          <div className="ml-2 flex w-[10%] items-center text-lg">
+          <div className="ml-2 flex w-[10%] items-center text-xl">
             {getToastStyle(status).icon}
           </div>
           <div className="flex w-[80%] flex-col">
@@ -37,7 +40,7 @@ const useCustomToast = () => {
             {description && <p>{description}</p>}
           </div>
           <div
-            className="flex w-[10%] cursor-pointer justify-end"
+            className="flex w-[10%] cursor-pointer justify-end text-xl"
             onClick={onClose}
           >
             <MdClose />
@@ -54,31 +57,31 @@ const getToastStyle = (status) => {
   switch (status) {
     case "success":
       return {
-        bg: "bg-white",
-        border: "border-green-500",
+        bg: "bg-[#f0faf0]",
+        border: "border-green-500/40",
         textColor: "text-black",
         icon: <IoCheckmarkCircle className="text-green-500" />,
       };
     case "error":
       return {
-        bg: "bg-white",
-        border: "border-red-500",
+        bg: "bg-[#fceded]",
+        border: "border-red-500/40",
         textColor: "text-black",
         icon: <IoCloseCircle className="text-red-500" />,
       };
     case "warning":
       return {
-        bg: "bg-white",
-        border: "border-yellow-500",
+        bg: "bg-[#FDF0E6]",
+        border: "border-yellow-500/40",
         textColor: "text-black",
         icon: <IoWarning className="text-yellow-500" />,
       };
     case "info":
       return {
-        bg: "bg-white",
-        border: "border-blue-500",
+        bg: "bg-[#eaeff8]",
+        border: "border-blue-500/40",
         textColor: "text-black",
-        icon: <IoInformationCircle className="text-blue-500" />,
+        icon: <IoInformationCircle className="text-blue-400" />,
       };
     default:
       return {

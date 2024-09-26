@@ -8,7 +8,7 @@ import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsS
 import axiosInstance from "../utils/axiosInterceptors";
 
 const AuthContext = createContext();
-const MOCK_API = "http://localhost:5000";
+const MOCK_API = import.meta.env.VITE_API_URL;
 const API = axios.create({
   baseURL: MOCK_API,
   withCredentials: true,
@@ -192,6 +192,7 @@ export const AuthProvider = ({ children }) => {
         resendCode,
         handleGoogleLogin,
         handleFacebookLogin,
+        clearMessages,
         setIsAuthenticated,
         handleSignUp: () => {
           navigate("/register");

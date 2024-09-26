@@ -92,6 +92,7 @@ const DeleteAccount = () => {
       <Modal
         isOpen={isOpen}
         onClose={closeModal}
+        isCentered
         size={{ base: "sm", md: "lg" }}
       >
         <ModalOverlay />

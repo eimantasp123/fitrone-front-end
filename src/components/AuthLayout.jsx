@@ -32,8 +32,9 @@ export default function AuthLayout() {
   const GOOGLE_CLIENT_ID =
     "249438603447-gat0thlv1mho7oat13eohuo1ja1ggbqc.apps.googleusercontent.com";
   return (
-    <div className="flex h-svh select-none">
-      <div className="hidden h-full w-1/2 justify-between border-r-[1px] border-borderColor bg-backgroundSecondary p-10 lg:flex lg:flex-col">
+    <div className="flex h-screen select-none">
+      {/* Left side on Authlayout page */}
+      <div className="hidden min-h-fit w-1/2 justify-between border-r-[1px] border-borderColor bg-backgroundSecondary p-10 lg:flex lg:flex-col">
         <img
           src={`${isLightMode ? "/logo-black.png" : "/logo-white.png"}`}
           alt="logo"
@@ -49,24 +50,24 @@ export default function AuthLayout() {
           <p className="font-semibold text-textSecondary">- Fitrone Team</p>
         </div>
       </div>
-      <div className="flex w-full flex-col items-center overflow-y-auto bg-background p-4 lg:w-1/2">
-        {/* Header */}
-        <div className="mb-14 flex w-full items-center justify-between md:mb-20 lg:justify-end">
-          <img
-            src={`${isLightMode ? "/logo-black.png" : "/logo-white.png"}`}
-            alt="logo"
-            className="w-[110px] lg:hidden"
-          />
-          <div
-            onClick={toggleLightMode}
-            className="right-4 flex size-10 cursor-pointer items-center justify-center rounded-full border border-borderColor text-textPrimary transition-colors duration-200 ease-in-out hover:bg-backgroundSecondary"
-          >
-            {isLightMode ? (
-              <CiLight className="text-xl" />
-            ) : (
-              <CiDark className="text-xl" />
-            )}
-          </div>
+      <div className="relative flex w-full flex-col items-center justify-center overflow-y-auto bg-background lg:w-1/2">
+        {/* Logo on mobile screen */}
+        <img
+          src={`${isLightMode ? "/logo-black.png" : "/logo-white.png"}`}
+          alt="logo"
+          className="absolute left-5 top-5 w-[110px] lg:hidden"
+        />
+
+        {/* Light mode button */}
+        <div
+          onClick={toggleLightMode}
+          className="absolute right-5 top-5 flex size-10 cursor-pointer items-center justify-center rounded-full border border-borderColor text-textPrimary transition-colors duration-200 ease-in-out hover:bg-backgroundSecondary"
+        >
+          {isLightMode ? (
+            <CiLight className="text-xl" />
+          ) : (
+            <CiDark className="text-xl" />
+          )}
         </div>
 
         {/* Outlet */}

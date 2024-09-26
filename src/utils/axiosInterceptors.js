@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const MOCK_API = "http://localhost:5000";
+const MOCK_API = import.meta.env.VITE_API_URL;
 
 const axiosInstance = axios.create({
   baseURL: MOCK_API,

@@ -65,7 +65,7 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
       isOpen={isOpen}
       onClose={handleModalClose}
       isCentered
-      size={{ base: "sm", md: "lg" }}
+      size={{ base: "sm", md: "xl" }}
     >
       <ModalOverlay />
       <ModalContent p={6} sx={{ borderRadius: "0.75rem" }}>

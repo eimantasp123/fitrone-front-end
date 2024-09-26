@@ -141,3 +141,14 @@ export const feedbackSchema = yup.object().shape({
     .required("Comment is required")
     .max(400, "Comment must be at most 500 characters long"),
 });
+
+export const supportSchema = yup.object().shape({
+  subject: yup
+    .string()
+    .required("Subject is required")
+    .max(200, "Subject must be at most 50 characters long"),
+  message: yup
+    .string()
+    .required("Message is required")
+    .max(500, "Message must be at most 500 characters long"),
+});

@@ -112,6 +112,9 @@ const customTheme = extendTheme({
               ? "dark.textPrimary"
               : "light.textPrimary", // Text color for Drawer
         },
+        closeButton: {
+          borderRadius: "full", // Fully rounded close button
+        },
       }),
     },
   },

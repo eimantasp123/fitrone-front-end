@@ -12,7 +12,6 @@ const useAsync = (asyncFunction) => {
       setLoading(true);
       setError(null);
       abortControllerRef.current = new AbortController();
-      console.log("sending..");
       try {
         const response = await asyncFunction(
           ...args,

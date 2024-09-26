@@ -2,6 +2,7 @@ import AdminDietPlans from "./AdminDietPlans";
 import TrainerDietPlans from "./TrainerDietPlans";
 import ClientDietPlans from "./ClientDietPlans";
 import { useSelector } from "react-redux";
+import { Helmet } from "react-helmet";
 
 const MealPlans = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
@@ -10,9 +11,12 @@ const MealPlans = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Meal Plans</title>
+      </Helmet>
       {user.role === "admin" && <AdminDietPlans />}
       {user.role === "trainer" && <TrainerDietPlans />}
-      {user.role === "client" && <ClientDietPlans />}
+      {user.role === "client" && <ClientDietPlans user={user} />}
     </>
   );
 };
