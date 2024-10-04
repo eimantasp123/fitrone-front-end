@@ -6,8 +6,6 @@ import { FaBurn, FaTachometerAlt } from "react-icons/fa";
 import { GoGoal } from "react-icons/go";
 import { Outlet } from "react-router-dom";
 import PrimaryButton from "../../components/common/PrimaryButton";
-import PrimaryButtonWithLink from "../../components/common/PrimaryButtonWithLink";
-import TextButton from "../../components/common/TextButton";
 import DeviceButton from "../../components/common/DeviceButton";
 
 export default function DietPlanDashboard({ details }) {
