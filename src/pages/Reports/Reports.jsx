@@ -1,26 +1,26 @@
 import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
 import LockPage from "../../components/common/LockPage";
-import GeneralDevicesController from "./GeneralDevicesController";
+import GeneralAdvanceReports from "./GeneralAdvanceReports";
 
-export default function Devices() {
+export default function Reports() {
   const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
-  const renderDevicesPage = () => {
+  const renderReportsPage = () => {
     if (["base", "basic", "pro"].includes(user.plan)) {
       return <LockPage />;
     } else {
-      return <GeneralDevicesController />;
+      return <GeneralAdvanceReports />;
     }
   };
 
   return (
     <>
       <Helmet>
-        <title>Devices</title>
+        <title>Reports</title>
       </Helmet>
-      {renderDevicesPage()}
+      {renderReportsPage()}
     </>
   );
 }

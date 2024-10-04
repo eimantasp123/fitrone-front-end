@@ -3,7 +3,7 @@ import {
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -13,6 +13,8 @@ import Support from "../Support";
 import LightAndDarkMode from "../common/LightAndDarkMode";
 import SideBarDrawer from "../common/SideBarDrawer";
 import UserProfileButton from "./UserProfileButton";
+import TopHeaderBanner from "./TopHeaderBanner";
+// import { CiLight, CiDark } from "react-icons/ci";
 
 // Client Header
 export default function GeneralHeader() {
@@ -22,6 +24,7 @@ export default function GeneralHeader() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isDrawerVisible = useBreakpointValue({ base: true, lg: false });
   const location = useLocation();
+  // const [darkMode, setDarkMode] = useState(false);
 
   // Logout execute function
   const { execute: executeLogout } = logout;
@@ -49,19 +52,37 @@ export default function GeneralHeader() {
 
   return (
     <>
-      <header className="flex min-h-20 select-none items-center justify-between gap-10 border-b-[1px] border-borderColor bg-backgroundSecondary px-2 text-textPrimary md:px-4">
+      <TopHeaderBanner user={user} />
+      <header className="flex min-h-[65px] select-none items-center justify-between gap-10 border-b-[1px] border-borderColor bg-backgroundSecondary px-2 text-textPrimary md:px-4 lg:min-h-20">
         {/*  */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 lg:gap-4">
           <HiMenuAlt2
             onClick={onOpen}
             className="ml-1 cursor-pointer text-2xl lg:hidden"
           />
-          <div className="flex w-fit pl-1 text-lg font-semibold">
+          <div className="flex w-fit text-nowrap pl-1 text-[17px] font-semibold lg:text-lg">
             {breadcrumb.length > 0 ? breadcrumb[0] : "Dashboard"}
           </div>
         </div>
 
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-1 md:gap-3">
+          {/* <div
+            onClick={() => setDarkMode((prev) => !prev)}
+            className="border-border relative flex h-[35px] w-[65px] cursor-pointer items-center justify-between rounded-full border bg-background px-[10px] shadow-custom-light4"
+          >
+            <CiLight className="text-textPrimary" />
+            <CiDark className="text-textPrimary" />
+
+            <div
+              className={`absolute flex items-center justify-center border border-borderColor shadow-custom-light2 ${darkMode ? "left-[33px] rotate-0" : "left-[4px] -rotate-180"} size-[27px] rounded-full border bg-backgroundSecondary transition-all duration-500 ease-in-out`}
+            >
+              {darkMode ? (
+                <CiDark className="text-textPrimary" />
+              ) : (
+                <CiLight className="text-textPrimary" />
+              )}
+            </div>
+          </div> */}
           {/* Support button*/}
           <Support />
 

@@ -126,6 +126,9 @@ const personalDetailsSlice = createSlice({
     setUserDetails: (state, action) => {
       state.details = action.payload;
     },
+    updatePersonalPlan: (state, action) => {
+      state.details.plan = action.payload.plan;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -216,5 +219,6 @@ const personalDetailsSlice = createSlice({
       });
   },
 });
-export const { setUserDetails } = personalDetailsSlice.actions;
+export const { setUserDetails, updatePersonalPlan } =
+  personalDetailsSlice.actions;
 export default personalDetailsSlice.reducer;

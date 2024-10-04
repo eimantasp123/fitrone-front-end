@@ -1,21 +1,26 @@
 import { useColorMode } from "@chakra-ui/react";
-import { GoCheckCircle } from "react-icons/go";
-import { SlStar } from "react-icons/sl";
 import PropTypes from "prop-types";
+import { SlStar } from "react-icons/sl";
 
-export default function PlanCard({ plan, selectedPlan, onSelect }) {
+export default function PlanCard({
+  plan,
+  selectedPlan,
+  onSelect,
+  visible,
+  hasUsedFreeTrial,
+}) {
   const { colorMode } = useColorMode();
 
   return (
     <div
-      className={`flex flex-col rounded-2xl border p-7 shadow-custom-dark2 transition-all duration-300 md:flex-row md:items-center md:gap-10 md:px-10 md:py-10 xl:flex-col xl:items-start xl:gap-0 ${
+      className={`relative flex h-full flex-col rounded-2xl border p-5 shadow-custom-dark2 transition-all duration-300 md:flex-row md:items-center md:gap-10 md:px-10 md:py-10 lg:p-7 xl:flex-col xl:items-start xl:gap-0 ${
         selectedPlan === plan.name
           ? `${colorMode === "dark" ? "border-borderColor bg-sidebarPrimary text-white" : "border-borderPrimary bg-buttonPrimaryDark text-white"}`
-          : `${colorMode === "dark" ? "border-borderColor bg-[#2c2c2c]" : "bg-background"}`
-      }`}
+          : `${colorMode === "dark" ? "border-borderColor bg-[#2c2c2c]" : "bg-background"} `
+      } ${selectedPlan === plan.name ? "border-primaryDark" : ""} `}
     >
       {/* Icon */}
-      <div className="md:w-[40%] xl:w-full">
+      <div className="w-full">
         <div
           className={`flex size-[40px] ${
             selectedPlan === plan.name
@@ -32,7 +37,7 @@ export default function PlanCard({ plan, selectedPlan, onSelect }) {
             {plan.name.charAt(0).toUpperCase() + plan.name.slice(1)}
           </h4>
           <p
-            className={`mb-4 mt-2 leading-snug ${
+            className={`mb-4 mt-2 text-sm leading-snug lg:text-base ${
               selectedPlan === plan.name
                 ? `${colorMode === "dark" ? "text-[#b6b6b6]" : "text-[#c7c7c7]"}`
                 : `${colorMode === "dark" ? "text-[#cfcfcf]" : "text-[#494949]"}`
@@ -54,74 +59,38 @@ export default function PlanCard({ plan, selectedPlan, onSelect }) {
           </span>
         </div>
         {/* Button */}
-        <button
-          className={`mt-5 w-full border border-borderColor ${
-            selectedPlan === plan.name
-              ? "border-primary bg-primary text-black hover:bg-primaryDark"
-              : `${
-                  colorMode === "dark"
-                    ? "border-backgroundSecondary bg-backgroundSecondary text-white hover:bg-background"
-                    : "border-buttonPrimaryDark bg-buttonPrimaryDark text-white hover:bg-buttonPrimaryDarkHover"
-                }`
-          } rounded-full py-2 transition-all duration-300 ease-in-out`}
-          onClick={() => onSelect(plan.name)}
-        >
-          {selectedPlan === "base"
-            ? "Select Plan"
-            : selectedPlan === plan.name
-              ? "Selected Plan"
-              : "Upgrade"}
-        </button>
-
-        {/* Free trial text */}
-        {plan.freeTrialEnd && (
-          <p className="my-2 text-center text-sm">
-            Free Trial End: {plan.freeTrialEnd}
-          </p>
+        {visible && (
+          <button
+            disabled={selectedPlan === plan.name}
+            className={`mt-5 w-full cursor-pointer border border-borderColor ${
+              selectedPlan === plan.name
+                ? "border-primary bg-primary text-black"
+                : `${
+                    colorMode === "dark"
+                      ? "border-backgroundSecondary bg-backgroundSecondary text-white hover:bg-background"
+                      : "border-buttonPrimaryDark bg-buttonPrimaryDark text-white hover:bg-buttonPrimaryDarkHover"
+                  }`
+            } rounded-full py-2 transition-all duration-300 ease-in-out`}
+            onClick={() => onSelect()}
+          >
+            {hasUsedFreeTrial ? "Select Plan" : "Start Free Trial"}
+          </button>
         )}
       </div>
 
-      {/* Line below button */}
-      <hr
-        className={`my-6 flex h-[1px] w-full border-none md:hidden xl:flex ${
-          selectedPlan === plan.name
-            ? `${colorMode === "dark" ? "bg-stone-500" : "bg-stone-600"}`
-            : `${colorMode === "dark" ? "bg-stone-600" : "bg-stone-300"}`
-        }`}
-      />
-      {/* List for */}
-      <div className="md:w-[60%] xl:w-full">
-        <h6 className="text-md mb-4 font-semibold">What you will get</h6>
-        <ul className="space-y-2">
-          {plan.features.map((feature, index) => (
-            <li key={index} className="flex items-center gap-3">
-              <GoCheckCircle
-                className={`${
-                  selectedPlan === plan.name
-                    ? `${colorMode === "dark" ? "text-primary" : "text-primary"}`
-                    : `${colorMode === "dark" ? "text-white" : "text-black"}`
-                } w-[10%]`}
-              />
-
-              <span
-                className={`w-[90%] leading-[22px] ${
-                  selectedPlan === plan.name
-                    ? `${colorMode === "dark" ? "text-[#b6b6b6]" : "text-[#c7c7c7]"}`
-                    : `${colorMode === "dark" ? "text-[#cfcfcf]" : "text-[#494949]"}`
-                }`}
-              >
-                {feature}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {selectedPlan === plan.name && (
+        <div className="absolute -top-5 left-1/2 -translate-x-1/2 text-nowrap rounded-full border border-primary bg-primary px-6 py-2 text-black">
+          Selected Plan
+        </div>
+      )}
     </div>
   );
 }
 
 PlanCard.propTypes = {
   plan: PropTypes.object.isRequired,
-  selectedPlan: PropTypes.string.isRequired,
+  selectedPlan: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  visible: PropTypes.bool,
+  hasUsedFreeTrial: PropTypes.bool,
 };

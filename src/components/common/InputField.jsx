@@ -23,7 +23,7 @@ const InputField = ({
   // Handle conditional classes for input styling
   const getInputClassNames = () => {
     // Base classes
-    let classNames = `w-full  text-textPrimary  border transition-colors duration-300 ease-in-out px-4 py-[12px] rounded-md leading-tight outline-none`;
+    let classNames = `w-full  text-textPrimary bg-background  border transition-colors duration-300 ease-in-out px-4 py-[12px] rounded-md leading-tight outline-none`;
 
     // Disabled state
     if (disabled) {

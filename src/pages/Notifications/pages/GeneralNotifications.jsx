@@ -143,7 +143,7 @@ export default function GeneralNotifications() {
           </div>
           <TextButton
             text="Mark all as read"
-            className="border-border border bg-background hover:bg-backgroundSecondary xl:w-[17%] 2xl:w-[13%] 3xl:w-[12%]"
+            className="border border-borderPrimary xl:w-[17%] 2xl:w-[13%] 3xl:w-[12%]"
           />
         </div>
         <div className="my-8 flex h-full w-full flex-col gap-3 overflow-y-auto pr-5 scrollbar-thin scrollbar-track-backgroundSecondary scrollbar-thumb-neutral-400">

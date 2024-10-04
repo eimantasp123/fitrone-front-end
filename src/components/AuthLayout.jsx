@@ -32,9 +32,9 @@ export default function AuthLayout() {
   const GOOGLE_CLIENT_ID =
     "249438603447-gat0thlv1mho7oat13eohuo1ja1ggbqc.apps.googleusercontent.com";
   return (
-    <div className="flex h-screen select-none">
+    <div className="flex h-screen min-h-[700px] select-none">
       {/* Left side on Authlayout page */}
-      <div className="hidden min-h-fit w-1/2 justify-between border-r-[1px] border-borderColor bg-backgroundSecondary p-10 lg:flex lg:flex-col">
+      <div className="hidden w-1/2 justify-between border-r-[1px] border-borderColor bg-backgroundSecondary p-10 lg:flex lg:flex-col">
         <img
           src={`${isLightMode ? "/logo-black.png" : "/logo-white.png"}`}
           alt="logo"
@@ -55,13 +55,13 @@ export default function AuthLayout() {
         <img
           src={`${isLightMode ? "/logo-black.png" : "/logo-white.png"}`}
           alt="logo"
-          className="absolute left-5 top-5 w-[110px] lg:hidden"
+          className="absolute left-3 top-3 w-[100px] lg:hidden"
         />
 
         {/* Light mode button */}
         <div
           onClick={toggleLightMode}
-          className="absolute right-5 top-5 flex size-10 cursor-pointer items-center justify-center rounded-full border border-borderColor text-textPrimary transition-colors duration-200 ease-in-out hover:bg-backgroundSecondary"
+          className="absolute right-3 top-3 flex size-9 cursor-pointer items-center justify-center rounded-full border border-borderColor text-textPrimary transition-colors duration-200 ease-in-out hover:bg-backgroundSecondary"
         >
           {isLightMode ? (
             <CiLight className="text-xl" />

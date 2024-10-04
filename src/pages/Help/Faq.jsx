@@ -80,7 +80,7 @@ export default function Faq() {
       <Helmet>
         <title> Frequently Asked Questions</title>
       </Helmet>
-      <div className="flex w-full overflow-y-auto p-6 scrollbar-thin md:px-14 md:py-10">
+      <div className="flex w-full overflow-y-auto p-4 scrollbar-thin md:px-14 md:py-10">
         <div className="container mx-auto mb-4 h-full w-full max-w-[1400px] md:mb-0">
           <section id="faq" className="flex select-none flex-col">
             <div className="flex flex-col items-center justify-center gap-5">
@@ -145,7 +145,9 @@ const Accordion = ({ faq, isOpen, onToggle }) => {
         className="flex cursor-pointer items-center justify-between"
         onClick={onToggle}
       >
-        <h3 className={`w-[80%] text-lg font-medium text-textPrimary`}>
+        <h3
+          className={`w-[80%] text-base font-normal text-textPrimary lg:text-lg`}
+        >
           {faq.question}
         </h3>
         <HiPlus

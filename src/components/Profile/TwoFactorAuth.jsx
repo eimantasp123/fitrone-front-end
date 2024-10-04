@@ -223,7 +223,7 @@ const TwoFactorAuth = () => {
                         )}
                       </button>
                       <button
-                        className="bg-secondary text-text1 mt-2 cursor-pointer rounded-full px-6 py-2 text-sm"
+                        className="bg-secondary text-text1 mt-2 cursor-pointer rounded-full py-2 pl-3 text-sm lg:px-6"
                         type="button"
                         onClick={handelDisabledEditMode}
                       >

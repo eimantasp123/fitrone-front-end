@@ -12,7 +12,7 @@ const MealPlans = () => {
   return (
     <>
       <Helmet>
-        <title>Meal Plans</title>
+        <title>Meal Plan</title>
       </Helmet>
       {user.role === "admin" && <AdminDietPlans />}
       {user.role === "trainer" && <TrainerDietPlans />}

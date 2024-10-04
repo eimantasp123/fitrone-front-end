@@ -24,7 +24,7 @@ const FormButton = ({
 
 FormButton.propTypes = {
   isFormValid: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   onClick: PropTypes.func,

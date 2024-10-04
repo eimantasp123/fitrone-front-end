@@ -15,7 +15,7 @@ export default function ErrorPageForLayout({
 
   return (
     <>
-      <div className="relative flex h-full w-full flex-col items-center justify-center rounded-2xl border-[1.5px] border-dashed border-red-500 bg-background p-6">
+      <div className="relative flex h-full min-h-[500px] w-full flex-col items-center justify-center rounded-2xl border-[1.5px] border-dashed border-red-500 bg-background p-6">
         <h1 className="mb-6 text-2xl font-semibold text-textPrimary md:text-3xl">
           {title}
         </h1>

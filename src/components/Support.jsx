@@ -24,7 +24,7 @@ export default function Support() {
           onMouseEnter={() => setIsTooltipOpen(true)}
           onMouseLeave={() => setIsTooltipOpen(false)}
           onClick={handleOpenModal}
-          className="border-border right-4 flex size-9 cursor-pointer items-center justify-center rounded-full border bg-background text-textPrimary transition-colors duration-200 ease-in-out"
+          className="border-border right-4 flex size-[35px] cursor-pointer items-center justify-center rounded-full border bg-background text-textPrimary transition-colors duration-200 ease-in-out"
         >
           <BiSupport className="text-md" />
         </button>

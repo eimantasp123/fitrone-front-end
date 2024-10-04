@@ -4,7 +4,6 @@ import TwoFactorAuth from "../../components/Profile/TwoFactorAuth";
 import { Navigate, Route, Routes } from "react-router-dom";
 import ProfileSettingsSidebar from "./ProfileSettingsSidebar";
 import DeleteAccount from "../../components/Profile/DeleteAccount";
-import PaymentMethodsWrapper from "../../components/Profile/PaymentMethods";
 
 const ClientProfileSettings = () => {
   return (
@@ -21,7 +20,6 @@ const ClientProfileSettings = () => {
             <Route path="edit" element={<EditProfile />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route path="two-factor-auth" element={<TwoFactorAuth />} />
-            <Route path="payment-methods" element={<PaymentMethodsWrapper />} />
             <Route path="delete-account" element={<DeleteAccount />} />
           </Routes>
         </div>

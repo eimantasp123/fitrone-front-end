@@ -1,6 +1,6 @@
 import { useColorMode } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 const SelectInputField = ({
@@ -13,6 +13,7 @@ const SelectInputField = ({
 }) => {
   const {
     register,
+    getValues,
     formState: { errors, isSubmitted },
     setError,
     clearErrors,
@@ -34,9 +35,16 @@ const SelectInputField = ({
     }
   };
 
+  useEffect(() => {
+    const currentValue = getValues(name);
+    if (currentValue !== undefined && currentValue !== "") {
+      setIsPlaceholderSelected(false);
+    }
+  }, [getValues, name]);
+
   // Handle conditional classes for select styling
   const getSelectClassNames = () => {
-    let classNames = `w-full  border transition-colors duration-300 ease-in-out px-4 py-[12px] rounded-md leading-tight outline-none appearance-none pr-8`;
+    let classNames = `w-full  border  bg-background transition-colors duration-300 ease-out  px-4 py-[12px] rounded-md leading-tight outline-none appearance-none pr-8`;
 
     // Apply placeholder color manually
     if (isPlaceholderSelected) {

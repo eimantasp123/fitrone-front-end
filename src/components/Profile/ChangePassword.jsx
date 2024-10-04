@@ -98,7 +98,7 @@ const ChangePassword = () => {
                   setShowNewPassword(!showNewPassword)
                 }
               />
-              <div className="mb-4">
+              <div className="mb-2 lg:mb-4">
                 <PasswordStrengthIndicator
                   password={methods.watch("newPassword")}
                 />

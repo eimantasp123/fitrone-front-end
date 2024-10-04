@@ -6,7 +6,7 @@ const ClientMessages = ({ user }) => {
   const renderPage = () => {
     const { plan } = user;
 
-    if (plan === "base" || plan === "basic" || plan === "pro") {
+    if (["base", "basic", "pro"].includes(plan)) {
       return <LockPage />;
     } else if (plan === "premium") {
       return <GeneralMessagesPage />;

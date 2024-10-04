@@ -101,9 +101,9 @@ const NotificationButton = () => {
       <Tooltip sx={{ fontSize: "14px" }} label="Notifications" fontSize="md">
         <div
           onClick={toggleDropdown}
-          className="border-border relative flex size-9 cursor-pointer items-center justify-center rounded-full border bg-background transition-colors duration-200 ease-in-out"
+          className="border-border relative flex size-[35px] cursor-pointer items-center justify-center rounded-full border bg-background transition-colors duration-200 ease-in-out"
         >
-          <IoNotificationsOutline className="text-lg text-textPrimary" />
+          <IoNotificationsOutline className="text-md text-textPrimary" />
           {notifications.length > 0 ? (
             <div className="absolute right-[0px] top-[-0px] z-20 flex size-2 items-center justify-center rounded-full bg-primaryDark">
               <div className="z-40 size-2 animate-ping rounded-full bg-primary" />
@@ -115,17 +115,20 @@ const NotificationButton = () => {
       </Tooltip>
 
       {open && (
-        <div className="absolute right-[-80px] z-50 mt-2 w-[350px] rounded-2xl border bg-background shadow-lg sm:right-0 md:w-[450px]">
+        <div className="absolute right-[-40px] z-50 mt-2 w-[300px] rounded-2xl border bg-background shadow-lg sm:right-[-10px] sm:w-[450px] md:-right-2">
           <div className="p-5">
             <div className="flex items-center justify-between">
               <h4 className="font-semibold">Notifications</h4>
               {notifications.length > 0 ? (
-                <TextButton text="Mark all as read" />
+                <TextButton
+                  text="Mark all as read"
+                  className="bg-transparent px-0 hover:bg-transparent hover:text-textSecondary"
+                />
               ) : (
                 ""
               )}
             </div>
-            <ul className="mt-4 max-h-[500px] space-y-2 overflow-y-auto pr-3 scrollbar-thin scrollbar-track-backgroundSecondary scrollbar-thumb-neutral-400">
+            <ul className="mt-4 max-h-[500px] space-y-2 overflow-y-auto scrollbar-thin scrollbar-track-backgroundSecondary scrollbar-thumb-neutral-400">
               {notifications.length > 0 ? (
                 notifications.map((notification) => (
                   <NotificationCard

@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
-const schema = yup.object().shape({
-  // Basic Information
+// Personal Information
+export const personalInfoSchema = yup.object().shape({
   age: yup
     .number()
     .transform((value, originalValue) =>
@@ -33,8 +33,10 @@ const schema = yup.object().shape({
     .positive("Weight must be a positive number")
     .integer("Weight must be a whole number")
     .max(400, "Weight must be less than or equal to 400 kg"),
+});
 
-  // Health Goals
+// Health Goals & Lifestyle
+export const goalsAndLifestyleSchema = yup.object().shape({
   fitnessGoal: yup.string().required("Primary fitness goal is required"),
   weightGoals: yup
     .number()
@@ -43,31 +45,34 @@ const schema = yup.object().shape({
     )
     .nullable()
     .max(400, "Weight goals must be less than or equal to 400 kg"),
+  physicalActivityLevel: yup.string().required("Activity level is required"),
+});
 
-  // Dietary Preferences & Restrictions
+// Dietary Preferences & Restrictions
+export const dietaryPreferencesSchema = yup.object().shape({
   dietaryPreferences: yup.string().required("Dietary preferences are required"),
-  dietaryRestrictions: yup
-    .string()
-    .required("Dietary restrictions are required"),
+  dietaryRestrictions: yup.string(),
   foodAllergies: yup
     .string()
-    .required("Food allergies are required")
     .max(300, "Food allergies must be less than or equal to 300 characters"),
+});
 
-  // Meal Preferences
+// Meal Plan Preferences
+export const mealPlanPreferencesSchema = yup.object().shape({
   mealsPerDay: yup.string().required("Meals per day preference is required"),
   snacksPerDay: yup.string().required("Snacks per day preference is required"),
-  portionSize: yup.string().required("Portion size preference is required"),
-
-  // Lifestyle Information
-  physicalActivityLevel: yup.string().required("Activity level is required"),
-  occupation: yup
+  favoriteFoods: yup
     .string()
     .nullable()
-    .required("Occupation is required")
-    .max(300, "Occupation must be less than or equal to 300 characters"),
+    .max(300, "Favorite foods must be less than or equal to 300 characters"),
+  foodsToAvoid: yup
+    .string()
+    .nullable()
+    .max(300, "Foods to avoid must be less than or equal to 300 characters"),
+});
 
-  // Health Information
+// Health Information
+export const healtInformationSchema = yup.object().shape({
   medicalConditions: yup
     .string()
     .nullable()
@@ -81,31 +86,10 @@ const schema = yup.object().shape({
     .max(300, "Medications must be less than or equal to 300 characters"),
   sleepPatterns: yup.string().required("Sleep patterns are required"),
   stressLevels: yup.string().required("Stress levels are required"),
+});
 
-  // Meal Preparation & Cooking
-  mealPrepAbility: yup
-    .string()
-    .required("Meal preparation ability is required"),
-  mealPrepTime: yup.string().required("Meal preparation time is required"),
-  foodBudget: yup
-    .number()
-    .transform((value, originalValue) =>
-      String(originalValue).trim() === "" ? null : value,
-    )
-    .nullable()
-    .max(50000, "Food budget must be less than or equal to 50000"),
-
-  // Personal Preferences
-  favoriteFoods: yup
-    .string()
-    .nullable()
-    .max(300, "Favorite foods must be less than or equal to 300 characters"),
-  foodsToAvoid: yup
-    .string()
-    .nullable()
-    .max(300, "Foods to avoid must be less than or equal to 300 characters"),
-
-  // Hydration & Alcohol Consumption
+//  Hydration & Lifestyle Choices
+export const hydrationAndLifestyleSchema = yup.object().shape({
   hydration: yup
     .number()
     .transform((value, originalValue) =>
@@ -117,14 +101,5 @@ const schema = yup.object().shape({
     .integer("Hydration must be a whole number")
     .max(200, "Hydration must be less than or equal to 200"),
   alcoholConsumption: yup.string().required("Alcohol consumption is required"),
-
-  // Smoking & Tobacco Use
   smoking: yup.string().required("Smoking status is required"),
-
-  // Repeat Meal Plan
-  mealRepetitionPreference: yup
-    .string()
-    .required("Repeat meals for week is required"),
 });
-
-export default schema;

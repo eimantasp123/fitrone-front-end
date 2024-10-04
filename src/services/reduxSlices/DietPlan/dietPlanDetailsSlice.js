@@ -3,17 +3,17 @@ import axiosInstance from "../../../utils/axiosInterceptors";
 
 const initialState = {
   details: {},
-  createDietPlanLoading: false,
+  createDietPlanBalanceLoading: false,
   loading: false,
   lastFetched: null,
 };
 
 // This function is used to create a diet plan
-export const createDietPlan = createAsyncThunk(
-  "dietPlanDetails/createDietPlan",
+export const createDietPlanBalance = createAsyncThunk(
+  "dietPlanDetails/createDietPlanBalance",
   async (details, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post("/meal-plan", details);
+      const response = await axiosInstance.post("/meal-plan/balance", details);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -48,17 +48,16 @@ const dietPlanDetailsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createDietPlan.pending, (state) => {
-        state.createDietPlanLoading = true;
+      .addCase(createDietPlanBalance.pending, (state) => {
+        state.createDietPlanBalanceLoading = true;
       })
-      .addCase(createDietPlan.fulfilled, (state, action) => {
-        state.createDietPlanLoading = false;
-        console.log(action.payload.data.mealPlan);
-        state.details = action.payload.data.mealPlan;
+      .addCase(createDietPlanBalance.fulfilled, (state, action) => {
+        state.createDietPlanBalanceLoading = false;
+        state.details = action.payload.data;
         state.lastFetched = Date.now();
       })
-      .addCase(createDietPlan.rejected, (state, action) => {
-        state.createDietPlanLoading = false;
+      .addCase(createDietPlanBalance.rejected, (state, action) => {
+        state.createDietPlanBalanceLoading = false;
         state.error = action.payload;
       })
       .addCase(getDietPlanDetails.pending, (state) => {
@@ -66,8 +65,7 @@ const dietPlanDetailsSlice = createSlice({
       })
       .addCase(getDietPlanDetails.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload.data.mealPlan);
-        state.details = action.payload.data.mealPlan;
+        state.details = action.payload.data;
         state.lastFetched = Date.now();
       })
       .addCase(getDietPlanDetails.rejected, (state, action) => {

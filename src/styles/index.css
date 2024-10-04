@@ -78,3 +78,35 @@
 body {
   background-color: var(--color-background);
 }
+
+@media (max-width: 768px) {
+  table {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody,
+  tr {
+    display: block;
+    width: 100%;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}

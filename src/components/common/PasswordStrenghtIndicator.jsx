@@ -66,8 +66,8 @@ const PasswordStrengthIndicator = ({ password = "" }) => {
       </div>
       {/* Instructional text */}
       <p className="text-sm text-textSecondary">
-        Password must have at least 8 characters, uppercase and lowercase
-        letters, and symbols. Never reuse old passwords.
+        Password must have at least 8 characters, symbols, uppercase and
+        lowercase letters. Never reuse old passwords.
       </p>
     </div>
   );

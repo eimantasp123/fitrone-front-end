@@ -9,6 +9,7 @@ import ForgotPasswordForm from "../pages/ForgotPassword/ForgotPasswordForm";
 import ResetPasswordForm from "../pages/ForgotPassword/ResetPassword";
 import Faq from "../pages/Help/Faq";
 import LoginForm from "../pages/Login/LoginForm";
+import MealPlanFormForBalance from "../pages/MealPlans/MealPlanFormForBalance";
 import MealPlans from "../pages/MealPlans/MealPlans";
 import Conversation from "../pages/Messages/Conversation";
 import Messages from "../pages/Messages/Messages";
@@ -16,10 +17,11 @@ import Notifications from "../pages/Notifications/Notifications";
 import Progress from "../pages/Progress/Progress";
 import RegisterDone from "../pages/Register/RegisterDone";
 import RegisterForm from "../pages/Register/RegisterForm";
+import Reports from "../pages/Reports/Reports";
 import ManageSubscriptionPlan from "../pages/Subscription/ManageSubscriptionPlan";
 import VerifyEmaiil from "../pages/VerifyEmail/VerifyEmail";
 import { PrivateRoute, PublicRoute } from "./RouteWrappers";
-import MealPlanForm from "../pages/MealPlanForm/MealPlanForm";
+import CreateMealPlan from "../pages/MealPlans/CreateMealPlan";
 
 const AppRoutes = () => (
   <Routes>
@@ -38,10 +40,13 @@ const AppRoutes = () => (
         <Route index path="/" element={<Dashboard />} />
         <Route path="/dashboard" element={<Navigate replace to="/" />} />
         <Route path="progress" element={<Progress />} />
-        <Route path="meal-plans" element={<MealPlans />} />
-        <Route path="meal-plan-form" element={<MealPlanForm />} />
+        <Route path="meal-plan" element={<MealPlans />}>
+          <Route path="create" element={<CreateMealPlan />} />
+        </Route>
+        <Route path="meal-plan-balance" element={<MealPlanFormForBalance />} />
         <Route path="devices" element={<Devices />} />
         <Route path="notifications" element={<Notifications />} />
+        <Route path="reports" element={<Reports />} />
         <Route path="subscription" element={<ManageSubscriptionPlan />} />
         <Route path="messages" element={<Messages />}>
           <Route path=":conversationId" element={<Conversation />} />

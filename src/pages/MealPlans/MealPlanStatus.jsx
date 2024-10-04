@@ -17,7 +17,7 @@ export default function MealPlanStatus({
   return (
     <>
       <div
-        className={`relative flex h-full w-full flex-col items-center justify-center rounded-2xl border-[1.5px] ${
+        className={`relative flex h-full min-h-[650px] w-full flex-col items-center justify-center rounded-2xl border-[1.5px] ${
           colorMode === "dark" ? "border-primary" : "border-neutral-400"
         } border-dashed bg-background p-6`}
       >
@@ -36,7 +36,7 @@ export default function MealPlanStatus({
           />
         )}
 
-        <p className="absolute bottom-6 left-1/2 mt-4 -translate-x-1/2 text-textSecondary">
+        <p className="absolute bottom-6 left-1/2 mt-4 -translate-x-1/2 text-center text-textSecondary">
           Need help? Contact{" "}
           <span
             onClick={onOpen}

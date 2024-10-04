@@ -17,8 +17,6 @@ export const PersonalizedDietFormRequirements = [
         options: [
           { value: "male", label: "Male" },
           { value: "female", label: "Female" },
-          { value: "non-binary", label: "Non-binary" },
-          { value: "prefer-not-to-say", label: "Prefer not to say" },
         ],
       },
       {
@@ -38,9 +36,9 @@ export const PersonalizedDietFormRequirements = [
     ],
   },
 
-  // Health Goals
+  // Health Goals & Lifestyle
   {
-    title: "Health Goals",
+    title: "Health Goals & Lifestyle",
     data: [
       {
         label: "What is your primary fitness goal?",
@@ -48,12 +46,11 @@ export const PersonalizedDietFormRequirements = [
         placeholder: "Select your primary fitness goal",
         required: true,
         options: [
-          { value: "weight-loss", label: "Weight Loss" },
-          { value: "muscle-gain", label: "Muscle Gain" },
-          { value: "weight-maintenance", label: "Weight Maintenance" },
-          { value: "improve-fitness", label: "Improve Overall Fitness" },
+          { value: "weightLoss", label: "Weight Loss" },
+          { value: "weightGain", label: "Muscle Gain" },
+          { value: "weightMaintenance", label: "Weight Maintenance" },
           {
-            value: "weight-loss-and-muscle-gain",
+            value: "weightLossAndMuscleGain",
             label: "Weight Loss and Muscle Gain",
           },
         ],
@@ -64,6 +61,24 @@ export const PersonalizedDietFormRequirements = [
         type: "number",
         placeholder: "Enter your weight goals (e.g., 70)",
         required: false,
+      },
+      {
+        label: "What is your activity level?",
+        name: "physicalActivityLevel",
+        placeholder: "Select your physical activity level",
+        required: true,
+        options: [
+          { value: "sedentary", label: "Sedentary (little to no activity)" },
+          {
+            value: "lightlyActive",
+            label: "Lightly Active (1-3 days per week)",
+          },
+          {
+            value: "moderatelyActive",
+            label: "Moderately Active (3-5 days per week)",
+          },
+          { value: "veryActive", label: "Very Active (6-7 days per week)" },
+        ],
       },
     ],
   },
@@ -88,7 +103,7 @@ export const PersonalizedDietFormRequirements = [
         label: "Do you have any dietary restrictions?",
         name: "dietaryRestrictions",
         placeholder: "Select dietary restrictions",
-        required: true,
+        required: false,
         options: [
           { value: "gluten-free", label: "Gluten-Free" },
           { value: "lactose-free", label: "Lactose-Free" },
@@ -99,11 +114,11 @@ export const PersonalizedDietFormRequirements = [
         ],
       },
       {
-        label: "Do you have any food allergies? Please list them.",
+        label: "Do you have any food allergies?",
         name: "foodAllergies",
         type: "text",
         placeholder: "List any food allergies",
-        required: true,
+        required: false,
       },
     ],
   },
@@ -113,7 +128,7 @@ export const PersonalizedDietFormRequirements = [
     title: "Meal Preferences",
     data: [
       {
-        label: "How many meals would you like to have per day?",
+        label: "How many main meals would you like to have per day?",
         name: "mealsPerDay",
         placeholder: "Select your meals per day preference",
         required: true,
@@ -122,7 +137,6 @@ export const PersonalizedDietFormRequirements = [
           { value: "3", label: "3" },
           { value: "4", label: "4" },
           { value: "5", label: "5" },
-          { value: "6", label: "6" },
         ],
       },
       {
@@ -135,52 +149,22 @@ export const PersonalizedDietFormRequirements = [
           { value: "1", label: "1" },
           { value: "2", label: "2" },
           { value: "3", label: "3" },
-          { value: "4", label: "4" },
-        ],
-      },
-      {
-        label: "Do you prefer smaller or larger portions?",
-        name: "portionSize",
-        placeholder: "Select your portion size preference",
-        required: true,
-        options: [
-          { value: "smaller", label: "Smaller" },
-          { value: "larger", label: "Larger" },
-          { value: "no-preference", label: "No preference" },
-        ],
-      },
-    ],
-  },
-
-  // Lifestyle Information
-  {
-    title: "Lifestyle Information",
-    data: [
-      {
-        label: "What is your activity level?",
-        name: "physicalActivityLevel",
-        placeholder: "Select your physical activity level",
-        required: true,
-        options: [
-          { value: "sedentary", label: "Sedentary (little to no activity)" },
-          {
-            value: "lightly-active",
-            label: "Lightly Active (1-3 days per week)",
-          },
-          {
-            value: "moderately-active",
-            label: "Moderately Active (3-5 days per week)",
-          },
-          { value: "very-active", label: "Very Active (6-7 days per week)" },
         ],
       },
       {
         label:
-          "What is your occupation? (This helps us determine how active your daily lifestyle is)",
-        name: "occupation",
+          "What are your favorite foods? List any specific items you would like to see in your meal plan.",
+        name: "favoriteFoods",
         type: "text",
-        placeholder: "Enter your occupation",
-        required: true,
+        placeholder: "List your favorite foods",
+        required: false,
+      },
+      {
+        label: "Are there any foods you'd like to avoid or dislike?",
+        name: "foodsToAvoid",
+        type: "text",
+        placeholder: "List foods you want to avoid",
+        required: false,
       },
     ],
   },
@@ -232,65 +216,6 @@ export const PersonalizedDietFormRequirements = [
     ],
   },
 
-  // Meal Preparation & Cooking
-  {
-    title: "Meal Preparation & Cooking",
-    data: [
-      {
-        label: "How would you rate your cooking ability?",
-        name: "mealPrepAbility",
-        placeholder: "Select your meal preparation ability",
-        required: true,
-        options: [
-          { value: "beginner", label: "Beginner" },
-          { value: "intermediate", label: "Intermediate" },
-          { value: "advanced", label: "Advanced" },
-        ],
-      },
-      {
-        label: "How much time can you dedicate to meal preparation daily?",
-        name: "mealPrepTime",
-        placeholder: "Select your meal preparation time",
-        required: true,
-        options: [
-          { value: "less-than-30", label: "Less than 30 minutes" },
-          { value: "30-60", label: "30-60 minutes" },
-          { value: "60-90", label: "60-90 minutes" },
-          { value: "90-or-more", label: "90 minutes or more" },
-        ],
-      },
-      {
-        label: "What is your weekly budget for food?",
-        name: "foodBudget",
-        type: "number",
-        placeholder: "Enter your weekly food budget (in USD)",
-        required: false,
-      },
-    ],
-  },
-
-  // Personal Preferences
-  {
-    title: "Personal Preferences",
-    data: [
-      {
-        label:
-          "What are your favorite foods? List any specific items you would like to see in your meal plan.",
-        name: "favoriteFoods",
-        type: "text",
-        placeholder: "List your favorite foods",
-        required: false,
-      },
-      {
-        label: "Are there any foods you'd like to avoid or dislike?",
-        name: "foodsToAvoid",
-        type: "text",
-        placeholder: "List foods you want to avoid",
-        required: false,
-      },
-    ],
-  },
-
   // Hydration & Alcohol Consumption
   {
     title: "Hydration & Alcohol Consumption",
@@ -313,13 +238,6 @@ export const PersonalizedDietFormRequirements = [
           { value: "regularly", label: "Regularly" },
         ],
       },
-    ],
-  },
-
-  // Smoking
-  {
-    title: "Smoking & Tobacco Use",
-    data: [
       {
         label: "Do you smoke?",
         name: "smoking",
@@ -331,34 +249,5 @@ export const PersonalizedDietFormRequirements = [
         ],
       },
     ],
-  },
-
-  // Meal Repetition Preference
-  {
-    title: "Meal Repetition Preference",
-    data: [
-      {
-        label:
-          "Do you want to eat the same meals every day, or different meals for each day?",
-        name: "mealRepetitionPreference",
-        placeholder: "Select your meal repetition preference",
-        required: true,
-        options: [
-          { value: "same-meals", label: "Same set of meals every day" },
-          { value: "different-meals", label: "Different meals for each day" },
-        ],
-      },
-    ],
-  },
-];
-
-export const information = [
-  {
-    description:
-      "Welcome to your personalized diet journey! This form is designed to gather all the essential information we need to create a unique diet plan just for you. By sharing your personal details, health history, dietary preferences, and fitness goals, we can ensure that your plan is perfectly tailored to meet your individual needs.",
-  },
-  {
-    description:
-      "You can update your details anytime for future adjustments, ensuring your plan evolves with your changing goals and lifestyle.",
   },
 ];

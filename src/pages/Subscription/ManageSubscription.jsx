@@ -1,47 +1,113 @@
 import { useSelector } from "react-redux";
 import PlanCard from "../../components/common/PlanCard";
 import { plans } from "./mockData/plans";
+import axiosInstance from "../../utils/axiosInterceptors";
+import useCustomToast from "../../hooks/useCustomToast";
+import { useColorMode } from "@chakra-ui/react";
+import { IoMdSettings } from "react-icons/io";
+import TextButton from "../../components/common/TextButton";
+import MessagesForSubscription from "./MessagesForSubscription";
+import Tabel from "./Tabel";
 
 const ManageSubscription = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
-  const freeTrialEnd = "2023-12-31";
+  const customToast = useCustomToast();
+  const { colorMode } = useColorMode();
+
+  console.log(user);
+
+  // Redirect the user to the Stripe Customer Portal
+  const handleManageSubscription = async () => {
+    console.log("clicked");
+    try {
+      const response = await axiosInstance.post(
+        "/subscription/create-portal-session",
+      );
+
+      if (response.data) {
+        window.location.href = response.data.url;
+      }
+    } catch (error) {
+      customToast({
+        status: "error",
+        title: "Failed to create Stripe portal session. Please try again.",
+      });
+    }
+  };
+
+  const buttonVisible = ["base", "canceled", "incomplete_expired"].includes(
+    user.subscriptionStatus,
+  );
+
+  // Redirect the user to the Stripe Checkout
+  const handleSelectPlan = async (priceId) => {
+    try {
+      if (buttonVisible) {
+        const response = await axiosInstance.post(
+          "/subscription/create-checkout-session",
+          {
+            priceId,
+          },
+        );
+        if (response.data) {
+          window.location.href = response.data.url;
+        }
+      }
+    } catch (error) {
+      customToast({
+        status: "error",
+        title: "Failed to create Stripe checkout session. Please try again.",
+      });
+    }
+  };
 
   return (
-    <div className="h-fit-content flex w-full flex-col gap-10 overflow-y-auto p-6 scrollbar-none md:p-10 md:px-14 2xl:flex-col">
+    <div className="h-fit-content flex w-full flex-col gap-10 overflow-y-auto p-4 scrollbar-none md:p-10 md:px-14 2xl:flex-col">
       <div className="container mx-auto flex w-full max-w-[1400px] flex-col gap-6 xl:flex-col">
-        <div className="flex flex-col gap-10 2xl:w-full">
-          <div className="flex flex-col gap-2 xl:flex-row xl:gap-6">
-            <h3 className="dark:text-text1 text-xl font-semibold text-textPrimary md:w-1/3 xl:px-0">
-              Manage Subscription
+        <div className="flex flex-col gap-5 2xl:w-full">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row xl:gap-6">
+            <h3 className="mt-3 text-lg font-semibold text-textPrimary md:mt-0 md:w-1/3 lg:mt-0 lg:text-2xl xl:px-0">
+              Subscription Plans
             </h3>
-            {freeTrialEnd && user.plan !== "base" && (
-              <p className="dark:text-text1 text-sm text-textPrimary md:w-2/3 2xl:text-end">
-                Your free trial ends on{" "}
-                <span className="dark:text-text1 font-semibold text-red-600">
-                  {freeTrialEnd}
-                </span>
-                . Upgrade your plan to avoid interruption.
-              </p>
-            )}
+            {user.subscriptionStatus &&
+              ["active", "trialing", "past_due", "incomplete"].includes(
+                user.subscriptionStatus,
+              ) && (
+                <TextButton
+                  onClick={handleManageSubscription}
+                  text="Manage Subscription & Payments"
+                  icon={<IoMdSettings className="mr-2 text-[16px]" />}
+                  className="w-fit border border-borderPrimary"
+                />
+              )}
           </div>
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-            {plans.map((plan) => (
-              <PlanCard
+          <MessagesForSubscription
+            user={user}
+            colorMode={colorMode}
+            onClick={handleManageSubscription}
+          />
+          <div className="mt-4 grid grid-cols-1 gap-10 sm:grid-cols-1 md:grid-cols-2 lg:mt-10 lg:grid-cols-3">
+            {plans.map((plan, index) => (
+              <div
                 key={plan.name}
-                plan={plan}
-                selectedPlan={user.plan}
-                onSelect={() => console.log("Selected plan")}
-              />
+                className={` ${
+                  index === 2 &&
+                  "md:col-span-2 md:block md:w-full lg:col-span-1 lg:flex"
+                }`} /* Apply full width on 2nd index in medium screens */
+              >
+                <PlanCard
+                  plan={plan}
+                  onSelect={() => handleSelectPlan(plan.priceId)}
+                  selectedPlan={user.plan}
+                  visible={buttonVisible}
+                  hasUsedFreeTrial={user.hasUsedFreeTrial}
+                />
+              </div>
             ))}
           </div>
-          {user.plan !== "base" && (
-            <div className="text-center md:text-end">
-              <button className="dark:text-text1 text-sm font-semibold text-red-600 transition-colors duration-200 ease-in-out hover:text-red-800">
-                Cancel Subscription
-              </button>
-            </div>
-          )}
         </div>
+
+        <Tabel />
       </div>
     </div>
   );

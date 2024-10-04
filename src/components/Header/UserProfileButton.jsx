@@ -7,26 +7,22 @@ import {
   MenuItem,
   MenuList,
   useColorMode,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
-import { FaQuestion } from "react-icons/fa6";
-import { TiArrowSortedUp } from "react-icons/ti";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { FaQuestion } from "react-icons/fa6";
+import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
+import { TiArrowSortedUp } from "react-icons/ti";
+import { useNavigate } from "react-router-dom";
 
 export default function UserProfileButton({ user, handleLogout }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { colorMode } = useColorMode();
-
-  const toggleModal = () => {
-    setIsModalOpen((prevState) => !prevState);
-  };
 
   return (
     <>
-      <Menu>
+      <Menu isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
         {/* Button with image */}
         <MenuButton
           sx={{
@@ -42,7 +38,6 @@ export default function UserProfileButton({ user, handleLogout }) {
             },
           }}
           padding="24px 10px"
-          onClick={toggleModal}
           as={Button}
         >
           <div className="flex items-center justify-center gap-3">
@@ -55,7 +50,7 @@ export default function UserProfileButton({ user, handleLogout }) {
               {user.email}
             </div>
             <TiArrowSortedUp
-              className={`transition-transform duration-300 ease-in-out ${isModalOpen ? "-rotate-180" : ""}`}
+              className={`hidden transition-transform duration-500 ease-in-out sm:block ${isOpen ? "-rotate-180" : ""}`}
             />
           </div>
         </MenuButton>
