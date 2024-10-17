@@ -24,8 +24,8 @@ export const createDietPlanBalance = createAsyncThunk(
 );
 
 // Get the diet plan details
-export const getDietPlanDetails = createAsyncThunk(
-  "dietPlanDetails/getDietPlanDetails",
+export const getDietPlanBalance = createAsyncThunk(
+  "dietPlanDetails/getDietPlanBalance",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("/meal-plan");
@@ -33,6 +33,21 @@ export const getDietPlanDetails = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error.response?.data || "Failed to get diet plan details",
+      );
+    }
+  },
+);
+
+export const updateDietPlanBalance = createAsyncThunk(
+  "dietPlanDetails/updateDietPlanBalance",
+  async (details, { rejectWithValue }) => {
+    try {
+      console.log("details", details);
+      const response = await axiosInstance.put("/meal-plan/balance", details);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to update diet plan",
       );
     }
   },
@@ -60,16 +75,28 @@ const dietPlanDetailsSlice = createSlice({
         state.createDietPlanBalanceLoading = false;
         state.error = action.payload;
       })
-      .addCase(getDietPlanDetails.pending, (state) => {
+      .addCase(getDietPlanBalance.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getDietPlanDetails.fulfilled, (state, action) => {
+      .addCase(getDietPlanBalance.fulfilled, (state, action) => {
         state.loading = false;
         state.details = action.payload.data;
         state.lastFetched = Date.now();
       })
-      .addCase(getDietPlanDetails.rejected, (state, action) => {
+      .addCase(getDietPlanBalance.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateDietPlanBalance.pending, (state) => {
+        state.createDietPlanBalanceLoading = true;
+      })
+      .addCase(updateDietPlanBalance.fulfilled, (state, action) => {
+        state.createDietPlanBalanceLoading = false;
+        state.details = action.payload.data;
+        state.lastFetched = Date.now();
+      })
+      .addCase(updateDietPlanBalance.rejected, (state, action) => {
+        state.createDietPlanBalanceLoading = false;
         state.error = action.payload;
       });
   },

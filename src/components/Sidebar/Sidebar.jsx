@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import AdminMenu from "./AdminMenu";
 import ClientMenu from "./ClientMenu";
-import TrainerMenu from "./TrainerMenu";
+import SupplierMenu from "./SupplierMenu";
 
 const Sidebar = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
@@ -12,8 +12,8 @@ const Sidebar = () => {
     switch (user.role) {
       case "admin":
         return <AdminMenu />;
-      case "trainer":
-        return <TrainerMenu />;
+      case "supplier":
+        return <SupplierMenu />;
       case "client":
         return <ClientMenu />;
       default:
@@ -23,7 +23,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <aside className="hidden flex-col border-r-[1px] border-borderColor bg-sidebarPrimary p-2 transition-all duration-300 ease-in-out lg:flex lg:w-64 xl:w-[250px] 3xl:w-[350px]">
+      <aside className="hidden flex-col border-r-[1px] border-borderColor bg-sidebarPrimary p-2 transition-all duration-300 ease-in-out lg:flex lg:w-64 xl:w-[230px] 3xl:w-[300px]">
         <img
           src="/logo-white.png"
           alt="Logo"

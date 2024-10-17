@@ -1,25 +1,21 @@
-import AdminDashboard from "./AdminDashboard";
-import TrainerDashboard from "./TrainerDashboard";
-import ClientDashboard from "./ClientDashboard";
-import { useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
-import LockPage from "../../components/common/LockPage";
+import { useSelector } from "react-redux";
+import AdminDashboard from "./AdminDashboard";
+import ClientDashboard from "./ClientDashboard";
+import SupplierDashboard from "./SupplierDashboard";
 
 const Dashboard = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
 
   if (!user) return null;
+
   const renderDashboard = () => {
-    if (user.plan === "base") {
-      return <LockPage />;
-    } else {
-      if (user.role === "admin") {
-        return <AdminDashboard />;
-      } else if (user.role === "trainer") {
-        return <TrainerDashboard />;
-      } else if (user.role === "client") {
-        return <ClientDashboard />;
-      }
+    if (user.role === "admin") {
+      return <AdminDashboard />;
+    } else if (user.role === "supplier") {
+      return <SupplierDashboard />;
+    } else if (user.role === "client") {
+      return <ClientDashboard />;
     }
   };
 

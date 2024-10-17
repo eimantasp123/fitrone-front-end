@@ -1,13 +1,21 @@
 import { Helmet } from "react-helmet";
 import ManageSubscription from "./ManageSubscription";
+import { useSelector } from "react-redux";
+import ManageSupplierSubscription from "./ManageSupplierSubscription";
 
 export default function ManageSubscriptionPlan() {
+  const { details: user } = useSelector((state) => state.personalDetails);
+
+  if (!user) return null;
+
   return (
     <>
       <Helmet>
         <title>Manage Subscription Plan</title>
       </Helmet>
-      <ManageSubscription />
+      {user.role === "admin" && <ManageSubscription />}
+      {user.role === "supplier" && <ManageSupplierSubscription />}
+      {user.role === "client" && <ManageSubscription />}
     </>
   );
 }

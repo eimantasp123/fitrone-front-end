@@ -1,4 +1,4 @@
-const AdminDietPlans = () => {
+const AdminMealPlans = () => {
   return (
     <div>
       <h1>Admin Diet Plans</h1>
@@ -7,4 +7,4 @@ const AdminDietPlans = () => {
   );
 };
 
-export default AdminDietPlans;
+export default AdminMealPlans;

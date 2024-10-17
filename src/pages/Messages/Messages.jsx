@@ -1,8 +1,8 @@
-import TrainerMessages from "./TrainerMessages";
+import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
 import AdminMessages from "./AdminMessages";
 import ClientMessages from "./ClientsMessages";
-import { useSelector } from "react-redux";
-import { Helmet } from "react-helmet";
+import SupplierMessages from "./SupplierMessages";
 
 const Messages = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
@@ -15,7 +15,7 @@ const Messages = () => {
         <title>Messages</title>
       </Helmet>
       {user.role === "admin" && <AdminMessages />}
-      {user.role === "trainer" && <TrainerMessages />}
+      {user.role === "supplier" && <SupplierMessages />}
       {user.role === "client" && <ClientMessages user={user} />}
     </>
   );

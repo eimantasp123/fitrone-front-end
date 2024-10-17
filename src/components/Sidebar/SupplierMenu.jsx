@@ -31,9 +31,9 @@ export default function ClientMenu({ onClose: closeDrawer }) {
         />
         <SidebarNavLink
           onClick={closeDrawer}
-          to="/suppliers"
+          to="/customers"
           icon={BsPeopleFill}
-          text="Suppliers"
+          text="Customers"
         />
         <SidebarNavLink
           onClick={closeDrawer}
@@ -66,7 +66,7 @@ export default function ClientMenu({ onClose: closeDrawer }) {
         />
         <button
           onClick={onOpen}
-          className="relative flex items-center gap-3 overflow-hidden rounded-lg border-primary py-[13px] pl-4 transition-colors duration-300 ease-in-out hover:bg-[#313131] hover:text-white md:mx-2 lg:py-[7px] lg:text-[#a7a7a7] 3xl:py-[13px]"
+          className="relative flex items-center gap-3 overflow-hidden rounded-lg border-primary py-[13px] pl-4 transition-colors duration-300 ease-in-out hover:bg-[#313131] hover:text-white md:mx-2 lg:py-[9px] lg:text-[#a7a7a7] 3xl:py-[13px]"
         >
           <div className="flex items-center gap-3">
             <VscFeedback className="mb-[-1px] text-lg" />

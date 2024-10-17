@@ -3,7 +3,7 @@ import ChangePassword from "../../components/Profile/ChangePassword";
 import TwoFactorAuth from "../../components/Profile/TwoFactorAuth";
 import DeleteAccount from "../../components/Profile/DeleteAccount";
 
-const TrainerProfileSettings = () => {
+const SupplierProfileSettings = () => {
   return (
     <div className="flex w-full flex-grow flex-col overflow-y-auto p-4 scrollbar-none md:px-14 md:py-10">
       <div className="container mx-auto flex w-full max-w-[1400px] flex-col gap-6 xl:flex-col">
@@ -28,4 +28,4 @@ const TrainerProfileSettings = () => {
   );
 };
 
-export default TrainerProfileSettings;
+export default SupplierProfileSettings;

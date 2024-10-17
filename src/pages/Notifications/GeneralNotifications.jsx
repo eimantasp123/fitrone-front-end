@@ -1,6 +1,6 @@
 import { useColorMode } from "@chakra-ui/react";
-import NotificationCard from "../../../components/common/NotificationCard";
-import TextButton from "../../../components/common/TextButton";
+import TextButton from "../../components/common/TextButton";
+import NotificationCard from "../../components/common/NotificationCard";
 
 const notifications = [
   {

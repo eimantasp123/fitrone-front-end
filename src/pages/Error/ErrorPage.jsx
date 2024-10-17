@@ -8,9 +8,13 @@ export default function ErrorPage() {
           The page you are looking for might have been removed, had its name
           changed, or is temporarily unavailable
         </p>
-        <button className="mt-5 w-fit rounded-full bg-primary px-10 py-4 font-medium text-black transition-colors duration-300 ease-in-out hover:bg-primaryDark">
-          <a href="/">Go to Home</a>
-        </button>
+
+        <a
+          href="/"
+          className="mt-5 w-fit rounded-full bg-primary px-10 py-4 font-medium text-black transition-colors duration-300 ease-in-out hover:bg-primaryDark"
+        >
+          Go to Home
+        </a>
       </div>
     </section>
   );

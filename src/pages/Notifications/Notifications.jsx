@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
-import ClientNotifications from "./ClientNotifications";
+import GeneralNotifications from "./GeneralNotifications";
 
 export default function Notifications() {
   const { details: user } = useSelector((state) => state.personalDetails);
@@ -12,7 +12,7 @@ export default function Notifications() {
       <Helmet>
         <title>Notifications</title>
       </Helmet>
-      {user.role === "client" && <ClientNotifications user={user} />}
+      <GeneralNotifications />
     </>
   );
 }
