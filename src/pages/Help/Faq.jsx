@@ -90,7 +90,7 @@ export default function Faq() {
             </div>
 
             {/* FAQ SECTIONS */}
-            <div className="my-10 flex flex-col gap-6 lg:my-16 lg:flex-row">
+            <div className="my-10 flex flex-col gap-6 lg:my-10 lg:flex-row">
               {/* Left Column */}
               <div className="flex w-full flex-col gap-3 lg:w-1/2 lg:gap-4">
                 {faqs.slice(0, 6).map((faq, index) => (
@@ -136,8 +136,8 @@ const Accordion = ({ faq, isOpen, onToggle }) => {
 
   return (
     <div
-      className={`rounded-2xl border bg-background p-5 transition-colors duration-300 ease-in-out lg:p-6 ${
-        isOpen ? "border-primaryDark" : "border-borderColor"
+      className={`rounded-lg border bg-background p-5 shadow-custom-dark2 transition-colors duration-300 ease-in-out lg:p-6 ${
+        isOpen ? "border-primaryDark" : "border-border"
       }`}
     >
       {/* Accordion Header */}
@@ -145,9 +145,7 @@ const Accordion = ({ faq, isOpen, onToggle }) => {
         className="flex cursor-pointer items-center justify-between"
         onClick={onToggle}
       >
-        <h3
-          className={`w-[80%] text-base font-normal text-textPrimary lg:text-lg`}
-        >
+        <h3 className="w-[80%] text-base font-normal text-textPrimary">
           {faq.question}
         </h3>
         <HiPlus

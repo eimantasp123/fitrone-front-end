@@ -7,10 +7,10 @@ const SidebarNavLink = ({ to = "/", icon: Icon, text, onClick }) => {
       to={to}
       onClick={onClick}
       className={({ isActive }) =>
-        `relative flex items-center gap-3 rounded-lg py-[13px] pl-4 transition-colors duration-300 ease-in-out lg:mx-2 lg:py-[7px] 3xl:py-[10px] ${
+        `relative flex items-center gap-3 py-[13px] pl-5 outline-none transition-colors duration-300 ease-in-out lg:py-[7px] 3xl:py-[10px] ${
           isActive
-            ? "border-primary bg-primary text-black hover:bg-primaryDark"
-            : "hover:bg-[#313131] hover:text-white lg:text-[#a7a7a7]"
+            ? "border-primary bg-primary text-black"
+            : "hover:bg-backgroundSecondary lg:text-textPrimary"
         } relative overflow-hidden`
       }
     >

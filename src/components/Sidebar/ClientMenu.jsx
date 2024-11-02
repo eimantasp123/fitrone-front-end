@@ -14,7 +14,7 @@ export default function ClientMenu({ onClose: closeDrawer }) {
 
   return (
     <>
-      <p className="mb-2 pl-1 text-sm lg:pl-3 lg:text-stone-500">Main</p>
+      <p className="mb-2 mt-4 pl-5 text-sm lg:text-textSecondary">Menu</p>
       <ul className="flex w-full flex-col gap-1 lg:gap-2">
         {/*  */}
         <SidebarNavLink
@@ -54,7 +54,7 @@ export default function ClientMenu({ onClose: closeDrawer }) {
           text="Messages"
         />
         {/*  */}
-        <p className="mb-2 mt-4 pl-1 text-sm lg:pl-3 lg:text-stone-500">
+        <p className="mt-4 border-t-[1px] pl-5 pt-4 text-sm lg:text-textSecondary">
           Preferences
         </p>
         {/* Give feedback button */}
@@ -66,7 +66,7 @@ export default function ClientMenu({ onClose: closeDrawer }) {
         />
         <button
           onClick={onOpen}
-          className="relative flex items-center gap-3 overflow-hidden rounded-lg border-primary py-[13px] pl-4 transition-colors duration-300 ease-in-out hover:bg-[#313131] hover:text-white md:mx-2 lg:py-[7px] lg:text-[#a7a7a7] 3xl:py-[13px]"
+          className="relative flex items-center gap-3 overflow-hidden border-primary py-[13px] pl-5 text-textPrimary transition-colors duration-300 ease-in-out hover:bg-backgroundSecondary lg:py-[7px] 3xl:py-[13px]"
         >
           <div className="flex items-center gap-3">
             <VscFeedback className="mb-[-1px] text-lg" />

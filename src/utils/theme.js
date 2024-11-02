@@ -5,8 +5,8 @@ const customTheme = extendTheme({
     light: {
       primary: "#9aea49",
       primaryDark: "#7cbf3f",
-      background: "#f5f5f5",
-      backgroundSecondary: "#eeeeee",
+      background: "#fcfcfc",
+      backgroundSecondary: "#f3f3f3",
       textPrimary: "#0d0d0d",
       textSecondary: "#333333",
       border: "#d6d6d6",
@@ -14,6 +14,7 @@ const customTheme = extendTheme({
       borderPrimary: "#0d0d0d1c",
       hoverPrimary: "#cecece36",
       white: "#fff",
+      bgDrawer: "#fafafa",
       black: "#000",
       dark: "#171717",
       darkSecondary: "#212121",
@@ -25,7 +26,7 @@ const customTheme = extendTheme({
       background: "#101010",
       backgroundSecondary: "#141414",
       textPrimary: "#e7e5e4",
-      textSecondary: "#a8a29e",
+      textSecondary: "#c4c4c4",
       border: "#292524",
       borderPrimary: "#9aea493d",
       hoverPrimary: "#141414",
@@ -38,7 +39,7 @@ const customTheme = extendTheme({
   },
   components: {
     Menu: {
-      parts: ["menu", "item", "list", "group", "button"],
+      parts: ["list", "item"],
       baseStyle: (props) => ({
         list: {
           bg: props.colorMode === "dark" ? "dark.dark" : "light.white", // Background color for MenuList
@@ -67,6 +68,24 @@ const customTheme = extendTheme({
         px: 3, // Padding X
         py: 1, // Padding Y
       }),
+    },
+    Button: {
+      variants: {
+        customIconButton: (props) => ({
+          bg:
+            props.colorMode === "dark"
+              ? "dark.border"
+              : "light.backgroundSecondary", // Background based on color mode
+          borderRadius: "full", // Make the button round
+          _hover: {
+            bg:
+              props.colorMode === "dark"
+                ? "dark.borderLight"
+                : "light.borderLight", // Hover background color
+          },
+          transition: "background-color 0.3s ease", // Add smooth transition
+        }),
+      },
     },
     Switch: {
       baseStyle: (props) => ({
@@ -100,13 +119,19 @@ const customTheme = extendTheme({
         },
         closeButton: {
           borderRadius: "full", // Fully rounded close button
+          marginRight: 2, // Margin right
+          marginTop: 2, // Margin left
+          bg:
+            props.colorMode === "dark"
+              ? "dark.border"
+              : "light.backgroundSecondary", // Close button background color
         },
       }),
     },
     Drawer: {
       baseStyle: (props) => ({
         dialog: {
-          bg: props.colorMode === "dark" ? "dark.dark" : "light.white", // Background color for Drawer
+          bg: props.colorMode === "dark" ? "dark.dark" : "light.bgDrawer", // Background color for Drawer
           color:
             props.colorMode === "dark"
               ? "dark.textPrimary"

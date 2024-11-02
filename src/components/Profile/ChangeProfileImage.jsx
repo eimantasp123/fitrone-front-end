@@ -59,18 +59,17 @@ export default function ChangeProfileImage() {
   };
 
   return (
-    <div className="flex select-none flex-col items-center gap-8 px-2 py-5 sm:flex-row">
+    <div className="flex select-none items-center gap-3 px-2 py-5 md:gap-8">
       <img
         src={details.profileImage}
         alt="Profile"
-        className="size-[60px] rounded-full lg:size-[65px]"
+        className="size-[50px] rounded-full object-cover object-top lg:size-[65px]"
       />
-      <div className="flex gap-4">
+      <div className="flex gap-2 md:gap-4">
         {/* Upload button */}
         <label
           htmlFor="profileImageUpload"
-          style={{ width: "120px" }}
-          className="tansition-all flex cursor-pointer items-center justify-center gap-2 rounded-full border border-borderColor bg-buttonPrimaryDark px-4 py-2 text-sm text-white duration-300 ease-in-out hover:bg-buttonPrimaryDarkHover hover:shadow-custom-light2 md:px-6"
+          className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-full border border-borderColor bg-buttonPrimaryDark px-4 py-2 text-sm text-white duration-300 ease-in-out hover:bg-buttonPrimaryDarkHover hover:shadow-custom-light2 md:w-[120px] md:px-6"
         >
           {imageLoading ? (
             <Spinner size="xs" />
@@ -94,8 +93,7 @@ export default function ChangeProfileImage() {
         <button
           type="button"
           onClick={handleImageDelete}
-          style={{ width: "120px" }}
-          className="flex items-center justify-center gap-2 rounded-full border border-borderColor bg-background px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:shadow-custom-light2 md:px-6"
+          className="flex w-[110px] items-center justify-center gap-2 rounded-full border border-borderColor bg-background px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:shadow-custom-light2 md:w-[120px] md:px-6"
         >
           {deleteImageLoading ? (
             <Spinner size="xs" />

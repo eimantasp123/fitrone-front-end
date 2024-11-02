@@ -23,18 +23,15 @@ export default function SideBarDrawer({ isOpen, onClose, colorMode }) {
         <img
           src={`${colorMode === "dark" ? "/logo-white.png" : "/logo-black.png"}`}
           alt="Logo"
-          className="mx-8 my-3 h-auto w-[110px]"
+          className="mx-4 my-3 h-auto w-[100px]"
         />
         <div
           className={`h-[0.5px] w-full border-none ${colorMode === "dark" ? "bg-neutral-700" : "bg-neutral-200"} outline-none`}
         />
-        <div
-          className={`mb-3 mt-10 h-[0.5px] border-none ${colorMode === "dark" ? "bg-neutral-800" : "bg-neutral-100"} w-full outline-none`}
-        />
 
         <DrawerBody
           sx={{
-            padding: "5px 15px",
+            padding: "0px 0px",
           }}
         >
           <ClientMenu onClose={onClose} />

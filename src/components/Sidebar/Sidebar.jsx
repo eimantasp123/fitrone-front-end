@@ -2,9 +2,11 @@ import { useSelector } from "react-redux";
 import AdminMenu from "./AdminMenu";
 import ClientMenu from "./ClientMenu";
 import SupplierMenu from "./SupplierMenu";
+import { useColorMode } from "@chakra-ui/react";
 
 const Sidebar = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
+  const { colorMode } = useColorMode();
 
   if (!user) return null;
 
@@ -23,13 +25,15 @@ const Sidebar = () => {
 
   return (
     <>
-      <aside className="hidden flex-col border-r-[1px] border-borderColor bg-sidebarPrimary p-2 transition-all duration-300 ease-in-out lg:flex lg:w-64 xl:w-[230px] 3xl:w-[300px]">
-        <img
-          src="/logo-white.png"
-          alt="Logo"
-          className="mb-[22px] ml-3 mt-2 h-auto w-[90px]"
-        />
-        <nav className="custom-scrollbar flex h-full flex-col overflow-y-auto">
+      <aside className="border-border hidden flex-col border-r-[1px] bg-background transition-all duration-300 ease-in-out lg:flex lg:w-52 xl:w-[230px] 3xl:w-[300px]">
+        <div className="border-border flex h-16 items-center border-b-[1px] pl-4">
+          <img
+            src={colorMode === "dark" ? " /logo-white.png" : "/logo-black.png"}
+            alt="Logo"
+            className="w-[90px]"
+          />
+        </div>
+        <nav className="custom-scrollbar flex h-fit flex-col overflow-y-auto">
           {renderMenu()}
         </nav>
         {/* Render information modal */}

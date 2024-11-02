@@ -23,12 +23,12 @@ const InputField = ({
   // Handle conditional classes for input styling
   const getInputClassNames = () => {
     // Base classes
-    let classNames = `w-full  text-textPrimary bg-background  border transition-colors duration-300 ease-in-out px-4 py-[12px] rounded-md leading-tight outline-none`;
+    let classNames = `w-full  text-textPrimary bg-background   border transition-colors duration-300 ease-in-out px-4 py-[12px] rounded-md leading-tight outline-none`;
 
     // Disabled state
     if (disabled) {
       classNames += ` bg-background text-stone-500 cursor-not-allowed  ${
-        colorMode === "light" ? "border-[#d4d4d4]" : "border-[#272727]"
+        colorMode === "light" ? "border-[#d4d4d4] " : "border-[#272727]"
       } `;
     }
 
@@ -48,7 +48,7 @@ const InputField = ({
   return (
     <>
       {/* Input field */}
-      <div className="">
+      <div>
         {/* Label */}
         {label && (
           <div className="flex justify-between">

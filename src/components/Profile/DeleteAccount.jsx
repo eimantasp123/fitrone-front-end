@@ -3,7 +3,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalHeader,
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -63,11 +62,11 @@ const DeleteAccount = () => {
   };
 
   return (
-    <div className="border-border flex w-full flex-col rounded-2xl border bg-background p-6 shadow-custom-dark2 md:p-8 xl:flex-col">
+    <div className="border-border flex w-full flex-col rounded-lg border bg-background p-6 shadow-custom-dark2 md:p-8 xl:flex-col">
       {/* Content */}
       <div className="flex flex-col">
         <div className="w-full space-y-8">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 text-sm md:text-base">
             <p className="text-textPrimary">
               Deleting your account will permanently remove all your data and
               you will not be able to recover it. Please consider this action
@@ -93,15 +92,15 @@ const DeleteAccount = () => {
         isOpen={isOpen}
         onClose={closeModal}
         isCentered
-        size={{ base: "sm", md: "lg" }}
+        size={{ base: "xs", md: "lg" }}
       >
         <ModalOverlay />
         <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
-          <ModalHeader>Confirm Account Deletion</ModalHeader>
+          <h2 className="p-2">Confirm Account Deletion</h2>
           <ModalCloseButton marginTop="2" />
           <ModalBody sx={{ padding: "1rem" }}>
             <FormProvider {...methods}>
-              <p className="mb-4 pl-1 text-textSecondary">
+              <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
                 Please type <strong>DELETE</strong> in the fields below to
                 confirm you want to delete your account.
               </p>
@@ -121,7 +120,7 @@ const DeleteAccount = () => {
                 />
 
                 {/*  */}
-                <div className="mt-3 flex justify-end gap-2">
+                <div className="mt-3 flex gap-2 md:justify-end">
                   <RedButton
                     updateLoading={updateLoading}
                     text="Confirm Delete"

@@ -53,19 +53,19 @@ export default function GeneralHeader() {
   return (
     <>
       <TopHeaderBanner user={user} />
-      <header className="flex min-h-[65px] select-none items-center justify-between gap-10 border-b-[1px] border-borderColor bg-backgroundSecondary px-2 text-textPrimary md:px-4 lg:min-h-20">
+      <header className="border-border sticky top-0 flex max-h-16 min-h-16 select-none items-center justify-between gap-10 border-b-[1px] bg-background px-2 text-textPrimary md:px-4">
         {/*  */}
         <div className="flex items-center gap-2 lg:gap-4">
           <HiMenuAlt2
             onClick={onOpen}
             className="ml-1 cursor-pointer text-2xl lg:hidden"
           />
-          <div className="flex w-fit text-nowrap pl-1 text-[17px] font-semibold lg:text-lg">
+          <div className="flex w-fit text-nowrap pl-1 font-semibold">
             {breadcrumb.length > 0 ? breadcrumb[0] : "Dashboard"}
           </div>
         </div>
 
-        <div className="flex items-center gap-1 md:gap-3">
+        <div className="flex items-center gap-2 md:gap-3">
           {/* Support button*/}
           <Support />
 

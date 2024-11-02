@@ -8,7 +8,7 @@ import ForgotPasswordForm from "../pages/ForgotPassword/ForgotPasswordForm";
 import ResetPasswordForm from "../pages/ForgotPassword/ResetPassword";
 import Faq from "../pages/Help/Faq";
 import LoginForm from "../pages/Login/LoginForm";
-import MealPlans from "../pages/MealPlans/MealPlans";
+import MealPlans from "../pages/MealPlan/MealPlans";
 import Conversation from "../pages/Messages/Conversation";
 import Messages from "../pages/Messages/Messages";
 import Notifications from "../pages/Notifications/Notifications";
@@ -17,7 +17,8 @@ import RegisterForm from "../pages/Register/RegisterForm";
 import ManageSubscriptionPlan from "../pages/Subscription/ManageSubscriptionPlan";
 import VerifyEmaiil from "../pages/VerifyEmail/VerifyEmail";
 import { PrivateRoute, PublicRoute } from "./RouteWrappers";
-import MealPlanFormForBalance from "../pages/MealPlans/components/MealPlanFormForBalance";
+import MealPlanFormForBalance from "../pages/MealPlan/components/client/MealPlanFormForBalance";
+import MealPlanDetails from "../pages/MealPlan/id/MealPlanDetails";
 
 const AppRoutes = () => (
   <Routes>
@@ -37,6 +38,7 @@ const AppRoutes = () => (
         <Route path="/dashboard" element={<Navigate replace to="/" />} />
         <Route path="subscriptions" element={<ManageSubscriptionPlan />} />
         <Route path="meal-plan" element={<MealPlans />} />
+        <Route path="meal-plan/:id" element={<MealPlanDetails />} />
         <Route path="meal-plan-balance" element={<MealPlanFormForBalance />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="messages" element={<Messages />}>

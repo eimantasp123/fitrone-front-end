@@ -5,8 +5,8 @@ import { AiOutlineBarChart } from "react-icons/ai";
 import { GoGoal } from "react-icons/go";
 import { Tooltip, useDisclosure } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import DraweForBalance from "./DraweForBalance";
 import { CiEdit } from "react-icons/ci";
+import DraweForBalance from "./DraweForBalance";
 
 export default function MealDashboardHeader({ details }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,13 +25,18 @@ export default function MealDashboardHeader({ details }) {
     .replace(/([a-z])([A-Z])/g, "$1 $2")
     .replace(/^./, (str) => str.toUpperCase());
 
+  const drawerOnOpenHandler = () => {
+    drawerOnOpen();
+    onClose();
+  };
+
   return (
-    <div className="flex flex-col items-center justify-between gap-0 border-b-[1px] border-borderColor md:flex-row md:gap-5">
-      <div className="flex flex-grow flex-wrap gap-2 py-2 lg:gap-4">
+    <div className="flex flex-col items-center justify-between gap-0 border-b-[1px] border-borderColor px-4 py-1 md:flex-row md:gap-5">
+      <div className="flex w-full flex-col flex-wrap gap-2 py-2 sm:flex-row sm:flex-wrap lg:gap-4">
         {/* Kcal */}
         <InfoCard
           value={nutritionInfo.kcal}
-          title="Daily calorie goal"
+          title="Calorie goal"
           unit="kcal"
           icon={<FaBurn className="text-red-500" />}
           description="Your daily calorie target reflects the energy your body needs to achieve your fitness goals, whether that’s weight loss, muscle gain, or maintenance. Staying within this range ensures you’re fueling your body properly while making progress towards your goal."
@@ -40,7 +45,7 @@ export default function MealDashboardHeader({ details }) {
         {/* Protein */}
         <InfoCard
           value={nutritionInfo.protein}
-          title="Daily Protein Goal"
+          title="Protein Goal"
           unit="g."
           icon={<BiCircle className="text-green-600" />}
           description="Protein is essential for muscle growth, repair, and recovery. Meeting your daily protein intake helps build lean muscle and supports a healthy metabolism, especially when paired with regular exercise."
@@ -49,7 +54,7 @@ export default function MealDashboardHeader({ details }) {
         {/* Carbs */}
         <InfoCard
           value={nutritionInfo.carbs}
-          title="Daily Carbohydrate Goal"
+          title="Carbohydrate Goal"
           unit="g."
           icon={<FaTachometerAlt className="text-sky-500" />}
           description="Carbohydrates provide the energy needed to power your workouts and daily activities. Consuming the right amount helps fuel performance, while maintaining balance aids in achieving fat loss or muscle gain."
@@ -58,7 +63,7 @@ export default function MealDashboardHeader({ details }) {
         {/* Fats */}
         <InfoCard
           value={nutritionInfo.fat}
-          title="Daily Fat Goal"
+          title="Fat Goal"
           unit="g."
           icon={<AiOutlineBarChart className="text-yellow-500" />}
           description="Healthy fats are vital for hormone production and overall health. Hitting your daily fat target ensures proper nutrient absorption and supports metabolism, helping you reach your fitness objectives."
@@ -73,7 +78,7 @@ export default function MealDashboardHeader({ details }) {
       </div>
 
       {/* Edit */}
-      <div className="">
+      <div className="mb-3 md:mb-0">
         <Tooltip
           isOpen={isOpen}
           sx={{ fontSize: "14px" }}
@@ -84,8 +89,8 @@ export default function MealDashboardHeader({ details }) {
           <button
             onMouseEnter={onOpen}
             onMouseLeave={onClose}
-            onClick={drawerOnOpen}
-            className="border-border right-4 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border bg-background text-textPrimary shadow-custom-light2 transition-colors duration-200 ease-in-out"
+            onClick={drawerOnOpenHandler}
+            className="right-4 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border bg-background text-textPrimary transition-colors duration-200 ease-in-out hover:bg-backgroundSecondary md:h-7 md:w-7"
           >
             <CiEdit className="text-md" />
           </button>

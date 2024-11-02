@@ -20,11 +20,11 @@ const useCustomToast = () => {
       position: "bottom",
       duration: 4000,
       isClosable: true,
-      containerStyle: {
-        width: "450px",
-        minWidth: "300px",
-        marginBottom: "20px",
-      },
+      // containerStyle: {
+      //   width: "450px",
+      //   minWidth: "250px",
+      //   marginBottom: "20px",
+      // },
       render: ({ id, onClose }) => (
         <div
           key={id}
@@ -36,8 +36,10 @@ const useCustomToast = () => {
             {getToastStyle(status).icon}
           </div>
           <div className="flex w-[80%] flex-col">
-            <h2 className="font-medium">{title}</h2>
-            {description && <p>{description}</p>}
+            <h2 className="text-[15px] font-medium lg:text-base">{title}</h2>
+            {description && (
+              <p className="text-sm lg:text-base">{description}</p>
+            )}
           </div>
           <div
             className="flex w-[10%] cursor-pointer justify-end text-xl"

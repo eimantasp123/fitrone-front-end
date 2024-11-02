@@ -7,16 +7,17 @@ export default function TextButton({
   className = "",
   icon = null,
   onClick = null,
+  primary = false,
 }) {
   const { colorMode } = useColorMode();
   return (
     <button
       type={type}
-      className={`bg-backgroundSecondary ${className} rounded-full ${icon ? "flex items-center" : ""} px-6 py-2 ${colorMode === "dark" ? "hover:bg-neutral-800" : "hover:bg-neutral-200"} text-sm font-semibold text-textPrimary transition-all duration-300 ease-in-out`}
+      className={`${className} rounded-full ${icon ? "flex items-center" : ""} px-6 py-2 ${primary ? "bg-primary text-black hover:bg-primaryDark" : `${colorMode === "dark" ? "bg-backgroundSecondary text-textPrimary hover:bg-neutral-800" : "bg-backgroundSecondary hover:bg-neutral-200"}`} text-sm font-semibold transition-all duration-300 ease-in-out`}
       onClick={onClick}
     >
       {icon && icon}
-      <span>{text}</span>
+      <span className="text-nowrap">{text}</span>
     </button>
   );
 }
@@ -27,4 +28,5 @@ TextButton.propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,
   icon: PropTypes.element,
+  primary: PropTypes.bool,
 };

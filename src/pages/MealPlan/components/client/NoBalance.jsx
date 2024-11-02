@@ -1,37 +1,19 @@
 import { useDisclosure } from "@chakra-ui/react";
-import PrimaryButton from "../../../components/common/PrimaryButton";
+import PrimaryButton from "../../../../components/common/PrimaryButton";
 import DraweForBalance from "./DraweForBalance";
-
-const cardDetails = [
-  {
-    id: 1,
-    title: "Fill Out the Form",
-    description: "Enter your details to personalize your meal plan.",
-  },
-  {
-    id: 2,
-    title: "Get Your Results",
-    description:
-      "Discover the exact nutritional breakdown you need to reach your goals.",
-  },
-  {
-    id: 3,
-    title: "Unlock Meals & Suppliers",
-    description: "Explore tailored meal options based on your results.",
-  },
-];
+import { cardDetails } from "../../mockData/cardDetailsForNoBalancePage";
 
 export default function NoBalance() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <div className="container mx-auto h-[calc(100dvh-5rem)] max-h-[800px] w-full max-w-[1500px] p-4 3xl:mt-6">
+      <div className="container mx-auto min-h-fit w-full max-w-[1500px] p-4 md:h-[calc(100dvh-4rem)] 3xl:mt-6 3xl:h-[calc(100dvh-20rem)]">
         {/* Container Content */}
         <div
-          className={`flex h-full w-full flex-col items-center justify-center rounded-2xl border-[1.5px] border-dashed border-primary bg-background p-4 text-center transition-all duration-500 ease-in-out`}
+          className={`flex h-full flex-col items-center justify-center rounded-2xl border-[1.5px] border-dashed border-primary bg-background px-4 py-10 text-center transition-all duration-500 ease-in-out md:p-8`}
         >
-          <h1 className="mb-6 text-[22px] font-semibold text-textPrimary md:text-2xl lg:text-3xl">
+          <h1 className="mb-2 font-semibold text-textPrimary md:mb-6 md:mt-0 md:text-2xl md:text-[22px] lg:text-3xl">
             Calculate Your Meal Balance ⚖️
           </h1>
           <p className="mb-4 max-w-[800px] text-textSecondary">
@@ -39,14 +21,14 @@ export default function NoBalance() {
             tos calculate your daily balance of calories, protein, fats, and
             carbs.
           </p>
-          <h2 className="mb-4 cursor-pointer text-lg font-bold">Steps</h2>
+          <h2 className="mb-4 cursor-pointer font-bold md:text-lg">Steps</h2>
 
           {/* Cards */}
-          <div className="mb-4 flex max-w-[1000px] items-center justify-center gap-4">
+          <div className="mb-4 flex max-w-[1000px] flex-col items-center justify-center gap-4 md:flex-row md:items-stretch">
             {cardDetails.map((card, index) => (
               <div
                 key={index}
-                className="flex flex-1 flex-col items-center justify-center rounded-lg border border-borderPrimary p-8 shadow-custom-light4"
+                className="flex w-full flex-1 flex-col items-center justify-start rounded-lg border border-borderPrimary p-3 shadow-custom-light4 md:p-8"
               >
                 <span className="mb-2 flex size-6 items-center justify-center rounded-full bg-primary font-semibold text-black">
                   {card.id}
@@ -60,7 +42,7 @@ export default function NoBalance() {
           <PrimaryButton
             onClick={onOpen}
             text="Start Balance Calculation"
-            className="w-64"
+            className="w-[280px]"
           />
         </div>
       </div>

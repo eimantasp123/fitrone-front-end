@@ -82,7 +82,7 @@ export default function SupportModal({
           </div>
         </div>
         <ModalCloseButton marginTop="3" />
-        <ModalBody>
+        <ModalBody style={{ padding: "0px 0px" }}>
           <FormProvider {...methods}>
             {/* Proper usage of handleSubmit */}
             <form

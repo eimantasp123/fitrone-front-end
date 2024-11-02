@@ -9,12 +9,12 @@ const DashboardLayout = () => {
   if (!user) return null;
 
   return (
-    <div className="flex max-h-screen min-h-screen bg-backgroundSecondary">
+    <div className="flex h-svh bg-backgroundSecondary">
       <Sidebar />
 
-      <div className="flex flex-1 flex-col transition-all duration-300 ease-in">
+      <div className="flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in">
         <Header />
-        <div className="flex overflow-hidden">
+        <div className="flex overflow-y-auto">
           <Outlet />
         </div>
       </div>

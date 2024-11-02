@@ -19,6 +19,7 @@ export default {
         // Primary Colors
         primary: "var(--color-primary)",
         primaryDark: "var(--color-primary-dark)",
+        primaryLight: "var(--color-primary-light)",
         // Background Colors
         background: "var(--color-background)",
         backgroundSecondary: "var(--color-background-secondary)",
@@ -31,6 +32,7 @@ export default {
         // Border Colors
         borderColor: "var(--color-border)",
         borderPrimary: "var(--color-border-primary)",
+        borderSecondary: "var(--color-border-secondary)",
         // Hover Colors
         hoverPrimary: "var(--color-hover-primary)",
         // Sidebar Colors

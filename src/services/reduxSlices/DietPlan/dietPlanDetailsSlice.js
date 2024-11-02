@@ -42,7 +42,6 @@ export const updateDietPlanBalance = createAsyncThunk(
   "dietPlanDetails/updateDietPlanBalance",
   async (details, { rejectWithValue }) => {
     try {
-      console.log("details", details);
       const response = await axiosInstance.put("/meal-plan/balance", details);
       return response.data;
     } catch (error) {

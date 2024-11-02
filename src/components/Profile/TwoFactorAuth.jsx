@@ -3,7 +3,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalHeader,
   ModalOverlay,
   Spinner,
   Switch,
@@ -164,11 +163,11 @@ const TwoFactorAuth = () => {
   };
 
   return (
-    <div className="border-border flex w-full flex-col rounded-2xl border bg-background p-6 shadow-custom-dark2 sm:p-8 xl:flex-col">
+    <div className="border-border flex w-full flex-col rounded-lg border bg-background p-6 shadow-custom-dark2 sm:p-8 xl:flex-col">
       <div className="flex flex-col gap-5">
         <FormProvider {...methods}>
           <div className="w-full">
-            <div className="mb-5 flex items-center justify-between gap-10 text-textPrimary">
+            <div className="mb-5 flex items-center justify-between gap-10 text-sm text-textPrimary md:text-base">
               {enabled ? (
                 <p>
                   Two-Factor Authentication is{" "}
@@ -187,7 +186,7 @@ const TwoFactorAuth = () => {
             <div className="">
               <div className="flex w-full flex-col items-start gap-4 md:flex-row md:items-center md:justify-between md:gap-0">
                 {!editMode ? (
-                  <p className="text-textSecondary">
+                  <p className="text-sm text-textSecondary md:text-base">
                     {methods.watch("phone")
                       ? `Current Phone Number: ${methods.watch("phone")}`
                       : "No phone number provided."}
@@ -219,7 +218,7 @@ const TwoFactorAuth = () => {
                         {updateDetailsLoading ? (
                           <Spinner size="sm" />
                         ) : (
-                          "Save Phone Number"
+                          "Save Number"
                         )}
                       </button>
                       <button
@@ -250,40 +249,42 @@ const TwoFactorAuth = () => {
       </div>
 
       {/* Modal */}
-      <Modal isOpen={showModal} onClose={handleCloseModal} size="xl">
+      <Modal
+        isOpen={showModal}
+        onClose={handleCloseModal}
+        size={{ base: "xs", md: "lg" }}
+      >
         <ModalOverlay />
         <ModalContent sx={{ padding: "1.5rem", borderRadius: "0.5rem" }}>
-          <ModalHeader>Enter Verification Code</ModalHeader>
+          <h2 className="p-1 font-medium">Enter Verification Code</h2>
           <ModalCloseButton />
-          <ModalBody>
-            <p className="mb-4 text-gray-600">
+          <ModalBody style={{ padding: "5px" }}>
+            <p className="mb-4 text-textSecondary">
               A verification code has been sent to{" "}
               <strong>{methods.watch("phone")}.</strong> Please enter the code
               below to {enabled ? "disable" : "enable"} Two-Factor
               Authentication.
             </p>
-            <div className="flex w-full items-center gap-5">
+            <div className="flex w-full flex-col items-center gap-5 md:flex-row">
               <input
-                className="`w-1/2 bg-backgroundLight w-full rounded-lg border border-[#8f8f8f80] border-gray-300 bg-transparent px-3 py-[9px] leading-tight text-gray-700 placeholder-gray-400 outline-none transition-all duration-300 ease-in-out focus-within:border-[#000]"
+                className="`w-1/2 bg-backgroundLight w-full rounded-lg border border-borderColor bg-transparent px-3 py-[9px] leading-tight text-gray-700 placeholder-textSecondary outline-none transition-all duration-300 ease-in-out focus-within:border-borderPrimary"
                 id="verificationCode"
                 type="text"
                 placeholder="Enter 2FA code"
                 value={verificationCode}
                 onChange={(e) => setVerificationCode(e.target.value)}
               />
-              <div className="flex w-1/2 items-center justify-end gap-3">
+              <div className="flex w-full items-center gap-3 md:w-1/2 md:justify-end">
                 <button
-                  className="bg-accent1 text-secondary cursor-pointer rounded-full px-6 py-2 text-sm"
-                  style={{ width: "90px" }}
+                  className="bg-accent1 w-full cursor-pointer rounded-full bg-primary px-6 py-2 text-sm text-black transition-colors duration-300 ease-in-out hover:bg-primaryDark md:w-[90px]"
                   onClick={handleVerificationSubmit}
                   disabled={verify2FALoading}
                 >
                   {verify2FALoading ? <Spinner size="sm" /> : "Verify"}
                 </button>
                 <button
-                  className="bg-secondary text-text1 cursor-pointer rounded-full px-6 py-2 text-sm"
+                  className="bg-secondary text-text1 w-full cursor-pointer rounded-full px-6 py-2 text-sm md:w-[90px]"
                   onClick={handleCloseModal}
-                  style={{ width: "90px" }}
                 >
                   Cancel
                 </button>

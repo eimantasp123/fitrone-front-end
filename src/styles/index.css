@@ -5,10 +5,11 @@
 /* Default (light) theme */
 :root {
   --color-primary: #9aea49;
-  --color-primary-dark: #7cbf3f;
+  --color-primary-dark: #8cd844;
+  --color-primary-light: #7dbf3f21;
   /* Background */
-  --color-background: #f5f5f5;
-  --color-background-secondary: #eeeeee;
+  --color-background: #fcfcfc;
+  --color-background-secondary: #f3f3f3;
   --color-background-tertiary: #f0f0f0;
   /* Text */
   --color-text-primary: #0d0d0d;
@@ -18,6 +19,7 @@
   /* Border */
   --color-border: #d6d6d6;
   --color-border-primary: #0d0d0d1c;
+  --color-border-secondary: #7cbf3f;
   /* Hover */
   --color-hover-primary: #cecece36;
   /* Sidebar colors */
@@ -31,19 +33,21 @@
 /* Dark theme */
 [data-theme="dark"] {
   --color-primary: #9aea49;
-  --color-primary-dark: #7cbf3f;
+  --color-primary-dark: #8cd844;
+  --color-primary-light: #2d352285;
   /* Background */
   --color-background: #171717;
   --color-background-secondary: #212121;
   --color-background-tertiary: #181818;
   /* Text */
   --color-text-primary: #e7e5e4;
-  --color-text-secondary: #a8a29e;
+  --color-text-secondary: #c4c4c4;
   --color-text-secondary-light: #696969;
   --color-text-primary-light: #0d0d0d;
   /* Border */
   --color-border: #2e2c2b;
   --color-border-primary: #9aea493d;
+  --color-border-secondary: #7dbf3f70;
   /* Hover */
   --color-hover-primary: #141414;
   /* SIdebar colors */
@@ -73,6 +77,40 @@
 }
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0.1); /* Track color */
+}
+
+/* Scrollbar for selection component */
+.custom-scrollbar-select::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar-select::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 10px;
+  margin: 17px 0px;
+}
+
+.custom-scrollbar-select::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-primary);
+  border-radius: 10px;
+  background-clip: padding-box;
+}
+
+/* Scrollbar for meal plan component */
+.custom-scrollbar-mealplan::-webkit-scrollbar {
+  width: 7px;
+}
+
+.custom-scrollbar-mealplan::-webkit-scrollbar-track {
+  background-color: var(--color-background);
+  border-radius: 10px;
+  margin: 0px;
+}
+
+.custom-scrollbar-mealplan::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 10px;
+  background-clip: padding-box;
 }
 
 body {

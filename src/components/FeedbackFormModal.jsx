@@ -76,7 +76,7 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
           <h4 className="text-xl font-semibold">Feedback</h4>
         </div>
         <ModalCloseButton marginTop="3" />
-        <ModalBody>
+        <ModalBody style={{ padding: "0px" }}>
           <FormProvider {...methods}>
             {/* Proper usage of handleSubmit */}
             <form
@@ -139,7 +139,7 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
               {/* Submit button */}
               <PrimaryButton
                 disabled={loading}
-                className="py-3"
+                className="w-full py-3"
                 text="Send Feedback"
                 type="submit"
               >

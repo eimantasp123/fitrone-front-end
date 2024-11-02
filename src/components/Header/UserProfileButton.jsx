@@ -6,6 +6,7 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
+  Portal,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -26,15 +27,18 @@ export default function UserProfileButton({ user, handleLogout }) {
         {/* Button with image */}
         <MenuButton
           sx={{
-            bg:
-              colorMode === "dark"
-                ? "dark.darkSecondary"
-                : "light.backgroundSecondary",
+            bg: colorMode === "dark" ? "dark.dark" : "light.background",
             _hover: {
-              bg: colorMode === "dark" ? "dark.dark" : "light.background",
+              bg:
+                colorMode === "dark"
+                  ? "dark.darkSecondary"
+                  : "light.backgroundSecondary",
             },
             _active: {
-              bg: colorMode === "dark" ? "dark.dark" : "light.background",
+              bg:
+                colorMode === "dark"
+                  ? "dark.darkSecondary"
+                  : "light.backgroundSecondary",
             },
           }}
           padding="24px 10px"
@@ -44,7 +48,7 @@ export default function UserProfileButton({ user, handleLogout }) {
             <img
               src={user?.profileImage}
               alt="Profile"
-              className="size-[35px] rounded-full lg:size-[35px]"
+              className="objet-top size-[38px] rounded-full object-cover lg:size-[38px]"
             />
             <div className="hidden whitespace-nowrap text-sm font-normal transition-all duration-1000 ease-in-out xl:block">
               {user.email}
@@ -56,25 +60,27 @@ export default function UserProfileButton({ user, handleLogout }) {
         </MenuButton>
 
         {/* Modal content */}
-        <MenuList>
-          <MenuGroup title="Profile">
-            <MenuItem
-              icon={<IoSettingsOutline />}
-              onClick={() => navigate("/profile")}
-            >
-              Account Settings
-            </MenuItem>
-            <MenuItem icon={<IoLogOutOutline />} onClick={handleLogout}>
-              Logout
-            </MenuItem>
-          </MenuGroup>
-          <MenuDivider />
-          <MenuGroup title="Help">
-            <MenuItem icon={<FaQuestion />} onClick={() => navigate("/faq")}>
-              FAQ
-            </MenuItem>
-          </MenuGroup>
-        </MenuList>
+        <Portal>
+          <MenuList zIndex={50}>
+            <MenuGroup title="Profile">
+              <MenuItem
+                icon={<IoSettingsOutline />}
+                onClick={() => navigate("/profile")}
+              >
+                Account Settings
+              </MenuItem>
+              <MenuItem icon={<IoLogOutOutline />} onClick={handleLogout}>
+                Logout
+              </MenuItem>
+            </MenuGroup>
+            <MenuDivider />
+            <MenuGroup title="Help">
+              <MenuItem icon={<FaQuestion />} onClick={() => navigate("/faq")}>
+                FAQ
+              </MenuItem>
+            </MenuGroup>
+          </MenuList>
+        </Portal>
       </Menu>
     </>
   );

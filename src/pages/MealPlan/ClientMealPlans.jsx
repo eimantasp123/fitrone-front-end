@@ -2,8 +2,8 @@ import { Spinner } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDietPlanBalance } from "../../services/reduxSlices/DietPlan/dietPlanDetailsSlice";
-import DietPlanDashboard from "./components/DietPlanDashboard";
-import NoBalance from "./components/NoBalance";
+import MealPlanDashboard from "./MealPlanDashboard";
+import NoBalance from "./components/client/NoBalance";
 
 export default function ClientMealPlans() {
   const { details, lastFetched, loading } = useSelector(
@@ -29,7 +29,7 @@ export default function ClientMealPlans() {
       ) : details.status === "none" ? (
         <NoBalance />
       ) : (
-        <DietPlanDashboard details={details} />
+        <MealPlanDashboard details={details} />
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import { Tooltip, useDisclosure } from "@chakra-ui/react";
+import { IconButton, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import { BiSupport } from "react-icons/bi";
 import SupportModal from "./SupportModal";
@@ -13,21 +13,20 @@ export default function Support() {
   };
 
   return (
-    <div className="hidden md:block">
+    <div className="">
       <Tooltip
         isOpen={isTooltipOpen}
         sx={{ fontSize: "14px" }}
         label="Support"
         fontSize="md"
       >
-        <button
+        <IconButton
           onMouseEnter={() => setIsTooltipOpen(true)}
           onMouseLeave={() => setIsTooltipOpen(false)}
           onClick={handleOpenModal}
-          className="border-border right-4 flex size-[35px] cursor-pointer items-center justify-center rounded-full border bg-background text-textPrimary transition-colors duration-200 ease-in-out"
-        >
-          <BiSupport className="text-md" />
-        </button>
+          icon={<BiSupport className="text-md" />}
+          variant="customIconButton"
+        />
       </Tooltip>
 
       {/* Support Modal */}
