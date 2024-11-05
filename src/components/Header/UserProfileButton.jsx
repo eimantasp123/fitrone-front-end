@@ -11,12 +11,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 import { FaQuestion } from "react-icons/fa6";
 import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import { TiArrowSortedUp } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 
 export default function UserProfileButton({ user, handleLogout }) {
+  const { t } = useTranslation("header");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const { colorMode } = useColorMode();
@@ -48,13 +50,13 @@ export default function UserProfileButton({ user, handleLogout }) {
             <img
               src={user?.profileImage}
               alt="Profile"
-              className="objet-top size-[38px] rounded-full object-cover lg:size-[38px]"
+              className="objet-top size-[38px] rounded-full object-cover lg:size-[28px]"
             />
             <div className="hidden whitespace-nowrap text-sm font-normal transition-all duration-1000 ease-in-out xl:block">
               {user.email}
             </div>
             <TiArrowSortedUp
-              className={`hidden transition-transform duration-500 ease-in-out sm:block ${isOpen ? "-rotate-180" : ""}`}
+              className={`hidden transition-transform duration-300 ease-in-out sm:block ${isOpen ? "-rotate-180" : ""}`}
             />
           </div>
         </MenuButton>
@@ -62,21 +64,21 @@ export default function UserProfileButton({ user, handleLogout }) {
         {/* Modal content */}
         <Portal>
           <MenuList zIndex={50}>
-            <MenuGroup title="Profile">
+            <MenuGroup title={t("profile")}>
               <MenuItem
                 icon={<IoSettingsOutline />}
                 onClick={() => navigate("/profile")}
               >
-                Account Settings
+                {t("accountSettings")}
               </MenuItem>
               <MenuItem icon={<IoLogOutOutline />} onClick={handleLogout}>
-                Logout
+                {t("logout")}
               </MenuItem>
             </MenuGroup>
             <MenuDivider />
-            <MenuGroup title="Help">
+            <MenuGroup title={t("help")}>
               <MenuItem icon={<FaQuestion />} onClick={() => navigate("/faq")}>
-                FAQ
+                {t("faq")}
               </MenuItem>
             </MenuGroup>
           </MenuList>

@@ -1,29 +1,41 @@
-import { MdEmail } from "react-icons/md";
-import { useForm, FormProvider } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "../../utils/validationSchema";
-import InputField from "../../components/common/InputField";
-import { useCallback, useContext, useEffect, useState } from "react";
-import AuthContext from "../../context/AuthContext";
-import { Navigate } from "react-router-dom";
+import CustomInput from "@/components/common/NewCharkaInput";
+import PasswordInput from "@/components/common/PasswordInput";
+import { useLoginSchema } from "@/utils/validationSchema";
+import {
+  HStack,
+  PinInput,
+  PinInputField,
+  useColorMode,
+} from "@chakra-ui/react";
 import FacebookLogin from "@greatsumini/react-facebook-login";
-import { FaFacebook } from "react-icons/fa";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useContext, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { Navigate } from "react-router-dom";
 import FormButton from "../../components/common/FormButton";
 import SignUpPrompt from "../../components/common/SignUpPrompt";
-import { useGoogleLogin } from "@react-oauth/google";
-import ErrorAlert from "../../components/common/ErrorAlert";
-import useCustomToast from "../../hooks/useCustomToast";
-import { FaGoogle } from "react-icons/fa";
-import { HStack, PinInput, PinInputField } from "@chakra-ui/react";
-import { useColorMode } from "@chakra-ui/react";
-import { Helmet } from "react-helmet";
+import AuthContext from "../../context/AuthContext";
+import { showCustomToast } from "@/hooks/showCustomToast";
 
 const FACEBOOK_APP_ID = "1552748628609748";
 
+// Define the types for form data
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
+// Login form component
 export default function LoginForm() {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [code, setCode] = useState("");
-  const [isFormValid, setIsFormValid] = useState(false);
+  const { t } = useTranslation("auth");
+  const schema = useLoginSchema();
+  const [code, setCode] = useState<string>("");
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const { colorMode } = useColorMode();
   const {
     user,
@@ -37,69 +49,44 @@ export default function LoginForm() {
     handleFacebookLogin,
     resendCode,
   } = useContext(AuthContext);
-  const customToast = useCustomToast();
 
-  const loginMethods = useForm({
-    resolver: yupResolver(loginSchema),
+  const loginMethods: UseFormReturn<LoginFormData> = useForm<LoginFormData>({
+    resolver: yupResolver(schema),
   });
 
+  // Watch email and password fields
   const email = loginMethods.watch("email");
   const password = loginMethods.watch("password");
 
-  const {
-    execute: executeLogin,
-    loading: loginLoading,
-    error: loginError,
-    clearError: clearLoginError,
-  } = login;
-  const {
-    execute: executeVerifyLogin,
-    loading: verifyLoading,
-    error: verifyError,
-    clearError: clearVerifyError,
-  } = verifyLogin;
-  const { execute: executeResendCode, loading: resendLoading } = resendCode;
-  const {
-    execute: executeGoogleLogin,
-    error: googleLoginError,
-    clearError: clearGoogleLoginError,
-  } = handleGoogleLogin;
-  const {
-    execute: executeFacebookLogin,
-    error: facebookLoginError,
-    clearError: clearFacebookLoginError,
-  } = handleFacebookLogin;
+  // Destructure login methods
+  const { execute: executeLogin, loading: loginLoading } = login;
+  const { execute: executeVerifyLogin, loading: verifyLoading } = verifyLogin;
+  const { execute: executeResendCode } = resendCode;
+  const { execute: executeGoogleLogin } = handleGoogleLogin;
+  const { execute: executeFacebookLogin } = handleFacebookLogin;
 
-  const clearAllErrors = useCallback(() => {
-    clearLoginError();
-    clearVerifyError();
-    clearGoogleLoginError();
-    clearFacebookLoginError();
-  }, [
-    clearLoginError,
-    clearVerifyError,
-    clearGoogleLoginError,
-    clearFacebookLoginError,
-  ]);
-
-  const onSubmit = async (data) => {
+  // Login form submit handler
+  const onSubmit = async (data: LoginFormData) => {
     await executeLogin(data.email, data.password);
   };
 
+  // Verify login form submit handler
   const onVerifySubmit = async () => {
     await executeVerifyLogin(userId, code);
   };
 
+  // Resend code handler
   const onResendCode = async () => {
     const response = await executeResendCode(userId);
     if (response) {
-      customToast({
+      showCustomToast({
         title: `${response.message}`,
         status: "success",
       });
     }
   };
 
+  // Google login hook
   const googleLogin = useGoogleLogin({
     onSuccess: executeGoogleLogin,
     onError: (error) => console.error("Google login error:", error),
@@ -109,32 +96,26 @@ export default function LoginForm() {
     setIsFormValid(code.length === 6);
   }, [code]);
 
-  useEffect(() => {
-    clearAllErrors();
-    return () => clearAllErrors();
-  }, [clearAllErrors]);
-
+  // Redirect to dashboard if user is logged in
   if (user) {
     return <Navigate to="/dashboard" replace />;
   }
 
   const isLoginDisabled = !email || !password || loginLoading;
-  const combinedError =
-    loginError || verifyError || googleLoginError || facebookLoginError;
-
   const numberOfFields = 6;
+
   return (
     <>
       <Helmet>
-        <title>Login</title>
+        <title>{t("login.login")}</title>
       </Helmet>
       <div className="flex w-full max-w-md flex-col justify-center px-6 text-textPrimary">
         <div className="mb-10 text-center">
           <h2 className="text-2xl font-bold lg:text-3xl">
-            {is2FAStep ? "Two Factor Authentication" : "Hello Again!"}
+            {is2FAStep ? `${t("login.2FATitle")}` : `${t("login.title")}`}
           </h2>
           <p className="mt-2 text-textSecondary">
-            {!is2FAStep && "Enter your details to proceed further"}
+            {!is2FAStep && `${t("login.description")}`}
           </p>
         </div>
         {is2FAStep ? (
@@ -172,7 +153,7 @@ export default function LoginForm() {
               </HStack>
             </div>
             <p className="mt-4 text-center text-sm text-textSecondary">
-              Enter the 6-digit code sent to your phone
+              {t("login.2FADescription")}
             </p>
             <FormButton
               onClick={onVerifySubmit}
@@ -180,17 +161,16 @@ export default function LoginForm() {
               isFormValid={isFormValid}
               loading={verifyLoading}
             >
-              Verify
+              {t("login.verify")}
             </FormButton>
-            <ErrorAlert error={verifyError} clearError={clearVerifyError} />
-            <div className="mt-4 text-center">
+            <div className="mt-4 text-center text-sm">
               <p className="text-textSecondary">
-                Didn&apos;t receive the code after 1 minute?{" "}
+                {t("login.didNotReceive")}{" "}
                 <span
                   onClick={onResendCode}
                   className="cursor-pointer font-semibold text-textPrimary hover:text-textSecondary"
                 >
-                  {resendLoading ? "Sending..." : "Resend"}
+                  {t("login.resend")}
                 </span>
               </p>
             </div>
@@ -202,39 +182,30 @@ export default function LoginForm() {
                 className="flex flex-col gap-3"
                 onSubmit={loginMethods.handleSubmit(onSubmit)}
               >
-                <InputField
+                <CustomInput
                   name="email"
-                  placeholder="Email address"
-                  type="email"
                   icon={MdEmail}
+                  type="email"
+                  placeholder={t("login.email")}
                 />
-                <InputField
+                <PasswordInput
                   name="password"
-                  placeholder="Password"
-                  type={passwordVisible ? "text" : "password"}
-                  showPasswordToggle={true}
-                  togglePasswordVisibility={() =>
-                    setPasswordVisible(!passwordVisible)
-                  }
+                  placeholder={t("login.password")}
                 />
                 <div className="pt-3">
                   <FormButton
                     isFormValid={!isLoginDisabled}
                     loading={loginLoading}
                   >
-                    Log In
+                    {t("login.login")}
                   </FormButton>
-                  <ErrorAlert
-                    error={combinedError}
-                    clearError={clearAllErrors}
-                  />
                 </div>
                 <div className="mt-1 flex items-center justify-center">
                   <span
                     className="inline-block cursor-pointer align-baseline text-sm font-semibold transition-colors duration-200 ease-in-out"
                     onClick={handleForgotPassword}
                   >
-                    Forgot password
+                    {t("login.forgotPassword")}
                   </span>
                 </div>
               </form>
@@ -243,10 +214,11 @@ export default function LoginForm() {
             <div className="mt-8 flex flex-col gap-2">
               <div className="text-center">
                 <button
-                  className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-hoverPrimary px-4 py-3 text-textPrimary shadow-none transition-all duration-200 ease-in-out hover:border-borderColor hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)]"
+                  className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-hoverPrimary py-3 text-sm text-textPrimary shadow-none transition-all duration-200 ease-in-out hover:border-borderColor hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)]"
                   onClick={() => googleLogin()}
                 >
-                  <FaGoogle className="text-lg" /> Sign in with Google
+                  <FaGoogle className="text-[16px]" /> {t("login.signInWith")}{" "}
+                  Google
                 </button>
               </div>
               <div className="text-center">
@@ -258,11 +230,11 @@ export default function LoginForm() {
                   }
                   render={(renderProps) => (
                     <button
-                      className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-hoverPrimary px-4 py-3 text-textPrimary shadow-none transition-all duration-200 ease-in-out hover:border-borderColor hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)]"
+                      className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-hoverPrimary py-3 text-sm text-textPrimary shadow-none transition-all duration-200 ease-in-out hover:border-borderColor hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)]"
                       onClick={renderProps.onClick}
                     >
-                      <FaFacebook className="text-lg text-textPrimary" /> Sign
-                      in with Facebook
+                      <FaFacebook className="text-[17px] text-textPrimary" />{" "}
+                      {t("login.signInWith")} Facebook
                     </button>
                   )}
                 />
@@ -270,8 +242,8 @@ export default function LoginForm() {
             </div>
             <SignUpPrompt
               handleSignUp={handleSignUp}
-              message="Don't have an account yet?"
-              linkText="Sign Up"
+              message={t("login.noAccount")}
+              linkText={t("login.signUp")}
               className="mt-10"
             />
           </>

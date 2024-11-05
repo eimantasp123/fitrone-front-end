@@ -1,17 +1,21 @@
+import {
+  HStack,
+  PinInput,
+  PinInputField,
+  Spinner,
+  useColorMode,
+} from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useState } from "react";
-import AuthContext from "../../context/AuthContext";
-import ErrorAlert from "../../components/common/ErrorAlert";
-import { HStack, PinInput, PinInputField, Spinner } from "@chakra-ui/react";
-import useCustomToast from "../../hooks/useCustomToast";
-import { useColorMode } from "@chakra-ui/react";
 import { Helmet } from "react-helmet";
+import ErrorAlert from "../../components/common/ErrorAlert";
+import AuthContext from "../../context/AuthContext";
+import { showCustomToast } from "../../hooks/showCustomToast";
 
 export default function ResetPasswordForm() {
   const { verifyEmail, userEmail, successMessage, resendEmailVerifyCode } =
     useContext(AuthContext);
   const [code, setCode] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
-  const customToast = useCustomToast();
   const { colorMode } = useColorMode();
 
   const {
@@ -53,7 +57,7 @@ export default function ResetPasswordForm() {
     const response = await resendEmailVerifyCodeHandler();
     console.log(response);
     if (response) {
-      customToast({
+      showCustomToast({
         title: `Verification email code resend successfully to ${response.email}`,
         status: "success",
       });

@@ -4,7 +4,7 @@ import AuthContext from "../context/AuthContext";
 import Spinner from "../components/common/Spinner";
 import { useSelector } from "react-redux";
 
-export const TrainerRoute = () => {
+export const SupplierRoute = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
   const { isAuthenticated, authChecking } = useContext(AuthContext);
 
@@ -12,7 +12,7 @@ export const TrainerRoute = () => {
     return <Spinner />;
   }
 
-  return isAuthenticated && user.role === "trainer" ? (
+  return isAuthenticated && user.role === "supplier" ? (
     <Outlet />
   ) : (
     <Navigate to="/dashboard" replace />

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 export default function LinkButton({
   onClick,
   text,
-  textSize = "text-[13px]",
+  textSize = "text-xs",
   className,
 }) {
   return (

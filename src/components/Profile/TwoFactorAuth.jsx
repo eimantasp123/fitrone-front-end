@@ -10,19 +10,20 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { FaPhone } from "react-icons/fa";
+import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import useCustomToast from "../../hooks/useCustomToast";
+import { showCustomToast } from "../../hooks/showCustomToast";
 import {
   request2FA,
   updatePersonalDetails,
   verify2FA,
 } from "../../services/reduxSlices/Profile/personalDetailsSlice";
-import { editPhoneNumberSchema } from "../../utils/validationSchema";
-import InputField from "../common/InputField";
+import { useEditPhoneNumberSchema } from "../../utils/validationSchema";
+import CustomInput from "../common/NewCharkaInput";
 
 // TwoFactorAuth component
 const TwoFactorAuth = () => {
+  const { t } = useTranslation("profileSettings");
   const {
     details: user,
     updateDetailsLoading,
@@ -34,10 +35,12 @@ const TwoFactorAuth = () => {
   const [verificationCode, setVerificationCode] = useState("");
   const [resendLoading, setResendLoading] = useState(false);
   const dispatch = useDispatch();
-  const customToast = useCustomToast();
+  const schema = useEditPhoneNumberSchema();
   const methods = useForm({
-    resolver: yupResolver(editPhoneNumberSchema),
+    resolver: yupResolver(schema),
   });
+  const action = enabled ? t("2fa.modal.disable") : t("2fa.modal.enable");
+  const phone = methods.watch("phone");
 
   // Set form data when user details are fetched from the server
   useEffect(() => {
@@ -53,7 +56,7 @@ const TwoFactorAuth = () => {
     if (!enabled) {
       // Check if phone number is provided before enabling 2FA
       if (!methods.watch("phone")) {
-        customToast({
+        showCustomToast({
           title: "Error",
           description:
             "Please provide a phone number before enabling Two-Factor Authentication.",
@@ -66,7 +69,7 @@ const TwoFactorAuth = () => {
       try {
         await dispatch(request2FA()).unwrap();
       } catch (error) {
-        customToast({
+        showCustomToast({
           title: "Error",
           description: error.message,
           status: "error",
@@ -77,7 +80,7 @@ const TwoFactorAuth = () => {
       try {
         await dispatch(request2FA()).unwrap();
       } catch (error) {
-        customToast({
+        showCustomToast({
           title: "Error",
           description: error.message,
           status: "error",
@@ -93,7 +96,7 @@ const TwoFactorAuth = () => {
         verify2FA({ code: verificationCode, enable: !enabled }),
       ).unwrap();
       setEnabled(!enabled);
-      customToast({
+      showCustomToast({
         title: "Success",
         description: `Two-Factor Authentication ${!enabled ? "enabled" : "disabled"} successfully.`,
         status: "success",
@@ -101,7 +104,7 @@ const TwoFactorAuth = () => {
       setShowModal(false);
       setVerificationCode("");
     } catch (error) {
-      customToast({
+      showCustomToast({
         title: "Error",
         description: error.message,
         status: "error",
@@ -113,7 +116,7 @@ const TwoFactorAuth = () => {
   const onSubmit = async (data) => {
     try {
       await dispatch(updatePersonalDetails({ phone: data.phone })).unwrap();
-      customToast({
+      showCustomToast({
         title: "Phone number updated successfully.",
         status: "success",
       });
@@ -121,7 +124,7 @@ const TwoFactorAuth = () => {
       console.log("Phone number updated successfully.");
       console.log(user);
     } catch (error) {
-      customToast({
+      showCustomToast({
         title: "Error updating phone number",
         description: error.message,
         status: "error",
@@ -134,13 +137,13 @@ const TwoFactorAuth = () => {
     setResendLoading(true);
     try {
       await dispatch(request2FA()).unwrap();
-      customToast({
+      showCustomToast({
         title: "Success",
         description: "Verification code sent to your phone.",
         status: "success",
       });
     } catch (error) {
-      customToast({
+      showCustomToast({
         title: "Error",
         description: error.message,
         status: "error",
@@ -167,18 +170,22 @@ const TwoFactorAuth = () => {
       <div className="flex flex-col gap-5">
         <FormProvider {...methods}>
           <div className="w-full">
-            <div className="mb-5 flex items-center justify-between gap-10 text-sm text-textPrimary md:text-base">
+            <div className="mb-5 flex items-center justify-between gap-10 text-sm text-textPrimary">
               {enabled ? (
                 <p>
-                  Two-Factor Authentication is{" "}
-                  <span className="font-semibold">enabled</span>. You will be
-                  asked for a verification code when you sign in.
+                  <Trans
+                    i18nKey="2fa.enableDescription"
+                    ns="profileSettings"
+                    components={{ 1: <strong /> }}
+                  />
                 </p>
               ) : (
                 <p>
-                  Two-Factor Authentication is{" "}
-                  <span className="font-semibold">disabled</span>. Enable it to
-                  add an extra layer of security to your account.
+                  <Trans
+                    i18nKey="2fa.disableDescription"
+                    ns="profileSettings"
+                    components={{ 1: <strong /> }}
+                  />
                 </p>
               )}
               <Switch isChecked={enabled} onChange={handleToggle} />
@@ -186,10 +193,10 @@ const TwoFactorAuth = () => {
             <div className="">
               <div className="flex w-full flex-col items-start gap-4 md:flex-row md:items-center md:justify-between md:gap-0">
                 {!editMode ? (
-                  <p className="text-sm text-textSecondary md:text-base">
+                  <p className="text-sm text-textSecondary">
                     {methods.watch("phone")
-                      ? `Current Phone Number: ${methods.watch("phone")}`
-                      : "No phone number provided."}
+                      ? `${t("2fa.currentNumber")}: ${methods.watch("phone")}`
+                      : `${t("2fa.noPhoneNumber")}`}
                   </p>
                 ) : (
                   <form
@@ -197,13 +204,12 @@ const TwoFactorAuth = () => {
                     className="flex w-full flex-col gap-3"
                   >
                     <div className="lg:w-[80%]">
-                      <InputField
+                      <CustomInput
                         name="phone"
-                        label="Phone Number"
                         type="phone"
+                        label={t("2fa.phoneNumber")}
                         placeholder="+000"
-                        disabled={!editMode}
-                        Icon={FaPhone}
+                        isDisabled={!editMode}
                       />
                     </div>
                     <div className="flex items-center gap-4">
@@ -218,7 +224,7 @@ const TwoFactorAuth = () => {
                         {updateDetailsLoading ? (
                           <Spinner size="sm" />
                         ) : (
-                          "Save Number"
+                          `${t("2fa.saveNumber")}`
                         )}
                       </button>
                       <button
@@ -226,7 +232,7 @@ const TwoFactorAuth = () => {
                         type="button"
                         onClick={handelDisabledEditMode}
                       >
-                        Cancel
+                        {t("2fa.cancel")}
                       </button>
                     </div>
                   </form>
@@ -238,8 +244,8 @@ const TwoFactorAuth = () => {
                     type="button"
                   >
                     {!editMode
-                      ? `${methods.watch("phone") ? "Edit Phone Number" : "Add Number"}`
-                      : "Save Phone Number"}
+                      ? `${methods.watch("phone") ? `${t("2fa.editNumber")}` : `${t("2fa.addNumber")}`}`
+                      : `${t("2fa.saveNumber")}`}
                   </button>
                 )}
               </div>
@@ -256,46 +262,56 @@ const TwoFactorAuth = () => {
       >
         <ModalOverlay />
         <ModalContent sx={{ padding: "1.5rem", borderRadius: "0.5rem" }}>
-          <h2 className="p-1 font-medium">Enter Verification Code</h2>
+          <h2 className="p-1 font-medium">{t("2fa.modal.title")}</h2>
           <ModalCloseButton />
           <ModalBody style={{ padding: "5px" }}>
-            <p className="mb-4 text-textSecondary">
-              A verification code has been sent to{" "}
-              <strong>{methods.watch("phone")}.</strong> Please enter the code
-              below to {enabled ? "disable" : "enable"} Two-Factor
-              Authentication.
+            <p className="mb-4 text-sm text-textSecondary">
+              <Trans
+                i18nKey="2fa.modal.verificationMessage"
+                ns="profileSettings"
+                values={{ phone, action }}
+                components={{ strong: <strong /> }}
+              />
             </p>
             <div className="flex w-full flex-col items-center gap-5 md:flex-row">
               <input
-                className="`w-1/2 bg-backgroundLight w-full rounded-lg border border-borderColor bg-transparent px-3 py-[9px] leading-tight text-gray-700 placeholder-textSecondary outline-none transition-all duration-300 ease-in-out focus-within:border-borderPrimary"
+                className="`w-full bg-backgroundLight w-full rounded-lg border border-borderColor bg-transparent px-3 py-[9px] leading-tight text-gray-700 placeholder-textSecondary outline-none transition-all duration-300 ease-in-out focus-within:border-borderPrimary md:w-[50%]"
                 id="verificationCode"
                 type="text"
-                placeholder="Enter 2FA code"
+                placeholder={t("2fa.modal.inputPlaceholder")}
                 value={verificationCode}
                 onChange={(e) => setVerificationCode(e.target.value)}
               />
-              <div className="flex w-full items-center gap-3 md:w-1/2 md:justify-end">
+              <div className="flex w-full items-center gap-3 md:w-[70%] md:justify-end">
                 <button
-                  className="bg-accent1 w-full cursor-pointer rounded-full bg-primary px-6 py-2 text-sm text-black transition-colors duration-300 ease-in-out hover:bg-primaryDark md:w-[90px]"
+                  className="bg-accent1 w-full cursor-pointer rounded-full bg-primary px-6 py-2 text-sm text-black transition-colors duration-300 ease-in-out hover:bg-primaryDark"
                   onClick={handleVerificationSubmit}
                   disabled={verify2FALoading}
                 >
-                  {verify2FALoading ? <Spinner size="sm" /> : "Verify"}
+                  {verify2FALoading ? (
+                    <Spinner size="sm" />
+                  ) : (
+                    `${t("2fa.modal.verify")}`
+                  )}
                 </button>
                 <button
-                  className="bg-secondary text-text1 w-full cursor-pointer rounded-full px-6 py-2 text-sm md:w-[90px]"
+                  className="bg-secondary text-text1 w-full cursor-pointer rounded-full px-6 py-2 text-sm"
                   onClick={handleCloseModal}
                 >
-                  Cancel
+                  {t("2fa.modal.cancel")}
                 </button>
               </div>
             </div>
             <button
-              className="text-secondary mt-3 cursor-pointer pl-2 text-sm font-medium"
+              className="text-secondary mt-3 cursor-pointer pl-2 text-[13px] font-medium"
               onClick={handleResendCode}
               disabled={resendLoading}
             >
-              {resendLoading ? <Spinner size="sm" /> : "Resend Code"}
+              {resendLoading ? (
+                <Spinner size="sm" />
+              ) : (
+                `${t("2fa.modal.resend")}`
+              )}
             </button>
           </ModalBody>
         </ModalContent>

@@ -1,11 +1,10 @@
-import { NavLink } from "react-router-dom";
-import PropTypes from "prop-types";
-import axiosInstance from "../../utils/axiosInterceptors";
-import useCustomToast from "../../hooks/useCustomToast";
 import { useColorMode } from "@chakra-ui/react";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
+import { showCustomToast } from "../../hooks/showCustomToast";
+import axiosInstance from "../../utils/axiosInterceptors";
 
 export default function TopHeaderBanner({ user }) {
-  const customToast = useCustomToast();
   const { colorMode } = useColorMode();
 
   const handleManageSubscription = async () => {
@@ -18,7 +17,7 @@ export default function TopHeaderBanner({ user }) {
         window.location.href = response.data.url;
       }
     } catch (error) {
-      customToast({
+      showCustomToast({
         status: "error",
         title: "Failed to create Stripe portal session. Please try again.",
       });

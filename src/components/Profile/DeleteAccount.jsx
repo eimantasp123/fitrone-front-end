@@ -9,28 +9,30 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
-import useCustomToast from "../../hooks/useCustomToast";
+import { showCustomToast } from "../../hooks/showCustomToast";
 import { deleteAccount } from "../../services/reduxSlices/Profile/personalDetailsSlice";
-import { deleteProfileSchema } from "../../utils/validationSchema";
+import { useDeleteProfileSchema } from "../../utils/validationSchema";
 import InputField from "../common/InputField";
 import RedButton from "../common/RedButton";
 import TextButton from "../common/TextButton";
 
 // DeleteAccount component
 const DeleteAccount = () => {
+  const { t } = useTranslation("profileSettings");
   const { updateLoading } = useSelector((state) => state.personalDetails);
   const { setIsAuthenticated } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const customToast = useCustomToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const schema = useDeleteProfileSchema();
 
   // Form methods
   const methods = useForm({
-    resolver: yupResolver(deleteProfileSchema),
+    resolver: yupResolver(schema),
   });
 
   // Delete user account from the server
@@ -38,7 +40,7 @@ const DeleteAccount = () => {
     try {
       await dispatch(deleteAccount()).unwrap();
       localStorage.removeItem("authenticated");
-      customToast({
+      showCustomToast({
         title: "Account Deleted",
         description: "Your account has been successfully deleted.",
         status: "success",
@@ -47,7 +49,7 @@ const DeleteAccount = () => {
       setIsAuthenticated(false);
       navigate("/login", { replace: true });
     } catch (error) {
-      customToast({
+      showCustomToast({
         title: "Account Deletion Failed",
         description: error.message,
         status: "error",
@@ -58,6 +60,7 @@ const DeleteAccount = () => {
   // Close modal
   const closeModal = () => {
     methods.clearErrors();
+    methods.reset();
     onClose();
   };
 
@@ -66,15 +69,10 @@ const DeleteAccount = () => {
       {/* Content */}
       <div className="flex flex-col">
         <div className="w-full space-y-8">
-          <div className="flex flex-col gap-2 text-sm md:text-base">
-            <p className="text-textPrimary">
-              Deleting your account will permanently remove all your data and
-              you will not be able to recover it. Please consider this action
-              carefully.
-            </p>
+          <div className="flex flex-col gap-2 text-sm">
+            <p className="text-textPrimary">{t("deleteAccount.description")}</p>
             <p className="mt-1 text-red-600">
-              This action is irreversible and will delete all your account data,
-              including settings, preferences, and usage history.
+              {t("deleteAccount.warningInfo")}
             </p>
           </div>
           <div className="flex justify-end">
@@ -82,7 +80,7 @@ const DeleteAccount = () => {
               className="text-sm font-semibold text-red-600"
               onClick={onOpen}
             >
-              Delete Account
+              {t("deleteAccount.delete")}
             </button>
           </div>
         </div>
@@ -96,13 +94,16 @@ const DeleteAccount = () => {
       >
         <ModalOverlay />
         <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
-          <h2 className="p-2">Confirm Account Deletion</h2>
+          <h2 className="p-2 font-medium">{t("deleteAccount.modal.title")}</h2>
           <ModalCloseButton marginTop="2" />
           <ModalBody sx={{ padding: "1rem" }}>
             <FormProvider {...methods}>
               <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
-                Please type <strong>DELETE</strong> in the fields below to
-                confirm you want to delete your account.
+                <Trans
+                  i18nKey="deleteAccount.modal.description"
+                  ns="profileSettings"
+                  components={{ 1: <strong /> }}
+                />
               </p>
               <form
                 onSubmit={methods.handleSubmit(handleDelete)}
@@ -110,12 +111,12 @@ const DeleteAccount = () => {
               >
                 <InputField
                   name="verificationInput"
-                  placeholder="Type DELETE to confirm"
+                  placeholder={t("deleteAccount.modal.inputPlaceholder")}
                   type="text"
                 />
                 <InputField
                   name="secondVerificationInput"
-                  placeholder="Type DELETE again to confirm"
+                  placeholder={t("deleteAccount.modal.inputPlaceholderConfirm")}
                   type="text"
                 />
 
@@ -123,10 +124,13 @@ const DeleteAccount = () => {
                 <div className="mt-3 flex gap-2 md:justify-end">
                   <RedButton
                     updateLoading={updateLoading}
-                    text="Confirm Delete"
-                    width="150px"
+                    text={t("deleteAccount.modal.delete")}
+                    width="180px"
                   />
-                  <TextButton text="Cancel" onClick={closeModal} />
+                  <TextButton
+                    text={t("deleteAccount.modal.cancel")}
+                    onClick={closeModal}
+                  />
                 </div>
               </form>
             </FormProvider>

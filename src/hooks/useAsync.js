@@ -1,16 +1,13 @@
 import { useState, useCallback, useRef, useEffect } from "react";
+import { showCustomToast } from "./showCustomToast";
 
 const useAsync = (asyncFunction) => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const abortControllerRef = useRef(null);
-
-  const clearError = useCallback(() => setError(null), []);
 
   const execute = useCallback(
     async (...args) => {
       setLoading(true);
-      setError(null);
       abortControllerRef.current = new AbortController();
       try {
         const response = await asyncFunction(
@@ -20,7 +17,10 @@ const useAsync = (asyncFunction) => {
         return response;
       } catch (err) {
         if (err.name !== "AbortError") {
-          setError(err.response?.data?.message || "An error occurred");
+          showCustomToast({
+            status: "error",
+            description: err.response?.data?.message || "An error occurred",
+          });
         }
       } finally {
         setLoading(false);
@@ -35,7 +35,7 @@ const useAsync = (asyncFunction) => {
     };
   }, []);
 
-  return { execute, loading, error, clearError };
+  return { execute, loading };
 };
 
 export default useAsync;

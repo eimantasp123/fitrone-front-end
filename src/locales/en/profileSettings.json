@@ -1,0 +1,73 @@
+{
+  "title": "Profile Settings",
+  "accountSettings": {
+    "title": "Account Details",
+    "subTitle": "Personal information",
+    "email": "Email Address",
+    "upload": "Upload",
+    "remove": "Remove",
+    "edit": "Edit",
+    "close": "Close",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phoneNumber": "Phone Number",
+    "saveChanges": "Save Changes"
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "edit": "Edit",
+    "close": "Close",
+    "oldPassword": "Old Password",
+    "oldPasswordPlaceholder": "Enter your old password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPassword": "Confirm New Password",
+    "confirmPasswordPlaceholder": "Confirm your new password",
+    "saveChanges": "Save Changes"
+  },
+  "2fa": {
+    "title": "Two Factor Autentication",
+    "enableDescription": " Two-Factor Authentication is <1>enabled</1>. You will be asked for a verification code when you sign in.",
+    "disableDescription": " Two-Factor Authentication is <1>disabled</1>. Enable it to add an extra layer of security to your account.",
+    "addNumber": "Add Number",
+    "noPhoneNumber": "No phone number provided",
+    "currentNumber": "Current Number",
+    "saveNumber": "Save Number",
+    "cancel": "Cancel",
+    "phoneNumber": "Phone Number",
+    "editNumber": "Edit Phone Number",
+    "modal": {
+      "title": "Enter Verification Code",
+      "verificationMessage": "A verification code has been sent to <strong>{{phone}}</strong>. Please enter the code below to {{action}} Two-Factor Authentication.",
+      "inputPlaceholder": "Enter 2FA code",
+      "cancel": "Cancel",
+      "verify": "Verify",
+      "disable": "disable",
+      "enable": "enable",
+      "resend": "Resend Code"
+    }
+  },
+  "deleteAccount": {
+    "title": "Delete Account",
+    "description": "Deleting your account will permanently remove all your data and you will not be able to recover it. Please consider this action carefully.",
+    "warningInfo": "This action is irreversible and will delete all your account data, including settings, preferences, and usage history.",
+    "delete": "Delete Account",
+    "modal": {
+      "title": "Confirm Account Deletion",
+      "description": "Please type DELETE in the fields below to confirm you want to <1>delete</1> your account.",
+      "inputPlaceholder": "Type DELETE to confirm",
+      "inputPlaceholderConfirm": "Type DELETE again to confirm",
+      "cancel": "Cancel",
+      "delete": "Confirm Delete"
+    }
+  },
+  "validation": {
+    "firstNameRequired": "First Name is required",
+    "firstNameMin": "First Name must be at least 3 characters long",
+    "lastNameMax": "Last Name must be at most 50 characters long",
+    "invalidPhoneNumber": "Phone number must start with +, followed by country code and digits.",
+    "verificationCodeRequired": "Verification code is required",
+    "invalidVerificationCode": "Invalid verification",
+    "bothMustMatch": "Both fields must match"
+  }
+}

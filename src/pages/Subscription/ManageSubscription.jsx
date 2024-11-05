@@ -1,17 +1,16 @@
-import { useSelector } from "react-redux";
-import PlanCard from "../../components/common/PlanCard";
-import { plans } from "./mockData/plans";
-import axiosInstance from "../../utils/axiosInterceptors";
-import useCustomToast from "../../hooks/useCustomToast";
 import { useColorMode } from "@chakra-ui/react";
 import { IoMdSettings } from "react-icons/io";
+import { useSelector } from "react-redux";
+import PlanCard from "../../components/common/PlanCard";
 import TextButton from "../../components/common/TextButton";
+import { showCustomToast } from "../../hooks/showCustomToast";
+import axiosInstance from "../../utils/axiosInterceptors";
 import MessagesForSubscription from "./MessagesForSubscription";
+import { plans } from "./mockData/plans";
 import Tabel from "./Tabel";
 
 const ManageSubscription = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
-  const customToast = useCustomToast();
   const { colorMode } = useColorMode();
 
   console.log(user);
@@ -28,7 +27,7 @@ const ManageSubscription = () => {
         window.location.href = response.data.url;
       }
     } catch (error) {
-      customToast({
+      showCustomToast({
         status: "error",
         title: "Failed to create Stripe portal session. Please try again.",
       });
@@ -54,7 +53,7 @@ const ManageSubscription = () => {
         }
       }
     } catch (error) {
-      customToast({
+      showCustomToast({
         status: "error",
         title: "Failed to create Stripe checkout session. Please try again.",
       });

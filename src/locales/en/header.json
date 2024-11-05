@@ -1,0 +1,14 @@
+{
+  "support": "Support",
+  "lightMode": "Light mode",
+  "darkMode": "Dark mode",
+  "notifications": "Notifications",
+  "markAllAsRead": "Mark all as read",
+  "viewAll": "View all notifications",
+  "notificationsEmpty": "No notifications",
+  "profile": "Profile",
+  "logout": "Logout",
+  "accountSettings": "Account settings",
+  "faq": "FAQ",
+  "help": "Help"
+}

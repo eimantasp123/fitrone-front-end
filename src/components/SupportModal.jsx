@@ -13,7 +13,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { MdContactSupport } from "react-icons/md";
 import { useSelector } from "react-redux";
 import useAsync from "../hooks/useAsync";
-import useCustomToast from "../hooks/useCustomToast";
+import { showCustomToast } from "../hooks/showCustomToast";
 import axiosInstance from "../utils/axiosInterceptors";
 import { supportSchema } from "../utils/validationSchema";
 import InputField from "./common/InputField";
@@ -29,7 +29,6 @@ export default function SupportModal({
     resolver: yupResolver(supportSchema),
   });
   const { colorMode } = useColorMode();
-  const customToast = useCustomToast();
 
   const {
     execute: handleSubmitForm,
@@ -44,7 +43,7 @@ export default function SupportModal({
     };
     const response = await axiosInstance.post("/support", formData);
     if (response) {
-      customToast({
+      showCustomToast({
         status: "success",
         title: "Message sent successfully",
         description: "Our support team will get back to you shortly!",

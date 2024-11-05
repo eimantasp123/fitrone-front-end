@@ -1,8 +1,8 @@
+import { useColorMode } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import AdminMenu from "./AdminMenu";
-import ClientMenu from "./ClientMenu";
 import SupplierMenu from "./SupplierMenu";
-import { useColorMode } from "@chakra-ui/react";
+import LanguageSelector from "../LanguageSelector";
 
 const Sidebar = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
@@ -16,8 +16,6 @@ const Sidebar = () => {
         return <AdminMenu />;
       case "supplier":
         return <SupplierMenu />;
-      case "client":
-        return <ClientMenu />;
       default:
         return null;
     }
@@ -25,7 +23,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <aside className="border-border hidden flex-col border-r-[1px] bg-background transition-all duration-300 ease-in-out lg:flex lg:w-52 xl:w-[230px] 3xl:w-[300px]">
+      <aside className="border-border hidden flex-col border-r-[1px] bg-background transition-all duration-300 ease-in-out lg:flex lg:w-52 xl:w-[200px] 3xl:w-[220px]">
         <div className="border-border flex h-16 items-center border-b-[1px] pl-4">
           <img
             src={colorMode === "dark" ? " /logo-white.png" : "/logo-black.png"}
@@ -37,6 +35,9 @@ const Sidebar = () => {
           {renderMenu()}
         </nav>
         {/* Render information modal */}
+        <div className="mt-auto p-4">
+          <LanguageSelector />
+        </div>
       </aside>
     </>
   );

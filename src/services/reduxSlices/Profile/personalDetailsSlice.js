@@ -1,5 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../../utils/axiosInterceptors";
+import { showCustomToast } from "@/hooks/showCustomToast";
 
 // Initial state for personal details slice
 const initialState = {
@@ -19,7 +20,8 @@ export const updatePersonalDetails = createAsyncThunk(
   async (details, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch("/profile/details", details);
-      return response.data.updatedFields;
+      console.log(response.data);
+      return response.data;
     } catch (error) {
       return rejectWithValue(
         error.response?.data || "Failed to update details",
@@ -140,12 +142,20 @@ const personalDetailsSlice = createSlice({
         state.updateDetailsLoading = false;
         state.details = {
           ...state.details,
-          ...action.payload,
+          ...action.payload.updatedFields,
         };
+        showCustomToast({
+          status: "success",
+          title: action.payload.message,
+        });
       })
       .addCase(updatePersonalDetails.rejected, (state, action) => {
         state.updateDetailsLoading = false;
-        state.error = action.payload;
+        showCustomToast({
+          title: "Error updating profile",
+          description: action.payload,
+          status: "error",
+        });
       })
       .addCase(updateUserImage.pending, (state) => {
         state.imageLoading = true;

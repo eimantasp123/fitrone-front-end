@@ -15,7 +15,6 @@ export default function ManageSubscriptionPlan() {
       </Helmet>
       {user.role === "admin" && <ManageSubscription />}
       {user.role === "supplier" && <ManageSupplierSubscription />}
-      {user.role === "client" && <ManageSubscription />}
     </>
   );
 }

@@ -1,8 +1,18 @@
-import PropTypes from "prop-types";
+interface SignUpPromptProps {
+  handleSignUp: () => void;
+  message: string;
+  linkText: string;
+  className?: string;
+}
 
-const SignUpPrompt = ({ handleSignUp, message, linkText, className = "" }) => {
+const SignUpPrompt = ({
+  handleSignUp,
+  message,
+  linkText,
+  className,
+}: SignUpPromptProps) => {
   return (
-    <div className={`text-center ${className}`}>
+    <div className={`text-center text-sm ${className}`}>
       <p className="text-textPrimary">
         {message}{" "}
         <span
@@ -14,13 +24,6 @@ const SignUpPrompt = ({ handleSignUp, message, linkText, className = "" }) => {
       </p>
     </div>
   );
-};
-
-SignUpPrompt.propTypes = {
-  handleSignUp: PropTypes.func.isRequired,
-  message: PropTypes.string.isRequired,
-  linkText: PropTypes.string.isRequired,
-  className: PropTypes.string,
 };
 
 export default SignUpPrompt;

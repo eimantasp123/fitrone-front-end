@@ -7,7 +7,7 @@ const SidebarNavLink = ({ to = "/", icon: Icon, text, onClick }) => {
       to={to}
       onClick={onClick}
       className={({ isActive }) =>
-        `relative flex items-center gap-3 py-[13px] pl-5 outline-none transition-colors duration-300 ease-in-out lg:py-[7px] 3xl:py-[10px] ${
+        `relative flex items-center gap-3 py-[13px] pl-5 outline-none transition-colors duration-300 ease-in-out lg:py-[10px] ${
           isActive
             ? "border-primary bg-primary text-black"
             : "hover:bg-backgroundSecondary lg:text-textPrimary"
@@ -16,7 +16,7 @@ const SidebarNavLink = ({ to = "/", icon: Icon, text, onClick }) => {
     >
       <div className="flex items-center gap-3">
         <Icon className="mb-[-1px] text-lg" />
-        <span className="text-[15px]">{text}</span>
+        <span className="text-sm">{text}</span>
       </div>
     </RouterNavLink>
   );

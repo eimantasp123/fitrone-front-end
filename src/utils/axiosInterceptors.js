@@ -17,6 +17,13 @@ const refreshToken = async () => {
   }
 };
 
+// Request interceptor to set the Accept-Language header
+axiosInstance.interceptors.request.use((config) => {
+  const preferredLanguage = localStorage.getItem("i18nextLng") || "en"; // Assuming language is stored in local storage
+  config.headers["Accept-Language"] = preferredLanguage;
+  return config;
+});
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {

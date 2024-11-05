@@ -19,6 +19,8 @@ const customTheme = extendTheme({
       dark: "#171717",
       darkSecondary: "#212121",
       tooltipDark: "#242424",
+      placeHolder: "#8a8a8a",
+      hover: "#e9e9e9",
     },
     dark: {
       primary: "#9aea49",
@@ -35,6 +37,8 @@ const customTheme = extendTheme({
       black: "#000",
       dark: "#171717",
       darkSecondary: "#212121",
+      placeHolder: "#707070",
+      hover: "#1e1e1e",
     },
   },
   components: {
@@ -50,6 +54,7 @@ const customTheme = extendTheme({
         },
         item: {
           bg: "transparent",
+          fontSize: "sm",
           _hover: {
             bg:
               props.colorMode === "dark"
@@ -65,8 +70,9 @@ const customTheme = extendTheme({
         color: props.colorMode === "dark" ? "dark.black" : "light.white", // Tooltip text color
         borderRadius: "lg", // Rounded corners
         boxShadow: "lg", // Add a shadow for better visibility
+        fontSize: "13px", // Small font size
         px: 3, // Padding X
-        py: 1, // Padding Y
+        py: "5px", // Padding Y
       }),
     },
     Button: {

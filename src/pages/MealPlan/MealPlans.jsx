@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
 import AdminDietPlans from "./AdminMealPlans";
-import ClientMealPlans from "./ClientMealPlans";
 import SupplierMealPlans from "./SupplierMealPlans";
 
 const MealPlans = () => {
@@ -16,7 +15,6 @@ const MealPlans = () => {
       </Helmet>
       {user.role === "admin" && <AdminDietPlans />}
       {user.role === "supplier" && <SupplierMealPlans />}
-      {user.role === "client" && <ClientMealPlans />}
     </>
   );
 };

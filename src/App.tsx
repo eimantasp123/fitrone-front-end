@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { ChakraProvider } from "@chakra-ui/react";
 import customTheme from "./utils/theme";
 
-const App = () => (
+const App: React.FC = () => (
   <ChakraProvider theme={customTheme}>
     <Provider store={store}>
       <AuthProvider>

@@ -1,0 +1,79 @@
+{
+  "authLayout": {
+    "quote": "Jūsų fitneso kelionė nėra apie tai, kad būtumėte geresnis už kitus, bet apie tai, kad būtumėte geresnis nei buvote anksčiau. Kiekvienas žingsnis, kiekvienas pakartojimas, kiekvienas patiekalas yra svarbus. Būkite nuoseklūs, pasitikėkite procesu ir sėkmė ateis.",
+    "author": "- Fitrone komanda"
+  },
+  "login": {
+    "title": "Sveiki sugrįžę!",
+    "description": "Prisijunkite prie savo paskyros ir tęskite savo kelionę.",
+    "email": "El. paštas",
+    "password": "Slaptažodis",
+    "forgotPassword": "Pamiršote slaptažodį?",
+    "noAccount": "Neturite paskyros?",
+    "createAccount": "Sukurti paskyrą",
+    "login": "Prisijungti",
+    "signUp": "Registruotis",
+    "signInWith": "Prisijungti su",
+    "2FATitle": "2FA",
+    "2FADescription": "Įveskite 6 skaitmenų kodą, išsiųstą į jūsų telefoną",
+    "verify": "Patvirtinti",
+    "resend": "Persiųsti kodą",
+    "didNotReceive": "Negavote kodo po 1 minutės?"
+  },
+  "register": {
+    "title": "Registruotis",
+    "description": " Įveskite savo el. paštą žemiau, kad sukurtumėte paskyrą",
+    "email": "El. paštas",
+    "buttonText": "Continue",
+    "or": "Arba tęskite su",
+    "AlreadyHaveAccount": "Jau turite paskyrą?",
+    "login": "Prisijungti"
+  },
+  "registerDone": {
+    "title": "Užbaigti registraciją",
+    "firstName": "Vardas",
+    "lastName": "Pavardė",
+    "Password": "Slaptažodis",
+    "confirmPassword": "Patvirtinti slaptažodį",
+    "buttonText": "Užbaigti registraciją"
+  },
+  "forgotPassword": {
+    "headTitle": "Pamiršau slaptažodį",
+    "title": "Pamiršote slaptažodį?",
+    "description": "Įveskite savo el. paštą ir mes jums atsiųsime nuorodą, pagal kurią galėsite atnaujinti slaptažodį.",
+    "email": "El. paštas",
+    "send": "Siųsti",
+    "backToLogin": "Grįžti į prisijungimą",
+    "successMessage": "El. laiškas siunčiamas adresu <1>{{userEmail}}</1> su instrukcijomis, kaip iš naujo nustatyti slaptažodį.",
+    "didNotReceiveEmail": "Nepavyko gauti el. laiško po 3 minučių?",
+    "resend": "Persiųsti el. laišką",
+    "newPassword": "Naujas slaptažodis",
+    "confirmPassword": "Patvirtinti naują slaptažodį",
+    "resetButton": "Nustatyti slaptažodį",
+    "passwordResetSuccessfuly": "Slaptaždis sėkmingai nustatytas. Dabar galite prisijungti su nauju slaptažodžiu."
+  },
+  "validation": {
+    "invalidEmail": "Neteisingas el. pašto formatas",
+    "requiredEmail": "El. paštas yra privalomas",
+    "requiredPassword": "Slaptažodis yra privalomas",
+    "minPassword": "Slaptažodis turi būti bent {{count}} simbolių ilgio",
+    "passwordLowercase": "Slaptažodyje turi būti bent viena mažoji raidė",
+    "passwordUppercase": "Slaptažodyje turi būti bent viena didžioji raidė",
+    "passwordNumber": "Slaptažodyje turi būti bent vienas skaičius",
+    "passwordSymbol": "Slaptažodyje turi būti bent vienas specialus simbolis",
+    "confirmPassword": "Pakartoti slaptažodį yra privaloma",
+    "passwordsMatch": "Slaptažodžiai turi sutapti",
+    "firstNameRequired": "Vardas yra privalomas",
+    "minFirstName": "Vardas turi būti bent 3 simbolių ilgio",
+    "requiredConfirmPassword": "Patvirtinti slaptažodį yra privaloma"
+  },
+  "passwordStrengthIndicator": {
+    "toWeak": "Per trumpas",
+    "weak": "Silpnas",
+    "medium": "Gerai",
+    "strong": "Stiprus",
+    "veryStrong": "Labai stiprus",
+    "default": "Slaptažodžio stiprumas",
+    "description": "Slaptažodis turi būti bent 8 simbolių ilgio ir turėti bent vieną mažąją raidę, didžiąją raidę, skaičių ir specialų simbolį."
+  }
+}

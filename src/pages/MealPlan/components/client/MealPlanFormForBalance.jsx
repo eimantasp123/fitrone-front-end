@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import useCustomToast from "../../../../hooks/useCustomToast";
 import InputField from "../../../../components/common/InputField";
 import SelectInputField from "../../../../components/common/SelectInputField";
+import { showCustomToast } from "../../../../hooks/showCustomToast";
 import {
   createDietPlanBalance,
   updateDietPlanBalance,
@@ -16,13 +16,12 @@ import {
   goalsAndLifestyleSchema,
   personalInfoSchema,
 } from "../../../../utils/dietPlanSchema";
-import { steps } from "../../mockData/steps";
 import { PersonalizedDietFormRequirements } from "../../mockData/mealFormRequirements";
+import { steps } from "../../mockData/steps";
 
 export default function MealPlanFormForBalance({ onClose }) {
   const { details } = useSelector((state) => state.dietPlanDetails);
   const [formLevel, setFormLevel] = useState(0);
-  const customToast = useCustomToast();
   const { createDietPlanBalanceLoading } = useSelector(
     (state) => state.dietPlanDetails,
   );
@@ -74,7 +73,7 @@ export default function MealPlanFormForBalance({ onClose }) {
 
         if (!details.planBalance) {
           await dispatch(createDietPlanBalance(formData)).unwrap();
-          customToast({
+          showCustomToast({
             title: "Form submitted successfully",
             status: "success",
           });
@@ -85,13 +84,13 @@ export default function MealPlanFormForBalance({ onClose }) {
           );
 
           if (!hasChanges) {
-            customToast({
+            showCustomToast({
               title: "No changes made",
               status: "info",
             });
           } else {
             await dispatch(updateDietPlanBalance(formData)).unwrap();
-            customToast({
+            showCustomToast({
               title: "Your changes have been saved",
               status: "success",
             });
@@ -102,7 +101,7 @@ export default function MealPlanFormForBalance({ onClose }) {
         setFormLevel((prev) => prev + 1);
       }
     } catch (error) {
-      customToast({
+      showCustomToast({
         title: "Error submitting form",
         description: error.message,
         status: "error",

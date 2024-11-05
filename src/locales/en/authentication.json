@@ -1,0 +1,79 @@
+{
+  "authLayout": {
+    "quote": "Your fitness journey isn’t about being better than someone else, it's about being better than you used to be. Every step, every rep, every meal counts. Stay consistent, trust the process, and success will follow.",
+    "author": "- Fitrone Team"
+  },
+  "login": {
+    "title": "Welcome back!",
+    "description": "Log in to your account and continue your journey.",
+    "email": "Email Address",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create account",
+    "login": "Log in",
+    "signUp": "Sign up",
+    "signInWith": "Sign in with",
+    "2FATitle": "2FA",
+    "2FADescription": "Enter the 6-digit code sent to your phone",
+    "verify": "Verify",
+    "resend": "Resend code",
+    "didNotReceive": "Didn't receive the code after 1 minute?"
+  },
+  "register": {
+    "title": "Registruotis",
+    "description": " Įveskite savo el. paštą žemiau, kad sukurtumėte paskyrą",
+    "email": "El. paštas",
+    "buttonText": "Continue",
+    "or": "Arba tęskite su",
+    "AlreadyHaveAccount": "Jau turite paskyrą?",
+    "login": "Prisijungti"
+  },
+  "registerDone": {
+    "title": "Complete registration",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "Password": "Password",
+    "confirmPassword": "Confirm Password",
+    "buttonText": "Complete Registration"
+  },
+  "forgotPassword": {
+    "headTitle": "Forgot password",
+    "title": "Forgot password?",
+    "description": "Enter your email and we'll send you a link to reset your password.",
+    "email": "Email Address",
+    "send": "Send Reset Link",
+    "backToLogin": "Back to login",
+    "successMessage": "An email is on the way to <1>{{userEmail}}</1> with instructions for resetting your password.",
+    "didNotReceiveEmail": "Didn't receive the email after 3 minutes?",
+    "resend": "Resend email",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "resetButton": "Reset Password",
+    "passwordResetSuccessfuly": "Password reset successfully. You can now log in with your new password."
+  },
+  "validation": {
+    "invalidEmail": "Invalid email format",
+    "requiredEmail": "Email is required",
+    "requiredPassword": "Password is required",
+    "minPassword": "Password must be at least {{count}} characters long",
+    "passwordLowercase": "Password must contain at least one lowercase letter",
+    "passwordUppercase": "Password must contain at least one uppercase letter",
+    "passwordNumber": "Password must contain at least one number",
+    "passwordSymbol": "Password must contain at least one special character",
+    "confirmPassword": "Confirm Password is required",
+    "passwordsMatch": "Passwords must match",
+    "firstNameRequired": "First name is required",
+    "minFirstName": "First name must be at least 3 characters long",
+    "requiredConfirmPassword": "Confirm Password is required"
+  },
+  "passwordStrengthIndicator": {
+    "toWeak": "Too short",
+    "weak": "Weak",
+    "medium": "Good",
+    "strong": "Strong",
+    "veryStrong": "Very strong",
+    "default": "Password Strength",
+    "description": "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character."
+  }
+}

@@ -11,7 +11,6 @@ const Header = () => {
     <>
       {user.role === "admin" && <AdminHeader />}
       {user.role === "supplier" && <GeneralHeader />}
-      {user.role === "client" && <GeneralHeader />}
     </>
   );
 };

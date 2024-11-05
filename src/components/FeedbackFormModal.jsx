@@ -11,11 +11,11 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { RiFeedbackLine } from "react-icons/ri";
+import { showCustomToast } from "../hooks/showCustomToast";
+import useAsync from "../hooks/useAsync";
+import axiosInstance from "../utils/axiosInterceptors";
 import { feedbackSchema } from "../utils/validationSchema";
 import PrimaryButton from "./common/PrimaryButton";
-import axiosInstance from "../utils/axiosInterceptors";
-import useAsync from "../hooks/useAsync";
-import useCustomToast from "../hooks/useCustomToast";
 
 // Feedback form modal component
 export default function FeedbackFormModal({ isOpen, onClose }) {
@@ -23,7 +23,6 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
   const methods = useForm({
     resolver: yupResolver(feedbackSchema),
   });
-  const customToast = useCustomToast();
 
   // Handle rating selection
   const handleRatingClick = (ratingValue) => {
@@ -40,7 +39,7 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
   } = useAsync(async (data) => {
     const response = await axiosInstance.post("/feedback", data);
     if (response) {
-      customToast({
+      showCustomToast({
         status: "success",
         title: "Feedback submitted successfully",
         description: "Thank you for your valuable feedback!",

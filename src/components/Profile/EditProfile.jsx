@@ -2,60 +2,28 @@ import { Spinner } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { FaPhone, FaUser } from "react-icons/fa";
-import { MdEdit, MdEmail } from "react-icons/md";
+import { useTranslation } from "react-i18next";
+import { MdEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import FormButton from "../../components/common/FormButton";
-import ChangeProfileImage from "../../components/Profile/ChangeProfileImage";
-import useCustomToast from "../../hooks/useCustomToast";
+import { showCustomToast } from "../../hooks/showCustomToast";
 import { updatePersonalDetails } from "../../services/reduxSlices/Profile/personalDetailsSlice";
-import { editProfileSchema } from "../../utils/validationSchema";
-import InputField from "../common/InputField";
-
-// Fields for personal information
-const personalInfoFields = [
-  {
-    name: "firstName",
-    label: "First Name",
-    placeholder: "",
-    type: "text",
-    icon: FaUser,
-  },
-  {
-    name: "lastName",
-    label: "Last Name",
-    placeholder: "",
-    type: "text",
-    icon: FaUser,
-  },
-  {
-    name: "email",
-    label: "Email",
-    placeholder: "",
-    type: "email",
-    icon: MdEmail,
-    disabled: true,
-  },
-  {
-    name: "phone",
-    label: "Phone Number",
-    placeholder: "+000",
-    type: "tel",
-    icon: FaPhone,
-  },
-];
+import { useEditProfileSchema } from "../../utils/validationSchema";
+import FormButton from "../common/FormButton";
+import CustomInput from "../common/NewCharkaInput";
+import ChangeProfileImage from "./ChangeProfileImage";
 
 // EditProfile component
 const EditProfile = () => {
+  const { t } = useTranslation("profileSettings");
   const { details: user, updateDetailsLoading } = useSelector(
     (state) => state.personalDetails,
   );
   const [editMode, setEditMode] = useState(false);
   const dispatch = useDispatch();
-  const customToast = useCustomToast();
+  const schema = useEditProfileSchema();
 
   const methods = useForm({
-    resolver: yupResolver(editProfileSchema),
+    resolver: yupResolver(schema),
   });
 
   // Set form data when user details are fetched from the server
@@ -82,27 +50,14 @@ const EditProfile = () => {
 
     // If no changes made, show a toast and return
     if (Object.keys(filteredFields).length === 0) {
-      customToast({
+      showCustomToast({
         title: "No changes made",
         status: "info",
       });
       return;
     }
-
-    try {
-      await dispatch(updatePersonalDetails(filteredFields)).unwrap();
-      setEditMode(false);
-      customToast({
-        title: "Profile updated successfully.",
-        status: "success",
-      });
-    } catch (error) {
-      customToast({
-        title: "Error updating profile",
-        description: error.message,
-        status: "error",
-      });
-    }
+    await dispatch(updatePersonalDetails(filteredFields));
+    setEditMode(false);
   };
 
   // Toggle edit mode
@@ -122,38 +77,51 @@ const EditProfile = () => {
         <FormProvider {...methods}>
           <div className="w-full space-y-8">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold">Personal Information</h3>
+              <h3 className="text-[15px] font-medium">
+                {t("accountSettings.subTitle")}
+              </h3>
               <button
                 type="button"
                 onClick={handleOpen}
                 className="text-secondary flex items-center"
               >
                 {editMode ? (
-                  <div className="text-sm">Close</div>
+                  <div className="text-sm"> {t("accountSettings.close")}</div>
                 ) : (
                   <div className="flex items-center">
                     <MdEdit className="mr-1" />
-                    <span className="text-sm">Edit</span>
+                    <span className="text-sm">{t("accountSettings.edit")}</span>
                   </div>
                 )}
               </button>
             </div>
             <form
               onSubmit={methods.handleSubmit(onSubmit)}
-              className="grid grid-cols-1 gap-x-8 gap-y-4 overflow-hidden md:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2"
+              className="grid grid-cols-1 gap-x-8 gap-y-4 overflow-hidden px-1 md:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2"
             >
-              {/* Data inputs */}
-              {personalInfoFields.map((field) => (
-                <InputField
-                  key={field.name}
-                  name={field.name}
-                  label={field.label}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                  disabled={field.disabled || !editMode}
-                  Icon={field.icon}
-                />
-              ))}
+              <CustomInput
+                name="firstName"
+                label={t("accountSettings.firstName")}
+                isDisabled={!editMode}
+              />
+              <CustomInput
+                name="lastName"
+                label={t("accountSettings.lastName")}
+                isDisabled={!editMode}
+              />
+              <CustomInput
+                name="email"
+                label={t("accountSettings.email")}
+                isDisabled={true}
+              />
+              <CustomInput
+                name="phone"
+                type="phone"
+                label={t("accountSettings.phoneNumber")}
+                placeholder="+000"
+                isDisabled={!editMode}
+              />
+
               <div
                 className={`transform pt-2 transition-all duration-500 ease-in-out md:pt-3 ${
                   editMode
@@ -171,7 +139,7 @@ const EditProfile = () => {
                     {updateDetailsLoading ? (
                       <Spinner size="sm" />
                     ) : (
-                      "Save Changes"
+                      `${t("accountSettings.saveChanges")}`
                     )}
                   </FormButton>
                 </div>

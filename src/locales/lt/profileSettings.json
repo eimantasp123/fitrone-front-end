@@ -1,0 +1,73 @@
+{
+  "title": "Profilio nustatymai",
+  "accountSettings": {
+    "title": "Paskyros informacija",
+    "subTitle": "Asmeninė informacija",
+    "email": "El. paštas",
+    "upload": "įkelti",
+    "remove": "Pašalinti",
+    "edit": "Redaguoti",
+    "close": "Uždaryti",
+    "firstName": "Vardas",
+    "lastName": "Pavardė",
+    "phoneNumber": "Telefono Numeris",
+    "saveChanges": "Išsaugoti pakeitimus"
+  },
+  "changePassword": {
+    "title": "Pakeisti slaptažodį",
+    "edit": "Redaguoti",
+    "close": "Uždaryti",
+    "oldPassword": "Senas Slaptažodis",
+    "oldPasswordPlaceholder": "Įveskite savo seną slaptažodį",
+    "newPassword": "Naujas Slaptažodis",
+    "newPasswordPlaceholder": "Įveskite naują slaptažodį",
+    "confirmPassword": "Patvirtinti Naują Slaptažodį",
+    "confirmPasswordPlaceholder": "Patvirtinkite savo naują slaptažodį",
+    "saveChanges": "Išsaugoti pakeitimus"
+  },
+  "2fa": {
+    "title": "Dviejų veiksnių autentifikacija",
+    "enableDescription": "Dviejų veiksnių autentifikacija yra <1>įjungta</1>. Prisijungiant jums bus prašoma patvirtinimo kodo.",
+    "disableDescription": "Dviejų veiksnių autentifikacija yra <1>išjungta</1>. Įjunkite ją, kad pridėtumėte papildomą saugumo lygį savo paskyrai.",
+    "addNumber": "Pridėti numerį",
+    "noPhoneNumber": "Nepateiktas telefono numeris",
+    "currentNumber": "Dabartinis numeris",
+    "saveNumber": "Išsaugoti numerį",
+    "cancel": "Atšaukti",
+    "phoneNumber": "Telefono Numeris",
+    "editNumber": "Redaguoti telefono numerį",
+    "modal": {
+      "title": "Įveskite patvirtinimo kodą",
+      "verificationMessage": "Patvirtinimo kodas buvo išsiųstas į <strong>{{phone}}</strong>. Prašome įvesti kodą žemiau, kad {{action}} dviejų veiksnių autentifikaciją.",
+      "inputPlaceholder": "Įveskite kodą",
+      "cancel": "Atšaukti",
+      "verify": "Patvirtinti",
+      "disable": "išjungti",
+      "enable": "įjungti",
+      "resend": "Persiųsti kodą"
+    }
+  },
+  "deleteAccount": {
+    "title": "Ištrinti paskyrą",
+    "description": "Ištrinant paskyrą visi jūsų duomenys bus negrįžtamai pašalinti ir jūs nebegalėsite jų atkurti. Atidžiai apsvarstykite šį veiksmą.",
+    "warningInfo": "Šis veiksmas yra negrįžtamas ir ištrins visus jūsų paskyros duomenis, įskaitant nustatymus, nuostatas ir naudojimo istoriją.",
+    "delete": "Ištrinti paskyrą",
+    "modal": {
+      "title": "Patvirtinti paskyros ištrynimą",
+      "description": "Prašome įvesti DELETE laukeliuose žemiau, kad patvirtintumėte, jog norite <1>ištrinti</1> savo paskyrą.",
+      "inputPlaceholder": "Įveskite DELETE, kad patvirtintumėte",
+      "inputPlaceholderConfirm": "Įveskite DELETE dar kartą, kad patvirtintumėte",
+      "cancel": "Atšaukti",
+      "delete": "Patvirtinti ištrynimą"
+    }
+  },
+  "validation": {
+    "firstNameRequired": "Vardas yra privalomas",
+    "firstNameMin": "Vardas turi būti bent 3 simbolių ilgio",
+    "lastNameMax": "Pavardė turi būti ne ilgesnė kaip 50 simbolių",
+    "invalidPhoneNumber": "Telefono numeris turi prasidėti +, tęstis šalies kodu ir skaitmenimis.",
+    "verificationCodeRequired": "Patvirtinimo kodas yra privalomas",
+    "invalidVerificationCode": "Neteisingas patvirtinimas",
+    "bothMustMatch": "Abu laukai turi sutapti"
+  }
+}

@@ -2,8 +2,10 @@ import { IconButton, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import { BiSupport } from "react-icons/bi";
 import SupportModal from "./SupportModal";
+import { useTranslation } from "react-i18next";
 
 export default function Support() {
+  const { t } = useTranslation("header");
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const { isOpen: isModalOpen, onOpen, onClose } = useDisclosure();
 
@@ -14,17 +16,13 @@ export default function Support() {
 
   return (
     <div className="">
-      <Tooltip
-        isOpen={isTooltipOpen}
-        sx={{ fontSize: "14px" }}
-        label="Support"
-        fontSize="md"
-      >
+      <Tooltip isOpen={isTooltipOpen} label={t("support")}>
         <IconButton
           onMouseEnter={() => setIsTooltipOpen(true)}
           onMouseLeave={() => setIsTooltipOpen(false)}
           onClick={handleOpenModal}
-          icon={<BiSupport className="text-md" />}
+          size={"sm"}
+          icon={<BiSupport className="text-[14px]" />}
           variant="customIconButton"
         />
       </Tooltip>

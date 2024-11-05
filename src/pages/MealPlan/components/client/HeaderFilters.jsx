@@ -1,7 +1,7 @@
 import LinkButton from "../../../../components/common/LinkButton";
 import TextButton from "../../../../components/common/TextButton";
-import CustomerSelect from "./CustomerSelect";
 import PropTypes from "prop-types";
+import CustomerSelect from "./CustomerSelect";
 
 export default function HeaderFilters({ options }) {
   return (

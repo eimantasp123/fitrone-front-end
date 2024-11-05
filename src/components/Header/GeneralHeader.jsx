@@ -14,7 +14,6 @@ import LightAndDarkMode from "../common/LightAndDarkMode";
 import SideBarDrawer from "../common/SideBarDrawer";
 import TopHeaderBanner from "./TopHeaderBanner";
 import UserProfileButton from "./UserProfileButton";
-// import { CiLight, CiDark } from "react-icons/ci";
 
 // Client Header
 export default function GeneralHeader() {
@@ -24,7 +23,6 @@ export default function GeneralHeader() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isDrawerVisible = useBreakpointValue({ base: true, lg: false });
   const location = useLocation();
-  // const [darkMode, setDarkMode] = useState(false);
 
   // Logout execute function
   const { execute: executeLogout } = logout;
@@ -65,7 +63,7 @@ export default function GeneralHeader() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-2 md:gap-2">
           {/* Support button*/}
           <Support />
 

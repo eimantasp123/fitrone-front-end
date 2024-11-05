@@ -16,10 +16,10 @@ export default function NotificationCard({
       className={`relative flex cursor-pointer items-center justify-between gap-4 rounded-xl ${notification.read ? `${page ? "bg-backgroundSecondary" : "bg-background"}` : `${page ? "bg-background" : "bg-backgroundSecondary"}`} py-3 pl-8 pr-3 transition-colors ${colorMode === "dark" ? `${notification.read ? "" : "hover:bg-neutral-800"}` : `${notification.read ? "" : "hover:bg-neutral-200"}`} duration-200 ease-out`}
     >
       <div className="w-[90%]">
-        <h6 className="text-[15px] font-medium leading-snug text-textPrimary">
+        <h6 className="text-sm font-medium leading-snug text-textPrimary">
           {notification.message}
         </h6>
-        <span className="text-[13px] font-medium text-neutral-600 dark:text-neutral-400">
+        <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
           {notification.read
             ? `${notification.time} | Read`
             : `${notification.time} | Unread`}

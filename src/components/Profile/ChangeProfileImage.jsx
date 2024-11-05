@@ -1,9 +1,10 @@
 import { Spinner } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { FiTrash, FiUpload } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import useCustomToast from "../../hooks/useCustomToast";
+import { showCustomToast } from "../../hooks/showCustomToast";
 import {
   deleteUserImage,
   updateUserImage,
@@ -11,8 +12,8 @@ import {
 
 // ChangeProfileImage component
 export default function ChangeProfileImage() {
+  const { t } = useTranslation("profileSettings");
   const dispatch = useDispatch();
-  const customToast = useCustomToast();
   const { details, imageLoading, deleteImageLoading } = useSelector(
     (state) => state.personalDetails,
   );
@@ -24,7 +25,7 @@ export default function ChangeProfileImage() {
     if (file) {
       try {
         await dispatch(updateUserImage(file)).unwrap();
-        customToast({
+        showCustomToast({
           title: "Profile image uploaded successfully.",
           status: "success",
         });
@@ -32,7 +33,7 @@ export default function ChangeProfileImage() {
           fileInputRef.current.value = "";
         }
       } catch (error) {
-        customToast({
+        showCustomToast({
           title: "Error",
           description: error.message,
           status: "error",
@@ -45,12 +46,12 @@ export default function ChangeProfileImage() {
   const handleImageDelete = async () => {
     try {
       await dispatch(deleteUserImage()).unwrap();
-      customToast({
+      showCustomToast({
         title: "Profile image deleted successfully.",
         status: "success",
       });
     } catch (error) {
-      customToast({
+      showCustomToast({
         title: "Error",
         description: error.message,
         status: "error",
@@ -76,7 +77,7 @@ export default function ChangeProfileImage() {
           ) : (
             <>
               <FiUpload />
-              Upload
+              {t("accountSettings.upload")}
             </>
           )}
           <input
@@ -100,7 +101,7 @@ export default function ChangeProfileImage() {
           ) : (
             <>
               <FiTrash />
-              Remove
+              {t("accountSettings.remove")}
             </>
           )}
         </button>

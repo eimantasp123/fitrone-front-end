@@ -1,0 +1,14 @@
+{
+  "support": "Pagalba",
+  "lightMode": "Šviesus režimas",
+  "darkMode": "Tamsus režimas",
+  "notifications": "Pranešimai",
+  "markAllAsRead": "Pažymėti visus kaip perskaitytus",
+  "viewAll": "Peržiūrėti visus pranešimus",
+  "notificationsEmpty": "Nėra pranešimų",
+  "profile": "Paskyra",
+  "logout": "Atsijungti",
+  "accountSettings": "Paskyros nustatymai",
+  "faq": "DUK",
+  "help": "Pagalba"
+}

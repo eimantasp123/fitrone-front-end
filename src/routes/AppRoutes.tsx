@@ -7,7 +7,6 @@ import ErrorPage from "../pages/Error/ErrorPage";
 import ForgotPasswordForm from "../pages/ForgotPassword/ForgotPasswordForm";
 import ResetPasswordForm from "../pages/ForgotPassword/ResetPassword";
 import Faq from "../pages/Help/Faq";
-import LoginForm from "../pages/Login/LoginForm";
 import MealPlans from "../pages/MealPlan/MealPlans";
 import Conversation from "../pages/Messages/Conversation";
 import Messages from "../pages/Messages/Messages";
@@ -19,8 +18,14 @@ import VerifyEmaiil from "../pages/VerifyEmail/VerifyEmail";
 import { PrivateRoute, PublicRoute } from "./RouteWrappers";
 import MealPlanFormForBalance from "../pages/MealPlan/components/client/MealPlanFormForBalance";
 import MealPlanDetails from "../pages/MealPlan/id/MealPlanDetails";
+import LoginForm from "@/pages/Login/LoginForm";
+import WeekPlan from "@/pages/WeekPlan/WeekPlan";
+import Meals from "@/pages/Meals/Meals";
+import Orders from "@/pages/Orders/Orders";
+import BusinessPage from "@/pages/BusinessPage/BusinessPage";
+import Customers from "@/pages/Customers/Customers";
 
-const AppRoutes = () => (
+const AppRoutes: React.FC = () => (
   <Routes>
     <Route element={<PublicRoute />}>
       <Route element={<AuthLayout />}>
@@ -37,9 +42,14 @@ const AppRoutes = () => (
         <Route index path="/" element={<Dashboard />} />
         <Route path="/dashboard" element={<Navigate replace to="/" />} />
         <Route path="subscriptions" element={<ManageSubscriptionPlan />} />
-        <Route path="meal-plan" element={<MealPlans />} />
-        <Route path="meal-plan/:id" element={<MealPlanDetails />} />
-        <Route path="meal-plan-balance" element={<MealPlanFormForBalance />} />
+        {/* <Route path="meal-plan" element={<MealPlans />} />
+        <Route path="meal-plan/:id" element={<MealPlanDetails />} /> */}
+        <Route path="week-plan" element={<WeekPlan />} />
+        <Route path="meals" element={<Meals />} />
+        <Route path="customers" element={<Customers />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="business-page" element={<BusinessPage />} />
+        {/* <Route path="meal-plan-balance" element={<MealPlanFormForBalance />} /> */}
         <Route path="notifications" element={<Notifications />} />
         <Route path="messages" element={<Messages />}>
           <Route path=":conversationId" element={<Conversation />} />

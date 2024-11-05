@@ -14,6 +14,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import LinkButton from "./common/LinkButton";
 import NotificationCard from "./common/NotificationCard";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const notifications = [
   {
@@ -73,6 +74,7 @@ const notifications = [
 ];
 
 const NotificationButton = () => {
+  const { t } = useTranslation("header");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const { colorMode } = useColorMode();
@@ -102,8 +104,7 @@ const NotificationButton = () => {
         <Tooltip
           closeOnClick={false}
           isOpen={isTooltipOpen && !isOpen}
-          sx={{ fontSize: "14px" }}
-          label="Notifications"
+          label={t("notifications")}
         >
           <MenuButton
             as={IconButton}
@@ -111,16 +112,15 @@ const NotificationButton = () => {
             onMouseLeave={() => setIsTooltipOpen(false)}
             onClick={handleMenuOpen}
             isRound
+            size={"sm"}
             variant="customIconButton"
             icon={<IoNotificationsOutline />}
           />
         </Tooltip>
-        {notifications.length > 0 ? (
+        {notifications.length > 0 && (
           <div className="absolute right-[2px] top-[2px] z-20 flex size-2 items-center justify-center rounded-full bg-primaryDark">
             <div className="z-40 size-2 animate-ping rounded-full bg-primary" />
           </div>
-        ) : (
-          ""
         )}
         <Portal>
           <MenuList
@@ -134,9 +134,9 @@ const NotificationButton = () => {
           >
             {/* Header */}
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-medium">Notifications</h2>
+              <h2 className="text-sm font-medium">{t("notifications")}</h2>
               {notifications.length > 0 && (
-                <LinkButton text="Mark all as read" onClick={markAllAsRead} />
+                <LinkButton text={t("markAllAsRead")} onClick={markAllAsRead} />
               )}
             </div>
 
@@ -152,7 +152,7 @@ const NotificationButton = () => {
                 ))
               ) : (
                 <h2 className="text-center text-textSecondary">
-                  No new notifications
+                  {t("notificationsEmpty")}
                 </h2>
               )}
             </div>
@@ -163,8 +163,8 @@ const NotificationButton = () => {
             {/* Footer */}
             <div className="w-full text-center">
               <LinkButton
-                textSize="text-sm"
-                text="View all notifications"
+                textSize="text-xs"
+                text={t("viewAll")}
                 onClick={openNotifications}
               />
             </div>

@@ -2,26 +2,25 @@ import { Spinner } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { MdEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import FormButton from "../../components/common/FormButton";
 import PasswordStrengthIndicator from "../../components/common/PasswordStrenghtIndicator";
-import useCustomToast from "../../hooks/useCustomToast";
+import { showCustomToast } from "../../hooks/showCustomToast";
 import { changePassword } from "../../services/reduxSlices/Profile/personalDetailsSlice";
-import { changePasswordSchema } from "../../utils/validationSchema";
-import InputField from "../common/InputField";
+import { useChangePasswordSchema } from "../../utils/validationSchema";
+import PasswordInput from "../common/PasswordInput";
 
 // ChangePassword component
 const ChangePassword = () => {
+  const { t } = useTranslation("profileSettings");
   const [editMode, setEditMode] = useState(false);
-  const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { updateLoading } = useSelector((state) => state.personalDetails);
   const dispatch = useDispatch();
-  const customToast = useCustomToast();
+  const schema = useChangePasswordSchema();
   const methods = useForm({
-    resolver: yupResolver(changePasswordSchema),
+    resolver: yupResolver(schema),
   });
 
   // Submit form data to update user password
@@ -29,14 +28,14 @@ const ChangePassword = () => {
     try {
       await dispatch(changePassword(data)).unwrap();
       methods.reset();
-      customToast({
+      showCustomToast({
         title: "Password updated successfully.",
         description: "Your password has been updated successfully.",
         status: "success",
       });
       setEditMode(false);
     } catch (error) {
-      customToast({
+      showCustomToast({
         title: "Error changing password",
         description: error.message,
         status: "error",
@@ -63,57 +62,42 @@ const ChangePassword = () => {
                 className="text-secondary flex items-center"
               >
                 {editMode ? (
-                  <div className="text-sm">Close</div>
+                  <div className="text-sm">{t("changePassword.close")}</div>
                 ) : (
                   <div className="flex items-center">
                     <MdEdit className="mr-1" />
-                    <span className="text-sm">Edit</span>
+                    <span className="text-sm">{t("changePassword.edit")}</span>
                   </div>
                 )}
               </button>
             </div>
             <form
               onSubmit={methods.handleSubmit(onSubmit)}
-              className="grid grid-cols-1 gap-4 overflow-hidden"
+              className="grid grid-cols-1 gap-4 overflow-hidden px-1"
             >
-              <InputField
+              <PasswordInput
+                placeholder={t("changePassword.oldPasswordPlaceholder")}
                 name="oldPassword"
-                label="Old Password"
-                type={showOldPassword ? "text" : "password"}
-                disabled={!editMode}
-                placeholder="Enter your old password"
-                showPasswordToggle={true}
-                togglePasswordVisibility={() =>
-                  setShowOldPassword(!showOldPassword)
-                }
+                label={t("changePassword.oldPassword")}
+                isDisabled={!editMode}
               />
-              <InputField
+              <PasswordInput
+                placeholder={t("changePassword.newPasswordPlaceholder")}
                 name="newPassword"
-                label="New Password"
-                type={showNewPassword ? "text" : "password"}
-                disabled={!editMode}
-                placeholder="Enter your new password"
-                showPasswordToggle={true}
-                togglePasswordVisibility={() =>
-                  setShowNewPassword(!showNewPassword)
-                }
+                label={t("changePassword.newPassword")}
+                isDisabled={!editMode}
+              />
+              <PasswordInput
+                placeholder={t("changePassword.confirmPasswordPlaceholder")}
+                name="confirmNewPassword"
+                label={t("changePassword.confirmPassword")}
+                isDisabled={!editMode}
               />
               <div className="mb-2 lg:mb-4">
                 <PasswordStrengthIndicator
                   password={methods.watch("newPassword")}
                 />
               </div>
-              <InputField
-                name="confirmNewPassword"
-                label="Confirm New Password"
-                type={showConfirmPassword ? "text" : "password"}
-                disabled={!editMode}
-                placeholder="Confirm your new password"
-                showPasswordToggle={true}
-                togglePasswordVisibility={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
-                }
-              />
               <div
                 className={`transform pt-2 transition-all duration-500 ease-in-out md:pt-3 ${
                   editMode
@@ -130,7 +114,11 @@ const ChangePassword = () => {
                     }
                     loading={methods.formState.isSubmitting}
                   >
-                    {updateLoading ? <Spinner size="sm" /> : "Save Changes"}
+                    {updateLoading ? (
+                      <Spinner size="sm" />
+                    ) : (
+                      `${t("changePassword.saveChanges")}`
+                    )}
                   </FormButton>
                 </div>
               </div>
