@@ -23,8 +23,8 @@ const Sidebar = () => {
 
   return (
     <>
-      <aside className="border-border hidden flex-col border-r-[1px] bg-background transition-all duration-300 ease-in-out lg:flex lg:w-52 xl:w-[200px] 3xl:w-[220px]">
-        <div className="border-border flex h-16 items-center border-b-[1px] pl-4">
+      <aside className="hidden flex-col border-r-[1px] border-borderPrimary bg-background transition-all duration-300 ease-in-out dark:border-borderDark lg:flex lg:w-52 xl:w-[200px] 3xl:w-[220px]">
+        <div className="flex h-16 items-center border-b-[1px] border-borderPrimary pl-4 dark:border-borderDark">
           <img
             src={colorMode === "dark" ? " /logo-white.png" : "/logo-black.png"}
             alt="Logo"

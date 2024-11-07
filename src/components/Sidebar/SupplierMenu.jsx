@@ -68,7 +68,7 @@ export default function ClientMenu({ onClose: closeDrawer }) {
           icon={AiFillMessage}
           text={t("messages")}
         /> */}
-        <p className="mt-4 border-t-[1px] pl-5 pt-4 text-[13px] lg:text-textSecondary">
+        <p className="mt-4 border-t-[1px] border-borderPrimary pl-5 pt-4 text-[13px] dark:border-borderDark lg:text-textSecondary">
           {t("preferences")}
         </p>
         {/* Give feedback button */}

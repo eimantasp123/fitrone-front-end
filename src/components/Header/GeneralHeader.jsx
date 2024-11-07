@@ -51,7 +51,7 @@ export default function GeneralHeader() {
   return (
     <>
       <TopHeaderBanner user={user} />
-      <header className="border-border sticky top-0 flex max-h-16 min-h-16 select-none items-center justify-between gap-10 border-b-[1px] bg-background px-2 text-textPrimary md:px-4">
+      <header className="sticky top-0 flex max-h-16 min-h-16 select-none items-center justify-between gap-10 border-b-[1px] border-borderPrimary bg-background px-2 text-textPrimary dark:border-borderDark md:px-4">
         {/*  */}
         <div className="flex items-center gap-2 lg:gap-4">
           <HiMenuAlt2
