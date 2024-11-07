@@ -21,9 +21,9 @@ export default function Support() {
           onMouseEnter={() => setIsTooltipOpen(true)}
           onMouseLeave={() => setIsTooltipOpen(false)}
           onClick={handleOpenModal}
-          size={"sm"}
+          size="sm"
           icon={<BiSupport className="text-[14px]" />}
-          variant="customIconButton"
+          variant="customHeaderIcon"
         />
       </Tooltip>
 

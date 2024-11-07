@@ -13,8 +13,8 @@ export default function ManageSubscriptionPlan() {
       <Helmet>
         <title>Manage Subscription Plan</title>
       </Helmet>
-      {user.role === "admin" && <ManageSubscription />}
-      {user.role === "supplier" && <ManageSupplierSubscription />}
+      {user.role === "admin" && <ManageSupplierSubscription />}
+      {user.role === "supplier" && <ManageSubscription />}
     </>
   );
 }

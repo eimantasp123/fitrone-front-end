@@ -18,16 +18,17 @@
     "2FADescription": "Enter the 6-digit code sent to your phone",
     "verify": "Verify",
     "resend": "Resend code",
-    "didNotReceive": "Didn't receive the code after 1 minute?"
+    "didNotReceive": "Didn't receive the code after 1 minute?",
+    "sending": "Sending..."
   },
   "register": {
-    "title": "Registruotis",
-    "description": " Įveskite savo el. paštą žemiau, kad sukurtumėte paskyrą",
-    "email": "El. paštas",
+    "title": "Register",
+    "description": " Enter your email below to create an account",
+    "email": "Email Address",
     "buttonText": "Continue",
-    "or": "Arba tęskite su",
-    "AlreadyHaveAccount": "Jau turite paskyrą?",
-    "login": "Prisijungti"
+    "or": "Or continue with",
+    "AlreadyHaveAccount": "Already have an account?",
+    "login": "Log in"
   },
   "registerDone": {
     "title": "Complete registration",
@@ -75,5 +76,9 @@
     "veryStrong": "Very strong",
     "default": "Password Strength",
     "description": "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character."
+  },
+  "verifyEmail": {
+    "title": "Verify Email",
+    "description": "Enter the 6-digit code sent to your email"
   }
 }

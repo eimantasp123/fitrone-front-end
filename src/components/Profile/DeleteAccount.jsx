@@ -4,10 +4,9 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +15,7 @@ import AuthContext from "../../context/AuthContext";
 import { showCustomToast } from "../../hooks/showCustomToast";
 import { deleteAccount } from "../../services/reduxSlices/Profile/personalDetailsSlice";
 import { useDeleteProfileSchema } from "../../utils/validationSchema";
-import InputField from "../common/InputField";
+import CustomInput from "../common/NewCharkaInput";
 import RedButton from "../common/RedButton";
 import TextButton from "../common/TextButton";
 
@@ -24,8 +23,9 @@ import TextButton from "../common/TextButton";
 const DeleteAccount = () => {
   const { t } = useTranslation("profileSettings");
   const { updateLoading } = useSelector((state) => state.personalDetails);
+  const [isOpen, setIsOpen] = useState(false);
   const { setIsAuthenticated } = useContext(AuthContext);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const schema = useDeleteProfileSchema();
@@ -45,7 +45,7 @@ const DeleteAccount = () => {
         description: "Your account has been successfully deleted.",
         status: "success",
       });
-      onClose();
+      // onClose();
       setIsAuthenticated(false);
       navigate("/login", { replace: true });
     } catch (error) {
@@ -61,11 +61,11 @@ const DeleteAccount = () => {
   const closeModal = () => {
     methods.clearErrors();
     methods.reset();
-    onClose();
+    setIsOpen((prev) => !prev);
   };
 
   return (
-    <div className="border-border flex w-full flex-col rounded-lg border bg-background p-6 shadow-custom-dark2 md:p-8 xl:flex-col">
+    <div className="border-borderLight dark:border-borderDark flex w-full flex-col rounded-lg border bg-background p-6 shadow-custom-dark2 md:p-8 xl:flex-col">
       {/* Content */}
       <div className="flex flex-col">
         <div className="w-full space-y-8">
@@ -78,7 +78,7 @@ const DeleteAccount = () => {
           <div className="flex justify-end">
             <button
               className="text-sm font-semibold text-red-600"
-              onClick={onOpen}
+              onClick={() => setIsOpen(true)}
             >
               {t("deleteAccount.delete")}
             </button>
@@ -109,15 +109,13 @@ const DeleteAccount = () => {
                 onSubmit={methods.handleSubmit(handleDelete)}
                 className="flex flex-col gap-3"
               >
-                <InputField
+                <CustomInput
                   name="verificationInput"
                   placeholder={t("deleteAccount.modal.inputPlaceholder")}
-                  type="text"
                 />
-                <InputField
+                <CustomInput
                   name="secondVerificationInput"
                   placeholder={t("deleteAccount.modal.inputPlaceholderConfirm")}
-                  type="text"
                 />
 
                 {/*  */}

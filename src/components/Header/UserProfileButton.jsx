@@ -28,21 +28,22 @@ export default function UserProfileButton({ user, handleLogout }) {
       <Menu isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
         {/* Button with image */}
         <MenuButton
-          sx={{
-            bg: colorMode === "dark" ? "dark.dark" : "light.background",
-            _hover: {
-              bg:
-                colorMode === "dark"
-                  ? "dark.darkSecondary"
-                  : "light.backgroundSecondary",
-            },
-            _active: {
-              bg:
-                colorMode === "dark"
-                  ? "dark.darkSecondary"
-                  : "light.backgroundSecondary",
-            },
-          }}
+          variant="ghost"
+          // sx={{
+          //   bg: colorMode === "dark" ? "dark.dark" : "light.background",
+          //   _hover: {
+          //     bg:
+          //       colorMode === "dark"
+          //         ? "dark.darkSecondary"
+          //         : "light.backgroundSecondary",
+          //   },
+          //   _active: {
+          //     bg:
+          //       colorMode === "dark"
+          //         ? "dark.darkSecondary"
+          //         : "light.backgroundSecondary",
+          //   },
+          // }}
           padding="24px 10px"
           as={Button}
         >
@@ -50,14 +51,14 @@ export default function UserProfileButton({ user, handleLogout }) {
             <img
               src={user?.profileImage}
               alt="Profile"
-              className="objet-top size-[38px] rounded-full object-cover lg:size-[28px]"
+              className="objet-top size-[38px] rounded-full object-cover lg:size-[35px]"
             />
-            <div className="hidden whitespace-nowrap text-sm font-normal transition-all duration-1000 ease-in-out xl:block">
+            {/* <div className="hidden whitespace-nowrap text-sm font-normal transition-all duration-1000 ease-in-out xl:block">
               {user.email}
             </div>
             <TiArrowSortedUp
               className={`hidden transition-transform duration-300 ease-in-out sm:block ${isOpen ? "-rotate-180" : ""}`}
-            />
+            /> */}
           </div>
         </MenuButton>
 

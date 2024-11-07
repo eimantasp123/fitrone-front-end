@@ -48,12 +48,12 @@ const AppRoutes: React.FC = () => (
         <Route path="meals" element={<Meals />} />
         <Route path="customers" element={<Customers />} />
         <Route path="orders" element={<Orders />} />
-        <Route path="business-page" element={<BusinessPage />} />
+        {/* <Route path="business-page" element={<BusinessPage />} /> */}
         {/* <Route path="meal-plan-balance" element={<MealPlanFormForBalance />} /> */}
-        <Route path="notifications" element={<Notifications />} />
-        <Route path="messages" element={<Messages />}>
+        {/* <Route path="notifications" element={<Notifications />} /> */}
+        {/* <Route path="messages" element={<Messages />}>
           <Route path=":conversationId" element={<Conversation />} />
-        </Route>
+        </Route> */}
         <Route path="profile" element={<ProfileSettings />} />
         <Route path="faq" element={<Faq />} />
       </Route>

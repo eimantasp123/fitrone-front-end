@@ -62,7 +62,7 @@ export default function RegisterDone() {
             {t("registerDone.title")}
           </h2>
           <div className="flex items-center justify-center">
-            <div className="border-border mb-8 rounded-full border px-8 py-[7px] text-[14px] shadow-custom-light3">
+            <div className="border-border mb-8 rounded-full border px-8 py-[7px] text-[14px] text-textSecondary shadow-custom-light3">
               {userEmail}
             </div>
           </div>

@@ -5,6 +5,8 @@ import { FaClipboardList, FaPager } from "react-icons/fa";
 import { FaRegCalendarCheck } from "react-icons/fa6";
 import { GiMeal } from "react-icons/gi";
 import { IoNotifications } from "react-icons/io5";
+import { MdCardMembership } from "react-icons/md";
+
 import { MdDashboard } from "react-icons/md";
 import { RiFeedbackFill } from "react-icons/ri";
 import SidebarNavLink from "../common/SideBarNavLink";
@@ -54,27 +56,27 @@ export default function ClientMenu({ onClose: closeDrawer }) {
           icon={FaClipboardList}
           text={t("orders")}
         />
-        <SidebarNavLink
+        {/* <SidebarNavLink
           onClick={closeDrawer}
           to="/notifications"
           icon={IoNotifications}
           text={t("notifications")}
-        />
-        <SidebarNavLink
+        /> */}
+        {/* <SidebarNavLink
           onClick={closeDrawer}
           to="/messages"
           icon={AiFillMessage}
           text={t("messages")}
-        />
+        /> */}
         <p className="mt-4 border-t-[1px] pl-5 pt-4 text-[13px] lg:text-textSecondary">
           {t("preferences")}
         </p>
         {/* Give feedback button */}
         <SidebarNavLink
           onClick={closeDrawer}
-          to="/business-page"
-          icon={FaPager}
-          text={t("businessPage")}
+          to="/subscriptions"
+          icon={MdCardMembership}
+          text={t("subscription")}
         />
         <button
           onClick={onOpen}

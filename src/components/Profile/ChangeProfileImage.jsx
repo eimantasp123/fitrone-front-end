@@ -70,7 +70,7 @@ export default function ChangeProfileImage() {
         {/* Upload button */}
         <label
           htmlFor="profileImageUpload"
-          className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-full border border-borderColor bg-buttonPrimaryDark px-4 py-2 text-sm text-white duration-300 ease-in-out hover:bg-buttonPrimaryDarkHover hover:shadow-custom-light2 md:w-[120px] md:px-6"
+          className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-full border border-borderPrimary bg-black/90 px-4 py-2 text-sm text-white duration-300 ease-in-out hover:shadow-custom-light2 dark:bg-white dark:text-black md:w-[120px] md:px-6"
         >
           {imageLoading ? (
             <Spinner size="xs" />
@@ -94,7 +94,7 @@ export default function ChangeProfileImage() {
         <button
           type="button"
           onClick={handleImageDelete}
-          className="flex w-[110px] items-center justify-center gap-2 rounded-full border border-borderColor bg-background px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:shadow-custom-light2 md:w-[120px] md:px-6"
+          className="flex w-[110px] items-center justify-center gap-2 rounded-full border border-borderPrimary bg-background px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:shadow-custom-light2 md:w-[120px] md:px-6"
         >
           {deleteImageLoading ? (
             <Spinner size="xs" />

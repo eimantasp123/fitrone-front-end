@@ -1,4 +1,3 @@
-// PasswordInput.tsx
 import {
   FormControl,
   FormErrorMessage,
@@ -6,7 +5,6 @@ import {
   IconButton,
   Input,
   InputGroup,
-  useColorMode,
 } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { FieldError, useFormContext } from "react-hook-form";
@@ -35,21 +33,6 @@ const PasswordInput: FC<PasswordInputProps> = ({
     register,
     formState: { errors },
   } = useFormContext();
-  const { colorMode } = useColorMode();
-
-  const inputStyles = {
-    bg: colorMode === "dark" ? "dark.backgroundSecondary" : "light.background",
-    borderColor: colorMode === "dark" ? "dark.borderLight" : "light.border",
-    _focus: {
-      borderColor:
-        colorMode === "dark" ? "dark.primaryDark" : "light.placeHolder",
-      boxShadow: `0 0 0 0.8px ${colorMode === "dark" ? "var(--chakra-colors-dark-primaryDark)" : "var(--chakra-colors-light-placeHolder)"}`,
-    },
-    _placeholder: {
-      color: colorMode === "dark" ? "dark.placeHolder" : "light.placeHolder",
-    },
-    padding: "21px 16px",
-  };
 
   return (
     <FormControl
@@ -70,8 +53,6 @@ const PasswordInput: FC<PasswordInputProps> = ({
         <Input
           id={name}
           placeholder={placeholder}
-          sx={inputStyles}
-          fontSize={15}
           isDisabled={isDisabled}
           type={showPassword ? "text" : "password"}
           {...register(name)}
@@ -89,14 +70,10 @@ const PasswordInput: FC<PasswordInputProps> = ({
               )
             }
             onClick={togglePasswordVisibility}
-            variant="ghost"
             size="sm"
             sx={{
               top: "50%",
               transform: "translateY(-50%)",
-              _hover: {
-                bg: colorMode === "dark" ? "dark.hover" : "light.hover",
-              },
             }}
           />
         </div>

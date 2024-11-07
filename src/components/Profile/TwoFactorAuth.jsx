@@ -166,7 +166,7 @@ const TwoFactorAuth = () => {
   };
 
   return (
-    <div className="border-border flex w-full flex-col rounded-lg border bg-background p-6 shadow-custom-dark2 sm:p-8 xl:flex-col">
+    <div className="border-borderLight dark:border-borderDark flex w-full flex-col rounded-lg border bg-background p-6 shadow-custom-dark2 sm:p-8 xl:flex-col">
       <div className="flex flex-col gap-5">
         <FormProvider {...methods}>
           <div className="w-full">
@@ -214,7 +214,7 @@ const TwoFactorAuth = () => {
                     </div>
                     <div className="flex items-center gap-4">
                       <button
-                        className="mt-2 w-[180px] cursor-pointer rounded-full border border-borderColor bg-buttonPrimaryDark px-6 py-2 text-sm text-white transition-colors duration-300 ease-in-out hover:bg-buttonPrimaryDarkHover"
+                        className="mt-2 w-[180px] cursor-pointer rounded-full border border-borderPrimary bg-primary px-6 py-2 text-sm text-textPrimary transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:text-black dark:hover:bg-primaryDark"
                         type="submit"
                         disabled={
                           !methods.watch("phone") ||
@@ -240,7 +240,7 @@ const TwoFactorAuth = () => {
                 {!editMode && (
                   <button
                     onClick={() => setEditMode(true)}
-                    className="text-secondary mt-2 cursor-pointer rounded-full border border-borderColor bg-buttonPrimaryDark px-6 py-2 text-sm text-white transition-colors duration-300 ease-in-out hover:bg-buttonPrimaryDarkHover"
+                    className="text-secondary dark:text-blac mt-2 cursor-pointer rounded-full bg-black/90 px-6 py-2 text-sm text-white transition-colors duration-300 ease-in-out hover:bg-black/75 dark:bg-white dark:text-black dark:hover:bg-white/75"
                     type="button"
                   >
                     {!editMode
@@ -275,7 +275,7 @@ const TwoFactorAuth = () => {
             </p>
             <div className="flex w-full flex-col items-center gap-5 md:flex-row">
               <input
-                className="`w-full bg-backgroundLight w-full rounded-lg border border-borderColor bg-transparent px-3 py-[9px] leading-tight text-gray-700 placeholder-textSecondary outline-none transition-all duration-300 ease-in-out focus-within:border-borderPrimary md:w-[50%]"
+                className="`w-full placeholder-placeholder dark:border-borderLight w-full rounded-lg border border-borderPrimary bg-transparent px-3 py-[9px] leading-tight text-textPrimary outline-none transition-all duration-300 ease-in-out focus-within:border-borderPrimary md:w-[50%]"
                 id="verificationCode"
                 type="text"
                 placeholder={t("2fa.modal.inputPlaceholder")}
@@ -284,7 +284,7 @@ const TwoFactorAuth = () => {
               />
               <div className="flex w-full items-center gap-3 md:w-[70%] md:justify-end">
                 <button
-                  className="bg-accent1 w-full cursor-pointer rounded-full bg-primary px-6 py-2 text-sm text-black transition-colors duration-300 ease-in-out hover:bg-primaryDark"
+                  className="bg-accent1 w-full cursor-pointer rounded-full bg-primary px-6 py-2 text-sm text-black transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
                   onClick={handleVerificationSubmit}
                   disabled={verify2FALoading}
                 >
@@ -303,7 +303,7 @@ const TwoFactorAuth = () => {
               </div>
             </div>
             <button
-              className="text-secondary mt-3 cursor-pointer pl-2 text-[13px] font-medium"
+              className="mt-3 cursor-pointer pl-2 text-[13px] font-medium text-textSecondary"
               onClick={handleResendCode}
               disabled={resendLoading}
             >

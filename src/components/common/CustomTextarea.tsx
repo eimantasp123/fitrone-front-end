@@ -2,29 +2,23 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Input,
-  InputGroup,
-  InputProps,
-  useColorMode,
+  Textarea,
+  TextareaProps,
 } from "@chakra-ui/react";
-import React, { FC } from "react";
+import { FC } from "react";
 import { FieldError, useFormContext } from "react-hook-form";
 
-interface CustomInputProps extends InputProps {
+interface CustomTextareaProps extends TextareaProps {
   name: string;
   label?: string;
-  type?: string;
-  icon?: React.ElementType;
   required?: boolean;
   placeholder?: string;
   isDisabled?: boolean;
 }
 
-const CustomInput: FC<CustomInputProps> = ({
+const CustomTextarea: FC<CustomTextareaProps> = ({
   name,
   label,
-  type = "text",
-  icon: Icon = null,
   required = false,
   placeholder,
   isDisabled,
@@ -43,30 +37,21 @@ const CustomInput: FC<CustomInputProps> = ({
       {label && (
         <FormLabel
           htmlFor={name}
-          marginBottom={1}
+          marginBottom={0}
           fontSize="13px"
           fontWeight="normal"
+          marginBlockEnd={1}
         >
           {label}
         </FormLabel>
       )}
-      <InputGroup>
-        <Input
-          id={name}
-          type={type}
-          {...register(name)}
-          placeholder={placeholder}
-          isDisabled={isDisabled}
-          {...rest}
-        />
-        {Icon && (
-          <div className="absolute right-3 top-1/2 z-20 -translate-y-1/2">
-            <Icon
-              className={`text-sm ${isDisabled ? "opacity-40" : "opacity-100"}`}
-            />
-          </div>
-        )}
-      </InputGroup>
+      <Textarea
+        id={name}
+        {...register(name)}
+        placeholder={placeholder}
+        isDisabled={isDisabled}
+        {...rest}
+      />
       <FormErrorMessage fontSize={13} marginTop={1}>
         {(errors[name as keyof typeof errors] as FieldError)?.message}
       </FormErrorMessage>
@@ -74,4 +59,4 @@ const CustomInput: FC<CustomInputProps> = ({
   );
 };
 
-export default CustomInput;
+export default CustomTextarea;

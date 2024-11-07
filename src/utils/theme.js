@@ -4,112 +4,213 @@ const customTheme = extendTheme({
   colors: {
     light: {
       primary: "#9aea49",
-      primaryDark: "#7cbf3f",
+      primaryDark: "#6cad2e",
+      primaryLight: "#9aea49a8",
+
+      /* Background */
       background: "#fcfcfc",
       backgroundSecondary: "#f3f3f3",
+      backgroundLight: "#e4e4e4c2",
+      /* Text */
       textPrimary: "#0d0d0d",
       textSecondary: "#333333",
-      border: "#d6d6d6",
-      borderLight: "#e0e0e0",
-      borderPrimary: "#0d0d0d1c",
-      hoverPrimary: "#cecece36",
-      white: "#fff",
-      bgDrawer: "#fafafa",
-      black: "#000",
-      dark: "#171717",
-      darkSecondary: "#212121",
-      tooltipDark: "#242424",
-      placeHolder: "#8a8a8a",
-      hover: "#e9e9e9",
+      /* Border */
+      borderPrimary: "#d6d6d6",
+      borderDark: "#c0c0c0",
+      borderLight: "#e9e9e9",
+      /* Hover  */
+      hoverPrimary: "#eeeeee",
+      hoverSecondary: "#eeeeee8d",
+      /* Placeholder  */
+      placeholder: "#868686",
     },
     dark: {
       primary: "#9aea49",
-      primaryDark: "#7cbf3f",
+      primaryDark: "#6cad2e",
+      primaryLight: "#7ec03c6c",
+      /* Background */
       background: "#101010",
       backgroundSecondary: "#141414",
+      backgroundLight: "#1b1b1b",
+      /* Text */
       textPrimary: "#e7e5e4",
       textSecondary: "#c4c4c4",
-      border: "#292524",
-      borderPrimary: "#9aea493d",
-      hoverPrimary: "#141414",
-      borderLight: "#424242",
-      white: "#fff",
-      black: "#000",
-      dark: "#171717",
-      darkSecondary: "#212121",
-      placeHolder: "#707070",
-      hover: "#1e1e1e",
+      /* Border */
+      borderPrimary: "#2e2e2ec3",
+      borderDark: "#222222",
+      borderLight: "#363636",
+      /* Hover */
+      hoverPrimary: "#1d1d1d",
+      hoverSecondary: "#1d1d1dd3",
+      /* Placeholder  */
+      placeholder: "#7c7c7c",
     },
   },
   components: {
+    Textarea: {
+      baseStyle: {
+        fontSize: "15px",
+        padding: "10px",
+        bg: "transparent",
+        _placeholder: {
+          color: "gray.500",
+        },
+      },
+      variants: {
+        outline: (props) => ({
+          borderColor:
+            props.colorMode === "light"
+              ? "light.borderDark"
+              : "dark.borderPrimary",
+          _focus: {
+            borderColor:
+              props.colorMode === "light"
+                ? "light.borderDark"
+                : "dark.primaryLight",
+            boxShadow: `0 0 0 1px ${
+              props.colorMode === "light"
+                ? "var(--chakra-colors-light-borderDark)"
+                : "var(--chakra-colors-dark-primaryLight)"
+            }`,
+          },
+          _placeholder: {
+            color:
+              props.colorMode === "light"
+                ? "light.placeholder"
+                : "dark.placeholder",
+          },
+        }),
+      },
+      defaultProps: {
+        variant: "outline",
+      },
+    },
+    Button: {
+      variants: {
+        ghost: (props) => ({
+          bg: "transparent",
+          borderRadius: "md",
+          _hover: {
+            bg:
+              props.colorMode === "light"
+                ? "light.borderLight"
+                : "dark.borderDark",
+          },
+          _active: {
+            bg:
+              props.colorMode === "light"
+                ? "light.borderLight"
+                : "dark.borderDark",
+          },
+          transition: "background-color 0.3s ease",
+        }),
+        customHeaderIcon: (props) => ({
+          bg: props.colorMode === "light" ? "blackAlpha.50" : "whiteAlpha.50",
+          borderRadius: "full",
+          _hover: {
+            bg:
+              props.colorMode === "light" ? "blackAlpha.200" : "whiteAlpha.200",
+          },
+          transition: "background-color 0.3s ease",
+        }),
+      },
+      defaultProps: {
+        variant: "ghost",
+      },
+    },
+
+    Input: {
+      variants: {
+        outline: (props) => ({
+          field: {
+            bg: "transparent",
+            fontSize: "15px",
+            padding: "21px 16px",
+            _placeholder: {
+              color:
+                props.colorMode === "light"
+                  ? "light.placeholder"
+                  : "dark.placeholder",
+            },
+            borderColor:
+              props.colorMode === "light"
+                ? "light.borderDark"
+                : "dark.borderLight",
+            _focus: {
+              borderColor:
+                props.colorMode === "light"
+                  ? "light.borderDark"
+                  : "dark.primaryLight",
+              boxShadow: `0 0 0 1px ${
+                props.colorMode === "light"
+                  ? "var(--chakra-colors-light-borderDark)"
+                  : "var(--chakra-colors-dark-primaryLight)"
+              }`,
+            },
+          },
+        }),
+      },
+      defaultProps: {
+        variant: "outline",
+      },
+    },
+
     Menu: {
-      parts: ["list", "item"],
+      parts: ["list", "item", "button"],
       baseStyle: (props) => ({
         list: {
-          bg: props.colorMode === "dark" ? "dark.dark" : "light.white", // Background color for MenuList
+          bg:
+            props.colorMode === "light" ? "whiteAlpha.900" : "dark.background",
           borderColor:
-            props.colorMode === "dark"
-              ? "dark.darkSecondary"
-              : "light.borderColor", // Border color for the list
+            props.colorMode === "light"
+              ? "light.borderPrimary"
+              : "dark.borderPrimary",
         },
         item: {
           bg: "transparent",
-          fontSize: "sm",
+          fontSize: "13px",
           _hover: {
             bg:
-              props.colorMode === "dark"
-                ? "dark.darkSecondary"
-                : "light.backgroundSecondary", // Hover background color
+              props.colorMode === "light"
+                ? "light.hoverPrimary"
+                : "dark.hoverPrimary",
+          },
+        },
+        button: {
+          bg: "transparent",
+          _hover: {
+            bg:
+              props.colorMode === "light"
+                ? "light.hoverPrimary"
+                : "dark.primaryLight",
           },
         },
       }),
     },
     Tooltip: {
       baseStyle: (props) => ({
-        bg: props.colorMode === "dark" ? "dark.white" : "light.tooltipDark", // Tooltip background color
-        color: props.colorMode === "dark" ? "dark.black" : "light.white", // Tooltip text color
-        borderRadius: "lg", // Rounded corners
-        boxShadow: "lg", // Add a shadow for better visibility
-        fontSize: "13px", // Small font size
-        px: 3, // Padding X
-        py: "5px", // Padding Y
+        bg: props.colorMode === "light" ? "blackAlpha.900" : "whiteAlpha.900",
+        color: props.colorMode === "light" ? "white" : "black",
+        borderRadius: "lg",
+        boxShadow: "lg",
+        fontSize: "13px",
+        px: 3,
+        py: "5px",
       }),
-    },
-    Button: {
-      variants: {
-        customIconButton: (props) => ({
-          bg:
-            props.colorMode === "dark"
-              ? "dark.border"
-              : "light.backgroundSecondary", // Background based on color mode
-          borderRadius: "full", // Make the button round
-          _hover: {
-            bg:
-              props.colorMode === "dark"
-                ? "dark.borderLight"
-                : "light.borderLight", // Hover background color
-          },
-          transition: "background-color 0.3s ease", // Add smooth transition
-        }),
-      },
     },
     Switch: {
       baseStyle: (props) => ({
         track: {
-          bg:
-            props.colorMode === "dark" ? "dark.darkSecondary" : "light.border", // Default track color
+          bg: props.colorMode === "light" ? "blackAlpha.200" : "whiteAlpha.200",
           _checked: {
-            bg: props.colorMode === "dark" ? "dark.primary" : "light.primary", // Track color when checked
+            bg: props.colorMode === "light" ? "light.primary" : "light.primary",
           },
         },
         thumb: {
-          bg:
-            props.colorMode === "dark"
-              ? "dark.textPrimary"
-              : "light.textSecondary", // Default thumb color
+          bg: props.colorMode === "light" ? "black" : "white",
           _checked: {
             bg:
-              props.colorMode === "dark" ? "dark.darkSecondary" : "light.white", // Thumb color when checked
+              props.colorMode === "light" ? "blackAlpha.900" : "blackAlpha.900",
           },
         },
       }),
@@ -117,34 +218,34 @@ const customTheme = extendTheme({
     Modal: {
       baseStyle: (props) => ({
         dialog: {
-          bg: props.colorMode === "dark" ? "dark.dark" : "light.white", // Background color for Modal
+          bg:
+            props.colorMode === "light"
+              ? "light.background"
+              : "dark.background",
           color:
-            props.colorMode === "dark"
-              ? "dark.textPrimary"
-              : "light.textPrimary", // Text color for Modal
+            props.colorMode === "light"
+              ? "light.textPrimary"
+              : "dark.textPrimary",
         },
         closeButton: {
-          borderRadius: "full", // Fully rounded close button
-          marginRight: 2, // Margin right
-          marginTop: 2, // Margin left
-          bg:
-            props.colorMode === "dark"
-              ? "dark.border"
-              : "light.backgroundSecondary", // Close button background color
+          borderRadius: "full",
+          marginRight: 2,
+          marginTop: 2,
+          bg: props.colorMode === "light" ? "blackAlpha.100" : "whiteAlpha.50",
         },
       }),
     },
     Drawer: {
       baseStyle: (props) => ({
         dialog: {
-          bg: props.colorMode === "dark" ? "dark.dark" : "light.bgDrawer", // Background color for Drawer
+          bg: props.colorMode === "light" ? "light.white" : "dark.black",
           color:
-            props.colorMode === "dark"
-              ? "dark.textPrimary"
-              : "light.textPrimary", // Text color for Drawer
+            props.colorMode === "light"
+              ? "light.textPrimary"
+              : "dark.textPrimary",
         },
         closeButton: {
-          borderRadius: "full", // Fully rounded close button
+          borderRadius: "full",
         },
       }),
     },

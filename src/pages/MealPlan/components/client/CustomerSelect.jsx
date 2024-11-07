@@ -37,7 +37,7 @@ export default function CustomerSelect({
       {/* The visible part of the custom select */}
       <h3 className="text-nowrap pl-1 text-xs font-semibold">{title}</h3>
       <div
-        className={`relative flex w-full cursor-pointer text-nowrap text-sm ${isOpen ? "bg-primaryLight border-borderSecondary" : "border-transparent"} hover:bg-primaryLight hover:border-borderSecondary items-center justify-between rounded-full border-[1px] bg-backgroundSecondary py-2 pl-4 pr-2 transition-colors duration-300 ease-in-out md:py-1 3xl:py-2`}
+        className={`relative flex w-full cursor-pointer text-nowrap text-sm ${isOpen ? "border-borderPrimary bg-primaryLight" : "border-transparent"} items-center justify-between rounded-full border-[1px] bg-backgroundSecondary py-2 pl-4 pr-2 transition-colors duration-300 ease-in-out hover:border-borderPrimary hover:bg-primaryLight md:py-1 3xl:py-2`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <span>{selected}</span>
@@ -46,7 +46,7 @@ export default function CustomerSelect({
         />
         {/* Dropdown menu */}
         {isOpen && (
-          <div className="custom-scrollbar-select absolute left-0 top-[40px] z-10 max-h-52 w-full overflow-y-auto rounded-2xl border border-borderColor bg-background p-2 text-sm text-textSecondary shadow-custom-light md:top-[35px]">
+          <div className="custom-scrollbar-select absolute left-0 top-[40px] z-10 max-h-52 w-full overflow-y-auto rounded-2xl border border-borderPrimary bg-background p-2 text-sm text-textSecondary shadow-custom-light md:top-[35px]">
             <div className="space-y-1">
               {options.map((option) => (
                 <div

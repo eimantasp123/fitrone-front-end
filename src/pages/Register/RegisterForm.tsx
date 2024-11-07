@@ -94,7 +94,7 @@ export default function RegisterForm() {
           <div className="text-center">
             <button
               type="button"
-              className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-hoverPrimary px-4 py-3 text-sm text-textPrimary shadow-none transition-all duration-200 ease-in-out hover:border-borderColor hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)]"
+              className="hover:bg-backgroundLight dark:hover:bg-backgroundLight flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in dark:bg-background"
               onClick={() => googleLogin()}
             >
               <FaGoogle className="text-[16px]" /> Google
@@ -108,7 +108,7 @@ export default function RegisterForm() {
               render={(renderProps) => (
                 <button
                   type="button"
-                  className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-hoverPrimary px-4 py-3 text-sm text-textPrimary shadow-none transition-all duration-200 ease-in-out hover:border-borderColor hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)]"
+                  className="hover:bg-backgroundLight dark:hover:bg-backgroundLight flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in dark:bg-background"
                   onClick={renderProps.onClick}
                 >
                   <FaFacebook className="text-[17px] text-textPrimary" />

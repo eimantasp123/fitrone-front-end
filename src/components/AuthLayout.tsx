@@ -1,35 +1,13 @@
 import { useColorMode } from "@chakra-ui/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CiDark, CiLight } from "react-icons/ci";
 import { Outlet } from "react-router-dom";
 import LanguageSelector from "./LanguageSelector";
-import { useTranslation } from "react-i18next";
 
 export default function AuthLayout() {
-  // Initialize the light mode state from localStorage
   const { t } = useTranslation("auth");
-  const [isLightMode, setIsLightMode] = useState<boolean>(
-    localStorage.getItem("chakra-ui-color-mode") === "light",
-  );
-
-  const { toggleColorMode } = useColorMode();
-
-  // Function to toggle light/dark mode
-  const toggleLightMode = () => {
-    const root = document.documentElement;
-    root.classList.add("disable-transitions");
-    const currentTheme = root.getAttribute("data-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    root.setAttribute("data-theme", newTheme);
-    setIsLightMode((prev) => !prev);
-    toggleColorMode();
-
-    // Remove the transition class after re-render
-    setTimeout(() => {
-      root.classList.remove("disable-transitions");
-    }, 0);
-  };
+  const { toggleColorMode, colorMode } = useColorMode();
 
   // Google Client ID for OAuth
   const GOOGLE_CLIENT_ID: string =
@@ -39,9 +17,9 @@ export default function AuthLayout() {
   return (
     <div className="flex h-screen min-h-[700px] select-none">
       {/* Left side on Authlayout page */}
-      <div className="hidden w-1/2 justify-between border-r-[1px] border-borderColor bg-backgroundSecondary p-10 lg:flex lg:flex-col">
+      <div className="hidden w-1/2 justify-between border-r-[1px] border-borderPrimary bg-backgroundSecondary p-10 dark:bg-background lg:flex lg:flex-col">
         <img
-          src={`${isLightMode ? "/logo-black.png" : "/logo-white.png"}`}
+          src={`${colorMode === "light" ? "/logo-black.png" : "/logo-white.png"}`}
           alt="logo"
           className="w-[110px]"
         />
@@ -52,10 +30,10 @@ export default function AuthLayout() {
           </p>
         </div>
       </div>
-      <div className="relative flex w-full flex-col items-center justify-center overflow-y-auto bg-background lg:w-1/2">
+      <div className="relative flex w-full flex-col items-center justify-center overflow-y-auto bg-background dark:bg-backgroundSecondary lg:w-1/2">
         {/* Logo on mobile screen */}
         <img
-          src={`${isLightMode ? "/logo-black.png" : "/logo-white.png"}`}
+          src={`${colorMode === "light" ? "/logo-black.png" : "/logo-white.png"}`}
           alt="logo"
           className="absolute left-3 top-3 w-[100px] lg:hidden"
         />
@@ -65,10 +43,10 @@ export default function AuthLayout() {
           <LanguageSelector />
         </div>
         <div
-          onClick={toggleLightMode}
-          className="absolute right-3 top-4 flex size-8 cursor-pointer items-center justify-center rounded-full border border-borderColor text-textPrimary transition-colors duration-200 ease-in-out hover:bg-backgroundSecondary"
+          onClick={toggleColorMode}
+          className="absolute right-3 top-4 flex size-8 cursor-pointer items-center justify-center rounded-full border border-borderPrimary text-textPrimary transition-colors duration-200 ease-in-out"
         >
-          {isLightMode ? (
+          {colorMode === "light" ? (
             <CiLight className="text-lg" />
           ) : (
             <CiDark className="text-lg" />

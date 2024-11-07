@@ -8,7 +8,7 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import authContext from "../../context/AuthContext";
-import NotificationButton from "../NotificationButton";
+// import NotificationButton from "../NotificationButton";
 import Support from "../Support";
 import LightAndDarkMode from "../common/LightAndDarkMode";
 import SideBarDrawer from "../common/SideBarDrawer";
@@ -72,7 +72,7 @@ export default function GeneralHeader() {
 
           {/* Notifications */}
 
-          <NotificationButton />
+          {/* <NotificationButton /> */}
 
           {/* User Profile */}
           <UserProfileButton user={user} handleLogout={handleLogout} />

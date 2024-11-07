@@ -5,64 +5,47 @@
 /* Default (light) theme */
 :root {
   --color-primary: #9aea49;
-  --color-primary-dark: #8cd844;
-  --color-primary-light: #7dbf3f21;
+  --color-primary-dark: #6cad2e;
+  --color-primary-light: #9aea49a8;
   /* Background */
   --color-background: #fcfcfc;
   --color-background-secondary: #f3f3f3;
-  --color-background-tertiary: #f0f0f0;
+  --color-background-light: #e4e4e4c2;
   /* Text */
   --color-text-primary: #0d0d0d;
-  --color-text-secondary: #333333;
-  --color-text-secondary-light: #a8a29e;
-  --color-text-primary-light: #ffffff;
+  --color-text-secondary: #3b3b3b;
   /* Border */
-  --color-border: #d6d6d6;
-  --color-border-primary: #0d0d0d1c;
-  --color-border-secondary: #7cbf3f;
+  --color-border-primary: #d6d6d6;
+  --color-border-dark: #c0c0c0;
+  --color-border-light: #e9e9e9;
   /* Hover */
-  --color-hover-primary: #cecece36;
-  /* Sidebar colors */
-  --color-sidebar-primary: #171717;
-  --color-sidebar-text: #e7e5e4;
-  /* Buttons */
-  --color-button-primary-dark: #1f1f1f;
-  --color-button-primary-dark-hover: #4b4b4b;
+  --color-hover-primary: #eeeeee;
+  --color-hover-secondary: #eeeeee8d;
+  /* Placeholder */
+  --color-placeholder: #868686;
 }
 
 /* Dark theme */
 [data-theme="dark"] {
   --color-primary: #9aea49;
-  --color-primary-dark: #8cd844;
-  --color-primary-light: #2d352285;
+  --color-primary-dark: #6cad2e;
+  --color-primary-light: #7ec03cad;
   /* Background */
-  --color-background: #171717;
-  --color-background-secondary: #212121;
-  --color-background-tertiary: #181818;
+  --color-background: #101010;
+  --color-background-secondary: #141414;
+  --color-background-light: #1d1d1d;
   /* Text */
   --color-text-primary: #e7e5e4;
-  --color-text-secondary: #c4c4c4;
-  --color-text-secondary-light: #696969;
-  --color-text-primary-light: #0d0d0d;
+  --color-text-secondary: #a7a7a7;
   /* Border */
-  --color-border: #2e2c2b;
-  --color-border-primary: #9aea493d;
-  --color-border-secondary: #7dbf3f70;
+  --color-border-primary: #2e2e2ec3;
+  --color-border-dark: #222222;
+  --color-border-light: #363636;
   /* Hover */
   --color-hover-primary: #141414;
-  /* SIdebar colors */
-  --color-sidebar-primary: #171717;
-  --color-sidebar-text: #e7e5e4;
-  /* Buttons */
-  --color-button-primary-dark: #212121;
-  --color-button-primary-dark-hover: #171717;
-}
-
-/* Disable all transitions when the class 'disable-transitions' is applied */
-.disable-transitions *,
-.disable-transitions *::before,
-.disable-transitions *::after {
-  transition: none !important;
+  --color-hover-secondary: #1d1d1dd3;
+  /* Placeholder */
+  --color-placeholder: #7c7c7c;
 }
 
 .custom-scrollbar {

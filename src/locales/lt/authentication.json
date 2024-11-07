@@ -18,7 +18,8 @@
     "2FADescription": "Įveskite 6 skaitmenų kodą, išsiųstą į jūsų telefoną",
     "verify": "Patvirtinti",
     "resend": "Persiųsti kodą",
-    "didNotReceive": "Negavote kodo po 1 minutės?"
+    "didNotReceive": "Negavote kodo po 1 minutės?",
+    "sending": "Siunčiama..."
   },
   "register": {
     "title": "Registruotis",
@@ -75,5 +76,9 @@
     "veryStrong": "Labai stiprus",
     "default": "Slaptažodžio stiprumas",
     "description": "Slaptažodis turi būti bent 8 simbolių ilgio ir turėti bent vieną mažąją raidę, didžiąją raidę, skaičių ir specialų simbolį."
+  },
+  "verifyEmail": {
+    "title": "Patvirtinkite el. pašto adresą",
+    "description": "Įveskite 6 skaitmenų kodą, kurį išsiuntėme į jūsų el. paštą"
   }
 }

@@ -5,32 +5,23 @@ import {
   Spinner,
   useColorMode,
 } from "@chakra-ui/react";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import ErrorAlert from "../../components/common/ErrorAlert";
 import AuthContext from "../../context/AuthContext";
 import { showCustomToast } from "../../hooks/showCustomToast";
+import { useTranslation } from "react-i18next";
 
 export default function ResetPasswordForm() {
+  const { t } = useTranslation("auth");
   const { verifyEmail, userEmail, successMessage, resendEmailVerifyCode } =
     useContext(AuthContext);
   const [code, setCode] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
   const { colorMode } = useColorMode();
 
-  const {
-    execute: verifyEmailHandler,
-    loading,
-    error: verifyEmailError,
-    clearError: clearVerifyError,
-  } = verifyEmail;
-  const {
-    execute: resendEmailVerifyCodeHandler,
-    loading: resendCodeLoading,
-    error: resendCodeError,
-    clearError: clearResendError,
-  } = resendEmailVerifyCode;
-  const errors = verifyEmailError || resendCodeError;
+  const { execute: verifyEmailHandler, loading } = verifyEmail;
+  const { execute: resendEmailVerifyCodeHandler, loading: resendCodeLoading } =
+    resendEmailVerifyCode;
   const onSubmit = async () => {
     const details = {
       email: userEmail,
@@ -38,16 +29,6 @@ export default function ResetPasswordForm() {
     };
     await verifyEmailHandler(details);
   };
-
-  const clearAllErrors = useCallback(() => {
-    clearVerifyError();
-    clearResendError();
-  }, [clearVerifyError, clearResendError]);
-
-  useEffect(() => {
-    clearAllErrors();
-    return () => clearAllErrors();
-  }, [clearAllErrors]);
 
   useEffect(() => {
     setIsFormValid(code.length === 6);
@@ -69,12 +50,12 @@ export default function ResetPasswordForm() {
   return (
     <>
       <Helmet>
-        <title>Verify Email</title>
+        <title>{t("verifyEmail.title")}</title>
       </Helmet>
       <div className="flex h-full w-full max-w-md flex-col items-center justify-center px-6 text-textPrimary">
         <div className="text-center">
           <h2 className="mb-2 text-2xl font-semibold lg:text-3xl">
-            Verify your email
+            {t("verifyEmail.title")}
           </h2>
           <p className="mt-2">{successMessage}</p>
           <div className="flex items-center justify-center">
@@ -85,29 +66,29 @@ export default function ResetPasswordForm() {
         </div>
         <div className="flex items-center justify-center">
           <HStack>
-            <PinInput
-              onChange={(value) => setCode(value)}
-              placeholder="•"
-              focusBorderColor={
-                colorMode === "light"
-                  ? "light.primaryDark"
-                  : "dark.borderPrimary"
-              }
-            >
-              {/* <PinInputField /> */}
+            <PinInput onChange={(value) => setCode(value)} placeholder="•">
               {Array.from({ length: numberOfFields }).map((_, index) => (
                 <PinInputField
-                  key={index}
                   sx={{
                     borderColor:
-                      colorMode === "light" ? "gray.400" : "dark.borderLight",
+                      colorMode === "light"
+                        ? "light.borderPrimary"
+                        : "dark.borderLight", // Apply border color based on color mode
                     _hover: {
                       borderColor:
                         colorMode === "light"
-                          ? "gray.600"
-                          : "dark.borderPrimary",
+                          ? "light.textPrimary"
+                          : "dark.primaryLight", // Apply border color with primary color
+                    },
+                    _focus: {
+                      borderColor:
+                        colorMode === "light"
+                          ? "light.textPrimary"
+                          : "dark.primary", // Apply border color with focus color
+                      boxShadow: `0 0 0 0.8px ${colorMode === "light" ? "var(--chakra-colors-light-textPrimary)" : "var(--chakra-colors-dark-primaryLight)"}`, // Apply box shadow with focus color
                     },
                   }}
+                  key={index}
                 />
               ))}
             </PinInput>
@@ -115,7 +96,7 @@ export default function ResetPasswordForm() {
         </div>
 
         <p className="mt-4 text-center text-sm text-textSecondary">
-          Enter the 6-digit code sent to your email
+          {t("verifyEmail.description")}
         </p>
 
         <button
@@ -126,20 +107,18 @@ export default function ResetPasswordForm() {
           onClick={onSubmit}
           disabled={!isFormValid || loading}
         >
-          {loading ? <Spinner size="sm" /> : "Verify"}
+          {loading ? <Spinner size="sm" /> : `${t("login.verify")}`}
         </button>
 
-        <div className="w-[90%]">
-          <ErrorAlert error={errors} clearError={clearAllErrors} />
-        </div>
-
         <div className="mt-4 flex items-center justify-center gap-2 text-sm text-textSecondary">
-          <p>Didn&apos;t receive the code in 1 minute?</p>
+          <p>{t("login.didNotReceive")}</p>
           <p
             className="cursor-pointer font-semibold text-textPrimary"
             onClick={resendVerifyCode}
           >
-            {resendCodeLoading ? "Sending..." : "Resend code"}
+            {resendCodeLoading
+              ? `${t("login.sending")}`
+              : `${t("login.resend")}`}
           </p>
         </div>
       </div>

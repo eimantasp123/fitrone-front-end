@@ -13,7 +13,7 @@ const SignUpPrompt = ({
 }: SignUpPromptProps) => {
   return (
     <div className={`text-center text-sm ${className}`}>
-      <p className="text-textPrimary">
+      <p className="text-textSecondary">
         {message}{" "}
         <span
           onClick={handleSignUp}

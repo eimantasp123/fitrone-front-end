@@ -50,7 +50,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="border-border flex w-full flex-col rounded-lg border bg-background p-5 shadow-custom-dark2 sm:p-8 xl:flex-col">
+    <div className="border-borderLight dark:border-borderDark flex w-full flex-col rounded-lg border bg-background p-5 shadow-custom-dark2 sm:p-8 xl:flex-col">
       {/* <h2 className="text-lg font-semibold ">Change Password</h2> */}
       <div className="flex flex-col gap-5">
         <FormProvider {...methods}>

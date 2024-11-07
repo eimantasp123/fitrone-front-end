@@ -34,9 +34,9 @@ interface LoginFormData {
 export default function LoginForm() {
   const { t } = useTranslation("auth");
   const schema = useLoginSchema();
+  const { colorMode } = useColorMode();
   const [code, setCode] = useState<string>("");
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
-  const { colorMode } = useColorMode();
   const {
     user,
     login,
@@ -122,31 +122,29 @@ export default function LoginForm() {
           <>
             <div className="flex items-center justify-center">
               <HStack>
-                <PinInput
-                  onChange={(value) => setCode(value)}
-                  placeholder="•"
-                  focusBorderColor={
-                    colorMode === "light"
-                      ? "light.primaryDark"
-                      : "dark.borderPrimary"
-                  }
-                >
-                  {/* <PinInputField /> */}
+                <PinInput onChange={(value) => setCode(value)} placeholder="•">
                   {Array.from({ length: numberOfFields }).map((_, index) => (
                     <PinInputField
-                      key={index}
                       sx={{
                         borderColor:
                           colorMode === "light"
-                            ? "gray.400"
-                            : "dark.borderLight",
+                            ? "light.borderPrimary"
+                            : "dark.borderLight", // Apply border color based on color mode
                         _hover: {
                           borderColor:
                             colorMode === "light"
-                              ? "gray.600"
-                              : "dark.borderPrimary",
+                              ? "light.textPrimary"
+                              : "dark.primaryLight", // Apply border color with primary color
+                        },
+                        _focus: {
+                          borderColor:
+                            colorMode === "light"
+                              ? "light.textPrimary"
+                              : "dark.primary", // Apply border color with focus color
+                          boxShadow: `0 0 0 0.8px ${colorMode === "light" ? "var(--chakra-colors-light-textPrimary)" : "var(--chakra-colors-dark-primaryLight)"}`, // Apply box shadow with focus color
                         },
                       }}
+                      key={index}
                     />
                   ))}
                 </PinInput>
@@ -202,7 +200,7 @@ export default function LoginForm() {
                 </div>
                 <div className="mt-1 flex items-center justify-center">
                   <span
-                    className="inline-block cursor-pointer align-baseline text-sm font-semibold transition-colors duration-200 ease-in-out"
+                    className="inline-block cursor-pointer align-baseline text-sm font-semibold text-textPrimary transition-colors duration-200 ease-in-out hover:text-textSecondary"
                     onClick={handleForgotPassword}
                   >
                     {t("login.forgotPassword")}
@@ -214,7 +212,7 @@ export default function LoginForm() {
             <div className="mt-8 flex flex-col gap-2">
               <div className="text-center">
                 <button
-                  className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-hoverPrimary py-3 text-sm text-textPrimary shadow-none transition-all duration-200 ease-in-out hover:border-borderColor hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)]"
+                  className="hover:bg-backgroundLight dark:hover:bg-backgroundLight flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in dark:bg-background"
                   onClick={() => googleLogin()}
                 >
                   <FaGoogle className="text-[16px]" /> {t("login.signInWith")}{" "}
@@ -230,7 +228,7 @@ export default function LoginForm() {
                   }
                   render={(renderProps) => (
                     <button
-                      className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-hoverPrimary py-3 text-sm text-textPrimary shadow-none transition-all duration-200 ease-in-out hover:border-borderColor hover:shadow-[0_0_8px_2px_rgba(0,0,0,0.06)]"
+                      className="dark:hover:bg-backgroundLight hover:bg-backgroundLight flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in dark:bg-background"
                       onClick={renderProps.onClick}
                     >
                       <FaFacebook className="text-[17px] text-textPrimary" />{" "}
