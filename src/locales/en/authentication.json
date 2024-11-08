@@ -45,7 +45,6 @@
     "email": "Email Address",
     "send": "Send Reset Link",
     "backToLogin": "Back to login",
-    "successMessage": "An email is on the way to <1>{{userEmail}}</1> with instructions for resetting your password.",
     "didNotReceiveEmail": "Didn't receive the email after 3 minutes?",
     "resend": "Resend email",
     "newPassword": "New Password",

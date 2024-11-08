@@ -45,7 +45,6 @@
     "email": "El. paštas",
     "send": "Siųsti",
     "backToLogin": "Grįžti į prisijungimą",
-    "successMessage": "El. laiškas siunčiamas adresu <1>{{userEmail}}</1> su instrukcijomis, kaip iš naujo nustatyti slaptažodį.",
     "didNotReceiveEmail": "Nepavyko gauti el. laiško po 3 minučių?",
     "resend": "Persiųsti el. laišką",
     "newPassword": "Naujas slaptažodis",

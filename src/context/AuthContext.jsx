@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
 import axiosInstance from "../utils/axiosInterceptors";
+import { showCustomToast } from "@/hooks/showCustomToast";
 
 const AuthContext = createContext();
 const MOCK_API = import.meta.env.VITE_API_URL;
@@ -56,8 +57,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Login function
-  const login = useAsync(async (email, password) => {
-    const response = await API.post("/auth/login", { email, password });
+  const login = useAsync(async (email, password, signal, config) => {
+    const response = await API.post(
+      "/auth/login",
+      { email, password },
+      { signal, ...config },
+    );
     clearMessages();
     if (response.data.is2FA) {
       setUserId(response.data.userId);
@@ -69,8 +74,12 @@ export const AuthProvider = ({ children }) => {
   });
 
   // Verify login function
-  const verifyLogin = useAsync(async (userId, code) => {
-    const response = await API.post("/auth/verify-login", { userId, code });
+  const verifyLogin = useAsync(async (userId, code, signal, config) => {
+    const response = await API.post(
+      "/auth/verify-login",
+      { userId, code },
+      { signal, ...config },
+    );
     clearMessages();
     setIs2FAStep(false);
     dispatch(setUserDetails(response.data));
@@ -79,32 +88,56 @@ export const AuthProvider = ({ children }) => {
   });
 
   // Resend code function
-  const resendCode = useAsync(async (userId) => {
-    const response = await API.post("/auth/resend-code", { userId });
+  const resendCode = useAsync(async (userId, signal, config) => {
+    const response = await API.post(
+      "/auth/resend-code",
+      { userId },
+      { signal, ...config },
+    );
     return response.data;
   });
 
   // Forgot password function
-  const forgotPassword = useAsync(async (email) => {
-    const response = await API.post("/auth/forgot-password", { email });
+  const forgotPassword = useAsync(async (email, signal, config) => {
+    const response = await API.post(
+      "/auth/forgot-password",
+      { email },
+      {
+        signal,
+        ...config,
+      },
+    );
     setSuccessMessage(response.data.message);
     setUserEmail(response.data.email);
+    showCustomToast({
+      status: "success",
+      description: response.data.description,
+    });
   });
 
   // Reset password function
-  const resetPassword = useAsync(async (token, data) => {
-    const response = await API.post(`/auth/reset-password/${token}`, { data });
+  const resetPassword = useAsync(async (token, data, signal, config) => {
+    const response = await API.post(
+      `/auth/reset-password/${token}`,
+      { data },
+      { signal, ...config },
+    );
     setSuccessMessage(response.data.message);
   });
 
   // Google login function
-  const handleGoogleLogin = useAsync(async (tokenResponse) => {
+  const handleGoogleLogin = useAsync(async (tokenResponse, signal, config) => {
     const token = tokenResponse.access_token;
     const response = await API.post(
       "/auth/google",
       {},
       {
-        headers: { Authorization: `Bearer ${token}` },
+        signal,
+        ...config,
+        headers: {
+          ...config.headers,
+          Authorization: `Bearer ${token}`,
+        },
       },
     );
     if (response.data.is2FA) {
@@ -117,11 +150,18 @@ export const AuthProvider = ({ children }) => {
   });
 
   // Facebook login function
-  const handleFacebookLogin = useAsync(async (details) => {
+  const handleFacebookLogin = useAsync(async (details, signal, config) => {
     const response = await API.post(
       "/auth/facebook",
       {},
-      { headers: { Authorization: `Bearer ${details.accessToken}` } },
+      {
+        signal,
+        ...config,
+        headers: {
+          ...config.headers,
+          Authorization: `Bearer ${details.accessToken}`,
+        },
+      },
     );
     if (response.data.is2FA) {
       setUserId(response.data.userId);
@@ -133,8 +173,11 @@ export const AuthProvider = ({ children }) => {
   });
 
   // Register email function
-  const registerEmail = useAsync(async (data) => {
-    const response = await API.post("/auth/register-email", data);
+  const registerEmail = useAsync(async (data, signal, config) => {
+    const response = await API.post("/auth/register-email", data, {
+      signal,
+      ...config,
+    });
     if (response.data) {
       setSuccessMessage(response.data.message);
       setUserEmail(response.data.email);
@@ -143,23 +186,27 @@ export const AuthProvider = ({ children }) => {
   });
 
   // Verify email function
-  const verifyEmail = useAsync(async (data) => {
-    await API.post("/auth/verify-email", data);
+  const verifyEmail = useAsync(async (data, signal, config) => {
+    await API.post("/auth/verify-email", data, { signal, ...config });
     navigate("/register-done");
   });
 
   // Complete registration function
-  const completeRegistration = useAsync(async (data) => {
-    await API.post("/auth/complete-registration", data);
+  const completeRegistration = useAsync(async (data, signal, config) => {
+    await API.post("/auth/complete-registration", data, { signal, ...config });
     localStorage.setItem("authenticated", true);
     setAuthChecking(true);
   });
 
   // Resend email verify code function
-  const resendEmailVerifyCode = useAsync(async () => {
-    const response = await API.post("/auth/resend-email-verify-code", {
-      email: userEmail,
-    });
+  const resendEmailVerifyCode = useAsync(async (signal, config) => {
+    const response = await API.post(
+      "/auth/resend-email-verify-code",
+      {
+        email: userEmail,
+      },
+      { signal, ...config },
+    );
     return response.data;
   });
 

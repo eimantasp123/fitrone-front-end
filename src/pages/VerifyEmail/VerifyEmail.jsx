@@ -22,6 +22,8 @@ export default function ResetPasswordForm() {
   const { execute: verifyEmailHandler, loading } = verifyEmail;
   const { execute: resendEmailVerifyCodeHandler, loading: resendCodeLoading } =
     resendEmailVerifyCode;
+
+  // Verify email
   const onSubmit = async () => {
     const details = {
       email: userEmail,
@@ -30,17 +32,19 @@ export default function ResetPasswordForm() {
     await verifyEmailHandler(details);
   };
 
+  // Check if the code is valid
   useEffect(() => {
     setIsFormValid(code.length === 6);
   }, [code]);
 
+  // Resend verification code
   const resendVerifyCode = async () => {
     const response = await resendEmailVerifyCodeHandler();
-    console.log(response);
     if (response) {
+      console.log(response);
       showCustomToast({
-        title: `Verification email code resend successfully to ${response.email}`,
         status: "success",
+        description: response.message,
       });
     }
   };
@@ -57,12 +61,7 @@ export default function ResetPasswordForm() {
           <h2 className="mb-2 text-2xl font-semibold lg:text-3xl">
             {t("verifyEmail.title")}
           </h2>
-          <p className="mt-2">{successMessage}</p>
-          <div className="flex items-center justify-center">
-            <div className="mb-8 mt-4 rounded-full border border-borderColor px-6 py-2 shadow-custom-light3">
-              {userEmail}
-            </div>
-          </div>
+          <p className="my-6">{successMessage}</p>
         </div>
         <div className="flex items-center justify-center">
           <HStack>

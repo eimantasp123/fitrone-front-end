@@ -9,10 +9,16 @@ const useAsync = (asyncFunction) => {
     async (...args) => {
       setLoading(true);
       abortControllerRef.current = new AbortController();
+      const preferredLanguage = localStorage.getItem("i18nextLng") || "en";
       try {
         const response = await asyncFunction(
           ...args,
           abortControllerRef.current.signal,
+          {
+            headers: {
+              "Accept-Language": preferredLanguage,
+            },
+          },
         );
         return response;
       } catch (err) {

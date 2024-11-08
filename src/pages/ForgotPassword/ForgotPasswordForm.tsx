@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext } from "react";
 import { Helmet } from "react-helmet";
 import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { MdEmail } from "react-icons/md";
 import FormButton from "../../components/common/FormButton";
 import SuccessulAlert from "../../components/common/SuccessulAlert";
@@ -34,6 +34,10 @@ export default function ForgotPasswordForm() {
     await forgotPasswordSubmit(data.email);
   };
 
+  const onResend = async () => {
+    await forgotPasswordSubmit(userEmail);
+  };
+
   return (
     <>
       <Helmet>
@@ -48,22 +52,15 @@ export default function ForgotPasswordForm() {
         </div>
         {successMessage ? (
           <>
-            <SuccessulAlert
-              successMessage={successMessage}
-              description={
-                <Trans
-                  i18nKey="forgotPassword.successMessage"
-                  ns="auth"
-                  values={{ userEmail }}
-                  components={{ 1: <strong /> }}
-                />
-              }
-            />
+            <SuccessulAlert successMessage={successMessage} />
             <div className="mt-10 flex flex-col text-center text-[15px]">
               <span className="text-textPrimary">
                 {t("forgotPassword.didNotReceiveEmail")}
               </span>
-              <span className="cursor-pointer pl-2 font-semibold transition-colors duration-200 ease-in-out hover:text-textSecondary">
+              <span
+                onClick={onResend}
+                className="cursor-pointer pl-2 font-semibold transition-colors duration-200 ease-in-out hover:text-textSecondary"
+              >
                 {t("forgotPassword.resend")}
               </span>
             </div>
