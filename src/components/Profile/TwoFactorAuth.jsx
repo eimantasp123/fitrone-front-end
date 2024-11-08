@@ -220,7 +220,7 @@ const TwoFactorAuth = () => {
               />
               <div className="flex w-full items-center gap-3 md:w-[70%] md:justify-end">
                 <button
-                  className="bg-accent1 w-full cursor-pointer rounded-full bg-primary px-6 py-2 text-sm text-black transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
+                  className="bg-accent1 w-full cursor-pointer rounded-lg bg-primary px-6 py-2 text-sm text-black transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
                   onClick={handleVerificationSubmit}
                   disabled={verify2FALoading}
                 >
@@ -231,7 +231,7 @@ const TwoFactorAuth = () => {
                   )}
                 </button>
                 <button
-                  className="bg-secondary text-text1 w-full cursor-pointer rounded-full px-6 py-2 text-sm"
+                  className="bg-secondary text-text1 w-full cursor-pointer rounded-lg px-6 py-2 text-sm"
                   onClick={handleCloseModal}
                 >
                   {t("2fa.modal.cancel")}

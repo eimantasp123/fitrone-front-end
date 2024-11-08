@@ -17,6 +17,8 @@ import enErrorPage from "./locales/en/errorPage.json";
 import ltErrorPage from "./locales/lt/errorPage.json";
 import enCommon from "./locales/en/common.json";
 import ltCommon from "./locales/lt/common.json";
+import enMeals from "./locales/en/meals.json";
+import ltMeals from "./locales/lt/meals.json";
 
 // Initialize i18n
 i18n
@@ -32,6 +34,7 @@ i18n
         header: enHeader,
         sidebar: enSidebar,
         errorPage: enErrorPage,
+        meals: enMeals,
       },
       lt: {
         common: ltCommon,
@@ -41,6 +44,7 @@ i18n
         header: ltHeader,
         sidebar: ltSidebar,
         errorPage: ltErrorPage,
+        meals: ltMeals,
       },
     },
     fallbackLng: "en", // Fallback language if the current language is not available

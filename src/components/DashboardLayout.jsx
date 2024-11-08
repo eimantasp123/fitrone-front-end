@@ -9,7 +9,7 @@ const DashboardLayout = () => {
   if (!user) return null;
 
   return (
-    <div className="flex h-svh bg-backgroundSecondary">
+    <div className="flex h-svh bg-backgroundSecondary dark:bg-[#1a1a1a]">
       <Sidebar />
 
       <div className="flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in">

@@ -1,0 +1,41 @@
+{
+  "addFirstMeal": "Add your first meal",
+  "addMeal": "Add Meal",
+  "noMealsAdded": "No Meals Added Yet",
+  "noMealsDescription": "You can start by adding a meal using the button below",
+  "preferencesPlaceholder": "Select a dietary preference...",
+  "restrictionsPlaceholder": "Select a dietary restriction...",
+  "preferencesTitle": "Dietary Preferences",
+  "restrictionsTitle": "Dietary Restrictions",
+  "resetFilters": "Reset filters",
+  "applyFilters": "Apply filters",
+  "preferences": {
+    "vegetarian": "Vegetarian",
+    "vegan": "Vegan",
+    "pescatarian": "Pescatarian",
+    "flexitarian": "Flexitarian",
+    "paleo": "Paleo",
+    "keto": "Keto",
+    "whole30": "Whole30",
+    "lowCarb": "Low-Carb",
+    "mediterranean": "Mediterranean",
+    "highProtein": "High-Protein",
+    "halal": "Halal",
+    "kosher": "Kosher",
+    "organic": "Organic",
+    "nonGMO": "Non-GMO",
+    "plantBased": "Plant-Based",
+    "intermittentFasting": "Intermittent Fasting"
+  },
+  "restrictions": {
+    "glutenFree": "Gluten-Free",
+    "dairyFree": "Dairy-Free",
+    "nutFree": "Nut-Free",
+    "eggFree": "Egg-Free",
+    "soyFree": "Soy-Free",
+    "shellfishFree": "Shellfish-Free",
+    "fodmapFriendly": "FODMAP-Friendly",
+    "lowSodium": "Low-Sodium",
+    "sugarFree": "Sugar-Free"
+  }
+}

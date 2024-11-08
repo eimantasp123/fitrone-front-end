@@ -7,7 +7,7 @@ import {
 import PropTypes from "prop-types";
 import { MdOutlineClose } from "react-icons/md";
 import MealDashboardHeader from "./MealDashboardHeader";
-import CustomerSelect from "./CustomerSelect";
+import CustomerSelect from "../../../../components/common/CustomerSelect";
 import TextButton from "../../../../components/common/TextButton";
 
 export default function DrawerForFilter({ isOpen, onClose, details, options }) {
