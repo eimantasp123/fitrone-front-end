@@ -11,7 +11,8 @@
     "firstName": "Vardas",
     "lastName": "Pavardė",
     "phoneNumber": "Telefono Numeris",
-    "saveChanges": "Išsaugoti pakeitimus"
+    "saveChanges": "Išsaugoti pakeitimus",
+    "noChange": "Pakeitimų neaptikta"
   },
   "changePassword": {
     "title": "Pakeisti slaptažodį",
@@ -45,6 +46,10 @@
       "disable": "išjungti",
       "enable": "įjungti",
       "resend": "Persiųsti kodą"
+    },
+    "error": {
+      "title": "Klaida",
+      "pleaseProvideNumber": "Prašome pateikti telefono numerį prieš įjungiant dviejų veiksnių autentifikaciją."
     }
   },
   "deleteAccount": {

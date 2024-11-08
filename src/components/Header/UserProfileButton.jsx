@@ -7,21 +7,18 @@ import {
   MenuItem,
   MenuList,
   Portal,
-  useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { FaQuestion } from "react-icons/fa6";
 import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
-import { TiArrowSortedUp } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 
 export default function UserProfileButton({ user, handleLogout }) {
   const { t } = useTranslation("header");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const { colorMode } = useColorMode();
 
   return (
     <>
@@ -51,7 +48,7 @@ export default function UserProfileButton({ user, handleLogout }) {
             <img
               src={user?.profileImage}
               alt="Profile"
-              className="objet-top size-[38px] rounded-full object-cover lg:size-[35px]"
+              className="objet-top size-[38px] rounded-full object-cover lg:size-[33px]"
             />
             {/* <div className="hidden whitespace-nowrap text-sm font-normal transition-all duration-1000 ease-in-out xl:block">
               {user.email}

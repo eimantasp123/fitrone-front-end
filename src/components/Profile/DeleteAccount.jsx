@@ -4,15 +4,15 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
-import { showCustomToast } from "../../hooks/showCustomToast";
 import { deleteAccount } from "../../services/reduxSlices/Profile/personalDetailsSlice";
 import { useDeleteProfileSchema } from "../../utils/validationSchema";
 import CustomInput from "../common/NewCharkaInput";
@@ -23,9 +23,8 @@ import TextButton from "../common/TextButton";
 const DeleteAccount = () => {
   const { t } = useTranslation("profileSettings");
   const { updateLoading } = useSelector((state) => state.personalDetails);
-  const [isOpen, setIsOpen] = useState(false);
   const { setIsAuthenticated } = useContext(AuthContext);
-  // const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const schema = useDeleteProfileSchema();
@@ -37,35 +36,22 @@ const DeleteAccount = () => {
 
   // Delete user account from the server
   const handleDelete = async () => {
-    try {
-      await dispatch(deleteAccount()).unwrap();
-      localStorage.removeItem("authenticated");
-      showCustomToast({
-        title: "Account Deleted",
-        description: "Your account has been successfully deleted.",
-        status: "success",
-      });
-      // onClose();
-      setIsAuthenticated(false);
-      navigate("/login", { replace: true });
-    } catch (error) {
-      showCustomToast({
-        title: "Account Deletion Failed",
-        description: error.message,
-        status: "error",
-      });
-    }
+    await dispatch(deleteAccount()).unwrap();
+    localStorage.removeItem("authenticated");
+    onClose();
+    setIsAuthenticated(false);
+    navigate("/login", { replace: true });
   };
 
   // Close modal
   const closeModal = () => {
+    onClose();
     methods.clearErrors();
     methods.reset();
-    setIsOpen((prev) => !prev);
   };
 
   return (
-    <div className="border-borderLight dark:border-borderDark flex w-full flex-col rounded-lg border bg-background p-6 shadow-custom-dark2 md:p-8 xl:flex-col">
+    <div className="flex w-full flex-col rounded-lg border border-borderLight bg-background p-6 shadow-custom-dark2 dark:border-borderDark md:p-8 xl:flex-col">
       {/* Content */}
       <div className="flex flex-col">
         <div className="w-full space-y-8">
@@ -78,7 +64,7 @@ const DeleteAccount = () => {
           <div className="flex justify-end">
             <button
               className="text-sm font-semibold text-red-600"
-              onClick={() => setIsOpen(true)}
+              onClick={onOpen}
             >
               {t("deleteAccount.delete")}
             </button>

@@ -29,7 +29,6 @@ const TwoFactorAuth = () => {
     updateDetailsLoading,
     verify2FALoading,
   } = useSelector((state) => state.personalDetails);
-  const [enabled, setEnabled] = useState(() => user?.is2FAEnabled ?? false);
   const [editMode, setEditMode] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
@@ -39,7 +38,9 @@ const TwoFactorAuth = () => {
   const methods = useForm({
     resolver: yupResolver(schema),
   });
-  const action = enabled ? t("2fa.modal.disable") : t("2fa.modal.enable");
+  const action = user.is2FAEnabled
+    ? t("2fa.modal.disable")
+    : t("2fa.modal.enable");
   const phone = methods.watch("phone");
 
   // Set form data when user details are fetched from the server
@@ -53,102 +54,37 @@ const TwoFactorAuth = () => {
 
   // Toggle Two-Factor Authentication
   const handleToggle = async () => {
-    if (!enabled) {
+    if (!user.is2FAEnabled && !methods.watch("phone")) {
       // Check if phone number is provided before enabling 2FA
-      if (!methods.watch("phone")) {
-        showCustomToast({
-          title: "Error",
-          description:
-            "Please provide a phone number before enabling Two-Factor Authentication.",
-          status: "error",
-        });
-        return;
-      }
-      setShowModal(true);
-
-      try {
-        await dispatch(request2FA()).unwrap();
-      } catch (error) {
-        showCustomToast({
-          title: "Error",
-          description: error.message,
-          status: "error",
-        });
-      }
+      showCustomToast({
+        status: "error",
+        title: t("2fa.error.title"),
+        description: t("2fa.error.pleaseProvideNumber"),
+      });
+      return;
     } else {
+      await dispatch(request2FA()).unwrap();
       setShowModal(true);
-      try {
-        await dispatch(request2FA()).unwrap();
-      } catch (error) {
-        showCustomToast({
-          title: "Error",
-          description: error.message,
-          status: "error",
-        });
-      }
     }
   };
 
   // Verify 2FA code and enable/disable 2FA
   const handleVerificationSubmit = async () => {
-    try {
-      await dispatch(
-        verify2FA({ code: verificationCode, enable: !enabled }),
-      ).unwrap();
-      setEnabled(!enabled);
-      showCustomToast({
-        title: "Success",
-        description: `Two-Factor Authentication ${!enabled ? "enabled" : "disabled"} successfully.`,
-        status: "success",
-      });
-      setShowModal(false);
-      setVerificationCode("");
-    } catch (error) {
-      showCustomToast({
-        title: "Error",
-        description: error.message,
-        status: "error",
-      });
-    }
+    await dispatch(verify2FA({ code: verificationCode })).unwrap();
+    setShowModal(false);
+    setVerificationCode("");
   };
 
   // Update phone number
   const onSubmit = async (data) => {
-    try {
-      await dispatch(updatePersonalDetails({ phone: data.phone })).unwrap();
-      showCustomToast({
-        title: "Phone number updated successfully.",
-        status: "success",
-      });
-      setEditMode(false);
-      console.log("Phone number updated successfully.");
-      console.log(user);
-    } catch (error) {
-      showCustomToast({
-        title: "Error updating phone number",
-        description: error.message,
-        status: "error",
-      });
-    }
+    await dispatch(updatePersonalDetails({ phone: data.phone })).unwrap();
+    setEditMode(false);
   };
 
   // Resend verification code
   const handleResendCode = async () => {
     setResendLoading(true);
-    try {
-      await dispatch(request2FA()).unwrap();
-      showCustomToast({
-        title: "Success",
-        description: "Verification code sent to your phone.",
-        status: "success",
-      });
-    } catch (error) {
-      showCustomToast({
-        title: "Error",
-        description: error.message,
-        status: "error",
-      });
-    }
+    await dispatch(request2FA()).unwrap();
     setResendLoading(false);
   };
 
@@ -166,12 +102,12 @@ const TwoFactorAuth = () => {
   };
 
   return (
-    <div className="border-borderLight dark:border-borderDark flex w-full flex-col rounded-lg border bg-background p-6 shadow-custom-dark2 sm:p-8 xl:flex-col">
+    <div className="flex w-full flex-col rounded-lg border border-borderLight bg-background p-6 shadow-custom-dark2 dark:border-borderDark sm:p-8 xl:flex-col">
       <div className="flex flex-col gap-5">
         <FormProvider {...methods}>
           <div className="w-full">
             <div className="mb-5 flex items-center justify-between gap-10 text-sm text-textPrimary">
-              {enabled ? (
+              {user.is2FAEnabled ? (
                 <p>
                   <Trans
                     i18nKey="2fa.enableDescription"
@@ -188,7 +124,7 @@ const TwoFactorAuth = () => {
                   />
                 </p>
               )}
-              <Switch isChecked={enabled} onChange={handleToggle} />
+              <Switch isChecked={user.is2FAEnabled} onChange={handleToggle} />
             </div>
             <div className="">
               <div className="flex w-full flex-col items-start gap-4 md:flex-row md:items-center md:justify-between md:gap-0">
@@ -275,7 +211,7 @@ const TwoFactorAuth = () => {
             </p>
             <div className="flex w-full flex-col items-center gap-5 md:flex-row">
               <input
-                className="`w-full placeholder-placeholder dark:border-borderLight w-full rounded-lg border border-borderPrimary bg-transparent px-3 py-[9px] leading-tight text-textPrimary outline-none transition-all duration-300 ease-in-out focus-within:border-borderPrimary md:w-[50%]"
+                className="`w-full w-full rounded-lg border border-borderPrimary bg-transparent px-3 py-[9px] leading-tight text-textPrimary placeholder-placeholder outline-none transition-all duration-300 ease-in-out focus-within:border-borderPrimary dark:border-borderLight md:w-[50%]"
                 id="verificationCode"
                 type="text"
                 placeholder={t("2fa.modal.inputPlaceholder")}

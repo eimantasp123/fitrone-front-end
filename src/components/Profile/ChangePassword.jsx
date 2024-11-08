@@ -7,7 +7,6 @@ import { MdEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import FormButton from "../../components/common/FormButton";
 import PasswordStrengthIndicator from "../../components/common/PasswordStrenghtIndicator";
-import { showCustomToast } from "../../hooks/showCustomToast";
 import { changePassword } from "../../services/reduxSlices/Profile/personalDetailsSlice";
 import { useChangePasswordSchema } from "../../utils/validationSchema";
 import PasswordInput from "../common/PasswordInput";
@@ -25,22 +24,9 @@ const ChangePassword = () => {
 
   // Submit form data to update user password
   const onSubmit = async (data) => {
-    try {
-      await dispatch(changePassword(data)).unwrap();
-      methods.reset();
-      showCustomToast({
-        title: "Password updated successfully.",
-        description: "Your password has been updated successfully.",
-        status: "success",
-      });
-      setEditMode(false);
-    } catch (error) {
-      showCustomToast({
-        title: "Error changing password",
-        description: error.message,
-        status: "error",
-      });
-    }
+    await dispatch(changePassword(data)).unwrap();
+    methods.reset();
+    setEditMode(false);
   };
 
   // Toggle edit mode
@@ -50,7 +36,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="border-borderLight dark:border-borderDark flex w-full flex-col rounded-lg border bg-background p-5 shadow-custom-dark2 sm:p-8 xl:flex-col">
+    <div className="flex w-full flex-col rounded-lg border border-borderLight bg-background p-5 shadow-custom-dark2 dark:border-borderDark sm:p-8 xl:flex-col">
       {/* <h2 className="text-lg font-semibold ">Change Password</h2> */}
       <div className="flex flex-col gap-5">
         <FormProvider {...methods}>

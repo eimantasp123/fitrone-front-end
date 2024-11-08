@@ -14,8 +14,8 @@ export default function PrimaryButton({
       type={type}
       disabled={disabled}
       className={`${className} bg-primary ${
-        disabled ? "cursor-not-allowed bg-primaryDark" : ""
-      } mt-4 rounded-full py-2 text-sm font-semibold text-stone-800 transition-colors duration-300 ease-in-out hover:bg-primaryDark`}
+        disabled ? "cursor-not-allowed bg-primaryLight dark:bg-primaryDark" : ""
+      } mt-4 rounded-full py-2 text-sm font-semibold text-stone-800 transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
     >
       {children || text}
     </button>

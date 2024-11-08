@@ -11,7 +11,6 @@ const initialState = {
   updateDetailsLoading: false,
   request2FALoading: false,
   verify2FALoading: false,
-  error: null,
 };
 
 // Async Thunks for updating user personal details
@@ -20,7 +19,6 @@ export const updatePersonalDetails = createAsyncThunk(
   async (details, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch("/profile/details", details);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -44,6 +42,7 @@ export const updateUserImage = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error.response?.data || "Failed to update image");
     }
   },
@@ -67,7 +66,11 @@ export const changePassword = createAsyncThunk(
   "personalDetails/changePassword",
   async (passwords, { rejectWithValue }) => {
     try {
-      await axiosInstance.patch("/profile/password", passwords);
+      const response = await axiosInstance.patch(
+        "/profile/password",
+        passwords,
+      );
+      return response.data;
     } catch (error) {
       return rejectWithValue(
         error.response?.data || "Failed to change password",
@@ -82,7 +85,7 @@ export const request2FA = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.put("/profile/2fa/request");
-      return response.data.message;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to request 2FA");
     }
@@ -92,13 +95,12 @@ export const request2FA = createAsyncThunk(
 // Async Thunks for verifying 2FA
 export const verify2FA = createAsyncThunk(
   "personalDetails/verify2FA",
-  async ({ code, enable }, { rejectWithValue }) => {
+  async ({ code }, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.put("/profile/2fa/verify", {
         code,
-        enable,
       });
-      return response.data.message;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to verify 2FA");
     }
@@ -111,7 +113,7 @@ export const deleteAccount = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.delete("/profile/account");
-      return response.data.message;
+      return response.data;
     } catch (error) {
       return rejectWithValue(
         error.response?.data || "Failed to delete account",
@@ -136,7 +138,6 @@ const personalDetailsSlice = createSlice({
     builder
       .addCase(updatePersonalDetails.pending, (state) => {
         state.updateDetailsLoading = true;
-        state.error = null;
       })
       .addCase(updatePersonalDetails.fulfilled, (state, action) => {
         state.updateDetailsLoading = false;
@@ -159,73 +160,109 @@ const personalDetailsSlice = createSlice({
       })
       .addCase(updateUserImage.pending, (state) => {
         state.imageLoading = true;
-        state.error = null;
       })
       .addCase(updateUserImage.fulfilled, (state, action) => {
         state.imageLoading = false;
         state.details.profileImage = action.payload.profileImage;
+        showCustomToast({
+          status: "success",
+          description: action.payload.message,
+        });
       })
       .addCase(updateUserImage.rejected, (state, action) => {
         state.imageLoading = false;
-        state.error = action.payload;
+        showCustomToast({
+          status: "error",
+          description: action.payload.message,
+        });
       })
       .addCase(deleteUserImage.pending, (state) => {
         state.deleteImageLoading = true;
-        state.error = null;
       })
       .addCase(deleteUserImage.fulfilled, (state, action) => {
         state.deleteImageLoading = false;
         state.details.profileImage = action.payload.profileImage;
+        showCustomToast({
+          status: "success",
+          description: action.payload.message,
+        });
       })
       .addCase(deleteUserImage.rejected, (state, action) => {
         state.deleteImageLoading = false;
-        state.error = action.payload;
+        showCustomToast({
+          status: "error",
+          description: action.payload.message,
+        });
       })
       .addCase(changePassword.pending, (state) => {
         state.updateLoading = true;
-        state.error = null;
       })
-      .addCase(changePassword.fulfilled, (state) => {
+      .addCase(changePassword.fulfilled, (state, action) => {
         state.updateLoading = false;
+        showCustomToast({
+          status: "success",
+          description: action.payload.message,
+        });
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.updateLoading = false;
-        state.error = action.payload;
+        showCustomToast({
+          status: "error",
+          description: action.payload.message,
+        });
       })
       .addCase(request2FA.pending, (state) => {
         state.request2FALoading = true;
-        state.error = null;
       })
-      .addCase(request2FA.fulfilled, (state) => {
+      .addCase(request2FA.fulfilled, (state, action) => {
         state.request2FALoading = false;
+        showCustomToast({
+          status: "success",
+          description: action.payload.message,
+        });
       })
       .addCase(request2FA.rejected, (state, action) => {
         state.request2FALoading = false;
-        state.error = action.payload;
+        showCustomToast({
+          status: "error",
+          description: action.payload.message,
+        });
       })
       .addCase(verify2FA.pending, (state) => {
         state.verify2FALoading = true;
-        state.error = null;
       })
       .addCase(verify2FA.fulfilled, (state, action) => {
         state.verify2FALoading = false;
-        state.details.is2FAEnabled = action.meta.arg.enable;
+        state.details.is2FAEnabled = action.payload.is2FAEnabled;
+        showCustomToast({
+          status: "success",
+          description: action.payload.message,
+        });
       })
       .addCase(verify2FA.rejected, (state, action) => {
         state.verify2FALoading = false;
-        state.error = action.payload;
+        showCustomToast({
+          status: "error",
+          description: action.payload.message,
+        });
       })
       .addCase(deleteAccount.pending, (state) => {
         state.updateLoading = true;
-        state.error = null;
       })
-      .addCase(deleteAccount.fulfilled, (state) => {
+      .addCase(deleteAccount.fulfilled, (state, action) => {
         state.updateLoading = false;
         state.details = {};
+        showCustomToast({
+          status: "success",
+          description: action.payload.message,
+        });
       })
       .addCase(deleteAccount.rejected, (state, action) => {
         state.updateLoading = false;
-        state.error = action.payload;
+        showCustomToast({
+          status: "error",
+          description: action.payload.message,
+        });
       });
   },
 });

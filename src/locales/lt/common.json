@@ -1,0 +1,20 @@
+{
+  "feedbackModal": {
+    "title": "Atsiliepimas",
+    "description": " Jūsų atsiliepimas yra vertingas, padedantis mums geriau suprasti jūsų poreikius ir pritaikyti mūsų paslaugas atitinkamai.",
+    "placeholder": "Jūsų atsiliepimas...",
+    "submit": "Siųsti atsiliepimą",
+    "rating": {
+      "1": "Labai blogai",
+      "2": "Blogai",
+      "3": "Vidutiniškai",
+      "4": "Gerai",
+      "5": "Labai gerai"
+    },
+    "validation": {
+      "required": " Reitingas yra privalomas",
+      "commentRequired": " Atsiliepimas yra privalomas",
+      "maxLength": " Atsiliepimas negali būti ilgesnis nei 500 simbolių"
+    }
+  }
+}

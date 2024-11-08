@@ -15,6 +15,8 @@ import enSidebar from "./locales/en/sidebarMenu.json";
 import ltSidebar from "./locales/lt/sidebarMenu.json";
 import enErrorPage from "./locales/en/errorPage.json";
 import ltErrorPage from "./locales/lt/errorPage.json";
+import enCommon from "./locales/en/common.json";
+import ltCommon from "./locales/lt/common.json";
 
 // Initialize i18n
 i18n
@@ -23,6 +25,7 @@ i18n
   .init({
     resources: {
       en: {
+        common: enCommon,
         auth: enAuth,
         language: enLanguage,
         profileSettings: enProfileSettings,
@@ -31,6 +34,7 @@ i18n
         errorPage: enErrorPage,
       },
       lt: {
+        common: ltCommon,
         auth: ltAuth,
         language: ltLanguage,
         profileSettings: ltProfileSettings,

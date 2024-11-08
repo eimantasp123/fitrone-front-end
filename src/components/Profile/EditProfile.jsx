@@ -51,7 +51,7 @@ const EditProfile = () => {
     // If no changes made, show a toast and return
     if (Object.keys(filteredFields).length === 0) {
       showCustomToast({
-        title: "No changes made",
+        title: t("accountSettings.noChange"),
         status: "info",
       });
       return;
@@ -68,7 +68,7 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="border-borderLight flex w-full select-none flex-col rounded-lg border bg-background p-5 shadow-custom-dark2 dark:border-borderPrimary sm:p-8 xl:flex-col">
+    <div className="flex w-full select-none flex-col rounded-lg border border-borderLight bg-background p-5 shadow-custom-dark2 dark:border-borderPrimary sm:p-8 xl:flex-col">
       <div className="flex flex-col gap-5">
         {/* Profile image  */}
         <ChangeProfileImage user={user} />

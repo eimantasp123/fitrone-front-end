@@ -141,21 +141,27 @@ export const useDeleteProfileSchema = () => {
 };
 
 // Feedback schema for feedback form validation
-export const feedbackSchema = yup.object().shape({
-  rating: yup.number().required("Rating is required"),
-  comment: yup
-    .string()
-    .required("Comment is required")
-    .max(400, "Comment must be at most 500 characters long"),
-});
+export const useFeedbackSchema = () => {
+  const { t } = useTranslation("common");
+  return yup.object().shape({
+    rating: yup.number().required(t("feedbackModal.validation.required")),
+    comment: yup
+      .string()
+      .required(t("feedbackModal.validation.commentRequired"))
+      .max(500, t("feedbackModal.validation.maxLength")),
+  });
+};
 
-export const supportSchema = yup.object().shape({
-  subject: yup
-    .string()
-    .required("Subject is required")
-    .max(200, "Subject must be at most 50 characters long"),
-  message: yup
-    .string()
-    .required("Message is required")
-    .max(500, "Message must be at most 500 characters long"),
-});
+export const useSupportSchema = () => {
+  const { t } = useTranslation("header");
+  return yup.object().shape({
+    subject: yup
+      .string()
+      .required(t("supportModal.validation.subject"))
+      .max(200, t("supportModal.validation.subjectMax")),
+    message: yup
+      .string()
+      .required(t("supportModal.validation.message"))
+      .max(500, t("supportModal.validation.messageMax")),
+  });
+};

@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { FiTrash, FiUpload } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { showCustomToast } from "../../hooks/showCustomToast";
 import {
   deleteUserImage,
   updateUserImage,
@@ -23,40 +22,16 @@ export default function ChangeProfileImage() {
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      try {
-        await dispatch(updateUserImage(file)).unwrap();
-        showCustomToast({
-          title: "Profile image uploaded successfully.",
-          status: "success",
-        });
-        if (fileInputRef.current) {
-          fileInputRef.current.value = "";
-        }
-      } catch (error) {
-        showCustomToast({
-          title: "Error",
-          description: error.message,
-          status: "error",
-        });
+      await dispatch(updateUserImage(file));
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
       }
     }
   };
 
   // Delete user profile image
   const handleImageDelete = async () => {
-    try {
-      await dispatch(deleteUserImage()).unwrap();
-      showCustomToast({
-        title: "Profile image deleted successfully.",
-        status: "success",
-      });
-    } catch (error) {
-      showCustomToast({
-        title: "Error",
-        description: error.message,
-        status: "error",
-      });
-    }
+    await dispatch(deleteUserImage());
   };
 
   return (
@@ -70,7 +45,7 @@ export default function ChangeProfileImage() {
         {/* Upload button */}
         <label
           htmlFor="profileImageUpload"
-          className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-full border border-borderPrimary bg-black/90 px-4 py-2 text-sm text-white duration-300 ease-in-out hover:shadow-custom-light2 dark:bg-white dark:text-black md:w-[120px] md:px-6"
+          className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-full border border-borderPrimary bg-black/90 px-4 py-2 text-sm text-white duration-300 ease-in-out hover:bg-black/75 hover:shadow-custom-light2 dark:bg-white/90 dark:text-black dark:hover:bg-white/75 md:w-[120px] md:px-6"
         >
           {imageLoading ? (
             <Spinner size="xs" />
@@ -94,7 +69,7 @@ export default function ChangeProfileImage() {
         <button
           type="button"
           onClick={handleImageDelete}
-          className="flex w-[110px] items-center justify-center gap-2 rounded-full border border-borderPrimary bg-background px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:shadow-custom-light2 md:w-[120px] md:px-6"
+          className="flex w-[110px] items-center justify-center gap-2 rounded-full border border-borderPrimary bg-transparent px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:bg-backgroundSecondary hover:shadow-custom-light2 dark:hover:bg-white/5 md:w-[120px] md:px-6"
         >
           {deleteImageLoading ? (
             <Spinner size="xs" />

@@ -14,14 +14,18 @@ import { RiFeedbackLine } from "react-icons/ri";
 import { showCustomToast } from "../hooks/showCustomToast";
 import useAsync from "../hooks/useAsync";
 import axiosInstance from "../utils/axiosInterceptors";
-import { feedbackSchema } from "../utils/validationSchema";
+import { useFeedbackSchema } from "../utils/validationSchema";
+import CustomTextarea from "./common/CustomTextarea";
 import PrimaryButton from "./common/PrimaryButton";
+import { useTranslation } from "react-i18next";
 
 // Feedback form modal component
 export default function FeedbackFormModal({ isOpen, onClose }) {
+  const { t } = useTranslation("common");
   const [rating, setRating] = useState(null);
+  const schema = useFeedbackSchema();
   const methods = useForm({
-    resolver: yupResolver(feedbackSchema),
+    resolver: yupResolver(schema),
   });
 
   // Handle rating selection
@@ -31,32 +35,26 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
   };
 
   // Handle form submission
-  const {
-    execute: handleSubmitFeedback,
-    loading,
-    error,
-    clearError,
-  } = useAsync(async (data) => {
+  const { execute: handleSubmitFeedback, loading } = useAsync(async (data) => {
     const response = await axiosInstance.post("/feedback", data);
     if (response) {
       showCustomToast({
         status: "success",
-        title: "Feedback submitted successfully",
-        description: "Thank you for your valuable feedback!",
+        description: response.data.message,
       });
       // Reset form fields
+      onClose();
       setRating(null);
       methods.reset();
-      onClose();
     }
   });
 
   // Close modal and reset form fields
   const handleModalClose = () => {
-    clearError();
-    setRating(null);
-    methods.reset();
     onClose();
+    methods.reset();
+    methods.clearErrors();
+    setRating(null);
   };
 
   return (
@@ -68,11 +66,11 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
     >
       <ModalOverlay />
       <ModalContent p={6} sx={{ borderRadius: "0.75rem" }}>
-        <div className="flex items-center gap-3 border-b-[1px] border-borderColor pb-5">
+        <div className="border-borderColor flex items-center gap-3 border-b-[1px] pb-5">
           <span className="flex size-9 items-center justify-center rounded-full bg-textPrimary">
             <RiFeedbackLine className="text-lg text-background" />
           </span>
-          <h4 className="text-xl font-semibold">Feedback</h4>
+          <h4 className="text-xl font-semibold">{t("feedbackModal.title")}</h4>
         </div>
         <ModalCloseButton marginTop="3" />
         <ModalBody style={{ padding: "0px" }}>
@@ -82,12 +80,8 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
               className="mt-6"
               onSubmit={methods.handleSubmit(handleSubmitFeedback)}
             >
-              <h3 className="mb-4 text-center text-3xl font-bold">
-                How are you feeling?
-              </h3>
-              <p className="mb-4 text-center leading-tight">
-                Your input is valuable in helping us better understand your
-                needs and tailor our service accordingly.
+              <p className="mb-4 text-center leading-snug">
+                {t("feedbackModal.description")}
               </p>
 
               {/* Rating selection */}
@@ -107,34 +101,29 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
                 <div className="mb-4 text-center">
                   <span className="inline-block rounded-full bg-backgroundSecondary px-6 py-2 text-sm text-textPrimary">
                     {
-                      ["Very Bad", "Bad", "Neutral", "Good", "Very Good"][
-                        rating
-                      ]
+                      [
+                        t("feedbackModal.rating.1"),
+                        t("feedbackModal.rating.2"),
+                        t("feedbackModal.rating.3"),
+                        t("feedbackModal.rating.4"),
+                        t("feedbackModal.rating.5"),
+                      ][rating]
                     }
                   </span>
                 </div>
               )}
               {methods.formState.errors.rating && (
-                <p className="mb-4 text-center text-sm text-red-500">
+                <p className="mb-4 text-center text-sm text-red-400">
                   {methods.formState.errors.rating.message}
                 </p>
               )}
               {/* Comment Input */}
-              <div className="flex flex-col">
-                <textarea
-                  type="text"
-                  id="comment"
-                  placeholder="Add a Comment..."
-                  className="min-h-[150px] rounded-lg border border-borderColor bg-background p-3 outline-none placeholder:text-textSecondary focus:border-textPrimary"
-                  {...methods.register("comment")}
-                />
-                {methods.formState.errors.comment && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {methods.formState.errors.comment.message}
-                  </p>
-                )}
-                {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
-              </div>
+
+              <CustomTextarea
+                name="comment"
+                placeholder={t("feedbackModal.placeholder")}
+                size="lg"
+              />
               {/* Submit button */}
               <PrimaryButton
                 disabled={loading}
@@ -142,7 +131,11 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
                 text="Send Feedback"
                 type="submit"
               >
-                {loading ? <Spinner size="sm" /> : "Send Feedback"}
+                {loading ? (
+                  <Spinner size="sm" />
+                ) : (
+                  `${t("feedbackModal.submit")}`
+                )}
               </PrimaryButton>
             </form>
           </FormProvider>

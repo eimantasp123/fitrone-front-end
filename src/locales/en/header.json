@@ -10,5 +10,19 @@
   "logout": "Logout",
   "accountSettings": "Account settings",
   "faq": "FAQ",
-  "help": "Help"
+  "help": "Help",
+  "supportModal": {
+    "headerTitle": "Get in Touch",
+    "title": "   How Can We Help You?",
+    "description": "If you're encountering any problems or have any inquiries, reach out to our support team, and we'll guide you through the solution.",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send Message",
+    "validation": {
+      "subject": "Subject is required",
+      "subjectMax": "Subject must be at most 200 characters long",
+      "message": "Message is required",
+      "messageMax": "Message must be at most 500 characters long"
+    }
+  }
 }

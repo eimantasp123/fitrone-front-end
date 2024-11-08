@@ -4,7 +4,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";

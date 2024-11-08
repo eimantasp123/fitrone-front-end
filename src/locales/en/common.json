@@ -1,0 +1,20 @@
+{
+  "feedbackModal": {
+    "title": "Feedback",
+    "description": " Your feedback is valuable in helping us better understand your needs and tailor our service accordingly.",
+    "placeholder": "Your feedback...",
+    "submit": "Send feedback",
+    "rating": {
+      "1": "Very bad",
+      "2": "Bad",
+      "3": "Average",
+      "4": "Good",
+      "5": "Very good"
+    },
+    "validation": {
+      "required": "Rating is required",
+      "commentRequired": "Feedback is required",
+      "maxLength": "Feedback must not be longer than 500 characters"
+    }
+  }
+}

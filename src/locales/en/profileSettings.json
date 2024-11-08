@@ -11,7 +11,8 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "phoneNumber": "Phone Number",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "noChange": "No changes made"
   },
   "changePassword": {
     "title": "Change Password",
@@ -45,6 +46,10 @@
       "disable": "disable",
       "enable": "enable",
       "resend": "Resend Code"
+    },
+    "error": {
+      "title": "Error",
+      "pleaseProvideNumber": "Please provide a phone number before enabling Two-Factor Authentication."
     }
   },
   "deleteAccount": {

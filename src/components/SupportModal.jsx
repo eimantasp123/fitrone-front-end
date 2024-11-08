@@ -5,8 +5,6 @@ import {
   ModalContent,
   ModalOverlay,
   Spinner,
-  Textarea,
-  useColorMode,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PropTypes from "prop-types";
@@ -16,28 +14,25 @@ import { useSelector } from "react-redux";
 import { showCustomToast } from "../hooks/showCustomToast";
 import useAsync from "../hooks/useAsync";
 import axiosInstance from "../utils/axiosInterceptors";
-import { supportSchema } from "../utils/validationSchema";
+import { useSupportSchema } from "../utils/validationSchema";
+import CustomTextarea from "./common/CustomTextarea";
 import CustomInput from "./common/NewCharkaInput";
 import PrimaryButton from "./common/PrimaryButton";
-import CustomTextarea from "./common/CustomTextarea";
+import { useTranslation } from "react-i18next";
 
 export default function SupportModal({
   setIsTooltipOpen = null,
   isModalOpen,
   onClose,
 }) {
+  const { t } = useTranslation("header");
   const { details: user } = useSelector((state) => state.personalDetails);
+  const schema = useSupportSchema();
   const methods = useForm({
-    resolver: yupResolver(supportSchema),
+    resolver: yupResolver(schema),
   });
-  const { colorMode } = useColorMode();
 
-  const {
-    execute: handleSubmitForm,
-    loading,
-    error,
-    clearError,
-  } = useAsync(async (data) => {
+  const { execute: handleSubmitForm, loading } = useAsync(async (data) => {
     const formData = {
       ...data,
       email: user.email,
@@ -47,8 +42,7 @@ export default function SupportModal({
     if (response) {
       showCustomToast({
         status: "success",
-        title: "Message sent successfully",
-        description: "Our support team will get back to you shortly!",
+        description: response.data.message,
       });
       //
       methods.reset();
@@ -58,16 +52,15 @@ export default function SupportModal({
 
   // Close modal and reset form fields
   const handleModalClose = () => {
-    clearError();
-    methods.reset();
     onClose();
+    methods.reset();
+    methods.clearErrors();
     setIsTooltipOpen(false);
   };
 
   return (
     <Modal
       isOpen={isModalOpen}
-      // isOpen={true}
       onClose={handleModalClose}
       isCentered
       size={{ base: "sm", md: "xl" }}
@@ -80,7 +73,9 @@ export default function SupportModal({
               <MdContactSupport className="text-lg text-background" />
             </span>
 
-            <h4 className="text-2xl font-semibold">Get in Touch</h4>
+            <h4 className="text-2xl font-semibold">
+              {t("supportModal.headerTitle")}
+            </h4>
           </div>
         </div>
         <ModalCloseButton marginTop="3" />
@@ -91,25 +86,25 @@ export default function SupportModal({
               onSubmit={methods.handleSubmit(handleSubmitForm)}
             >
               <h3 className="mb-2 text-center text-2xl font-bold text-textPrimary md:mb-4 md:text-3xl">
-                How Can We Help You?
+                {t("supportModal.title")}
               </h3>
               <p className="mb-4 text-center leading-tight text-textSecondary">
-                If you&apos;re encountering any problems or have any inquiries,
-                reach out to our support team, and we&apos;ll guide you through
-                the solution.
+                {t("supportModal.description")}
               </p>
 
-              <CustomInput name="subject" label="Subject" />
-
-              <CustomTextarea name="message" label="Message" size="lg" />
-
+              <CustomInput name="subject" label={t("supportModal.subject")} />
+              <CustomTextarea
+                name="message"
+                label={t("supportModal.message")}
+                size="lg"
+              />
               <PrimaryButton
                 disabled={loading}
                 className="py-3"
                 text="Send Message"
                 type="submit"
               >
-                {loading ? <Spinner size="sm" /> : "Send Message"}
+                {loading ? <Spinner size="sm" /> : `${t("supportModal.send")}`}
               </PrimaryButton>
             </form>
           </FormProvider>

@@ -10,5 +10,19 @@
   "logout": "Atsijungti",
   "accountSettings": "Paskyros nustatymai",
   "faq": "DUK",
-  "help": "Pagalba"
+  "help": "Pagalba",
+  "supportModal": {
+    "headerTitle": "Susisiekite",
+    "title": "Kaip galime jums padėti?",
+    "description": "Jei susiduriate su problemomis ar turite klausimų, susisiekite su mūsų pagalbos komanda, ir mes jums padėsime rasti sprendimą.",
+    "subject": "Tema",
+    "message": "Žinutė",
+    "send": "Siųsti žinutę",
+    "validation": {
+      "subject": " Tema yra privaloma",
+      "subjectMax": "Tema turi būti ne ilgesnė kaip 200 simbolių",
+      "message": "Žinutė yra privaloma",
+      "messageMax": "Žinutė turi būti ne ilgesnė kaip 500 simbolių"
+    }
+  }
 }
