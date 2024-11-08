@@ -126,6 +126,7 @@ const customTheme = extendTheme({
             bg: "transparent",
             fontSize: "15px",
             padding: "21px 16px",
+            rounded: "8px",
             _placeholder: {
               color:
                 props.colorMode === "light"

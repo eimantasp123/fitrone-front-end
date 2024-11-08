@@ -212,7 +212,7 @@ export default function LoginForm() {
             <div className="mt-8 flex flex-col gap-2">
               <div className="text-center">
                 <button
-                  className="hover:bg-backgroundLight dark:hover:bg-backgroundLight flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in dark:bg-background"
+                  className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in hover:bg-backgroundLight dark:bg-background dark:hover:bg-backgroundLight"
                   onClick={() => googleLogin()}
                 >
                   <FaGoogle className="text-[16px]" /> {t("login.signInWith")}{" "}
@@ -228,7 +228,7 @@ export default function LoginForm() {
                   }
                   render={(renderProps) => (
                     <button
-                      className="dark:hover:bg-backgroundLight hover:bg-backgroundLight flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in dark:bg-background"
+                      className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in hover:bg-backgroundLight dark:bg-background dark:hover:bg-backgroundLight"
                       onClick={renderProps.onClick}
                     >
                       <FaFacebook className="text-[17px] text-textPrimary" />{" "}

@@ -1,0 +1,41 @@
+{
+  "addFirstMeal": "Pridėkite pirmąjį patiekalą",
+  "addMeal": "Pridėti patiekalą",
+  "noMealsAdded": "Dar nėra pridėtų patiekalų",
+  "noMealsDescription": "Galite pradėti pridėdami patiekalą naudodami mygtuką apačioje",
+  "preferencesPlaceholder": "Pasirinkite dietinį pasirinkimą...",
+  "restrictionsPlaceholder": "Pasirinkite dietinį apribojimą...",
+  "preferencesTitle": "Dietiniai pasirinkimai",
+  "restrictionsTitle": "Dietiniai apribojimai",
+  "resetFilters": "Išvalyti filtrus",
+  "applyFilters": "Taikyti filtrus",
+  "preferences": {
+    "vegetarian": "Vegetariškas",
+    "vegan": "Veganiškas",
+    "pescatarian": "Pesketariškas",
+    "flexitarian": "Flexitariškas",
+    "paleo": "Paleo",
+    "keto": "Keto",
+    "whole30": "Whole30",
+    "lowCarb": "Mažai angliavandenių",
+    "mediterranean": "Viduržemio jūros",
+    "highProtein": "Daug baltymų",
+    "halal": "Halal",
+    "kosher": "Košerinis",
+    "organic": "Ekologiškas",
+    "nonGMO": "Be GMO",
+    "plantBased": "Augalinės kilmės",
+    "intermittentFasting": "Protarpinis badavimas"
+  },
+  "restrictions": {
+    "glutenFree": "Be glitimo",
+    "dairyFree": "Be pieno",
+    "nutFree": "Be riešutų",
+    "eggFree": "Be kiaušinių",
+    "soyFree": "Be sojos",
+    "shellfishFree": "Be vėžiagyvių",
+    "fodmapFriendly": "FODMAP draugiškas",
+    "lowSodium": "Mažai druskos",
+    "sugarFree": "Be cukraus"
+  }
+}
