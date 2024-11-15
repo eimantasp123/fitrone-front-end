@@ -45,7 +45,7 @@ export default function ChangeProfileImage() {
         {/* Upload button */}
         <label
           htmlFor="profileImageUpload"
-          className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-full border border-borderPrimary bg-black/90 px-4 py-2 text-sm text-white duration-300 ease-in-out hover:bg-black/75 hover:shadow-custom-light2 dark:bg-white/90 dark:text-black dark:hover:bg-white/75 md:w-[120px] md:px-6"
+          className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-borderPrimary bg-black/90 px-4 py-2 text-sm text-white duration-300 ease-in-out hover:bg-black/75 hover:shadow-custom-light2 dark:bg-white/90 dark:text-black dark:hover:bg-white/75 md:w-[120px] md:px-6"
         >
           {imageLoading ? (
             <Spinner size="xs" />
@@ -69,7 +69,7 @@ export default function ChangeProfileImage() {
         <button
           type="button"
           onClick={handleImageDelete}
-          className="flex w-[110px] items-center justify-center gap-2 rounded-full border border-borderPrimary bg-transparent px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:bg-backgroundSecondary hover:shadow-custom-light2 dark:hover:bg-white/5 md:w-[120px] md:px-6"
+          className="flex w-[110px] items-center justify-center gap-2 rounded-lg border border-borderPrimary bg-transparent px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:bg-backgroundSecondary hover:shadow-custom-light2 dark:hover:bg-white/5 md:w-[120px] md:px-6"
         >
           {deleteImageLoading ? (
             <Spinner size="xs" />

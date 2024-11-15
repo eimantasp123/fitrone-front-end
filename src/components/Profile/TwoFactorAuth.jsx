@@ -102,7 +102,7 @@ const TwoFactorAuth = () => {
   };
 
   return (
-    <div className="flex w-full flex-col rounded-lg border border-borderLight bg-background p-6 shadow-custom-dark2 dark:border-borderDark sm:p-8 xl:flex-col">
+    <div className="flex w-full flex-col rounded-lg border border-borderLight bg-background p-6 shadow-custom-dark2 dark:border-borderDark dark:bg-backgroundSecondary sm:p-8 xl:flex-col">
       <div className="flex flex-col gap-5">
         <FormProvider {...methods}>
           <div className="w-full">
@@ -150,7 +150,7 @@ const TwoFactorAuth = () => {
                     </div>
                     <div className="flex items-center gap-4">
                       <button
-                        className="mt-2 w-[180px] cursor-pointer rounded-full border border-borderPrimary bg-primary px-6 py-2 text-sm text-textPrimary transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:text-black dark:hover:bg-primaryDark"
+                        className="mt-2 w-[180px] cursor-pointer rounded-lg border border-borderPrimary bg-primary px-6 py-2 text-sm text-textPrimary transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:text-black dark:hover:bg-primaryDark"
                         type="submit"
                         disabled={
                           !methods.watch("phone") ||
@@ -164,7 +164,7 @@ const TwoFactorAuth = () => {
                         )}
                       </button>
                       <button
-                        className="bg-secondary text-text1 mt-2 cursor-pointer rounded-full py-2 pl-3 text-sm lg:px-6"
+                        className="mt-2 cursor-pointer rounded-lg py-2 pl-3 text-sm text-textPrimary lg:px-6"
                         type="button"
                         onClick={handelDisabledEditMode}
                       >
@@ -176,7 +176,7 @@ const TwoFactorAuth = () => {
                 {!editMode && (
                   <button
                     onClick={() => setEditMode(true)}
-                    className="text-secondary dark:text-blac mt-2 cursor-pointer rounded-full bg-black/90 px-6 py-2 text-sm text-white transition-colors duration-300 ease-in-out hover:bg-black/75 dark:bg-white dark:text-black dark:hover:bg-white/75"
+                    className="text-secondary dark:text-blac mt-2 cursor-pointer rounded-lg bg-black/90 px-6 py-2 text-sm text-white transition-colors duration-300 ease-in-out hover:bg-black/75 dark:bg-white dark:text-black dark:hover:bg-white/75"
                     type="button"
                   >
                     {!editMode

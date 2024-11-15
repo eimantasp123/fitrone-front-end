@@ -7,7 +7,10 @@ export default function LightAndDarkMode() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Tooltip label={colorMode === "dark" ? t("lightMode") : t("darkMode")}>
+    <Tooltip
+      placement="auto"
+      label={colorMode === "dark" ? t("lightMode") : t("darkMode")}
+    >
       <IconButton
         onClick={toggleColorMode}
         size="sm"

@@ -13,7 +13,7 @@ export default function MealsHeader() {
 
   return (
     <>
-      <div className="z-20 flex w-full flex-col gap-4 lg:flex-row">
+      <div className="z-20 flex w-full flex-col gap-4 rounded-lg bg-background px-3 py-2 dark:bg-backgroundSecondary lg:flex-row">
         <div className="grid w-full grid-cols-2 gap-4 px-4 py-3 md:grid-cols-3 md:grid-rows-1 xl:grid-cols-2 xl:grid-rows-1">
           <CustomerSelect
             options={dietaryPreferences}
@@ -27,10 +27,10 @@ export default function MealsHeader() {
           />
         </div>
         <div className="flex w-fit items-end justify-end gap-2 py-3 md:h-full">
-          <button className="text-nowrap rounded-lg bg-primary px-4 py-[5px] text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark">
+          <button className="text-nowrap rounded-lg bg-primary px-4 py-[5px] text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark 3xl:py-2">
             {t("applyFilters")}
           </button>
-          <button className="text-nowrap rounded-lg px-4 py-[5px] text-sm transition-colors duration-200 ease-in-out">
+          <button className="text-nowrap rounded-lg px-4 py-[5px] text-sm transition-colors duration-200 ease-in-out 3xl:py-2">
             {t("resetFilters")}
           </button>
         </div>

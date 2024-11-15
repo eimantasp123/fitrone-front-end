@@ -1,3 +1,4 @@
+import AuthContext from "@/context/AuthContext";
 import {
   Button,
   Menu,
@@ -9,39 +10,48 @@ import {
   Portal,
   useDisclosure,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { FaQuestion } from "react-icons/fa6";
 import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export default function UserProfileButton({ user, handleLogout }) {
+export default function UserProfileButton() {
   const { t } = useTranslation("header");
+  const { details: user } = useSelector((state) => state.personalDetails);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Logout execute function
+  const { execute: executeLogout } = logout;
+
+  // Logout Function
+  const handleLogout = async () => {
+    try {
+      await executeLogout();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <>
       <Menu isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
         {/* Button with image */}
         <MenuButton
-          variant="ghost"
-          // sx={{
-          //   bg: colorMode === "dark" ? "dark.dark" : "light.background",
-          //   _hover: {
-          //     bg:
-          //       colorMode === "dark"
-          //         ? "dark.darkSecondary"
-          //         : "light.backgroundSecondary",
-          //   },
-          //   _active: {
-          //     bg:
-          //       colorMode === "dark"
-          //         ? "dark.darkSecondary"
-          //         : "light.backgroundSecondary",
-          //   },
-          // }}
-          padding="24px 10px"
+          sx={{
+            bg: "transparent",
+            _hover: {
+              bg: "light.secondaryLight",
+            },
+            _active: {
+              bg: "light.secondaryLight",
+            },
+          }}
+          padding="24px 0px"
+          w="100%"
           as={Button}
         >
           <div className="flex items-center justify-center gap-3">
@@ -50,12 +60,14 @@ export default function UserProfileButton({ user, handleLogout }) {
               alt="Profile"
               className="objet-top size-[38px] rounded-full object-cover lg:size-[33px]"
             />
-            {/* <div className="hidden whitespace-nowrap text-sm font-normal transition-all duration-1000 ease-in-out xl:block">
-              {user.email}
+            <div className="flex flex-col items-start">
+              <div className="hidden whitespace-nowrap text-sm font-normal text-white transition-all duration-1000 ease-in-out xl:block">
+                {user.firstName} {user.lastName}
+              </div>
+              <div className="hidden whitespace-nowrap text-xs font-normal text-white transition-all duration-1000 ease-in-out xl:block">
+                {user.email}
+              </div>
             </div>
-            <TiArrowSortedUp
-              className={`hidden transition-transform duration-300 ease-in-out sm:block ${isOpen ? "-rotate-180" : ""}`}
-            /> */}
           </div>
         </MenuButton>
 
@@ -85,9 +97,3 @@ export default function UserProfileButton({ user, handleLogout }) {
     </>
   );
 }
-
-UserProfileButton.propTypes = {
-  user: PropTypes.object.isRequired,
-  handleLogout: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
-};

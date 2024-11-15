@@ -47,7 +47,8 @@ const CustomTextarea: FC<CustomTextareaProps> = ({
       )}
       <Textarea
         id={name}
-        height={120}
+        height={70}
+        rounded={"8px"}
         {...register(name)}
         placeholder={placeholder}
         isDisabled={isDisabled}

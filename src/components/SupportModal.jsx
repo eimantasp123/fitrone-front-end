@@ -20,11 +20,7 @@ import CustomInput from "./common/NewCharkaInput";
 import PrimaryButton from "./common/PrimaryButton";
 import { useTranslation } from "react-i18next";
 
-export default function SupportModal({
-  setIsTooltipOpen = null,
-  isModalOpen,
-  onClose,
-}) {
+export default function SupportModal({ isModalOpen, onClose }) {
   const { t } = useTranslation("header");
   const { details: user } = useSelector((state) => state.personalDetails);
   const schema = useSupportSchema();
@@ -55,7 +51,6 @@ export default function SupportModal({
     onClose();
     methods.reset();
     methods.clearErrors();
-    setIsTooltipOpen(false);
   };
 
   return (

@@ -1,17 +1,15 @@
-import LinkButton from "@/components/common/LinkButton";
-import TextButton from "@/components/common/TextButton";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 export const MealCard = ({ title, calories, protein, carbs, fats, id }) => {
   const navigate = useNavigate();
 
-  const handleMealClick = (mealId) => {
-    navigate(`/meal-plan/${mealId}`);
+  const handleMealClick = () => {
+    navigate(`/meal-plan/${id}`);
   };
 
   return (
-    <div className="flex w-full flex-col gap-2 overflow-hidden rounded-lg bg-background p-2 shadow-custom-light2 sm:flex-row">
+    <div className="flex w-full flex-col gap-2 overflow-hidden rounded-lg bg-background p-2 shadow-custom-light2 dark:bg-backgroundSecondary sm:flex-row">
       {/* Left side  */}
       <div
         style={{ backgroundImage: "url('/food.jpg')" }}

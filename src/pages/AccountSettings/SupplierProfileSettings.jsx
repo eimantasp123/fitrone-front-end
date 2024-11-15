@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 const SupplierProfileSettings = () => {
   const { t } = useTranslation("profileSettings");
   return (
-    <div className="flex w-full flex-grow flex-col overflow-y-auto p-4 scrollbar-none md:px-14 md:py-10">
+    <div className="flex w-full flex-grow flex-col overflow-y-auto p-4 md:px-14 md:py-10">
       <div className="container mx-auto mb-6 flex w-full max-w-[1400px] flex-col gap-4 text-lg xl:flex-col">
         <h2 className="mt-2 font-semibold lg:mt-0">
           {t("accountSettings.title")}

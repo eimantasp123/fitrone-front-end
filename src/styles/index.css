@@ -4,9 +4,11 @@
 
 /* Default (light) theme */
 :root {
-  --color-primary: #9aea49;
-  --color-primary-dark: #6cad2e;
-  --color-primary-light: #9aea49a8;
+  --color-primary: #aadb34;
+  --color-primary-dark: #90bb2d;
+  --color-primary-light: #b6e44b;
+
+  --color-secondary: #00180d;
   /* Background */
   --color-background: #fcfcfc;
   --color-background-secondary: #f3f3f3;
@@ -27,11 +29,13 @@
 
 /* Dark theme */
 [data-theme="dark"] {
-  --color-primary: #9aea49;
-  --color-primary-dark: #6cad2e;
-  --color-primary-light: #7ec03cad;
+  --color-primary: #aadb34;
+  --color-primary-dark: #90bb2d;
+  --color-primary-light: #b6e44b;
+
+  --color-secondary: #080808;
   /* Background */
-  --color-background: #101010;
+  --color-background: #1a1a1a;
   --color-background-secondary: #141414;
   --color-background-light: #1d1d1d;
   /* Text */

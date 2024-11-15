@@ -3,10 +3,12 @@ import { extendTheme } from "@chakra-ui/react";
 const customTheme = extendTheme({
   colors: {
     light: {
-      primary: "#9aea49",
-      primaryDark: "#6cad2e",
-      primaryLight: "#9aea49a8",
-
+      primary: "#aadb34",
+      primaryDark: "#90bb2d",
+      primaryLight: "#c4f15a",
+      /* Secondary */
+      secondary: "#012212",
+      secondaryLight: "#013019",
       /* Background */
       background: "#fcfcfc",
       backgroundSecondary: "#f3f3f3",
@@ -25,11 +27,14 @@ const customTheme = extendTheme({
       placeholder: "#868686",
     },
     dark: {
-      primary: "#9aea49",
-      primaryDark: "#6cad2e",
-      primaryLight: "#7ec03c6c",
+      primary: "#aadb34",
+      primaryDark: "#90bb2d",
+      primaryLight: "#c4f15a",
+      /* Secondary */
+      secondary: "#012212",
+      secondaryLight: "#013019",
       /* Background */
-      background: "#101010",
+      background: "#1a1a1a",
       backgroundSecondary: "#141414",
       backgroundLight: "#1b1b1b",
       /* Text */
@@ -105,12 +110,9 @@ const customTheme = extendTheme({
           transition: "background-color 0.3s ease",
         }),
         customHeaderIcon: (props) => ({
-          bg: props.colorMode === "light" ? "blackAlpha.50" : "whiteAlpha.50",
+          bg: props.colorMode === "light" ? "whiteAlpha.900" : "whiteAlpha.100",
           borderRadius: "full",
-          _hover: {
-            bg:
-              props.colorMode === "light" ? "blackAlpha.200" : "whiteAlpha.200",
-          },
+
           transition: "background-color 0.3s ease",
         }),
       },
@@ -160,8 +162,7 @@ const customTheme = extendTheme({
       parts: ["list", "item", "button"],
       baseStyle: (props) => ({
         list: {
-          bg:
-            props.colorMode === "light" ? "whiteAlpha.900" : "dark.background",
+          bg: props.colorMode === "light" ? "white" : "dark.background",
           borderColor:
             props.colorMode === "light"
               ? "light.borderPrimary"
@@ -169,7 +170,7 @@ const customTheme = extendTheme({
         },
         item: {
           bg: "transparent",
-          fontSize: "13px",
+          fontSize: "14px",
           _hover: {
             bg:
               props.colorMode === "light"
