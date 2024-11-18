@@ -5,7 +5,6 @@ import {
   Input,
   InputGroup,
   InputProps,
-  useColorMode,
 } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { FieldError, useFormContext } from "react-hook-form";
@@ -18,11 +17,15 @@ interface CustomInputProps extends InputProps {
   required?: boolean;
   placeholder?: string;
   isDisabled?: boolean;
+  value?: string | number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CustomInput: FC<CustomInputProps> = ({
   name,
   label,
+  value,
+  onChange,
   type = "text",
   icon: Icon = null,
   required = false,
@@ -54,7 +57,15 @@ const CustomInput: FC<CustomInputProps> = ({
         <Input
           id={name}
           type={type}
-          {...register(name)}
+          value={value}
+          {...(register(name),
+          {
+            onChange: (e) => {
+              if (onChange) {
+                onChange(e);
+              }
+            },
+          })}
           placeholder={placeholder}
           isDisabled={isDisabled}
           {...rest}

@@ -109,7 +109,7 @@ export const SearchInputForApi = ({ className, setIngredients }) => {
             onChange={(e) => setSearchQuery(e.target.value)}
             type="text"
             placeholder="Search ingredients"
-            className={`w-full px-12 py-2 ${
+            className={`w-full px-12 py-2 text-sm ${
               searchQuery.length > 2 && showResults
                 ? "focus:border-t-1 focus:border-l-1 focus:border-r-1 rounded-tl-lg rounded-tr-lg border-b-transparent shadow-none"
                 : "rounded-lg transition-shadow duration-300 ease-in-out focus:shadow-custom-light4"
@@ -117,7 +117,7 @@ export const SearchInputForApi = ({ className, setIngredients }) => {
           />
           <span
             onClick={handleSearch}
-            className={`absolute right-0 cursor-pointer bg-primary px-4 py-2 text-black ${showResults ? "rounded-tr-lg" : "rounded-r-lg"}`}
+            className={`absolute right-0 flex h-full cursor-pointer items-center bg-primary px-4 text-sm text-black ${showResults ? "rounded-tr-lg" : "rounded-r-lg"}`}
           >
             Search
           </span>
@@ -149,30 +149,30 @@ export const SearchInputForApi = ({ className, setIngredients }) => {
           </div>
         )}
       </div>
-      <div className="mt-2 flex w-full items-center gap-4 text-nowrap">
+      <div className="mt-3 flex w-full items-center gap-4 text-nowrap">
         <div className="flex items-center gap-3">
-          <span className="text-sm">Amount</span>
+          <span className="text-xs">Amount</span>
           <input
             type="number"
             placeholder="Amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-2 outline-none"
+            className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm outline-none"
           />
         </div>
         {/*  */}
         <div className="flex items-center gap-3">
-          <span className="text-sm">Units</span>
+          <span className="text-xs">Units</span>
           <div className="flex flex-1 items-center gap-1 text-xs">
             <div
               onClick={() => setUnit("grams")}
-              className={`flex flex-1 cursor-pointer items-center ${unit === "grams" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} justify-center rounded-full px-6 py-2`}
+              className={`flex flex-1 cursor-pointer items-center ${unit === "grams" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} justify-center rounded-full px-4 py-1`}
             >
               Grams
             </div>
             <div
               onClick={() => setUnit("milliliters")}
-              className={`flex flex-1 cursor-pointer items-center justify-center rounded-full ${unit === "milliliters" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} px-6 py-2`}
+              className={`flex flex-1 cursor-pointer items-center justify-center rounded-full ${unit === "milliliters" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} px-4 py-1`}
             >
               Milliliters
             </div>
