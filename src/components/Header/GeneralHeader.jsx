@@ -7,9 +7,10 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 // import NotificationButton from "../NotificationButton";
-import LightAndDarkMode from "../common/LightAndDarkMode";
 import SideBarDrawer from "../common/SideBarDrawer";
 import TopHeaderBanner from "./TopHeaderBanner";
+import LanguageSelector from "../LanguageSelector";
+import LightAndDarkMode from "../common/LightAndDarkMode";
 
 // Client Header
 export default function GeneralHeader() {
@@ -47,6 +48,7 @@ export default function GeneralHeader() {
         </div>
 
         <div className="flex items-center gap-2 md:gap-2">
+          <LanguageSelector />
           {/* Dark Mode ON/OFF */}
           <LightAndDarkMode />
         </div>

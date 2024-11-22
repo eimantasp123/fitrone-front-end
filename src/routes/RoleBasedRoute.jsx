@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import Spinner from "../components/common/Spinner";
 import { useSelector } from "react-redux";
+import Spinner from "@/components/common/Spinner";
 
 export const SupplierRoute = () => {
   const { details: user } = useSelector((state) => state.personalDetails);

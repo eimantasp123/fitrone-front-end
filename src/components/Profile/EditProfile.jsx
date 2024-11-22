@@ -8,9 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { showCustomToast } from "../../hooks/showCustomToast";
 import { updatePersonalDetails } from "../../services/reduxSlices/Profile/personalDetailsSlice";
 import { useEditProfileSchema } from "../../utils/validationSchema";
-import FormButton from "../common/FormButton";
 import CustomInput from "../common/NewCharkaInput";
 import ChangeProfileImage from "./ChangeProfileImage";
+import FormButton from "../common/FormButton";
 
 // EditProfile component
 const EditProfile = () => {

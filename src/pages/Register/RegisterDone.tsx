@@ -7,10 +7,9 @@ import { Helmet } from "react-helmet";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FaUser } from "react-icons/fa6";
-
-import FormButton from "../../components/common/FormButton";
 import PasswordStrengthIndicator from "../../components/common/PasswordStrenghtIndicator";
 import AuthContext from "../../context/AuthContext";
+import FormButton from "@/components/common/FormButton";
 
 interface RegisterFormInputs {
   firstName: string;

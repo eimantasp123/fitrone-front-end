@@ -18,19 +18,17 @@ interface CustomInputProps extends InputProps {
   placeholder?: string;
   isDisabled?: boolean;
   value?: string | number;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CustomInput: FC<CustomInputProps> = ({
   name,
   label,
   value,
-  onChange,
   type = "text",
   icon: Icon = null,
   required = false,
   placeholder,
-  isDisabled,
+  isDisabled = false,
   ...rest
 }) => {
   const {
@@ -58,14 +56,7 @@ const CustomInput: FC<CustomInputProps> = ({
           id={name}
           type={type}
           value={value}
-          {...(register(name),
-          {
-            onChange: (e) => {
-              if (onChange) {
-                onChange(e);
-              }
-            },
-          })}
+          {...register(name, { value: value })}
           placeholder={placeholder}
           isDisabled={isDisabled}
           {...rest}

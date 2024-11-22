@@ -4,6 +4,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Portal,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
@@ -43,10 +44,12 @@ const LanguageSelector = () => {
         </div>
       </MenuButton>
       {/*  */}
-      <MenuList minWidth="120px" fontWeight={400}>
-        <MenuItem onClick={() => changeLanguage("en")}>{t("en")}</MenuItem>
-        <MenuItem onClick={() => changeLanguage("lt")}>{t("lt")}</MenuItem>
-      </MenuList>
+      <Portal>
+        <MenuList minWidth="120px" fontWeight={400}>
+          <MenuItem onClick={() => changeLanguage("en")}>{t("en")}</MenuItem>
+          <MenuItem onClick={() => changeLanguage("lt")}>{t("lt")}</MenuItem>
+        </MenuList>
+      </Portal>
     </Menu>
   );
 };

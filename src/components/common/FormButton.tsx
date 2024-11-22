@@ -1,7 +1,15 @@
-import PropTypes from "prop-types";
 import { Spinner } from "@chakra-ui/react";
+import { FC, ReactNode } from "react";
 
-const FormButton = ({
+interface FormButtonProps {
+  isFormValid: boolean | string;
+  loading: boolean;
+  children: ReactNode;
+  onClick?: () => void;
+  className?: string;
+}
+
+const FormButton: FC<FormButtonProps> = ({
   isFormValid,
   loading,
   children,
@@ -20,14 +28,6 @@ const FormButton = ({
       {loading ? <Spinner size="sm" /> : children}
     </button>
   );
-};
-
-FormButton.propTypes = {
-  isFormValid: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  loading: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  onClick: PropTypes.func,
 };
 
 export default FormButton;

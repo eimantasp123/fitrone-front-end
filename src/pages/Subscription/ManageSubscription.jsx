@@ -1,13 +1,13 @@
 import { useColorMode } from "@chakra-ui/react";
 import { IoMdSettings } from "react-icons/io";
 import { useSelector } from "react-redux";
-import PlanCard from "../../components/common/PlanCard";
 import TextButton from "../../components/common/TextButton";
 import { showCustomToast } from "../../hooks/showCustomToast";
 import axiosInstance from "../../utils/axiosInterceptors";
 import MessagesForSubscription from "./MessagesForSubscription";
 import { plans } from "./mockData/plans";
 import Tabel from "./Tabel";
+import PlanCard from "@/components/common/PlanCard";
 
 const ManageSubscription = () => {
   const { details: user } = useSelector((state) => state.personalDetails);

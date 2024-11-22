@@ -5,10 +5,10 @@ import { Helmet } from "react-helmet";
 import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdEmail } from "react-icons/md";
-import FormButton from "../../components/common/FormButton";
 import SuccessulAlert from "../../components/common/SuccessulAlert";
 import AuthContext from "../../context/AuthContext";
 import { useRegisterEmailSchema } from "../../utils/validationSchema";
+import FormButton from "@/components/common/FormButton";
 
 // Define the types for form data
 interface ResetFormData {

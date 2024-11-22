@@ -9,6 +9,7 @@
   "restrictionsTitle": "Dietary Restrictions",
   "resetFilters": "Reset filters",
   "applyFilters": "Apply filters",
+
   "preferences": {
     "vegetarian": "Vegetarian",
     "vegan": "Vegan",
@@ -24,6 +25,7 @@
     "plantBased": "Plant-Based",
     "intermittentFasting": "Intermittent Fasting"
   },
+
   "restrictions": {
     "glutenFree": "Gluten-Free",
     "dairyFree": "Dairy-Free",
@@ -33,5 +35,52 @@
     "shellfishFree": "Shellfish-Free",
     "lowSodium": "Low-Sodium",
     "sugarFree": "Sugar-Free"
+  },
+
+  "addNewDish": "Add New Dish",
+  "description": "Enter the details to create a new dish, including ingredients, portion size and nutritional values. This information will help accurately include the dish.",
+  "mealTitle": "Meal Title",
+  "descriptionTile": "Description",
+  "ingredients": "Ingredients",
+  "findIngredientAi": "Find Ingredient",
+  "findIngredientFromDatabase": "My Personal Ingredients",
+  "enterIngredientManually": "Enter Ingredient Manually",
+
+  "search": "Search",
+  "searchPlaceholder": "Search for ingredient",
+  "noIngredientsFound": "No ingredients found",
+  "noIngredietnsFoundDescription": "Try adjusting your query and try again",
+  "firstInfoForSearchIngredient": "Before searching for ingredients, select the amount and unit of measurement, as they cannot be changed later. If you do not specify anything, the system will automatically assign 100 as the amount and 'g' (grams) as the unit of measurement.",
+  "secondInfoForSearchIngredient": "Please include one specific ingredient in your query, such as 'Milk 2.5%' or 'Cucumber', and write in proper English. Avoid multiple ingredients in a single query to ensure accurate search results.",
+  "lastInfoForSearchIngredient": "If everything looks logical and you haven't noticed any mistakes, click the green checkmark button. If you notice any mistakes, click the red trash button.",
+
+  "addIngredient": "Add Ingredient",
+  "ingredientName": "Ingredient Name",
+  "enterIngredient": "Enter Ingredient",
+  "unit": "Unit",
+  "grams": "Grams",
+  "milliliters": "Milliliters",
+  "amount": "Amount",
+  "calories": "Calories",
+  "protein": "Protein",
+  "carbs": "Carbs",
+  "fat": "Fat",
+  "cancel": "Cancel",
+  "add": "Add Ingredient",
+  "info": "Please manually calculate and input the nutritional information (calories, carbs, fat, protein) based on the amount you specified.",
+  "addIngredientManuallyFirstInfoText": "The added ingredient will be saved in your personal ingredient database with the nutritional values ​​provided. This database will allow you to easily access and use the ingredients you created in other recipes or calculations. We recommend using accurate and clear ingredient names. ",
+  "addIngredientManuallySecondInfoText": "Select a unit of measurement for the ingredient. Quantity is already set to (100)  and cannot be changed.",
+  "addIngredientManuallyThirdInfoText": "Enter all the nutrients listed on the product packaging, based on the amount per 100g. or 100ml.",
+  "addIngredientManuallyLastInfoText": "Enter the amount of this ingredient you will use in the current dish.",
+
+  "errors": {
+    "fieldIsRequired": "Field is required",
+    "AmountValid": "Amount must be a number",
+    "caloriesValid": "Calories must be a number",
+    "proteinValid": "Protein must be a number",
+    "carbsValid": "Carbs must be a number",
+    "fatValid": "Fat must be a number",
+    "ingredientAlreadyExists": "Ingredient already exists",
+    "noIngredients": "No ingredients added"
   }
 }

@@ -16,8 +16,8 @@ import AuthContext from "../../context/AuthContext";
 import { deleteAccount } from "../../services/reduxSlices/Profile/personalDetailsSlice";
 import { useDeleteProfileSchema } from "../../utils/validationSchema";
 import CustomInput from "../common/NewCharkaInput";
-import RedButton from "../common/RedButton";
 import TextButton from "../common/TextButton";
+import RedButton from "../common/RedButton";
 
 // DeleteAccount component
 const DeleteAccount = () => {

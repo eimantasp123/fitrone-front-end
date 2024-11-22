@@ -152,6 +152,7 @@ export const useFeedbackSchema = () => {
   });
 };
 
+// Support schema for support form validation
 export const useSupportSchema = () => {
   const { t } = useTranslation("header");
   return yup.object().shape({
@@ -163,5 +164,60 @@ export const useSupportSchema = () => {
       .string()
       .required(t("supportModal.validation.message"))
       .max(500, t("supportModal.validation.messageMax")),
+  });
+};
+
+//  Ingredient input schema for ingredient input form validation
+export const useIngredientInputSchema = () => {
+  const { t } = useTranslation("meals");
+
+  const requiredMessage = t("errors.fieldIsRequired");
+  const numberTransform = (
+    value: string | number,
+    originalValue: string | number,
+  ) => (originalValue === "" ? undefined : value);
+
+  return yup.object().shape({
+    title: yup.string().trim().required(requiredMessage),
+    amount: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.amountValid"))
+      .required(requiredMessage),
+    calories: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.caloriesValid"))
+      .required(requiredMessage),
+    carbs: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.carbsValid"))
+      .required(requiredMessage),
+    fat: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.fatValid"))
+      .required(requiredMessage),
+    protein: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.proteinValid"))
+      .required(requiredMessage),
+    currentAmount: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.amountValid"))
+      .required(requiredMessage),
+  });
+};
+
+// Meal input schema for meal input form validation
+export const useMealInputSchema = () => {
+  const { t } = useTranslation("meals");
+  return yup.object().shape({
+    title: yup.string().trim().required(t("errors.fieldIsRequired")),
+    description: yup.string(), // Optional
+    ingredients: yup.array().of(useIngredientInputSchema().required()),
   });
 };

@@ -1,12 +1,19 @@
 import { Spinner } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
+interface RedButtonProps {
+  updateLoading: boolean;
+  width?: string;
+  type?: "button" | "submit" | "reset";
+  text?: string;
+}
+
 export default function RedButton({
   updateLoading,
   width = "",
   type = "submit",
   text = "Red Button",
-}) {
+}: RedButtonProps) {
   return (
     <button
       style={{ width: `${width}` }}

@@ -2,20 +2,28 @@ import { useColorMode } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { SlStar } from "react-icons/sl";
 
+interface PlanCardProps {
+  plan: { name: string; description: string; price: string };
+  selectedPlan: string;
+  onSelect: () => void;
+  visible: boolean;
+  hasUsedFreeTrial: boolean;
+}
+
 export default function PlanCard({
   plan,
   selectedPlan,
   onSelect,
   visible,
   hasUsedFreeTrial,
-}) {
+}: PlanCardProps) {
   const { colorMode } = useColorMode();
 
   return (
     <div
       className={`relative flex h-full flex-col rounded-2xl border p-5 shadow-custom-dark2 transition-all duration-300 md:flex-row md:items-center md:gap-10 md:px-10 md:py-10 lg:p-7 xl:flex-col xl:items-start xl:gap-0 ${
         selectedPlan === plan.name
-          ? `${colorMode === "dark" ? "border-borderColor bg-sidebarPrimary text-white" : "border-borderPrimary bg-buttonPrimaryDark text-white"}`
+          ? `${colorMode === "dark" ? "border-borderColor bg-sidebarPrimary text-white" : "bg-buttonPrimaryDark border-borderPrimary text-white"}`
           : `${colorMode === "dark" ? "border-borderColor bg-[#2c2c2c]" : "bg-background"} `
       } ${selectedPlan === plan.name ? "border-primaryDark" : ""} `}
     >
@@ -62,13 +70,13 @@ export default function PlanCard({
         {visible && (
           <button
             disabled={selectedPlan === plan.name}
-            className={`mt-5 w-full cursor-pointer border border-borderColor ${
+            className={`border-borderColor mt-5 w-full cursor-pointer border ${
               selectedPlan === plan.name
                 ? "border-primary bg-primary text-black"
                 : `${
                     colorMode === "dark"
                       ? "border-backgroundSecondary bg-backgroundSecondary text-white hover:bg-background"
-                      : "border-buttonPrimaryDark bg-buttonPrimaryDark text-white hover:bg-buttonPrimaryDarkHover"
+                      : "border-buttonPrimaryDark bg-buttonPrimaryDark hover:bg-buttonPrimaryDarkHover text-white"
                   }`
             } rounded-full py-2 transition-all duration-300 ease-in-out`}
             onClick={() => onSelect()}

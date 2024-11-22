@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { MdDelete, MdDownloadDone, MdSearch } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
 
-export const SearchInputForApi = ({
+export const SearchIngredientFromDatabaseApi = ({
   className,
   setIngredients,
   closeModal,
@@ -89,7 +89,7 @@ export const SearchInputForApi = ({
     <div className="w-full">
       {/*  */}
       <p className="flex items-center gap-1 pt-3 text-[13px] text-textPrimary">
-        1. {t("firstInfoForSearchIngredient")}
+        1. Select unit and amount of ingredient
       </p>
       <div className="my-2 flex w-full items-center gap-4 text-nowrap">
         <div className="flex items-center gap-3">
@@ -124,7 +124,8 @@ export const SearchInputForApi = ({
 
       {/*  */}
       <p className="flex items-center gap-1 border-t-[1px] border-borderPrimary py-2 text-[13px] text-textPrimary">
-        2. {t("secondInfoForSearchIngredient")}
+        2. Write the name of the ingredient you want to search from your
+        database
       </p>
       <div
         ref={containerRef}
@@ -222,7 +223,7 @@ export const SearchInputForApi = ({
   );
 };
 
-SearchInputForApi.propTypes = {
+SearchIngredientFromDatabaseApi.propTypes = {
   className: PropTypes.string,
   setIngredients: PropTypes.func,
 };

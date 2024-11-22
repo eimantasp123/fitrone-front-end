@@ -1,8 +1,9 @@
+import React from "react";
 import { IconButton, Tooltip, useColorMode } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { CiDark, CiLight } from "react-icons/ci";
 
-export default function LightAndDarkMode() {
+const LightAndDarkMode: React.FC = () => {
   const { t } = useTranslation("header");
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -14,7 +15,7 @@ export default function LightAndDarkMode() {
       <IconButton
         onClick={toggleColorMode}
         size="sm"
-        variant={"customHeaderIcon"}
+        variant="customHeaderIcon"
         icon={
           colorMode === "dark" ? (
             <CiLight className="text-[16px]" />
@@ -22,8 +23,12 @@ export default function LightAndDarkMode() {
             <CiDark className="text-[16px]" />
           )
         }
-        aria-label="Toggle color mode"
+        aria-label={t(
+          colorMode === "dark" ? "Switch to light mode" : "Switch to dark mode",
+        )}
       />
     </Tooltip>
   );
-}
+};
+
+export default LightAndDarkMode;

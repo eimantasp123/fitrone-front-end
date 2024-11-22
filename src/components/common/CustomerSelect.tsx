@@ -1,22 +1,34 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import PropTypes from "prop-types";
 
-// Customer Select Component
-export default function CustomerSelect({ options, defaultOption, title }) {
-  const [selected, setSelected] = useState(defaultOption);
-  const [isOpen, setIsOpen] = useState(false);
-  const modalRef = useRef(null);
+interface CustomerSelectProps {
+  options: string[];
+  defaultOption?: string;
+  title?: string;
+}
 
-  const handleSelect = (option) => {
+const CustomerSelect: React.FC<CustomerSelectProps> = ({
+  options,
+  defaultOption = "",
+  title,
+}) => {
+  const [selected, setSelected] = useState<string>(defaultOption);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleSelect = (option: string) => {
     setSelected(option);
     setIsOpen(false);
   };
 
   // Close the dropdown when clicked outside
   useEffect(() => {
-    const checkIfClickedOutside = (e) => {
-      if (isOpen && modalRef.current && !modalRef.current.contains(e.target)) {
+    const checkIfClickedOutside = (e: MouseEvent) => {
+      if (
+        isOpen &&
+        modalRef.current &&
+        !modalRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -40,7 +52,9 @@ export default function CustomerSelect({ options, defaultOption, title }) {
       >
         <span>{selected}</span>
         <MdKeyboardArrowDown
-          className={`text-lg text-textSecondary transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : ""}`}
+          className={`text-lg text-textSecondary transition-transform duration-300 ease-in-out ${
+            isOpen ? "rotate-90" : ""
+          }`}
         />
         {/* Dropdown menu */}
         {isOpen && (
@@ -65,10 +79,6 @@ export default function CustomerSelect({ options, defaultOption, title }) {
       </div>
     </div>
   );
-}
-
-CustomerSelect.propTypes = {
-  options: PropTypes.array.isRequired,
-  defaultOption: PropTypes.string,
-  title: PropTypes.string,
 };
+
+export default CustomerSelect;

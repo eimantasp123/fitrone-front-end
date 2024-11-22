@@ -17,10 +17,10 @@ import { useTranslation } from "react-i18next";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Navigate } from "react-router-dom";
-import FormButton from "../../components/common/FormButton";
 import SignUpPrompt from "../../components/common/SignUpPrompt";
 import AuthContext from "../../context/AuthContext";
 import { showCustomToast } from "@/hooks/showCustomToast";
+import FormButton from "@/components/common/FormButton";
 
 const FACEBOOK_APP_ID = "1552748628609748";
 

@@ -8,10 +8,10 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import FormButton from "../../components/common/FormButton";
 import SignUpPrompt from "../../components/common/SignUpPrompt";
 import AuthContext from "../../context/AuthContext";
 import { useRegisterEmailSchema } from "../../utils/validationSchema";
+import FormButton from "@/components/common/FormButton";
 
 interface RegisterFormInputs {
   email: string;
@@ -94,7 +94,7 @@ export default function RegisterForm() {
           <div className="text-center">
             <button
               type="button"
-              className="hover:bg-backgroundLight dark:hover:bg-backgroundLight flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in dark:bg-background"
+              className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in hover:bg-backgroundLight dark:bg-background dark:hover:bg-backgroundLight"
               onClick={() => googleLogin()}
             >
               <FaGoogle className="text-[16px]" /> Google
@@ -108,7 +108,7 @@ export default function RegisterForm() {
               render={(renderProps) => (
                 <button
                   type="button"
-                  className="hover:bg-backgroundLight dark:hover:bg-backgroundLight flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in dark:bg-background"
+                  className="flex w-full items-center justify-center gap-2 rounded-full border-[1px] border-borderPrimary bg-backgroundSecondary py-3 text-sm text-textPrimary shadow-none transition-all duration-100 ease-in hover:bg-backgroundLight dark:bg-background dark:hover:bg-backgroundLight"
                   onClick={renderProps.onClick}
                 >
                   <FaFacebook className="text-[17px] text-textPrimary" />
