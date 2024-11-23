@@ -194,7 +194,7 @@ export const SearchInputForApi = ({
                     <div className="ml-auto flex items-center gap-3">
                       <span
                         onClick={handleAccept}
-                        className="flex size-6 cursor-pointer items-center justify-center rounded-full bg-primary"
+                        className="flex size-5 cursor-pointer items-center justify-center rounded-full bg-primary"
                       >
                         <MdDownloadDone className="text-md text-black" />
                       </span>

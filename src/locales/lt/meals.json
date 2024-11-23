@@ -1,12 +1,15 @@
 {
   "addFirstMeal": "Pridėkite pirmąjį patiekalą",
   "addMeal": "Pridėti patiekalą",
+  "updateMeal": "Atnaujinti patiekalą",
   "noMealsAdded": "Dar nėra pridėtų patiekalų",
   "noMealsDescription": "Galite pradėti pridėdami patiekalą naudodami mygtuką apačioje",
   "preferencesPlaceholder": "Pasirinkite dietinį pasirinkimą",
   "restrictionsPlaceholder": "Pasirinkite dietinį apribojimą",
   "preferencesTitle": "Dietiniai pasirinkimai",
   "restrictionsTitle": "Dietiniai apribojimai",
+  "noPreferences": "Nėra pasirinkimų",
+  "noRestrictions": "Nėra apribojimų",
   "resetFilters": "Išvalyti filtrus",
   "applyFilters": "Taikyti filtrus",
 
@@ -38,6 +41,7 @@
   },
 
   "addNewDish": "Pridėti naują patiekalą",
+  "updateDish": "Atnaujinti patiekalą",
   "description": "Įveskite informaciją, kad sukurtumėte naują patiekalą, įskaitant ingredientus, porcijos dydį ir maistinę vertę. Ši informacija padės tiksliai įtraukti patiekalą.",
   "mealTitle": "Patiekalo pavadinimas",
   "descriptionTile": "Aprašymas",
@@ -54,6 +58,10 @@
   "secondInfoForSearchIngredient": "Užklausoje nurodykite tik vieną ingredientą ir rašykite tiksliai, pavyzdžiui, 'Pienas 2.5%' arba 'Agurkas'. Rašykite gramatiškai taisyklingai, naudodami visas lietuviškas raides, tokias kaip ž, š, č ir kt., kad sistema galėtų tiksliai suprasti užklausą.",
   "lastInfoForSearchIngredient": "Jei nepastebėjote didelių klaidų ar keistų skaičių, spauskite žalią mygtuką su varnele, kad patvirtintumėte. Jei duomenys atrodo neteisingi, spauskite raudoną mygtuką su šiukšledėže.",
 
+  "searchIngredientFromDatabase": "Ieškoti ingredientą duomenų bazėje",
+  "searchIngredientFromDatabaseFirstInfoText": "Ieškokite ingrediento savo asmeninėje duomenų bazėje. Įsitikinkite, kad užklausa pateikta aiškiai ir tiksliai.",
+  "searchIngredientFromDatabaseLastInfoText": "Radę ieškomą ingredientą, įveskite norimą kiekį ir paspauskite žalią mygtuką su varnele, kad patvirtintumėte pasirinkimą ir sistema galėtų tiksliai atlikti skaičiavimus.",
+
   "addIngredient": "Pridėti ingredientą",
   "ingredientName": " Ingredientas",
   "enterIngredient": "Įveskite ingredientą",
@@ -61,6 +69,7 @@
   "grams": "Gramai",
   "milliliters": "Mililitrai",
   "amount": "Kiekis",
+  "needenAmount": "Jums reikalingas kiekis",
   "calories": "Kalorijos",
   "protein": "Baltymai",
   "carbs": "Angliavandeniai",
@@ -73,6 +82,13 @@
   "addIngredientManuallyThirdInfoText": "Įveskite visas maistines medžiagas, nurodytas produkto pakuotėje, atsižvelgiant į kiekį 100g. arba 100ml.",
   "addIngredientManuallyLastInfoText": "Įrašykite, kokį kiekį šio ingrediento naudosite dabartiniame patiekale.",
 
+  "mealAddedSuccessfully": "Patiekalas sėkmingai pridėtas",
+
+  "delete": "Ištrinti",
+  "editAndView": "Redaguoti ir peržiūrėti",
+  "deleteMealTitle": "Ištrinti patiekalą ",
+  "deleteMealDescription": " Ar tikrai norite visam laikui ištrinti šį patiekalą? Šis veiksmas negali būti atšauktas, ir patiekalas bus pašalintas iš jūsų įrašų.",
+
   "errors": {
     "fieldIsRequired": "Laukas yra privalomas",
     "AmountValid": "Kiekis turi būti skaičius",
@@ -81,6 +97,7 @@
     "carbsValid": "Angliavandeniai turi būti skaičius",
     "fatValid": "Riebalai turi būti skaičius",
     "ingredientAlreadyExists": "Ingredientas jau egzistuoja",
-    "noIngredients": "Nėra pridėtų ingredientų"
+    "noIngredients": "Nėra pridėtų ingredientų",
+    "amountRequired": "Kiekis yra privalomas"
   }
 }

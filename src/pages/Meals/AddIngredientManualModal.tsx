@@ -1,4 +1,7 @@
 import CustomInput from "@/components/common/NewCharkaInput";
+import { showCustomToast } from "@/hooks/showCustomToast";
+import axiosInstance from "@/utils/axiosInterceptors";
+import { formatNumber } from "@/utils/helper";
 import { useIngredientInputSchema } from "@/utils/validationSchema";
 import {
   Modal,
@@ -6,12 +9,13 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  Spinner,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
 import React, { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { formatNumber } from "@/utils/helper";
 
 interface Ingredient {
   title: string;
@@ -30,6 +34,7 @@ interface AddIngredientManualModalProps {
   setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
 }
 
+// AddIngredientManualModal component
 const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
   isOpen,
   onClose,
@@ -38,16 +43,20 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
   const { t } = useTranslation("meals");
   const [unit, setUnit] = useState<string>("g");
   const schema = useIngredientInputSchema();
+  const [loading, setLoading] = useState<boolean>(false);
   const methods = useForm<Ingredient>({
     resolver: yupResolver(schema),
   });
 
-  const handleSubmitForm: SubmitHandler<Ingredient> = (data) => {
+  // Handle form submission
+  const handleSubmitForm: SubmitHandler<Ingredient> = async (data) => {
+    setLoading(true);
     const ingredientData = {
       ...data,
       unit,
     };
 
+    // Prepare data for backend
     const backendData = {
       title: ingredientData.title,
       amount: 100,
@@ -58,6 +67,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
       carbs: ingredientData.carbs,
     };
 
+    // Prepare scaled data for frontend
     const scaledData = {
       title: ingredientData.title,
       amount: ingredientData.currentAmount,
@@ -77,13 +87,33 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
       ),
     };
 
-    // Debugging logs
-    console.log("Backend Data:", backendData);
-    setIngredients((prev) => [...prev, scaledData]);
-    onClose();
-    methods.reset();
+    // Send data to backend
+    try {
+      const response = await axiosInstance.post(
+        "/meals/add-ingredient",
+        backendData,
+      );
+      if (response.status === 201) {
+        setIngredients((prev) => [...prev, scaledData]);
+        closeModal();
+        showCustomToast({
+          status: "success",
+          title: response.data.message,
+        });
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        methods.setError("title", {
+          type: "manual",
+          message: error.response.data.message,
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
+  // Close modal
   const closeModal = () => {
     onClose();
     methods.reset();
@@ -117,7 +147,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
               onSubmit={methods.handleSubmit(handleSubmitForm)}
             >
               {/* Description text */}
-              <p className="text-center text-sm">
+              <p className="text-sm">
                 {t("addIngredientManuallyFirstInfoText")}
               </p>
               <CustomInput
@@ -194,9 +224,10 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
                 </span>
                 <button
                   type="submit"
-                  className="mt-4 cursor-pointer rounded-md bg-primary px-4 py-3 text-center text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
+                  disabled={loading}
+                  className={`mt-4 rounded-md bg-primary px-4 py-3 text-center ${loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"} text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
                 >
-                  {t("add")}
+                  {loading ? <Spinner size="sm" /> : `${t("add")}`}
                 </button>
               </div>
             </form>

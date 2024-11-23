@@ -1,12 +1,15 @@
 {
   "addFirstMeal": "Add your first meal",
   "addMeal": "Add Meal",
+  "updateMeal": "Update Meal",
   "noMealsAdded": "No Meals Added Yet",
   "noMealsDescription": "You can start by adding a meal using the button below",
   "preferencesPlaceholder": "Select a dietary preference",
   "restrictionsPlaceholder": "Select a dietary restriction",
   "preferencesTitle": "Dietary Preferences",
   "restrictionsTitle": "Dietary Restrictions",
+  "noPreferences": "No preferences",
+  "noRestrictions": "No restrictions",
   "resetFilters": "Reset filters",
   "applyFilters": "Apply filters",
 
@@ -38,6 +41,7 @@
   },
 
   "addNewDish": "Add New Dish",
+  "updateDish": "Update Dish",
   "description": "Enter the details to create a new dish, including ingredients, portion size and nutritional values. This information will help accurately include the dish.",
   "mealTitle": "Meal Title",
   "descriptionTile": "Description",
@@ -54,6 +58,10 @@
   "secondInfoForSearchIngredient": "Please include one specific ingredient in your query, such as 'Milk 2.5%' or 'Cucumber', and write in proper English. Avoid multiple ingredients in a single query to ensure accurate search results.",
   "lastInfoForSearchIngredient": "If everything looks logical and you haven't noticed any mistakes, click the green checkmark button. If you notice any mistakes, click the red trash button.",
 
+  "searchIngredientFromDatabase": "Search Ingredient from Database",
+  "searchIngredientFromDatabaseFirstInfoText": "Search for the ingredient in your personal database. Make sure your query is clear and precise.",
+  "searchIngredientFromDatabaseLastInfoText": "Once you find the ingredient you are looking for, enter the desired quantity and press the green button with a checkmark to confirm your selection and allow the system to perform accurate calculations.",
+
   "addIngredient": "Add Ingredient",
   "ingredientName": "Ingredient Name",
   "enterIngredient": "Enter Ingredient",
@@ -61,6 +69,7 @@
   "grams": "Grams",
   "milliliters": "Milliliters",
   "amount": "Amount",
+  "needenAmount": "The amount you need",
   "calories": "Calories",
   "protein": "Protein",
   "carbs": "Carbs",
@@ -73,6 +82,13 @@
   "addIngredientManuallyThirdInfoText": "Enter all the nutrients listed on the product packaging, based on the amount per 100g. or 100ml.",
   "addIngredientManuallyLastInfoText": "Enter the amount of this ingredient you will use in the current dish.",
 
+  "mealAddedSuccessfully": "Meal added successfully",
+
+  "delete": "Delete",
+  "editAndView": "Edit & View",
+  "deleteMealTitle": "Delete Permanently",
+  "deleteMealDescription": "Are you sure you want to permanently delete this meal? This action cannot be undone, and the meal will be removed from your records.",
+
   "errors": {
     "fieldIsRequired": "Field is required",
     "AmountValid": "Amount must be a number",
@@ -81,6 +97,7 @@
     "carbsValid": "Carbs must be a number",
     "fatValid": "Fat must be a number",
     "ingredientAlreadyExists": "Ingredient already exists",
-    "noIngredients": "No ingredients added"
+    "noIngredients": "No ingredients added",
+    "amountRequired": "Amount is required"
   }
 }

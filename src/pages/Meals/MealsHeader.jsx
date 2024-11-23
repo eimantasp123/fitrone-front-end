@@ -1,8 +1,11 @@
 import CustomerSelect from "@/components/common/CustomerSelect";
 import { useTranslation } from "react-i18next";
+import AddMealModal from "./AddMealModal";
+import { useDisclosure } from "@chakra-ui/react";
 
 export default function MealsHeader() {
   const { t } = useTranslation("meals");
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   const dietaryPreferences = Object.values(
     t("preferences", { returnObjects: true }),
@@ -35,10 +38,14 @@ export default function MealsHeader() {
           </button>
         </div>
 
-        <div className="m-1 flex w-fit cursor-pointer items-center justify-center gap-2 text-nowrap rounded-md border border-borderPrimary p-1 px-6 text-sm transition-colors duration-200 ease-in-out hover:bg-backgroundSecondary">
+        <button
+          onClick={onOpen}
+          className="m-1 flex w-fit items-center justify-center gap-2 text-nowrap rounded-md border border-borderPrimary p-1 px-6 text-sm transition-colors duration-200 ease-in-out hover:bg-backgroundSecondary"
+        >
           + {t("addMeal")}
-        </div>
+        </button>
       </div>
+      <AddMealModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 }

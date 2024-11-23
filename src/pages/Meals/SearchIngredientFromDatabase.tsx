@@ -47,7 +47,7 @@ const SearchIngredientFromDatabse: React.FC<
         <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
           <div className="flex items-center gap-4">
             <h4 className="text-xl font-semibold">
-              Search Ingredients from Database
+              {t("searchIngredientFromDatabase")}
             </h4>
           </div>
         </div>

@@ -1,8 +1,10 @@
+import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
+import { formatNumber } from "@/utils/helper";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MdDelete, MdDownloadDone, MdSearch } from "react-icons/md";
+import { MdDownloadDone, MdSearch } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
 
 export const SearchIngredientFromDatabaseApi = ({
@@ -15,9 +17,16 @@ export const SearchIngredientFromDatabaseApi = ({
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [amount, setAmount] = useState(100);
-  const [unit, setUnit] = useState("g");
+  const [amounts, setAmounts] = useState({});
   const containerRef = useRef(null);
+
+  // Handle amount change
+  const handleAmountChange = (id, value) => {
+    setAmounts((prevAmounts) => ({
+      ...prevAmounts,
+      [id]: value,
+    }));
+  };
 
   // Search for ingredients
   const handleSearch = async (e) => {
@@ -27,48 +36,54 @@ export const SearchIngredientFromDatabaseApi = ({
     setShowResults(true);
     setSearchResults([]);
     try {
-      const response = await axiosInstance.post("/meals/ingredient", {
-        query: searchQuery,
-        unit,
-        amount,
+      const response = await axiosInstance.get("/meals/ingredient-search", {
+        params: {
+          query: searchQuery,
+        },
       });
-      if (response.data.data.calories === 0) {
-        setSearchResults([]);
-        return;
-      }
-      setSearchResults((prevResults) => [...prevResults, response.data.data]);
+      if (response.data.data.length === 0) return;
+      setSearchResults((prevResults) => [
+        ...prevResults,
+        ...response.data.data,
+      ]);
     } catch (error) {
-      console.error(error);
+      showCustomToast({
+        status: "error",
+        title: error.response.data.message,
+      });
     } finally {
       setLoading(false);
     }
   };
 
   // Accept search results
-  const handleAccept = () => {
+  const handleAccept = (id) => {
+    if (!amounts[id]) {
+      showCustomToast({
+        status: "error",
+        title: t("errors.amountRequired"),
+      });
+      return;
+    }
+    const currentAmount = amounts[id];
+    const results = searchResults.find((result) => result._id === id);
+
     setIngredients((prevIngredients) => [
       ...prevIngredients,
       {
-        title: searchResults[0].title,
-        amount: searchResults[0].amount,
-        calories: searchResults[0].calories,
-        protein: searchResults[0].protein,
-        fat: searchResults[0].fat,
-        carbs: searchResults[0].carbs,
-        unit: searchResults[0].unit,
+        title: results.title,
+        amount: currentAmount,
+        unit: results.unit,
+        calories: formatNumber((results.calories / 100) * currentAmount),
+        protein: formatNumber((results.protein / 100) * currentAmount),
+        fat: formatNumber((results.fat / 100) * currentAmount),
+        carbs: formatNumber((results.carbs / 100) * currentAmount),
       },
     ]);
     setShowResults(false);
     setSearchQuery("");
     setSearchResults([]);
     closeModal();
-  };
-
-  // Delete search results
-  const handleDeleteResults = () => {
-    setShowResults(false);
-    setSearchQuery("");
-    setSearchResults([]);
   };
 
   // Close search results when clicked outside
@@ -88,44 +103,8 @@ export const SearchIngredientFromDatabaseApi = ({
   return (
     <div className="w-full">
       {/*  */}
-      <p className="flex items-center gap-1 pt-3 text-[13px] text-textPrimary">
-        1. Select unit and amount of ingredient
-      </p>
-      <div className="my-2 flex w-full items-center gap-4 text-nowrap">
-        <div className="flex items-center gap-3">
-          <span className="text-xs">{t("amount")}</span>
-          <input
-            type="number"
-            placeholder={t("amount")}
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm outline-none"
-          />
-        </div>
-        {/*  */}
-        <div className="flex items-center gap-3">
-          <span className="text-xs">{t("unit")}</span>
-          <div className="flex flex-1 items-center gap-1 text-xs">
-            <div
-              onClick={() => setUnit("g")}
-              className={`flex flex-1 cursor-pointer items-center ${unit === "g" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} justify-center rounded-lg px-4 py-2`}
-            >
-              {t("grams")}
-            </div>
-            <div
-              onClick={() => setUnit("ml")}
-              className={`flex flex-1 cursor-pointer items-center justify-center rounded-lg ${unit === "ml" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} px-4 py-2`}
-            >
-              {t("milliliters")}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/*  */}
       <p className="flex items-center gap-1 border-t-[1px] border-borderPrimary py-2 text-[13px] text-textPrimary">
-        2. Write the name of the ingredient you want to search from your
-        database
+        1. {t("searchIngredientFromDatabaseFirstInfoText")}
       </p>
       <div
         ref={containerRef}
@@ -156,7 +135,7 @@ export const SearchIngredientFromDatabaseApi = ({
         </form>
 
         {showResults && (
-          <div className="border-b-1 border-l-1 border-r-1 z-10 max-h-[200px] overflow-y-auto rounded-b-lg border border-t-0 border-borderPrimary bg-background scrollbar-thin dark:border-borderDark">
+          <div className="border-b-1 border-l-1 border-r-1 z-10 max-h-[300px] overflow-y-auto rounded-b-lg border border-t-0 border-borderPrimary bg-background scrollbar-thin dark:border-borderDark">
             {loading ? (
               <div className="flex items-center justify-center px-4 py-5">
                 <ThreeDots color="#BBC22C" height={30} width={30} />
@@ -165,16 +144,34 @@ export const SearchIngredientFromDatabaseApi = ({
               searchResults.map((result, index) => (
                 <div
                   key={index}
-                  className="flex flex-col gap-2 bg-neutral-100 p-4 text-sm dark:bg-neutral-900"
+                  className="flex flex-col gap-2 bg-background p-4 text-sm"
                 >
                   {/*  */}
                   <div className="flex">
                     <div className="flex flex-col gap-1">
-                      <div className="flex gap-1 font-medium">
-                        <span>{result.title}</span>
-                        <span>
-                          {result.amount} {`(${unit})`}
-                        </span>
+                      <div className="flex items-center gap-3 font-medium">
+                        <div className="space-x-1">
+                          <span>{result.title}</span>
+                          <span>
+                            {result.amount} {`(${result.unit})`}
+                          </span>
+                        </div>
+
+                        <hr className="h-[50%] border-[1px] border-black dark:border-white/50" />
+
+                        <div className="flex w-[30%] items-center gap-3 text-nowrap">
+                          <span className="text-sm">
+                            {t("needenAmount")} ({result.unit})
+                          </span>
+                          <input
+                            type="number"
+                            value={amounts[result._id] || ""}
+                            onChange={(e) =>
+                              handleAmountChange(result._id, e.target.value)
+                            }
+                            className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm outline-none"
+                          />
+                        </div>
                       </div>
                       <div className="flex gap-4">
                         <span>
@@ -194,20 +191,13 @@ export const SearchIngredientFromDatabaseApi = ({
                     {/* Accept and delete button */}
                     <div className="ml-auto flex items-center gap-3">
                       <span
-                        onClick={handleAccept}
-                        className="flex size-6 cursor-pointer items-center justify-center rounded-full bg-primary"
+                        onClick={() => handleAccept(result._id)}
+                        className="flex size-5 cursor-pointer items-center justify-center rounded-full bg-primary"
                       >
                         <MdDownloadDone className="text-md text-black" />
                       </span>
-                      <span onClick={handleDeleteResults}>
-                        <MdDelete className="cursor-pointer text-xl text-red-500" />
-                      </span>
                     </div>
                   </div>
-                  {/*  */}
-                  <p className="gap-1 rounded-lg bg-primaryLight p-2 text-center text-[13px] text-black">
-                    {t("lastInfoForSearchIngredient")}
-                  </p>
                 </div>
               ))
             ) : (
@@ -217,6 +207,11 @@ export const SearchIngredientFromDatabaseApi = ({
               </div>
             )}
           </div>
+        )}
+        {showResults && searchResults.length > 0 && (
+          <p className="mt-3 gap-1 rounded-lg bg-primaryLight p-2 text-center text-[13px] text-black">
+            {t("searchIngredientFromDatabaseLastInfoText")}
+          </p>
         )}
       </div>
     </div>
