@@ -3,13 +3,12 @@ import { useTranslation } from "react-i18next";
 import { VscEmptyWindow } from "react-icons/vsc";
 import { MealCard } from "./MealCard";
 import MealsHeader from "./MealsHeader";
-import { useDisclosure } from "@chakra-ui/react";
+import { Spinner, useDisclosure } from "@chakra-ui/react";
 import AddMealModal from "./AddMealModal";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useEffect } from "react";
-import Spinner from "@/components/common/Spinner";
 
 // const mealPlans = Array(20).fill({
 //   id: 123456,
@@ -43,7 +42,9 @@ export default function SupplierMeals() {
   return (
     <>
       {mainLoading ? (
-        <Spinner />
+        <div className="mt-80 flex w-full justify-center overflow-hidden">
+          <Spinner size="lg" />
+        </div>
       ) : (
         <>
           <div className="w-full overflow-y-auto">
