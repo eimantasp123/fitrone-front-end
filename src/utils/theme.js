@@ -52,6 +52,23 @@ const customTheme = extendTheme({
     },
   },
   components: {
+    Popover: {
+      baseStyle: (props) => ({
+        content: {
+          bg:
+            props.colorMode === "light"
+              ? "light.background"
+              : "dark.background",
+          color:
+            props.colorMode === "light"
+              ? "light.textPrimary"
+              : "dark.textPrimary",
+        },
+        header: {
+          fontSize: "13px",
+        },
+      }),
+    },
     Textarea: {
       baseStyle: {
         fontSize: "15px",

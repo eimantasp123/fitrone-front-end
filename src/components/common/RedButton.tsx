@@ -23,7 +23,7 @@ export default function RedButton({
       style={{ width: `${width}` }}
       type={type}
       onClick={onClick}
-      className={`rounded-lg bg-red-600 px-6 py-2 text-sm text-white transition-colors ${classname} duration-200 ease-in-out hover:bg-red-400`}
+      className={`text-nowrap rounded-lg bg-red-600 px-6 py-2 text-sm text-white transition-colors ${classname} duration-200 ease-in-out hover:bg-red-400`}
     >
       {updateLoading ? <Spinner size="sm" /> : `${text}`}
     </button>

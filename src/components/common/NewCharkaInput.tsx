@@ -55,7 +55,8 @@ const CustomInput: FC<CustomInputProps> = ({
         <Input
           id={name}
           type={type}
-          value={value}
+          defaultValue={value}
+          autoFocus={false}
           {...register(name, { value: value })}
           placeholder={placeholder}
           isDisabled={isDisabled}

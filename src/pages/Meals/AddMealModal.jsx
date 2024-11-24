@@ -2,6 +2,12 @@ import CustomTextarea from "@/components/common/CustomTextarea";
 import FormButton from "@/components/common/FormButton";
 import CustomInput from "@/components/common/NewCharkaInput";
 import { showCustomToast } from "@/hooks/showCustomToast";
+import {
+  addMeal,
+  getMeals,
+  setFilters,
+  updateMeal,
+} from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { capitalizeFirstLetter, formatNumber } from "@/utils/helper";
 import { useMealInputSchema } from "@/utils/validationSchema";
 import {
@@ -25,17 +31,12 @@ import { GiMeal } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { WiStars } from "react-icons/wi";
+import { useDispatch, useSelector } from "react-redux";
 import InfoCard from "../MealPlan/components/client/InfoCard";
 import AddIngredientManualModal from "./AddIngredientManualModal";
 import SearchIngredientFromDatabase from "./SearchIngredientFromDatabase";
 import SearchIngredientModal from "./SearchIngredientModal";
 import SelectOptions from "./SelectOptions";
-import { useDispatch } from "react-redux";
-import {
-  addMeal,
-  updateMeal,
-} from "@/services/reduxSlices/Meals/mealDetailsSlice";
-import { useSelector } from "react-redux";
 
 export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
   const { t } = useTranslation("meals");
@@ -59,6 +60,7 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
   } = useDisclosure();
   const [restrictions, setRestrictions] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [category, setCategory] = useState(null);
   const schema = useMealInputSchema();
   const methods = useForm({
     resolver: yupResolver(schema),
@@ -76,6 +78,7 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
         setIngredients(mealToEdit.ingredients || []);
         setPreferences(mealToEdit.preferences || []);
         setRestrictions(mealToEdit.restrictions || []);
+        setCategory(mealToEdit.category || null);
       } else {
         // Clear form for adding a new meal
         methods.reset({
@@ -113,12 +116,22 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
       return;
     }
 
+    // Check if category is selected
+    if (!category) {
+      showCustomToast({
+        status: "error",
+        description: t("errors.noCategory"),
+      });
+      return;
+    }
+
     // Prepare meal data
     const mealData = {
       ...data,
       ingredients,
       preferences,
       restrictions,
+      category,
       nutrition: {
         calories,
         protein,
@@ -134,6 +147,12 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
       } else {
         await dispatch(addMeal(mealData)).unwrap();
       }
+      // Reset filters and fetch meals with default settings
+      dispatch(
+        setFilters({ category: null, preference: null, restriction: null }),
+      );
+      dispatch(getMeals({ page: 1 }));
+      // Close modal
       handleClose();
     } catch {
       //
@@ -150,6 +169,9 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
     t("restrictions", { returnObjects: true }),
   );
 
+  // Get categories
+  const categories = Object.values(t("categories", { returnObjects: true }));
+
   // Close the modal and reset the form
   const handleClose = () => {
     onClose();
@@ -158,6 +180,7 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
     setIngredients([]);
     setPreferences([]);
     setRestrictions([]);
+    setCategory(null);
   };
 
   return (
@@ -399,6 +422,16 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
                       }}
                     />
                   </div>
+                </div>
+
+                {/* Categories */}
+                <div className="mb-4 flex w-full flex-col gap-2">
+                  <h4 className="text-sm">{t("mealCategory")}</h4>
+                  <SelectOptions
+                    options={categories}
+                    onClick={(e) => setCategory(e.target.innerText)}
+                    defaultOption={category || t("selectMealCategory")}
+                  />
                 </div>
 
                 {/* Submit form */}

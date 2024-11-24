@@ -3,10 +3,13 @@ import axiosInstance from "../../../utils/axiosInterceptors";
 import { showCustomToast } from "@/hooks/showCustomToast";
 
 const initialState = {
-  meals: [],
+  meals: {},
   loading: false,
   mainLoading: false,
   lastFetched: null,
+  currentPage: 1,
+  totalPages: 0,
+  filters: { category: null, preference: null, restriction: null },
 };
 
 // This function is used to add a meal
@@ -25,10 +28,19 @@ export const addMeal = createAsyncThunk(
 // This function is used to get all meals
 export const getMeals = createAsyncThunk(
   "mealsDetails/getMeals",
-  async (_, { rejectWithValue }) => {
+  async (
+    { page = 1, limit = 10, category, preference, restriction },
+    { rejectWithValue },
+  ) => {
     try {
-      const response = await axiosInstance.get("/meals");
-      return response.data;
+      const response = await axiosInstance.get("/meals", {
+        params: { page, limit, category, preference, restriction },
+      });
+      return {
+        data: response.data.data,
+        totalPages: response.data.totalPages,
+        currentPage: page,
+      };
     } catch (error) {
       return rejectWithValue(error.response?.data?.message);
     }
@@ -59,6 +71,7 @@ export const updateMeal = createAsyncThunk(
         `/meals/${mealData._id}`,
         mealData,
       );
+      console.log("Updated meal", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message);
@@ -70,8 +83,13 @@ const mealDetailsSlice = createSlice({
   name: "mealsDetails",
   initialState,
   reducers: {
-    setMealDetails: (state, action) => {
-      state.details = action.payload;
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+    setFilters: (state, action) => {
+      state.filters = action.payload;
+      state.meals = {};
+      state.currentPage = 1;
     },
   },
   extraReducers: (builder) => {
@@ -80,8 +98,9 @@ const mealDetailsSlice = createSlice({
         state.loading = true;
       })
       .addCase(addMeal.fulfilled, (state, action) => {
-        console.log(action.payload);
-        state.meals = [action.payload.data, ...state.meals];
+        state.filters = { category: null, preference: null, restriction: null }; // Reset filters
+        state.meals = {}; // Clear cached meals
+        state.currentPage = 1; // Reset to the first page
         state.loading = false;
         showCustomToast({
           status: "success",
@@ -99,9 +118,11 @@ const mealDetailsSlice = createSlice({
         state.mainLoading = true;
       })
       .addCase(getMeals.fulfilled, (state, action) => {
-        state.meals = action.payload.data;
-        state.mainLoading = false;
+        const { data, totalPages, currentPage } = action.payload;
+        state.meals[currentPage] = data; // Cache meals for the current page
+        state.totalPages = totalPages;
         state.lastFetched = new Date().getTime();
+        state.mainLoading = false;
       })
       .addCase(getMeals.rejected, (state) => {
         state.mainLoading = false;
@@ -110,9 +131,12 @@ const mealDetailsSlice = createSlice({
         state.loading = true;
       })
       .addCase(deleteMeal.fulfilled, (state, action) => {
-        state.meals = state.meals.filter(
-          (meal) => meal._id !== action.payload.data._id,
-        );
+        const { mealId } = action.payload;
+        Object.keys(state.meals).forEach((page) => {
+          state.meals[page] = state.meals[page].filter(
+            (meal) => meal._id !== mealId,
+          );
+        });
         state.loading = false;
         showCustomToast({
           status: "success",
@@ -130,9 +154,9 @@ const mealDetailsSlice = createSlice({
         state.loading = true;
       })
       .addCase(updateMeal.fulfilled, (state, action) => {
-        state.meals = state.meals.map((meal) =>
-          meal._id === action.payload.data._id ? action.payload.data : meal,
-        );
+        state.filters = { category: null, preference: null, restriction: null }; // Reset filters
+        state.meals = {}; // Clear cached meals
+        state.currentPage = 1; // Reset to the first page
         state.loading = false;
         showCustomToast({
           status: "success",
@@ -149,5 +173,5 @@ const mealDetailsSlice = createSlice({
   },
 });
 
-export const { setMealDetails } = mealDetailsSlice.actions;
+export const { setFilters, setCurrentPage } = mealDetailsSlice.actions;
 export default mealDetailsSlice.reducer;

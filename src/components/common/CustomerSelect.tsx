@@ -5,21 +5,17 @@ interface CustomerSelectProps {
   options: string[];
   defaultOption?: string;
   title?: string;
+  onClick?: () => void;
 }
 
 const CustomerSelect: React.FC<CustomerSelectProps> = ({
   options,
   defaultOption = "",
+  onClick,
   title,
 }) => {
-  const [selected, setSelected] = useState<string>(defaultOption);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
-
-  const handleSelect = (option: string) => {
-    setSelected(option);
-    setIsOpen(false);
-  };
 
   // Close the dropdown when clicked outside
   useEffect(() => {
@@ -47,10 +43,10 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
         <h3 className="text-nowrap pl-1 text-sm font-semibold">{title}</h3>
       )}
       <div
-        className={`relative flex w-full cursor-pointer items-center justify-between text-nowrap rounded-md bg-backgroundSecondary py-2 pl-4 pr-2 text-sm transition-colors duration-300 ease-in-out dark:bg-backgroundLight md:py-[5px] 3xl:py-2`}
+        className={`relative flex w-full cursor-pointer items-center justify-between text-nowrap rounded-md bg-backgroundSecondary py-2 pl-4 pr-2 text-sm transition-colors duration-300 ease-in-out dark:bg-backgroundLight md:py-2 3xl:py-2`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span>{selected}</span>
+        <span>{defaultOption}</span>
         <MdKeyboardArrowDown
           className={`text-lg text-textSecondary transition-transform duration-300 ease-in-out ${
             isOpen ? "rotate-90" : ""
@@ -58,15 +54,15 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
         />
         {/* Dropdown menu */}
         {isOpen && (
-          <div className="custom-scrollbar-select absolute left-0 top-[40px] z-10 max-h-52 w-full overflow-y-auto rounded-lg border border-borderPrimary bg-background p-2 text-sm text-textSecondary shadow-custom-light md:top-[35px] 3xl:top-[40px]">
+          <div className="custom-scrollbar-select absolute left-0 top-[40px] z-10 max-h-52 w-full overflow-y-auto rounded-lg border border-borderPrimary bg-background p-2 text-sm text-textSecondary shadow-custom-light md:top-[40px] 3xl:top-[40px]">
             <div className="space-y-1">
               {options.map((option) => (
                 <div
                   key={option}
-                  onClick={() => handleSelect(option)}
+                  onClick={onClick}
                   className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundLight ${
-                    selected === option
-                      ? "bg-backgroundSecondary dark:bg-backgroundLight"
+                    defaultOption === option
+                      ? "bg-backgroundSecondary dark:bg-neutral-800"
                       : ""
                   }`}
                 >

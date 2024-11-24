@@ -12,6 +12,7 @@
   "noRestrictions": "Nėra apribojimų",
   "resetFilters": "Išvalyti filtrus",
   "applyFilters": "Taikyti filtrus",
+  "selected": "Pasirinkta",
 
   "preferences": {
     "vegetarian": "Vegetariškas",
@@ -39,6 +40,21 @@
     "lowSodium": "Mažai druskos",
     "sugarFree": "Be cukraus"
   },
+
+  "categories": {
+    "breakfast": "Pusryčiai",
+    "lunch": "Pietūs",
+    "dinner": "Vakarienė",
+    "snack": "Užkandis",
+    "dessert": "Desertas",
+    "drink": "Gėrimas",
+    "other": "Kita"
+  },
+
+  "mealCategory": "Patiekalo kategorija",
+  "selectMealCategory": "Pasirinkite patiekalo kategoriją",
+  "noFiltersResultsFound": "Pasirinktiems filtrams rezultatų nerasta",
+  "tryAdjustingFilters": "Pabandykite pakeisti filtrus ir bandykite dar kartą",
 
   "addNewDish": "Pridėti naują patiekalą",
   "updateDish": "Atnaujinti patiekalą",
@@ -98,6 +114,7 @@
     "fatValid": "Riebalai turi būti skaičius",
     "ingredientAlreadyExists": "Ingredientas jau egzistuoja",
     "noIngredients": "Nėra pridėtų ingredientų",
-    "amountRequired": "Kiekis yra privalomas"
+    "amountRequired": "Kiekis yra privalomas",
+    "noCategory": "Nepasirinkta kategorija"
   }
 }

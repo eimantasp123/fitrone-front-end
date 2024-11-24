@@ -12,6 +12,7 @@
   "noRestrictions": "No restrictions",
   "resetFilters": "Reset filters",
   "applyFilters": "Apply filters",
+  "selected": "Selected",
 
   "preferences": {
     "vegetarian": "Vegetarian",
@@ -39,6 +40,21 @@
     "lowSodium": "Low-Sodium",
     "sugarFree": "Sugar-Free"
   },
+
+  "categories": {
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "snack": "Snack",
+    "dessert": "Dessert",
+    "drink": "Drink",
+    "other": "Other"
+  },
+
+  "mealCategory": "Meal Category",
+  "selectMealCategory": "Select Meal Category",
+  "noFiltersResultsFound": "No results found for the selected filters",
+  "tryAdjustingFilters": "Try adjusting your filters and try again",
 
   "addNewDish": "Add New Dish",
   "updateDish": "Update Dish",
@@ -98,6 +114,7 @@
     "fatValid": "Fat must be a number",
     "ingredientAlreadyExists": "Ingredient already exists",
     "noIngredients": "No ingredients added",
-    "amountRequired": "Amount is required"
+    "amountRequired": "Amount is required",
+    "noCategory": "No category selected"
   }
 }

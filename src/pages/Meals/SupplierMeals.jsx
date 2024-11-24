@@ -7,7 +7,10 @@ import { Spinner, useDisclosure } from "@chakra-ui/react";
 import AddMealModal from "./AddMealModal";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
+import {
+  getMeals,
+  setCurrentPage,
+} from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useEffect } from "react";
 
 // const mealPlans = Array(20).fill({
@@ -28,54 +31,52 @@ export default function SupplierMeals() {
   const { t } = useTranslation("meals");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
-  const { meals, lastFetched, mainLoading } = useSelector(
+  const { meals, mainLoading, currentPage, totalPages, filters } = useSelector(
     (state) => state.mealsDetails,
   );
 
-  // Fetch meals on page load
+  // Fetch meals when filters or page change
   useEffect(() => {
-    if (!lastFetched || new Date().getTime() - lastFetched > 1000 * 60 * 10) {
-      dispatch(getMeals());
+    if (!meals[currentPage]) {
+      dispatch(getMeals({ page: currentPage, ...filters }));
     }
-  }, [dispatch, lastFetched]);
+  }, [currentPage, filters, dispatch, meals]);
+
+  const handlePageChange = (newPage) => {
+    dispatch(setCurrentPage(newPage));
+  };
+
+  // Check different states
+  const noMealsAdded =
+    Object.values(meals).every((mealArray) => mealArray.length === 0) &&
+    !Object.values(filters).some(Boolean);
+
+  const noFilteredResults =
+    Object.keys(meals).length > 0 &&
+    Object.values(meals).every((mealArray) => mealArray.length === 0) &&
+    Object.values(filters).some(Boolean);
+
+  const hasMeals =
+    Object.keys(meals).length > 0 &&
+    Object.values(meals).some((mealArray) => mealArray.length > 0);
 
   return (
     <>
-      {mainLoading ? (
-        <div className="mt-80 flex w-full justify-center overflow-hidden">
-          <Spinner size="lg" />
-        </div>
-      ) : (
-        <>
-          <div className="w-full overflow-y-auto">
-            <div className="container mx-auto flex max-w-[1550px] flex-col">
-              <div className="sticky top-0 z-10 w-full bg-backgroundSecondary p-3 dark:bg-background">
-                {/* Filters */}
-                {meals.length !== 0 ? (
-                  <MealsHeader />
-                ) : (
-                  <div className="flex w-full items-center justify-center p-0">
-                    <button
-                      onClick={onOpen}
-                      className="w-full cursor-pointer rounded-md bg-primary p-4 text-sm font-medium text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
-                    >
-                      + {t("addFirstMeal")}
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              {/* Meal plans cards */}
-              {meals.length !== 0 ? (
-                <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-2">
-                  {meals.map((meal, index) => (
-                    <MealCard key={index} meal={meal} />
-                  ))}
-                </div>
-              ) : (
+      <div className="w-full overflow-y-auto scrollbar-thin">
+        <div className="container mx-auto flex max-w-[1550px] flex-col">
+          <div className="sticky top-0 z-10 w-full bg-backgroundSecondary p-3 dark:bg-background">
+            {/* Filters */}
+            <MealsHeader />
+          </div>
+          {mainLoading ? (
+            <div className="mt-80 flex w-full justify-center overflow-hidden">
+              <Spinner size="lg" />
+            </div>
+          ) : (
+            <>
+              {noMealsAdded && (
                 <div className="flex w-full flex-col items-center justify-center gap-1 pt-28">
                   <VscEmptyWindow className="text-4xl" />
-
                   <h1 className="text-lg font-medium text-textPrimary">
                     {t("noMealsAdded")}
                   </h1>
@@ -89,11 +90,55 @@ export default function SupplierMeals() {
                   />
                 </div>
               )}
-            </div>
-          </div>
-          <AddMealModal isOpen={isOpen} onClose={onClose} />
-        </>
-      )}
+
+              {noFilteredResults && (
+                <div className="flex w-full flex-col items-center justify-center gap-1 pt-28">
+                  <VscEmptyWindow className="text-4xl" />
+                  <h1 className="text-lg font-medium text-textPrimary">
+                    {t("noFiltersResultsFound")}
+                  </h1>
+                  <p className="text-textSecondary">
+                    {t("tryAdjustingFilters")}
+                  </p>
+                </div>
+              )}
+
+              {hasMeals && (
+                <>
+                  <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-2">
+                    {meals[currentPage]?.map((meal, index) => (
+                      <MealCard key={index} meal={meal} />
+                    ))}
+                  </div>
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <div className="flex justify-center gap-4">
+                      <button
+                        disabled={currentPage === 1}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        className="rounded-md bg-gray-200 px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+                      >
+                        {t("previousPage")}
+                      </button>
+                      <span>
+                        {t("page")} {currentPage} {t("of")} {totalPages}
+                      </span>
+                      <button
+                        disabled={currentPage === totalPages}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        className="rounded-md bg-gray-200 px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+                      >
+                        {t("nextPage")}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+      <AddMealModal isOpen={isOpen} onClose={onClose} mealToEdit={null} />
     </>
   );
 }

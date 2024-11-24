@@ -1,11 +1,19 @@
 import CustomerSelect from "@/components/common/CustomerSelect";
-import { useTranslation } from "react-i18next";
-import AddMealModal from "./AddMealModal";
+import TextButton from "@/components/common/TextButton";
+import {
+  getMeals,
+  setFilters,
+} from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useDisclosure } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import AddMealModal from "./AddMealModal";
 
 export default function MealsHeader() {
   const { t } = useTranslation("meals");
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const dispatch = useDispatch();
+  const { filters } = useSelector((state) => state.mealsDetails);
 
   const dietaryPreferences = Object.values(
     t("preferences", { returnObjects: true }),
@@ -13,39 +21,66 @@ export default function MealsHeader() {
   const dietaryRestrictions = Object.values(
     t("restrictions", { returnObjects: true }),
   );
+  const categories = Object.values(t("categories", { returnObjects: true }));
+
+  // Handle filter selection
+  const handleFilterChange = (filterType, value) => {
+    const updatedFilters = { ...filters, [filterType]: value };
+    dispatch(setFilters(updatedFilters));
+    dispatch(getMeals({ page: 1, ...updatedFilters })); // Fetch meals with new filters
+  };
+
+  // Handle reset filters
+  const resetFilters = () => {
+    const defaultFilters = {
+      category: null,
+      preference: null,
+      restriction: null,
+    };
+    dispatch(setFilters(defaultFilters));
+    dispatch(getMeals({ page: 1 })); // Fetch meals without filters
+  };
 
   return (
     <>
-      <div className="z-20 flex w-full flex-col gap-4 rounded-lg bg-background px-3 py-2 dark:bg-backgroundSecondary lg:flex-row">
-        <div className="grid w-full grid-cols-2 gap-4 px-4 py-3 md:grid-cols-3 md:grid-rows-1 xl:grid-cols-2 xl:grid-rows-1">
+      <div className="z-20 flex w-full flex-col gap-4 rounded-lg bg-background px-3 py-1 dark:bg-backgroundSecondary lg:flex-row">
+        <h4 className="flex h-auto items-center pl-2 font-medium">Filters:</h4>
+        <div className="grid w-full grid-cols-2 gap-5 px-4 py-3 md:grid-cols-3 md:grid-rows-1 xl:grid-cols-3 xl:grid-rows-1">
           <CustomerSelect
             options={dietaryPreferences}
-            title={t("preferencesTitle")}
-            defaultOption={t("preferencesPlaceholder")}
+            defaultOption={filters.preference || t("preferencesPlaceholder")}
+            onClick={(e) =>
+              handleFilterChange("preference", e.target.innerText)
+            }
           />
           <CustomerSelect
             options={dietaryRestrictions}
-            title={t("restrictionsTitle")}
-            defaultOption={t("restrictionsPlaceholder")}
+            defaultOption={filters.restriction || t("restrictionsPlaceholder")}
+            onClick={(e) =>
+              handleFilterChange("restriction", e.target.innerText)
+            }
+          />
+          <CustomerSelect
+            options={categories}
+            defaultOption={filters.category || t("selectMealCategory")}
+            onClick={(e) => handleFilterChange("category", e.target.innerText)}
           />
         </div>
-        <div className="flex w-fit items-end justify-end gap-2 py-3 md:h-full">
-          <button className="text-nowrap rounded-lg bg-primary px-4 py-[5px] text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark 3xl:py-2">
-            {t("applyFilters")}
-          </button>
-          <button className="text-nowrap rounded-lg px-4 py-[5px] text-sm transition-colors duration-200 ease-in-out 3xl:py-2">
-            {t("resetFilters")}
-          </button>
+        <div
+          onClick={resetFilters}
+          className="flex w-fit items-end justify-end gap-2 py-3 md:h-full"
+        >
+          <TextButton text={t("resetFilters")} />
         </div>
 
         <button
           onClick={onOpen}
-          className="m-1 flex w-fit items-center justify-center gap-2 text-nowrap rounded-md border border-borderPrimary p-1 px-6 text-sm transition-colors duration-200 ease-in-out hover:bg-backgroundSecondary"
+          className="m-1 flex w-fit items-center justify-center gap-2 text-nowrap rounded-md bg-primary p-1 px-6 text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
         >
           + {t("addMeal")}
         </button>
       </div>
-      <AddMealModal isOpen={isOpen} onClose={onClose} />
+      <AddMealModal isOpen={isOpen} onClose={onClose} mealToEdit={null} />
     </>
   );
 }
