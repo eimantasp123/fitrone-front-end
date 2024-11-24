@@ -10,22 +10,9 @@ import { useDispatch } from "react-redux";
 import {
   getMeals,
   setCurrentPage,
+  setFilters,
 } from "@/services/reduxSlices/Meals/mealDetailsSlice";
-import { useEffect } from "react";
-
-// const mealPlans = Array(20).fill({
-//   id: 123456,
-//   title: "Plan Name and Description Plan Name and Description",
-//   supplier: "HealthyLife Meals",
-//   calories: 1600,
-//   protein: 120,
-//   carbs: 100,
-//   fats: 60,
-//   price: 10,
-//   weeklyPlan: 70,
-//   location: "Šiauliai",
-//   rating: 4.5,
-// });
+import { useEffect, useRef } from "react";
 
 export default function SupplierMeals() {
   const { t } = useTranslation("meals");
@@ -34,35 +21,63 @@ export default function SupplierMeals() {
   const { meals, mainLoading, currentPage, totalPages, filters } = useSelector(
     (state) => state.mealsDetails,
   );
+  const containerRef = useRef(null);
 
-  // Fetch meals when filters or page change
+  // Fetch meals on component mount
   useEffect(() => {
     if (!meals[currentPage]) {
+      console.log("Fetching data...");
       dispatch(getMeals({ page: currentPage, ...filters }));
     }
   }, [currentPage, filters, dispatch, meals]);
+
+  // Reset current page and filters on component unmount
+  useEffect(() => {
+    return () => {
+      const hasActiveFilters = Object.values(filters).some(
+        (value) => value !== null,
+      );
+      if (hasActiveFilters) {
+        dispatch(
+          setFilters({ category: null, preference: null, restriction: null }),
+        );
+      }
+      dispatch(setCurrentPage(1));
+    };
+  }, [dispatch, filters]);
 
   const handlePageChange = (newPage) => {
     dispatch(setCurrentPage(newPage));
   };
 
-  // Check different states
+  // Scroll to top whenever the page changes
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [currentPage]);
+
+  // Check if there are no meals added
   const noMealsAdded =
     Object.values(meals).every((mealArray) => mealArray.length === 0) &&
     !Object.values(filters).some(Boolean);
 
+  // Check if there are no results with the current filters
   const noFilteredResults =
     Object.keys(meals).length > 0 &&
     Object.values(meals).every((mealArray) => mealArray.length === 0) &&
     Object.values(filters).some(Boolean);
 
+  // Check if there are meals to display
   const hasMeals =
     Object.keys(meals).length > 0 &&
     Object.values(meals).some((mealArray) => mealArray.length > 0);
 
   return (
     <>
-      <div className="w-full overflow-y-auto scrollbar-thin">
+      <div ref={containerRef} className="w-full overflow-y-auto scrollbar-thin">
         <div className="container mx-auto flex max-w-[1550px] flex-col">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary p-3 dark:bg-background">
             {/* Filters */}
@@ -112,21 +127,21 @@ export default function SupplierMeals() {
                   </div>
                   {/* Pagination */}
                   {totalPages > 1 && (
-                    <div className="flex justify-center gap-4">
+                    <div className="-mt-5 mb-5 flex w-full items-center justify-end gap-4 px-4">
                       <button
                         disabled={currentPage === 1}
                         onClick={() => handlePageChange(currentPage - 1)}
-                        className="rounded-md bg-gray-200 px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+                        className="rounded-md bg-background px-4 py-2 text-sm text-textPrimary transition-colors duration-200 ease-in-out hover:bg-neutral-200 disabled:opacity-50 dark:bg-backgroundLight dark:hover:bg-neutral-800"
                       >
                         {t("previousPage")}
                       </button>
-                      <span>
+                      <span className="text-sm">
                         {t("page")} {currentPage} {t("of")} {totalPages}
                       </span>
                       <button
                         disabled={currentPage === totalPages}
                         onClick={() => handlePageChange(currentPage + 1)}
-                        className="rounded-md bg-gray-200 px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+                        className="rounded-md bg-primary px-4 py-2 text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight disabled:opacity-50 dark:hover:bg-primaryDark"
                       >
                         {t("nextPage")}
                       </button>

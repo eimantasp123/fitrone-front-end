@@ -216,8 +216,14 @@ export const useIngredientInputSchema = () => {
 export const useMealInputSchema = () => {
   const { t } = useTranslation("meals");
   return yup.object().shape({
-    title: yup.string().trim().required(t("errors.fieldIsRequired")),
-    description: yup.string(), // Optional
+    title: yup
+      .string()
+      .trim()
+      .required(t("errors.fieldIsRequired"))
+      .max(70, t("errors.titleMaxLength", { count: 70 })),
+    description: yup
+      .string()
+      .max(500, t("errors.titleMaxLength", { count: 500 })), // Optional
     ingredients: yup.array().of(useIngredientInputSchema().required()),
   });
 };

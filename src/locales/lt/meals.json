@@ -100,6 +100,11 @@
 
   "mealAddedSuccessfully": "Patiekalas sėkmingai pridėtas",
 
+  "previousPage": "Ankstesnis puslapis",
+  "nextPage": "Kitas puslapis",
+  "page": "Puslapis",
+  "of": "iš",
+
   "delete": "Ištrinti",
   "editAndView": "Redaguoti ir peržiūrėti",
   "deleteMealTitle": "Ištrinti patiekalą ",
@@ -115,6 +120,8 @@
     "ingredientAlreadyExists": "Ingredientas jau egzistuoja",
     "noIngredients": "Nėra pridėtų ingredientų",
     "amountRequired": "Kiekis yra privalomas",
-    "noCategory": "Nepasirinkta kategorija"
+    "noCategory": "Nepasirinkta kategorija",
+    "titleMaxLength": "Pavadinimas turi būti trumpesnis nei {{count}} simbolių",
+    "descriptionMaxLength": "Aprašymas turi būti trumpesnis nei {{count}} simbolių"
   }
 }

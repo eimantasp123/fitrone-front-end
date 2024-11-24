@@ -74,16 +74,16 @@ export const MealCard = ({ meal }) => {
 
         {/* Right side  */}
         <div className="flex flex-col p-1 sm:w-[65%]">
-          <div>
-            <div className="flex justify-between gap-1 border-b-[1px] px-3 py-1">
+          <div className="flex flex-col">
+            <div className="flex justify-between gap-4 border-b-[1px] px-3 py-1">
               {/*  */}
-              <div className="w-full flex-1 text-start">
+              <div className="w-[85%] flex-1 text-start">
                 <h2 className="text-[16px] font-medium text-textPrimary">
                   {title}
                 </h2>
               </div>
-              <div className="flex w-[25%] items-start justify-end">
-                <p className="rounded-full text-sm font-semibold text-textPrimary">
+              <div className="flex w-[15%] items-start justify-end">
+                <p className="text-nowrap rounded-full text-sm font-semibold text-textPrimary">
                   {calories} Kcal
                 </p>
               </div>
@@ -213,9 +213,9 @@ export const MealCard = ({ meal }) => {
       >
         <ModalOverlay />
         <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
-          <h2 className="p-2 font-medium">{t("deleteMealTitle")}</h2>
+          <h2 className="p-1 font-medium">{t("deleteMealTitle")}</h2>
           <ModalCloseButton marginTop="2" />
-          <ModalBody sx={{ padding: "1rem" }}>
+          <ModalBody sx={{ padding: "4px" }}>
             <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
               {t("deleteMealDescription")}
             </p>

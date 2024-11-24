@@ -100,6 +100,11 @@
 
   "mealAddedSuccessfully": "Meal added successfully",
 
+  "previousPage": "Previous Page",
+  "nextPage": "Next Page",
+  "page": "Page",
+  "of": "of",
+
   "delete": "Delete",
   "editAndView": "Edit & View",
   "deleteMealTitle": "Delete Permanently",
@@ -115,6 +120,8 @@
     "ingredientAlreadyExists": "Ingredient already exists",
     "noIngredients": "No ingredients added",
     "amountRequired": "Amount is required",
-    "noCategory": "No category selected"
+    "noCategory": "No category selected",
+    "titleMaxLength": "Title must be less than {{count}} characters",
+    "descriptionMaxLength": "Description must be less than {{count}} characters"
   }
 }

@@ -41,7 +41,9 @@ import SelectOptions from "./SelectOptions";
 export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
   const { t } = useTranslation("meals");
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.mealsDetails);
+  const { loading, currentPage, filters } = useSelector(
+    (state) => state.mealsDetails,
+  );
   const [preferences, setPreferences] = useState([]);
   const {
     isOpen: recipeInputOpen,
@@ -144,15 +146,14 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
     try {
       if (mealToEdit) {
         await dispatch(updateMeal({ ...mealToEdit, ...mealData })).unwrap();
+        await dispatch(getMeals({ page: currentPage, ...filters }));
       } else {
         await dispatch(addMeal(mealData)).unwrap();
+        await dispatch(
+          setFilters({ category: null, preference: null, restriction: null }),
+        );
+        await dispatch(getMeals({ page: 1 }));
       }
-      // Reset filters and fetch meals with default settings
-      dispatch(
-        setFilters({ category: null, preference: null, restriction: null }),
-      );
-      dispatch(getMeals({ page: 1 }));
-      // Close modal
       handleClose();
     } catch {
       //
@@ -437,9 +438,7 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
                 {/* Submit form */}
                 <FormButton
                   loading={loading}
-                  isFormValid={
-                    methods.formState.isValid && ingredients.length > 0
-                  }
+                  isFormValid={ingredients.length > 0}
                   className="mt-0"
                 >
                   {mealToEdit ? `${t("updateDish")}` : `${t("addNewDish")}`}
@@ -460,7 +459,6 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
       {/* Search ingredient from database */}
       <SearchIngredientFromDatabase
         isOpen={searchIngredientDatabaseOpen}
-        // isOpen={true}
         onClose={searchIngredientDatabaseClose}
         setIngredients={setIngredients}
       />

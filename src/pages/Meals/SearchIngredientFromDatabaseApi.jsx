@@ -160,8 +160,8 @@ export const SearchIngredientFromDatabaseApi = ({
                         <hr className="h-[50%] border-[1px] border-black dark:border-white/50" />
 
                         <div className="flex w-[30%] items-center gap-3 text-nowrap">
-                          <span className="text-sm">
-                            {t("needenAmount")} ({result.unit})
+                          <span className="text-sm font-normal">
+                            {t("needenAmount")}
                           </span>
                           <input
                             type="number"
@@ -169,8 +169,9 @@ export const SearchIngredientFromDatabaseApi = ({
                             onChange={(e) =>
                               handleAmountChange(result._id, e.target.value)
                             }
-                            className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm outline-none"
+                            className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm font-normal outline-none"
                           />
+                          <span className="font-normal">{result.unit}.</span>
                         </div>
                       </div>
                       <div className="flex gap-4">
