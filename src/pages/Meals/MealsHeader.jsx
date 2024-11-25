@@ -27,7 +27,7 @@ export default function MealsHeader() {
   const handleFilterChange = (filterType, value) => {
     const updatedFilters = { ...filters, [filterType]: value };
     dispatch(setFilters(updatedFilters));
-    dispatch(getMeals({ page: 1, ...updatedFilters })); // Fetch meals with new filters
+    dispatch(getMeals({ page: 1, ...updatedFilters }));
   };
 
   // Handle reset filters
@@ -48,26 +48,34 @@ export default function MealsHeader() {
         <div className="grid w-full grid-cols-2 gap-5 px-4 py-3 md:grid-cols-3 md:grid-rows-1 xl:grid-cols-3 xl:grid-rows-1">
           <CustomerSelect
             options={dietaryPreferences}
-            defaultOption={filters.preference || t("preferencesPlaceholder")}
-            onClick={(e) =>
-              handleFilterChange("preference", e.target.innerText)
+            defaultOption={
+              filters.preference
+                ? filters.preference
+                : t("preferencesPlaceholder")
             }
+            onChange={(value) => handleFilterChange("preference", value)}
           />
           <CustomerSelect
             options={dietaryRestrictions}
-            defaultOption={filters.restriction || t("restrictionsPlaceholder")}
-            onClick={(e) =>
-              handleFilterChange("restriction", e.target.innerText)
+            defaultOption={
+              filters.restriction
+                ? filters.restriction
+                : t("restrictionsPlaceholder")
             }
+            onChange={(value) => handleFilterChange("restriction", value)}
           />
           <CustomerSelect
             options={categories}
-            defaultOption={filters.category || t("selectMealCategory")}
-            onClick={(e) => handleFilterChange("category", e.target.innerText)}
+            defaultOption={t("selectMealCategory")}
+            selectedOption={filters.category}
+            onChange={(value) => {
+              console.log("value", value);
+              handleFilterChange("category", value);
+            }}
           />
         </div>
         <div
-          onClick={resetFilters}
+          onClick={() => resetFilters()}
           className="flex w-fit items-end justify-end gap-2 py-3 md:h-full"
         >
           <TextButton text={t("resetFilters")} />

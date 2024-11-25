@@ -5,13 +5,15 @@ interface CustomerSelectProps {
   options: string[];
   defaultOption?: string;
   title?: string;
-  onClick?: () => void;
+  onChange: (value: string) => void;
+  selectedOption: string;
 }
 
 const CustomerSelect: React.FC<CustomerSelectProps> = ({
   options,
   defaultOption = "",
-  onClick,
+  selectedOption,
+  onChange,
   title,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -36,6 +38,11 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
     };
   }, [isOpen]);
 
+  const handleOptionSelect = (option: string) => {
+    onChange(option); // Pass the selected value back to parent
+    setIsOpen(false); // Close the dropdown
+  };
+
   return (
     <div ref={modalRef} className="flex w-full items-center gap-2">
       {/* The visible part of the custom select */}
@@ -46,7 +53,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
         className={`relative flex w-full cursor-pointer items-center justify-between text-nowrap rounded-md bg-backgroundSecondary py-2 pl-4 pr-2 text-sm transition-colors duration-300 ease-in-out dark:bg-backgroundLight md:py-2 3xl:py-2`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span>{defaultOption}</span>
+        <span>{!selectedOption ? defaultOption : selectedOption}</span>
         <MdKeyboardArrowDown
           className={`text-lg text-textSecondary transition-transform duration-300 ease-in-out ${
             isOpen ? "rotate-90" : ""
@@ -59,7 +66,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
               {options.map((option) => (
                 <div
                   key={option}
-                  onClick={onClick}
+                  onClick={() => handleOptionSelect(option)}
                   className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundLight ${
                     defaultOption === option
                       ? "bg-backgroundSecondary dark:bg-neutral-800"

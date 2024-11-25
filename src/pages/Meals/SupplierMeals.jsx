@@ -26,29 +26,19 @@ export default function SupplierMeals() {
   // Fetch meals on component mount
   useEffect(() => {
     if (!meals[currentPage]) {
-      console.log("Fetching data...");
       dispatch(getMeals({ page: currentPage, ...filters }));
     }
   }, [currentPage, filters, dispatch, meals]);
 
-  // Reset current page and filters on component unmount
-  useEffect(() => {
-    return () => {
-      const hasActiveFilters = Object.values(filters).some(
-        (value) => value !== null,
-      );
-      if (hasActiveFilters) {
-        dispatch(
-          setFilters({ category: null, preference: null, restriction: null }),
-        );
-      }
-      dispatch(setCurrentPage(1));
-    };
-  }, [dispatch, filters]);
-
   const handlePageChange = (newPage) => {
     dispatch(setCurrentPage(newPage));
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(setCurrentPage(1));
+    };
+  }, [dispatch]);
 
   // Scroll to top whenever the page changes
   useEffect(() => {

@@ -111,6 +111,7 @@ const mealDetailsSlice = createSlice({
         });
       })
       .addCase(getMeals.pending, (state) => {
+        console.log("get meals");
         state.mainLoading = true;
       })
       .addCase(getMeals.fulfilled, (state, action) => {
