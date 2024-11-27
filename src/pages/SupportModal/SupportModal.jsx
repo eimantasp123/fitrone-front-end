@@ -11,14 +11,14 @@ import PropTypes from "prop-types";
 import { FormProvider, useForm } from "react-hook-form";
 import { MdContactSupport } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { showCustomToast } from "../hooks/showCustomToast";
-import useAsync from "../hooks/useAsync";
-import axiosInstance from "../utils/axiosInterceptors";
-import { useSupportSchema } from "../utils/validationSchema";
-import CustomTextarea from "./common/CustomTextarea";
-import CustomInput from "./common/NewCharkaInput";
-import PrimaryButton from "./common/PrimaryButton";
 import { useTranslation } from "react-i18next";
+import { useSupportSchema } from "@/utils/validationSchema";
+import useAsync from "@/hooks/useAsync";
+import axiosInstance from "@/utils/axiosInterceptors";
+import { showCustomToast } from "@/hooks/showCustomToast";
+import CustomInput from "@/components/common/NewCharkaInput";
+import CustomTextarea from "@/components/common/CustomTextarea";
+import PrimaryButton from "@/components/common/PrimaryButton";
 
 export default function SupportModal({ isModalOpen, onClose }) {
   const { t } = useTranslation("header");

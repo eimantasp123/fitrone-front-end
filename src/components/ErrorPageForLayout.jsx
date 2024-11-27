@@ -1,7 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
 import PrimaryButtonWithLink from "./common/PrimaryButtonWithLink";
 import PropTypes from "prop-types";
-import SupportModal from "./SupportModal";
+import SupportModal from "../pages/SupportModal/SupportModal";
 import { NavLink } from "react-router-dom";
 
 export default function ErrorPageForLayout({

@@ -1,13 +1,13 @@
+import {
+  deleteUserImage,
+  updateUserImage,
+} from "@/services/reduxSlices/Profile/personalDetailsSlice";
 import { Spinner } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { FiTrash, FiUpload } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteUserImage,
-  updateUserImage,
-} from "../../services/reduxSlices/Profile/personalDetailsSlice";
 
 // ChangeProfileImage component
 export default function ChangeProfileImage() {

@@ -1,8 +1,8 @@
-import EditProfile from "../../components/Profile/EditProfile";
-import ChangePassword from "../../components/Profile/ChangePassword";
-import TwoFactorAuth from "../../components/Profile/TwoFactorAuth";
-import DeleteAccount from "../../components/Profile/DeleteAccount";
 import { useTranslation } from "react-i18next";
+import EditProfile from "./components/EditProfile";
+import ChangePassword from "./components/ChangePassword";
+import TwoFactorAuth from "./components/TwoFactorAuth";
+import DeleteAccount from "./components/DeleteAccount";
 
 const SupplierProfileSettings = () => {
   const { t } = useTranslation("profileSettings");

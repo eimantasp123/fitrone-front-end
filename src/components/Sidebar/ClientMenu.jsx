@@ -6,7 +6,7 @@ import { IoFastFood, IoNotifications } from "react-icons/io5";
 import { MdDashboard, MdOutlinePayments } from "react-icons/md";
 import { VscFeedback } from "react-icons/vsc";
 import SidebarNavLink from "../common/SideBarNavLink";
-import FeedbackFormModal from "../FeedbackFormModal";
+import FeedbackFormModal from "../../pages/FeedbackModal/FeedbackFormModal";
 import PropTypes from "prop-types";
 
 export default function ClientMenu({ onClose: closeDrawer }) {

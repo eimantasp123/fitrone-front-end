@@ -1,3 +1,11 @@
+import CustomInput from "@/components/common/NewCharkaInput";
+import { showCustomToast } from "@/hooks/showCustomToast";
+import {
+  request2FA,
+  updatePersonalDetails,
+  verify2FA,
+} from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { useEditPhoneNumberSchema } from "@/utils/validationSchema";
 import {
   Modal,
   ModalBody,
@@ -12,14 +20,6 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { showCustomToast } from "../../hooks/showCustomToast";
-import {
-  request2FA,
-  updatePersonalDetails,
-  verify2FA,
-} from "../../services/reduxSlices/Profile/personalDetailsSlice";
-import { useEditPhoneNumberSchema } from "../../utils/validationSchema";
-import CustomInput from "../common/NewCharkaInput";
 
 // TwoFactorAuth component
 const TwoFactorAuth = () => {
@@ -176,7 +176,7 @@ const TwoFactorAuth = () => {
                 {!editMode && (
                   <button
                     onClick={() => setEditMode(true)}
-                    className="text-secondary dark:text-blac mt-2 cursor-pointer rounded-lg bg-black/90 px-6 py-2 text-sm text-white transition-colors duration-300 ease-in-out hover:bg-black/75 dark:bg-white dark:text-black dark:hover:bg-white/75"
+                    className="dark:text-blac mt-2 cursor-pointer rounded-lg bg-black/90 px-6 py-2 text-sm text-secondary text-white transition-colors duration-300 ease-in-out hover:bg-black/75 dark:bg-white dark:text-black dark:hover:bg-white/75"
                     type="button"
                   >
                     {!editMode
@@ -231,7 +231,7 @@ const TwoFactorAuth = () => {
                   )}
                 </button>
                 <button
-                  className="bg-secondary text-text1 w-full cursor-pointer rounded-lg px-6 py-2 text-sm"
+                  className="text-text1 w-full cursor-pointer rounded-lg bg-secondary px-6 py-2 text-sm"
                   onClick={handleCloseModal}
                 >
                   {t("2fa.modal.cancel")}

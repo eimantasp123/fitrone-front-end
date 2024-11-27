@@ -10,8 +10,8 @@ import { IoMdSettings } from "react-icons/io";
 import { MdCardMembership, MdDashboard } from "react-icons/md";
 import { RiFeedbackFill } from "react-icons/ri";
 import SidebarNavLink from "../common/SideBarNavLink";
-import FeedbackFormModal from "../FeedbackFormModal";
-import SupportModal from "../SupportModal";
+import SupportModal from "@/pages/SupportModal/SupportModal";
+import FeedbackFormModal from "@/pages/FeedbackModal/FeedbackFormModal";
 
 export default function ClientMenu({ onClose: closeDrawer }) {
   const { t } = useTranslation("sidebar");

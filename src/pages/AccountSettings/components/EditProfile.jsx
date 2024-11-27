@@ -1,3 +1,6 @@
+import { showCustomToast } from "@/hooks/showCustomToast";
+import { updatePersonalDetails } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { useEditProfileSchema } from "@/utils/validationSchema";
 import { Spinner } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
@@ -5,12 +8,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { showCustomToast } from "../../hooks/showCustomToast";
-import { updatePersonalDetails } from "../../services/reduxSlices/Profile/personalDetailsSlice";
-import { useEditProfileSchema } from "../../utils/validationSchema";
-import CustomInput from "../common/NewCharkaInput";
 import ChangeProfileImage from "./ChangeProfileImage";
-import FormButton from "../common/FormButton";
+import CustomInput from "@/components/common/NewCharkaInput";
+import FormButton from "@/components/common/FormButton";
 
 // EditProfile component
 const EditProfile = () => {

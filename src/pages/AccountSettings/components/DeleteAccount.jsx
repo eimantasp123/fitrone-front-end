@@ -1,3 +1,9 @@
+import CustomInput from "@/components/common/NewCharkaInput";
+import RedButton from "@/components/common/RedButton";
+import TextButton from "@/components/common/TextButton";
+import AuthContext from "@/context/AuthContext";
+import { deleteAccount } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { useDeleteProfileSchema } from "@/utils/validationSchema";
 import {
   Modal,
   ModalBody,
@@ -12,13 +18,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../context/AuthContext";
-import { deleteAccount } from "../../services/reduxSlices/Profile/personalDetailsSlice";
-import { useDeleteProfileSchema } from "../../utils/validationSchema";
-import CustomInput from "../common/NewCharkaInput";
-import TextButton from "../common/TextButton";
-import RedButton from "../common/RedButton";
-
 // DeleteAccount component
 const DeleteAccount = () => {
   const { t } = useTranslation("profileSettings");
