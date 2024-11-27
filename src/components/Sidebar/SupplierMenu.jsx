@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { BiSupport } from "react-icons/bi";
 import { BsPeopleFill } from "react-icons/bs";
 import { FaClipboardList } from "react-icons/fa";
+import { PiBowlFoodFill } from "react-icons/pi";
 import { FaRegCalendarCheck } from "react-icons/fa6";
 import { GiMeal } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
@@ -44,6 +45,12 @@ export default function ClientMenu({ onClose: closeDrawer }) {
           to="/meals"
           icon={GiMeal}
           text={t("meals")}
+        />
+        <SidebarNavLink
+          onClick={closeDrawer}
+          to="/ingredients"
+          icon={PiBowlFoodFill}
+          text={t("ingredients")}
         />
         <SidebarNavLink
           onClick={closeDrawer}

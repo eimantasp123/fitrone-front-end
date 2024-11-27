@@ -19,11 +19,12 @@ import { PrivateRoute, PublicRoute } from "./RouteWrappers";
 // import MealPlanFormForBalance from "../pages/MealPlan/components/client/MealPlanFormForBalance";
 // import MealPlanDetails from "../pages/MealPlan/id/MealPlanDetails";
 import LoginForm from "@/pages/Login/LoginForm";
-import WeekPlan from "@/pages/WeekPlan/WeekPlan";
 import Meals from "@/pages/Meals/Meals";
 import Orders from "@/pages/Orders/Orders";
+import WeekPlan from "@/pages/WeekPlan/WeekPlan";
 // import BusinessPage from "@/pages/BusinessPage/BusinessPage";
 import Customers from "@/pages/Customers/Customers";
+import IngredientsGeneral from "@/pages/Ingredients/IngredientsGeneral";
 
 const AppRoutes: React.FC = () => (
   <Routes>
@@ -46,6 +47,7 @@ const AppRoutes: React.FC = () => (
         <Route path="meal-plan/:id" element={<MealPlanDetails />} /> */}
         <Route path="week-plan" element={<WeekPlan />} />
         <Route path="meals" element={<Meals />} />
+        <Route path="ingredients" element={<IngredientsGeneral />} />
         <Route path="customers" element={<Customers />} />
         <Route path="orders" element={<Orders />} />
         {/* <Route path="business-page" element={<BusinessPage />} /> */}
