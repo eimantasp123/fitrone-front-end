@@ -68,7 +68,7 @@ export const MealCard = ({ meal }) => {
       <div className="flex h-full w-full flex-col gap-2 overflow-hidden rounded-lg bg-background p-2 shadow-custom-light2 dark:bg-backgroundSecondary sm:flex-row">
         {/* Left side  */}
         <div
-          style={{ backgroundImage: "url('/food.jpg')" }}
+          style={{ backgroundImage: `url(${meal.image})` }}
           className="relative h-40 w-full overflow-hidden rounded-lg bg-cover bg-center sm:h-full sm:w-[35%]"
         />
 

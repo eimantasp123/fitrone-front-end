@@ -17,7 +17,7 @@ export const addMeal = createAsyncThunk(
   "mealsDetails/addMeal",
   async (mealData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post("/meals/add-meal", mealData);
+      const response = await axiosInstance.post("/meals", mealData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message);
@@ -65,12 +65,9 @@ export const deleteMeal = createAsyncThunk(
 // Update meal details
 export const updateMeal = createAsyncThunk(
   "mealsDetails/updateMeal",
-  async (mealData, { rejectWithValue }) => {
+  async ({ mealId, mealData }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.put(
-        `/meals/${mealData._id}`,
-        mealData,
-      );
+      const response = await axiosInstance.put(`/meals/${mealId}`, mealData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message);
@@ -89,6 +86,11 @@ const mealDetailsSlice = createSlice({
       state.filters = action.payload;
       state.meals = {};
       state.currentPage = 1;
+    },
+    cleanAll: (state) => {
+      state.meals = {};
+      state.currentPage = 1;
+      state.filters = { category: null, preference: null, restriction: null };
     },
   },
   extraReducers: (builder) => {
@@ -111,7 +113,6 @@ const mealDetailsSlice = createSlice({
         });
       })
       .addCase(getMeals.pending, (state) => {
-        console.log("get meals");
         state.mainLoading = true;
       })
       .addCase(getMeals.fulfilled, (state, action) => {
@@ -161,5 +162,6 @@ const mealDetailsSlice = createSlice({
   },
 });
 
-export const { setFilters, setCurrentPage } = mealDetailsSlice.actions;
+export const { setFilters, setCurrentPage, cleanAll } =
+  mealDetailsSlice.actions;
 export default mealDetailsSlice.reducer;

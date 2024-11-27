@@ -7,6 +7,7 @@ import axios from "axios";
 import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
 import axiosInstance from "../utils/axiosInterceptors";
 import { showCustomToast } from "@/hooks/showCustomToast";
+import { cleanAll } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 
 const AuthContext = createContext();
 const MOCK_API = import.meta.env.VITE_API_URL;
@@ -214,6 +215,7 @@ export const AuthProvider = ({ children }) => {
   const logout = useAsync(async () => {
     await axiosInstance.post("/auth/logout");
     dispatch(setUserDetails(null));
+    dispatch(cleanAll());
     localStorage.removeItem("authenticated");
     setAuthChecking(true);
   });

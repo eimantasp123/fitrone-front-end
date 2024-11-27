@@ -13,6 +13,7 @@
   "resetFilters": "Reset filters",
   "applyFilters": "Apply filters",
   "selected": "Selected",
+  "selectImage": "Select Image (.png/.jpg/.jpeg) max 5MB",
 
   "preferences": {
     "vegetarian": "Vegetarian",

@@ -37,6 +37,7 @@ import AddIngredientManualModal from "./AddIngredientManualModal";
 import SearchIngredientFromDatabase from "./SearchIngredientFromDatabase";
 import SearchIngredientModal from "./SearchIngredientModal";
 import SelectOptions from "./SelectOptions";
+import ImageUpload from "./ImageUpload";
 
 export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
   const { t } = useTranslation("meals");
@@ -127,28 +128,31 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
       return;
     }
 
-    // Prepare meal data
-    const mealData = {
-      ...data,
-      ingredients,
-      preferences,
-      restrictions,
-      category,
-      nutrition: {
-        calories,
-        protein,
-        carbs,
-        fat,
-      },
-    };
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("category", category);
+    formData.append("calories", calories);
+    formData.append("protein", protein);
+    formData.append("carbs", carbs);
+    formData.append("fat", fat);
+    formData.append("ingredients", JSON.stringify(ingredients));
+    formData.append("preferences", JSON.stringify(preferences));
+    formData.append("restrictions", JSON.stringify(restrictions));
+
+    if (data.image) {
+      formData.append("image", data.image);
+    }
 
     // Add or update meal
     try {
       if (mealToEdit) {
-        await dispatch(updateMeal({ ...mealToEdit, ...mealData })).unwrap();
+        await dispatch(
+          updateMeal({ mealId: mealToEdit._id, mealData: formData }),
+        ).unwrap();
         await dispatch(getMeals({ page: currentPage, ...filters }));
       } else {
-        await dispatch(addMeal(mealData)).unwrap();
+        await dispatch(addMeal(formData)).unwrap();
         await dispatch(
           setFilters({ category: null, preference: null, restriction: null }),
         );
@@ -266,6 +270,8 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
                   name="description"
                   label={t("descriptionTile")}
                 />
+
+                <ImageUpload meal={mealToEdit} />
 
                 {/* Write ingredients */}
                 <h4 className="-mb-2 text-[13px]">{t("ingredients")}</h4>

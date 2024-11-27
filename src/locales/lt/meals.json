@@ -13,6 +13,7 @@
   "resetFilters": "Išvalyti filtrus",
   "applyFilters": "Taikyti filtrus",
   "selected": "Pasirinkta",
+  "selectImage": "Pasirinkite nuotrauką (.png/.jpg/.jpeg) iki 5MB",
 
   "preferences": {
     "vegetarian": "Vegetariškas",
