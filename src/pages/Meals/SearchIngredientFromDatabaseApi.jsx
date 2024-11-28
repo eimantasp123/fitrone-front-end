@@ -57,7 +57,7 @@ export const SearchIngredientFromDatabaseApi = ({
   };
 
   // Accept search results
-  const handleAccept = (id) => {
+  const handleAccept = async (id) => {
     if (!amounts[id]) {
       showCustomToast({
         status: "error",
@@ -65,25 +65,24 @@ export const SearchIngredientFromDatabaseApi = ({
       });
       return;
     }
-    const currentAmount = amounts[id];
-    const results = searchResults.find((result) => result._id === id);
-
-    setIngredients((prevIngredients) => [
-      ...prevIngredients,
-      {
-        title: results.title,
-        amount: currentAmount,
-        unit: results.unit,
-        calories: formatNumber((results.calories / 100) * currentAmount),
-        protein: formatNumber((results.protein / 100) * currentAmount),
-        fat: formatNumber((results.fat / 100) * currentAmount),
-        carbs: formatNumber((results.carbs / 100) * currentAmount),
-      },
-    ]);
-    setShowResults(false);
-    setSearchQuery("");
-    setSearchResults([]);
-    closeModal();
+    try {
+      const response = await axiosInstance.get(`/meals/ingredient/${id}`, {
+        params: {
+          currentAmount: amounts[id],
+        },
+      });
+      const { data } = response.data;
+      setIngredients((prevIngredients) => [...prevIngredients, data]);
+      setShowResults(false);
+      setSearchQuery("");
+      setSearchResults([]);
+      closeModal();
+    } catch (error) {
+      showCustomToast({
+        status: "error",
+        title: error.response.data.message,
+      });
+    }
   };
 
   // Close search results when clicked outside
@@ -165,9 +164,9 @@ export const SearchIngredientFromDatabaseApi = ({
                           </span>
                           <input
                             type="number"
-                            value={amounts[result._id] || ""}
+                            value={amounts[result.id] || ""}
                             onChange={(e) =>
-                              handleAmountChange(result._id, e.target.value)
+                              handleAmountChange(result.id, e.target.value)
                             }
                             className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm font-normal outline-none"
                           />
@@ -192,7 +191,7 @@ export const SearchIngredientFromDatabaseApi = ({
                     {/* Accept and delete button */}
                     <div className="ml-auto flex items-center gap-3">
                       <span
-                        onClick={() => handleAccept(result._id)}
+                        onClick={() => handleAccept(result.id)}
                         className="flex size-5 cursor-pointer items-center justify-center rounded-full bg-primary"
                       >
                         <MdDownloadDone className="text-md text-black" />

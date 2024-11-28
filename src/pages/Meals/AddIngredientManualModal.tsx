@@ -12,6 +12,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { current } from "@reduxjs/toolkit";
 import axios from "axios";
 import React, { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
@@ -28,10 +29,21 @@ interface Ingredient {
   currentAmount: number;
 }
 
+interface setIngredients {
+  title: string;
+  id: string;
+  currentAmount: number;
+  unit: string;
+  calories: number;
+  carbs: number;
+  fat: number;
+  protein: number;
+}
+
 interface AddIngredientManualModalProps {
   isOpen: boolean;
   onClose: () => void;
-  setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
+  setIngredients: React.Dispatch<React.SetStateAction<setIngredients[]>>;
 }
 
 // AddIngredientManualModal component
@@ -65,26 +77,8 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
       protein: ingredientData.protein,
       fat: ingredientData.fat,
       carbs: ingredientData.carbs,
-    };
-
-    // Prepare scaled data for frontend
-    const scaledData = {
-      title: ingredientData.title,
-      amount: ingredientData.currentAmount,
       currentAmount: ingredientData.currentAmount,
-      unit: ingredientData.unit,
-      calories: formatNumber(
-        (ingredientData.calories / 100) * ingredientData.currentAmount,
-      ),
-      protein: formatNumber(
-        (ingredientData.protein / 100) * ingredientData.currentAmount,
-      ),
-      fat: formatNumber(
-        (ingredientData.fat / 100) * ingredientData.currentAmount,
-      ),
-      carbs: formatNumber(
-        (ingredientData.carbs / 100) * ingredientData.currentAmount,
-      ),
+      withCurrentAmount: true,
     };
 
     // Send data to backend
@@ -94,7 +88,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
         backendData,
       );
       if (response.status === 201) {
-        setIngredients((prev) => [...prev, scaledData]);
+        setIngredients((prev) => [...prev, response.data.data]);
         closeModal();
         showCustomToast({
           status: "success",
@@ -212,7 +206,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
               <CustomInput
                 name="currentAmount"
                 type="number"
-                label={t("amount")}
+                label={t("needenAmount")}
                 placeholder="e.g. 100"
               />
               <div className="grid w-full grid-cols-2 grid-rows-1 gap-3">

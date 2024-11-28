@@ -69,6 +69,8 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
     resolver: yupResolver(schema),
   });
 
+  console.log(ingredients);
+
   useEffect(() => {
     // Pre-fill form with meal data
     if (isOpen) {
@@ -98,12 +100,15 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
   const calories = formatNumber(
     ingredients.reduce((acc, curr) => acc + +curr.calories, 0),
   );
+
   const fat = formatNumber(
     ingredients.reduce((acc, curr) => acc + +curr.fat, 0),
   );
+
   const protein = formatNumber(
     ingredients.reduce((acc, curr) => acc + +curr.protein, 0),
   );
+
   const carbs = formatNumber(
     ingredients.reduce((acc, curr) => acc + +curr.carbs, 0),
   );
@@ -291,7 +296,7 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
                               {capitalizeFirstLetter(ingredient.title)}
                             </span>
                             <span className="text-textPrimary">
-                              {ingredient.amount}
+                              {ingredient.currentAmount}
                               {ingredient.unit}
                             </span>
                             <span className="text-textPrimary">
