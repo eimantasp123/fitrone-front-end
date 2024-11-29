@@ -4,8 +4,8 @@ import {
   deleteMeal,
   getMeals,
   setCurrentPage,
-  setFilters,
 } from "@/services/reduxSlices/Meals/mealDetailsSlice";
+import { useAppDispatch, useAppSelector } from "@/store";
 import {
   Modal,
   ModalBody,
@@ -20,12 +20,45 @@ import {
   PopoverTrigger,
   useDisclosure,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
 import AddMealModal from "./AddMealModal";
 
-export const MealCard = ({ meal }) => {
+interface Ingredients {
+  _id: string;
+  title: string;
+  currentAmount: number;
+  unit: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  ingredientId: string;
+}
+
+interface Meal {
+  _id: string;
+  title: string;
+  description: string;
+  ingredients: Ingredients[];
+  category: string;
+  nutrition: {
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+  };
+  image?: string;
+  createdAt: string;
+  preferences: string[];
+  restrictions: string[];
+}
+
+interface MealCardProps {
+  meal: Meal;
+}
+
+const MealCard: React.FC<MealCardProps> = ({ meal }) => {
   const { t } = useTranslation("meals");
   const { onOpen, onClose, isOpen } = useDisclosure();
   const {
@@ -33,12 +66,11 @@ export const MealCard = ({ meal }) => {
     onClose: onCloseDeleteModal,
     isOpen: deleteModalOpen,
   } = useDisclosure();
-  const dispatch = useDispatch();
-  const { loading, currentPage, filters, meals } = useSelector(
+  const dispatch = useAppDispatch();
+  const { loading, currentPage, filters, meals } = useAppSelector(
     (state) => state.mealsDetails,
   );
   const { title, _id: id, nutrition, preferences, restrictions } = meal;
-  const { calories, protein, carbs, fat } = nutrition;
 
   const handleDelete = async () => {
     try {
@@ -84,7 +116,7 @@ export const MealCard = ({ meal }) => {
               </div>
               <div className="flex w-[15%] items-start justify-end">
                 <p className="text-nowrap rounded-full text-sm font-semibold text-textPrimary">
-                  {calories} Kcal
+                  {nutrition.calories} Kcal
                 </p>
               </div>
             </div>
@@ -93,17 +125,17 @@ export const MealCard = ({ meal }) => {
             <div className="flex w-full gap-3 border-b-[1px] px-3 py-2 text-xs md:gap-5">
               <div className="flex justify-center gap-2">
                 <p className="font-medium">{t("carbs")}:</p>
-                <p className="text-textPrimary">{carbs}g</p>
+                <p className="text-textPrimary">{nutrition.carbs}g</p>
               </div>
 
               <div className="flex justify-center gap-2">
                 <p className="font-medium">{t("protein")}:</p>
-                <p className="text-textPrimary">{protein}g</p>
+                <p className="text-textPrimary">{nutrition.protein}g</p>
               </div>
 
               <div className="flex justify-center gap-2">
                 <p className="font-medium">{t("fat")}:</p>
-                <p className="text-textPrimary">{fat}g</p>
+                <p className="text-textPrimary">{nutrition.fat}g</p>
               </div>
             </div>
 
@@ -122,7 +154,7 @@ export const MealCard = ({ meal }) => {
                   <PopoverBody>
                     <div className="flex flex-wrap gap-2 text-xs">
                       {preferences.length > 0 ? (
-                        preferences.map((preference, index) => (
+                        preferences.map((preference: string, index: number) => (
                           <span
                             key={index}
                             className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800"
@@ -156,14 +188,16 @@ export const MealCard = ({ meal }) => {
                   <PopoverBody>
                     <div className="flex flex-wrap gap-2 text-xs">
                       {restrictions.length > 0 ? (
-                        restrictions.map((preference, index) => (
-                          <span
-                            key={index}
-                            className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800"
-                          >
-                            {preference}
-                          </span>
-                        ))
+                        restrictions.map(
+                          (restriction: string, index: number) => (
+                            <span
+                              key={index}
+                              className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800"
+                            >
+                              {restriction}
+                            </span>
+                          ),
+                        )
                       ) : (
                         <span className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800">
                           {t("noRestrictions")}
@@ -242,12 +276,4 @@ export const MealCard = ({ meal }) => {
   );
 };
 
-MealCard.propTypes = {
-  title: PropTypes.string,
-  calories: PropTypes.number,
-  protein: PropTypes.number,
-  carbs: PropTypes.number,
-  fats: PropTypes.number,
-  onClick: PropTypes.func,
-  id: PropTypes.string,
-};
+export default MealCard;

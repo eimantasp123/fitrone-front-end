@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-export default function ErrorPage() {
+const ErrorPage: React.FC = () => {
   const { t } = useTranslation("errorPage");
   return (
     <section className="h-screen w-full bg-background">
@@ -20,4 +20,6 @@ export default function ErrorPage() {
       </div>
     </section>
   );
-}
+};
+
+export default ErrorPage;

@@ -3,6 +3,7 @@ import RedButton from "@/components/common/RedButton";
 import TextButton from "@/components/common/TextButton";
 import AuthContext from "@/context/AuthContext";
 import { deleteAccount } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { useDeleteProfileSchema } from "@/utils/validationSchema";
 import {
   Modal,
@@ -16,15 +17,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // DeleteAccount component
 const DeleteAccount = () => {
   const { t } = useTranslation("profileSettings");
-  const { updateLoading } = useSelector((state) => state.personalDetails);
+  const { updateLoading } = useAppSelector((state) => state.personalDetails);
   const { setIsAuthenticated } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const schema = useDeleteProfileSchema();
 

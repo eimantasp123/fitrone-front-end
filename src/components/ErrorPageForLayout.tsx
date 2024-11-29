@@ -1,16 +1,25 @@
 import { useDisclosure } from "@chakra-ui/react";
-import PrimaryButtonWithLink from "./common/PrimaryButtonWithLink";
-import PropTypes from "prop-types";
 import SupportModal from "../pages/SupportModal/SupportModal";
-import { NavLink } from "react-router-dom";
 
-export default function ErrorPageForLayout({
+import React from "react";
+import { NavLink } from "react-router-dom";
+import PrimaryButtonWithLink from "./common/PrimaryButtonWithLink";
+
+interface ErrorPageForLayoutProps {
+  title: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  message?: string;
+}
+
+const ErrorPageForLayout: React.FC<ErrorPageForLayoutProps> = ({
   title,
   description,
   buttonText,
   buttonLink,
   message = "",
-}) {
+}) => {
   const { isOpen: isModalOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -49,12 +58,6 @@ export default function ErrorPageForLayout({
       <SupportModal isModalOpen={isModalOpen} onClose={onClose} />
     </>
   );
-}
-
-ErrorPageForLayout.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
-  buttonText: PropTypes.string,
-  buttonLink: PropTypes.string,
-  message: PropTypes.string,
 };
+
+export default ErrorPageForLayout;

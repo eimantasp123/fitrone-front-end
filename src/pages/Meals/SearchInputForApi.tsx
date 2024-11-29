@@ -1,26 +1,54 @@
 import axiosInstance from "@/utils/axiosInterceptors";
-import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdDelete, MdDownloadDone, MdSearch } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
 
-export const SearchInputForApi = ({
+// Interface for meal ingredients
+interface Ingredients {
+  _id?: string;
+  title: string;
+  currentAmount: number;
+  unit: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  ingredientId: string;
+}
+
+interface SearchInputForApiProps {
+  className?: string;
+  setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
+  closeModal: () => void;
+}
+
+interface SearchResults {
+  title: string;
+  amount: number;
+  calories: number;
+  protein: number;
+  fat: number;
+  carbs: number;
+  unit: string;
+}
+
+const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
   className,
   setIngredients,
   closeModal,
 }) => {
   const { t } = useTranslation("meals");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const [amount, setAmount] = useState(100);
-  const [unit, setUnit] = useState("g");
-  const containerRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<SearchResults[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showResults, setShowResults] = useState<boolean>(false);
+  const [amount, setAmount] = useState<number>(100);
+  const [unit, setUnit] = useState<string>("g");
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Search for ingredients
-  const handleSearch = async (e) => {
+  const handleSearch = async (e: MouseEvent) => {
     e.preventDefault();
     if (searchQuery.length < 1) return;
     setLoading(true);
@@ -45,24 +73,26 @@ export const SearchInputForApi = ({
   };
 
   // Accept search results
-  const handleAccept = () => {
-    setIngredients((prevIngredients) => [
-      ...prevIngredients,
-      {
-        title: searchResults[0].title,
-        amount: searchResults[0].amount,
-        calories: searchResults[0].calories,
-        protein: searchResults[0].protein,
-        fat: searchResults[0].fat,
-        carbs: searchResults[0].carbs,
-        unit: searchResults[0].unit,
-      },
-    ]);
-    setShowResults(false);
-    setSearchQuery("");
-    setSearchResults([]);
-    closeModal();
-  };
+  // const handleAccept = () => {
+  //   if(searchResults.length === 0) return;
+  //   setIngredients((prevIngredients) => [
+  //     ...prevIngredients,
+  //     {
+  //       ingredientId: "".
+  //       title: searchResults[0].title,
+  //       amount: searchResults[0].amount,
+  //       calories: searchResults[0].calories,
+  //       protein: searchResults[0].protein,
+  //       fat: searchResults[0].fat,
+  //       carbs: searchResults[0].carbs,
+  //       unit: searchResults[0].unit,
+  //     },
+  //   ]);
+  //   setShowResults(false);
+  //   setSearchQuery("");
+  //   setSearchResults([]);
+  //   closeModal();
+  // };
 
   // Delete search results
   const handleDeleteResults = () => {
@@ -72,8 +102,11 @@ export const SearchInputForApi = ({
   };
 
   // Close search results when clicked outside
-  const handleClickOutside = (e) => {
-    if (containerRef.current && !containerRef.current.contains(e.target)) {
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      containerRef.current &&
+      !containerRef.current.contains(e.target as Node)
+    ) {
       setShowResults(false);
       setSearchQuery("");
     }
@@ -98,7 +131,7 @@ export const SearchInputForApi = ({
             type="number"
             placeholder={t("amount")}
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => setAmount(Number(e.target.value))}
             className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm outline-none"
           />
         </div>
@@ -146,7 +179,7 @@ export const SearchInputForApi = ({
             } border border-borderPrimary placeholder-placeholder outline-none`}
           />
           <button
-            onClick={(e) => handleSearch(e)}
+            // onClick={(e) => handleSearch(e)}
             type="submit"
             className={`absolute right-0 top-0 m-1 flex h-[29px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black`}
           >
@@ -193,7 +226,7 @@ export const SearchInputForApi = ({
                     {/* Accept and delete button */}
                     <div className="ml-auto flex items-center gap-3">
                       <span
-                        onClick={handleAccept}
+                        // onClick={handleAccept}
                         className="flex size-5 cursor-pointer items-center justify-center rounded-full bg-primary"
                       >
                         <MdDownloadDone className="text-md text-black" />
@@ -222,7 +255,4 @@ export const SearchInputForApi = ({
   );
 };
 
-SearchInputForApi.propTypes = {
-  className: PropTypes.string,
-  setIngredients: PropTypes.func,
-};
+export default SearchInputForApi;

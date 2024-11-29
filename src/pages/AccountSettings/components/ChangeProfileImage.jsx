@@ -2,18 +2,18 @@ import {
   deleteUserImage,
   updateUserImage,
 } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { Spinner } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { FiTrash, FiUpload } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
 
 // ChangeProfileImage component
 export default function ChangeProfileImage() {
   const { t } = useTranslation("profileSettings");
-  const dispatch = useDispatch();
-  const { details, imageLoading, deleteImageLoading } = useSelector(
+  const dispatch = useAppDispatch();
+  const { details, imageLoading, deleteImageLoading } = useAppSelector(
     (state) => state.personalDetails,
   );
   const fileInputRef = useRef(null);

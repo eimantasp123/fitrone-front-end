@@ -1,3 +1,11 @@
+import CustomTextarea from "@/components/common/CustomTextarea";
+import CustomInput from "@/components/common/NewCharkaInput";
+import PrimaryButton from "@/components/common/PrimaryButton";
+import { showCustomToast } from "@/hooks/showCustomToast";
+import useAsync from "@/hooks/useAsync";
+import { useAppSelector } from "@/store";
+import axiosInstance from "@/utils/axiosInterceptors";
+import { useSupportSchema } from "@/utils/validationSchema";
 import {
   Modal,
   ModalBody,
@@ -7,44 +15,50 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import PropTypes from "prop-types";
 import { FormProvider, useForm } from "react-hook-form";
-import { MdContactSupport } from "react-icons/md";
-import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { useSupportSchema } from "@/utils/validationSchema";
-import useAsync from "@/hooks/useAsync";
-import axiosInstance from "@/utils/axiosInterceptors";
-import { showCustomToast } from "@/hooks/showCustomToast";
-import CustomInput from "@/components/common/NewCharkaInput";
-import CustomTextarea from "@/components/common/CustomTextarea";
-import PrimaryButton from "@/components/common/PrimaryButton";
+import { MdContactSupport } from "react-icons/md";
 
-export default function SupportModal({ isModalOpen, onClose }) {
+interface SupportModalProps {
+  isModalOpen: boolean;
+  onClose: () => void;
+}
+
+interface SupportFormData {
+  subject: string;
+  message: string;
+}
+
+const SupportModal: React.FC<SupportModalProps> = ({
+  isModalOpen,
+  onClose,
+}) => {
   const { t } = useTranslation("header");
-  const { details: user } = useSelector((state) => state.personalDetails);
+  const { details: user } = useAppSelector((state) => state.personalDetails);
   const schema = useSupportSchema();
   const methods = useForm({
     resolver: yupResolver(schema),
   });
 
-  const { execute: handleSubmitForm, loading } = useAsync(async (data) => {
-    const formData = {
-      ...data,
-      email: user.email,
-      name: user.firstName,
-    };
-    const response = await axiosInstance.post("/support", formData);
-    if (response) {
-      showCustomToast({
-        status: "success",
-        description: response.data.message,
-      });
-      //
-      methods.reset();
-      onClose();
-    }
-  });
+  const { execute: handleSubmitForm, loading } = useAsync(
+    async (data: SupportFormData) => {
+      const formData = {
+        ...data,
+        email: user.email,
+        name: user.firstName,
+      };
+      const response = await axiosInstance.post("/support", formData);
+      if (response) {
+        showCustomToast({
+          status: "success",
+          description: response.data.message,
+        });
+        //
+        methods.reset();
+        onClose();
+      }
+    },
+  );
 
   // Close modal and reset form fields
   const handleModalClose = () => {
@@ -107,10 +121,6 @@ export default function SupportModal({ isModalOpen, onClose }) {
       </ModalContent>
     </Modal>
   );
-}
-
-SupportModal.propTypes = {
-  setIsTooltipOpen: PropTypes.func,
-  isModalOpen: PropTypes.bool,
-  onClose: PropTypes.func,
 };
+
+export default SupportModal;

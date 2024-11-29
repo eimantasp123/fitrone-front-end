@@ -6,7 +6,7 @@ interface CustomerSelectProps {
   defaultOption?: string;
   title?: string;
   onChange: (value: string) => void;
-  selectedOption: string;
+  selectedOption?: string | null;
 }
 
 const CustomerSelect: React.FC<CustomerSelectProps> = ({

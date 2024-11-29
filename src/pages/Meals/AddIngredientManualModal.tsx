@@ -1,7 +1,6 @@
 import CustomInput from "@/components/common/NewCharkaInput";
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
-import { formatNumber } from "@/utils/helper";
 import { useIngredientInputSchema } from "@/utils/validationSchema";
 import {
   Modal,
@@ -12,7 +11,6 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { current } from "@reduxjs/toolkit";
 import axios from "axios";
 import React, { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
@@ -30,14 +28,15 @@ interface Ingredient {
 }
 
 interface setIngredients {
-  title: string;
-  id: string;
-  currentAmount: number;
   unit: string;
   calories: number;
   carbs: number;
   fat: number;
   protein: number;
+  ingredientId: string;
+  currentAmount: number;
+  _id?: string;
+  title: string;
 }
 
 interface AddIngredientManualModalProps {

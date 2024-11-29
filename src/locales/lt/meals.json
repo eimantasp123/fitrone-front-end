@@ -123,6 +123,8 @@
     "amountRequired": "Kiekis yra privalomas",
     "noCategory": "Nepasirinkta kategorija",
     "titleMaxLength": "Pavadinimas turi būti trumpesnis nei {{count}} simbolių",
-    "descriptionMaxLength": "Aprašymas turi būti trumpesnis nei {{count}} simbolių"
+    "descriptionMaxLength": "Aprašymas turi būti trumpesnis nei {{count}} simbolių",
+    "filesIsTooLarge": "Failas per didelis. Maksimalus dydis yra 5MB",
+    "unsupoortedFileType": "Nepalaikomas failo tipas. Leidžiami tik .png, .jpg, .jpeg"
   }
 }

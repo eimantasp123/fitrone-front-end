@@ -1,11 +1,11 @@
+import { useAppSelector } from "@/store";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import SupplierIngredients from "./SupplierIngredients";
 
-const IngredientsGeneral = () => {
+const IngredientsGeneral: React.FC = () => {
   const { t } = useTranslation("profileSettings");
-  const { details: user } = useSelector((state) => state.personalDetails);
+  const { details: user } = useAppSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

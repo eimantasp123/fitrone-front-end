@@ -1,13 +1,13 @@
-import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import useAsync from "../hooks/useAsync";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
-import axiosInstance from "../utils/axiosInterceptors";
 import { showCustomToast } from "@/hooks/showCustomToast";
 import { cleanAll } from "@/services/reduxSlices/Meals/mealDetailsSlice";
+import { useAppDispatch } from "@/store";
+import axios from "axios";
+import PropTypes from "prop-types";
+import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useAsync from "../hooks/useAsync";
+import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
+import axiosInstance from "../utils/axiosInterceptors";
 
 const AuthContext = createContext();
 const MOCK_API = import.meta.env.VITE_API_URL;
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   const [userEmail, setUserEmail] = useState("example@gmail.com");
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const checkAuth = async () => {

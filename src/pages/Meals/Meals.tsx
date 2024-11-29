@@ -1,9 +1,9 @@
+import { useAppSelector } from "@/store";
 import { Helmet } from "react-helmet";
-import { useSelector } from "react-redux";
 import SupplierMeals from "./SupplierMeals";
 
 const Meals = () => {
-  const { details: user } = useSelector((state) => state.personalDetails);
+  const { details: user } = useAppSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

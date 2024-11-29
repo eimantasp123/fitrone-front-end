@@ -7,16 +7,18 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { SearchIngredientFromDatabaseApi } from "./SearchIngredientFromDatabaseApi";
+import SearchIngredientFromDatabaseApi from "./SearchIngredientFromDatabaseApi";
 
 interface Ingredient {
-  name: string;
-  amount: number;
   unit: string;
   calories: number;
   carbs: number;
   fat: number;
   protein: number;
+  ingredientId: string;
+  currentAmount: number;
+  _id?: string;
+  title: string;
 }
 
 interface SearchIngredientFromDatabseProps {

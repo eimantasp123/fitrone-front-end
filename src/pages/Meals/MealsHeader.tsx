@@ -1,19 +1,19 @@
 import CustomerSelect from "@/components/common/CustomerSelect";
-import TextButton from "@/components/common/TextButton";
 import {
   getMeals,
   setFilters,
 } from "@/services/reduxSlices/Meals/mealDetailsSlice";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { useDisclosure } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
 import AddMealModal from "./AddMealModal";
+import TextButton from "@/components/common/TextButton";
 
-export default function MealsHeader() {
+const MealsHeader: React.FC = () => {
   const { t } = useTranslation("meals");
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const dispatch = useDispatch();
-  const { filters } = useSelector((state) => state.mealsDetails);
+  const dispatch = useAppDispatch();
+  const { filters } = useAppSelector((state) => state.mealsDetails);
 
   const dietaryPreferences = Object.values(
     t("preferences", { returnObjects: true }),
@@ -24,7 +24,7 @@ export default function MealsHeader() {
   const categories = Object.values(t("categories", { returnObjects: true }));
 
   // Handle filter selection
-  const handleFilterChange = (filterType, value) => {
+  const handleFilterChange = (filterType: string, value: string) => {
     const updatedFilters = { ...filters, [filterType]: value };
     dispatch(setFilters(updatedFilters));
     dispatch(getMeals({ page: 1, ...updatedFilters }));
@@ -38,7 +38,15 @@ export default function MealsHeader() {
       restriction: null,
     };
     dispatch(setFilters(defaultFilters));
-    dispatch(getMeals({ page: 1 })); // Fetch meals without filters
+    dispatch(
+      getMeals({
+        page: 1,
+        limit: 14,
+        category: null,
+        preference: null,
+        restriction: null,
+      }),
+    ); // Fetch meals without filters
   };
 
   return (
@@ -91,4 +99,6 @@ export default function MealsHeader() {
       <AddMealModal isOpen={isOpen} onClose={onClose} mealToEdit={null} />
     </>
   );
-}
+};
+
+export default MealsHeader;

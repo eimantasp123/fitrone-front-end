@@ -19,35 +19,50 @@ import { showCustomToast } from "@/hooks/showCustomToast";
 import CustomTextarea from "@/components/common/CustomTextarea";
 import PrimaryButton from "@/components/common/PrimaryButton";
 
+interface FeedbackFormModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+interface FormData {
+  rating: number;
+  comment: string;
+}
+
 // Feedback form modal component
-export default function FeedbackFormModal({ isOpen, onClose }) {
+const FeedbackFormModal: React.FC<FeedbackFormModalProps> = ({
+  isOpen,
+  onClose,
+}) => {
   const { t } = useTranslation("common");
-  const [rating, setRating] = useState(null);
+  const [rating, setRating] = useState<number | null>(null);
   const schema = useFeedbackSchema();
   const methods = useForm({
     resolver: yupResolver(schema),
   });
 
   // Handle rating selection
-  const handleRatingClick = (ratingValue) => {
+  const handleRatingClick = (ratingValue: number) => {
     setRating(ratingValue);
     methods.setValue("rating", ratingValue);
   };
 
   // Handle form submission
-  const { execute: handleSubmitFeedback, loading } = useAsync(async (data) => {
-    const response = await axiosInstance.post("/feedback", data);
-    if (response) {
-      showCustomToast({
-        status: "success",
-        description: response.data.message,
-      });
-      // Reset form fields
-      onClose();
-      setRating(null);
-      methods.reset();
-    }
-  });
+  const { execute: handleSubmitFeedback, loading } = useAsync(
+    async (data: FormData) => {
+      const response = await axiosInstance.post("/feedback", data);
+      if (response) {
+        showCustomToast({
+          status: "success",
+          description: response.data.message,
+        });
+        // Reset form fields
+        onClose();
+        setRating(null);
+        methods.reset();
+      }
+    },
+  );
 
   // Close modal and reset form fields
   const handleModalClose = () => {
@@ -143,9 +158,6 @@ export default function FeedbackFormModal({ isOpen, onClose }) {
       </ModalContent>
     </Modal>
   );
-}
-
-FeedbackFormModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
+
+export default FeedbackFormModal;

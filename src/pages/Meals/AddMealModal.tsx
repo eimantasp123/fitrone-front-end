@@ -8,6 +8,7 @@ import {
   setFilters,
   updateMeal,
 } from "@/services/reduxSlices/Meals/mealDetailsSlice";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { capitalizeFirstLetter, formatNumber } from "@/utils/helper";
 import { useMealInputSchema } from "@/utils/validationSchema";
 import {
@@ -19,9 +20,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { BiCircle } from "react-icons/bi";
@@ -31,21 +31,81 @@ import { GiMeal } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { WiStars } from "react-icons/wi";
-import { useDispatch, useSelector } from "react-redux";
 import InfoCard from "../MealPlan/components/client/InfoCard";
 import AddIngredientManualModal from "./AddIngredientManualModal";
+import ImageUpload from "./ImageUpload";
 import SearchIngredientFromDatabase from "./SearchIngredientFromDatabase";
 import SearchIngredientModal from "./SearchIngredientModal";
 import SelectOptions from "./SelectOptions";
-import ImageUpload from "./ImageUpload";
 
-export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
+// Interface for meal ingredients
+interface Ingredients {
+  _id?: string;
+  title: string;
+  currentAmount: number;
+  unit: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  ingredientId: string;
+}
+
+// Interface for meal
+interface Meal {
+  _id: string;
+  title: string;
+  description: string;
+  ingredients: Ingredients[];
+  category: string;
+  image?: string;
+  createdAt: string;
+  nutrition: {
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+  };
+  preferences: string[];
+  restrictions: string[];
+}
+
+interface AddMealModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  mealToEdit?: Meal | null;
+}
+
+interface FormData {
+  title: string;
+  description?: string;
+  ingredients?:
+    | {
+        title: string;
+        amount: number;
+        calories: number;
+        protein: number;
+        carbs: number;
+        fat: number;
+        currentAmount: number;
+      }[]
+    | null;
+  image?: File | "delete" | null;
+}
+
+const AddMealModal: React.FC<AddMealModalProps> = ({
+  isOpen,
+  onClose,
+  mealToEdit = null,
+}) => {
   const { t } = useTranslation("meals");
-  const dispatch = useDispatch();
-  const { loading, currentPage, filters } = useSelector(
+  const dispatch = useAppDispatch();
+  const { loading, currentPage, filters } = useAppSelector(
     (state) => state.mealsDetails,
   );
-  const [preferences, setPreferences] = useState([]);
+  const [preferences, setPreferences] = useState<string[]>([]);
+  const [restrictions, setRestrictions] = useState<string[]>([]);
+  const [ingredients, setIngredients] = useState<Ingredients[]>([]);
   const {
     isOpen: recipeInputOpen,
     onClose: CloseRecipeInputs,
@@ -61,11 +121,9 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
     onClose: searchIngredientDatabaseClose,
     onOpen: openSearchIngredientDatabase,
   } = useDisclosure();
-  const [restrictions, setRestrictions] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState<string | null>(null);
   const schema = useMealInputSchema();
-  const methods = useForm({
+  const methods = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
@@ -112,7 +170,7 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
   );
 
   // Handle form submit
-  const handleSubmitForm = async (data) => {
+  const handleSubmitForm: SubmitHandler<FormData> = async (data) => {
     // Check if there are ingredients
     if (ingredients.length === 0) {
       showCustomToast({
@@ -138,12 +196,10 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
 
     const formData = new FormData();
     formData.append("title", data.title);
-    formData.append("description", data.description);
+    if (data.description) {
+      formData.append("description", data.description);
+    }
     formData.append("category", category);
-    formData.append("calories", calories);
-    formData.append("protein", protein);
-    formData.append("carbs", carbs);
-    formData.append("fat", fat);
     formData.append("ingredients", JSON.stringify(ingredientsData));
     formData.append("preferences", JSON.stringify(preferences));
     formData.append("restrictions", JSON.stringify(restrictions));
@@ -158,13 +214,28 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
         await dispatch(
           updateMeal({ mealId: mealToEdit._id, mealData: formData }),
         ).unwrap();
-        await dispatch(getMeals({ page: currentPage, ...filters }));
+        const { category, preference, restriction } = filters;
+        await dispatch(
+          getMeals({
+            page: currentPage,
+            category: category || null,
+            preference: preference || null,
+            restriction: restriction || null,
+          }),
+        );
       } else {
         await dispatch(addMeal(formData)).unwrap();
-        await dispatch(
+        dispatch(
           setFilters({ category: null, preference: null, restriction: null }),
         );
-        await dispatch(getMeals({ page: 1 }));
+        await dispatch(
+          getMeals({
+            page: 1,
+            category: null,
+            preference: null,
+            restriction: null,
+          }),
+        );
       }
       handleClose();
     } catch {
@@ -279,7 +350,7 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
                   label={t("descriptionTile")}
                 />
 
-                <ImageUpload meal={mealToEdit} />
+                <ImageUpload image={mealToEdit?.image} />
 
                 {/* Write ingredients */}
                 <h4 className="-mb-2 text-[13px]">{t("ingredients")}</h4>
@@ -388,8 +459,9 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
                     <SelectOptions
                       options={dietaryPreferences}
                       onClick={(e) => {
-                        if (!preferences.includes(e.target.innerText)) {
-                          setPreferences([...preferences, e.target.innerText]);
+                        const target = e.target as HTMLDivElement;
+                        if (!preferences.includes(target.innerText)) {
+                          setPreferences([...preferences, target.innerText]);
                         }
                       }}
                       defaultOption={t("preferencesPlaceholder")}
@@ -428,11 +500,9 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
                       options={dietaryRestrictions}
                       defaultOption={t("restrictionsPlaceholder")}
                       onClick={(e) => {
-                        if (!restrictions.includes(e.target.innerText)) {
-                          setRestrictions([
-                            ...restrictions,
-                            e.target.innerText,
-                          ]);
+                        const target = e.target as HTMLDivElement;
+                        if (!restrictions.includes(target.innerText)) {
+                          setRestrictions([...restrictions, target.innerText]);
                         }
                       }}
                     />
@@ -444,7 +514,12 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
                   <h4 className="text-sm">{t("mealCategory")}</h4>
                   <SelectOptions
                     options={categories}
-                    onClick={(e) => setCategory(e.target.innerText)}
+                    onClick={(e) => {
+                      const target = e.target as HTMLDivElement;
+                      if (target.innerText) {
+                        setCategory(target.innerText);
+                      }
+                    }}
                     defaultOption={category || t("selectMealCategory")}
                   />
                 </div>
@@ -485,9 +560,6 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
       />
     </>
   );
-}
-
-AddMealModal.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
 };
+
+export default AddMealModal;

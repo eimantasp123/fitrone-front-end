@@ -1,36 +1,43 @@
-import PrimaryButton from "@/components/common/PrimaryButton";
-import { useTranslation } from "react-i18next";
-import { VscEmptyWindow } from "react-icons/vsc";
-import { MealCard } from "./MealCard";
-import MealsHeader from "./MealsHeader";
-import { Spinner, useDisclosure } from "@chakra-ui/react";
-import AddMealModal from "./AddMealModal";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import {
   getMeals,
   setCurrentPage,
-  setFilters,
 } from "@/services/reduxSlices/Meals/mealDetailsSlice";
-import { useEffect, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { Spinner, useDisclosure } from "@chakra-ui/react";
+import React, { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { VscEmptyWindow } from "react-icons/vsc";
+import MealsHeader from "./MealsHeader";
+import AddMealModal from "./AddMealModal";
+import MealCard from "./MealCard";
+import PrimaryButton from "@/components/common/PrimaryButton";
 
-export default function SupplierMeals() {
+const SupplierMeals: React.FC = () => {
   const { t } = useTranslation("meals");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch = useDispatch();
-  const { meals, mainLoading, currentPage, totalPages, filters } = useSelector(
-    (state) => state.mealsDetails,
-  );
-  const containerRef = useRef(null);
+  const dispatch = useAppDispatch();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  // Select meals from the store
+  const { meals, mainLoading, currentPage, totalPages, filters } =
+    useAppSelector((state) => state.mealsDetails);
 
   // Fetch meals on component mount
   useEffect(() => {
     if (!meals[currentPage]) {
-      dispatch(getMeals({ page: currentPage, ...filters }));
+      const { category, preference, restriction } = filters;
+      dispatch(
+        getMeals({
+          page: currentPage,
+          category: category || "",
+          preference: preference || "",
+          restriction: restriction || "",
+        }),
+      );
     }
   }, [currentPage, filters, dispatch, meals]);
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage: number) => {
     dispatch(setCurrentPage(newPage));
   };
 
@@ -146,4 +153,6 @@ export default function SupplierMeals() {
       <AddMealModal isOpen={isOpen} onClose={onClose} mealToEdit={null} />
     </>
   );
-}
+};
+
+export default SupplierMeals;

@@ -7,17 +7,19 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { SearchInputForApi } from "./SearchInputForApi";
 import { WiStars } from "react-icons/wi";
+import SearchInputForApi from "./SearchInputForApi";
 
 interface Ingredient {
-  name: string;
-  amount: number;
   unit: string;
   calories: number;
   carbs: number;
   fat: number;
   protein: number;
+  ingredientId: string;
+  currentAmount: number;
+  _id?: string;
+  title: string;
 }
 
 interface SearchIngredientModalProps {

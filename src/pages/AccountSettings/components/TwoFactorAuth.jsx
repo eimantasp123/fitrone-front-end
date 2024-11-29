@@ -5,6 +5,7 @@ import {
   updatePersonalDetails,
   verify2FA,
 } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { useEditPhoneNumberSchema } from "@/utils/validationSchema";
 import {
   Modal,
@@ -19,7 +20,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
 
 // TwoFactorAuth component
 const TwoFactorAuth = () => {
@@ -28,12 +28,12 @@ const TwoFactorAuth = () => {
     details: user,
     updateDetailsLoading,
     verify2FALoading,
-  } = useSelector((state) => state.personalDetails);
+  } = useAppSelector((state) => state.personalDetails);
   const [editMode, setEditMode] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [resendLoading, setResendLoading] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const schema = useEditPhoneNumberSchema();
   const methods = useForm({
     resolver: yupResolver(schema),
@@ -194,6 +194,7 @@ const TwoFactorAuth = () => {
       <Modal
         isOpen={showModal}
         onClose={handleCloseModal}
+        closeOnOverlayClick={false}
         size={{ base: "xs", md: "lg" }}
       >
         <ModalOverlay />
@@ -231,7 +232,7 @@ const TwoFactorAuth = () => {
                   )}
                 </button>
                 <button
-                  className="text-text1 w-full cursor-pointer rounded-lg bg-secondary px-6 py-2 text-sm"
+                  className="text-text1 w-full cursor-pointer rounded-lg px-6 py-2 text-sm text-textPrimary"
                   onClick={handleCloseModal}
                 >
                   {t("2fa.modal.cancel")}

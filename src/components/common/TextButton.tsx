@@ -1,13 +1,20 @@
-import PropTypes from "prop-types";
+interface TextButtonProps {
+  type?: "button" | "submit" | "reset";
+  text?: string;
+  className?: string;
+  icon?: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  primary?: boolean;
+}
 
-export default function TextButton({
+const TextButton: React.FC<TextButtonProps> = ({
   type = "button",
   text = "Text Buton",
   className = "",
   icon = null,
-  onClick = null,
+  onClick = undefined,
   primary = false,
-}) {
+}) => {
   return (
     <button
       type={type}
@@ -18,13 +25,6 @@ export default function TextButton({
       <span className="text-nowrap">{text}</span>
     </button>
   );
-}
-
-TextButton.propTypes = {
-  type: PropTypes.string,
-  text: PropTypes.string,
-  onClick: PropTypes.func,
-  className: PropTypes.string,
-  icon: PropTypes.element,
-  primary: PropTypes.bool,
 };
+
+export default TextButton;

@@ -1,26 +1,53 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
-import PropTypes from "prop-types";
+import { AxiosError } from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdDownloadDone, MdSearch } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
 
-export const SearchIngredientFromDatabaseApi = ({
-  className,
-  setIngredients,
-  closeModal,
-}) => {
+interface Ingredient {
+  unit: string;
+  calories: number;
+  carbs: number;
+  fat: number;
+  protein: number;
+  ingredientId: string;
+  currentAmount: number;
+  _id?: string;
+  title: string;
+}
+
+interface SearchResult {
+  ingredientId: string;
+  title: string;
+  amount: number;
+  unit: string;
+  calories: number;
+  protein: number;
+  fat: number;
+  carbs: number;
+}
+
+interface SearchIngredientFromDatabaseApiProps {
+  className?: string;
+  setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
+  closeModal: () => void;
+}
+
+const SearchIngredientFromDatabaseApi: React.FC<
+  SearchIngredientFromDatabaseApiProps
+> = ({ className, setIngredients, closeModal }) => {
   const { t } = useTranslation("meals");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const [amounts, setAmounts] = useState({});
-  const containerRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showResults, setShowResults] = useState<boolean>(false);
+  const [amounts, setAmounts] = useState<Record<string, string>>({});
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Handle amount change
-  const handleAmountChange = (id, value) => {
+  const handleAmountChange = (id: string, value: string) => {
     setAmounts((prevAmounts) => ({
       ...prevAmounts,
       [id]: value,
@@ -28,7 +55,7 @@ export const SearchIngredientFromDatabaseApi = ({
   };
 
   // Search for ingredients
-  const handleSearch = async (e) => {
+  const handleSearch = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (searchQuery.length < 1) return;
     setLoading(true);
@@ -45,18 +72,25 @@ export const SearchIngredientFromDatabaseApi = ({
         ...prevResults,
         ...response.data.data,
       ]);
-    } catch (error) {
-      showCustomToast({
-        status: "error",
-        title: error.response.data.message,
-      });
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        showCustomToast({
+          status: "error",
+          title: error.response?.data?.message || "An error occurred",
+        });
+      } else {
+        showCustomToast({
+          status: "error",
+          title: "An unknown error occurred",
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
 
   // Accept search results
-  const handleAccept = async (id) => {
+  const handleAccept = async (id: string) => {
     if (!amounts[id]) {
       showCustomToast({
         status: "error",
@@ -76,17 +110,27 @@ export const SearchIngredientFromDatabaseApi = ({
       setSearchQuery("");
       setSearchResults([]);
       closeModal();
-    } catch (error) {
-      showCustomToast({
-        status: "error",
-        title: error.response.data.message,
-      });
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        showCustomToast({
+          status: "error",
+          title: error.response?.data?.message || "An error occurred",
+        });
+      } else {
+        showCustomToast({
+          status: "error",
+          title: "An unknown error occurred",
+        });
+      }
     }
   };
 
   // Close search results when clicked outside
-  const handleClickOutside = (e) => {
-    if (containerRef.current && !containerRef.current.contains(e.target)) {
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      containerRef.current &&
+      !containerRef.current.contains(e.target as Node)
+    ) {
       setShowResults(false);
       setSearchQuery("");
     }
@@ -220,7 +264,4 @@ export const SearchIngredientFromDatabaseApi = ({
   );
 };
 
-SearchIngredientFromDatabaseApi.propTypes = {
-  className: PropTypes.string,
-  setIngredients: PropTypes.func,
-};
+export default SearchIngredientFromDatabaseApi;

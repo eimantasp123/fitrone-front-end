@@ -3,28 +3,33 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FiTrash } from "react-icons/fi";
 
-export default function ImageUpload({ meal = null }) {
-  const { t } = useTranslation("profileSettings", "meals");
-  const [previewImage, setPreviewImage] = useState(meal?.image || null);
-  const [imageFileName, setImageFileName] = useState(null);
+interface ImageUploadProps {
+  image?: string | null;
+}
+
+const ImageUpload: React.FC<ImageUploadProps> = ({ image = null }) => {
+  const { t } = useTranslation(["profileSettings", "meals"]);
+  const [previewImage, setPreviewImage] = useState<string | null>(
+    image ?? null,
+  );
+  const [imageFileName, setImageFileName] = useState<string | null>(null);
   const {
     setValue,
     formState: { errors },
   } = useFormContext();
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
-      console.log(file);
-      setImageFileName(file.name);
+      setValue("image", file, { shouldValidate: true });
       setPreviewImage(URL.createObjectURL(file));
-      setValue("image", file);
+      setImageFileName(file.name);
     }
   };
 
   const handleImageDelete = () => {
     setPreviewImage(null);
-    setValue("image", "delete");
+    setValue("image", "delete", { shouldValidate: true });
     setImageFileName(null);
   };
 
@@ -69,9 +74,13 @@ export default function ImageUpload({ meal = null }) {
           )}
         </div>
         {errors.image && (
-          <p className="text-sm text-red-500">{errors.image.message}</p>
+          <p className="text-sm text-red-500">
+            {errors.image.message as string}
+          </p>
         )}
       </div>
     </>
   );
-}
+};
+
+export default ImageUpload;

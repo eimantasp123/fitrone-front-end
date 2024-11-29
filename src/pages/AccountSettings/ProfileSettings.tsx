@@ -1,12 +1,12 @@
+import { useAppSelector } from "@/store";
 import { Helmet } from "react-helmet";
-import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import AdminProfileSettings from "./AdminProfileSettings";
 import SupplierProfileSettings from "./SupplierProfileSettings";
-import { useTranslation } from "react-i18next";
 
-const ProfileSettings = () => {
+const ProfileSettings: React.FC = () => {
   const { t } = useTranslation("profileSettings");
-  const { details: user } = useSelector((state) => state.personalDetails);
+  const { details: user } = useAppSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

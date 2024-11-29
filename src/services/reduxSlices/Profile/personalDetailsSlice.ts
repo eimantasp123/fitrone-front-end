@@ -1,9 +1,49 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance from "../../../utils/axiosInterceptors";
 import { showCustomToast } from "@/hooks/showCustomToast";
 
-// Initial state for personal details slice
-const initialState = {
+// Define the ApiError interface
+interface ApiError {
+  response?: {
+    data?: {
+      message: string;
+    };
+  };
+  message?: string;
+}
+
+// Define the userDetails interface
+interface UserDetails {
+  _id: string;
+  email: string;
+  phone?: string;
+  firstName: string;
+  lastName?: string;
+  profileImage: string;
+  role: string;
+  plan?: string;
+  googleId?: string;
+  facebookId?: string;
+  is2FAEnabled: boolean;
+  isVerified?: boolean;
+  registrationCompleted?: boolean;
+  createdAt?: string;
+  __v?: number;
+}
+
+// Define the initial state interface
+interface PersonalDetailsState {
+  details: Partial<UserDetails>;
+  updateLoading: boolean;
+  imageLoading: boolean;
+  deleteImageLoading: boolean;
+  updateDetailsLoading: boolean;
+  request2FALoading: boolean;
+  verify2FALoading: boolean;
+}
+
+// Initial state
+const initialState: PersonalDetailsState = {
   details: {},
   updateLoading: false,
   imageLoading: false,
@@ -20,10 +60,12 @@ export const updatePersonalDetails = createAsyncThunk(
     try {
       const response = await axiosInstance.patch("/profile/details", details);
       return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data || "Failed to update details",
-      );
+    } catch (error: unknown) {
+      const typedError = error as ApiError;
+      if (typedError.response?.data?.message) {
+        return rejectWithValue(typedError.response.data.message);
+      }
+      return rejectWithValue("Failed to update details");
     }
   },
 );
@@ -31,7 +73,7 @@ export const updatePersonalDetails = createAsyncThunk(
 // Async Thunks for updating user image
 export const updateUserImage = createAsyncThunk(
   "personalDetails/updateUserImage",
-  async (imageData, { rejectWithValue }) => {
+  async (imageData: File, { rejectWithValue }) => {
     const formData = new FormData();
     formData.append("image", imageData);
     try {
@@ -41,9 +83,12 @@ export const updateUserImage = createAsyncThunk(
         },
       });
       return response.data;
-    } catch (error) {
-      console.log(error);
-      return rejectWithValue(error.response?.data || "Failed to update image");
+    } catch (error: unknown) {
+      const typedError = error as ApiError;
+      if (typedError.response?.data?.message) {
+        return rejectWithValue(typedError.response.data.message);
+      }
+      return rejectWithValue("Failed to update image");
     }
   },
 );
@@ -55,8 +100,12 @@ export const deleteUserImage = createAsyncThunk(
     try {
       const response = await axiosInstance.delete("/profile/image");
       return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to delete image");
+    } catch (error: unknown) {
+      const typedError = error as ApiError;
+      if (typedError.response?.data?.message) {
+        return rejectWithValue(typedError.response.data.message);
+      }
+      return rejectWithValue("Failed to delete image");
     }
   },
 );
@@ -71,10 +120,13 @@ export const changePassword = createAsyncThunk(
         passwords,
       );
       return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data || "Failed to change password",
-      );
+    } catch (error: unknown) {
+      const typedError = error as ApiError;
+      if (typedError.response?.data?.message) {
+        console.log(typedError.response.data.message);
+        return rejectWithValue(typedError.response.data.message);
+      }
+      return rejectWithValue("Failed to change password");
     }
   },
 );
@@ -86,8 +138,12 @@ export const request2FA = createAsyncThunk(
     try {
       const response = await axiosInstance.put("/profile/2fa/request");
       return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to request 2FA");
+    } catch (error: unknown) {
+      const typedError = error as ApiError;
+      if (typedError.response?.data?.message) {
+        return rejectWithValue(typedError.response.data.message);
+      }
+      return rejectWithValue("Failed to request 2FA");
     }
   },
 );
@@ -95,14 +151,18 @@ export const request2FA = createAsyncThunk(
 // Async Thunks for verifying 2FA
 export const verify2FA = createAsyncThunk(
   "personalDetails/verify2FA",
-  async ({ code }, { rejectWithValue }) => {
+  async ({ code }: { code: string }, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.put("/profile/2fa/verify", {
         code,
       });
       return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to verify 2FA");
+    } catch (error: unknown) {
+      const typedError = error as ApiError;
+      if (typedError.response?.data?.message) {
+        return rejectWithValue(typedError.response.data.message);
+      }
+      return rejectWithValue("Failed to verify 2FA");
     }
   },
 );
@@ -114,10 +174,12 @@ export const deleteAccount = createAsyncThunk(
     try {
       const response = await axiosInstance.delete("/profile/account");
       return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data || "Failed to delete account",
-      );
+    } catch (error: unknown) {
+      const typedError = error as ApiError;
+      if (typedError.response?.data?.message) {
+        return rejectWithValue(typedError.response.data.message);
+      }
+      return rejectWithValue("Failed to delete account");
     }
   },
 );
@@ -127,11 +189,13 @@ const personalDetailsSlice = createSlice({
   name: "personalDetails",
   initialState,
   reducers: {
-    setUserDetails: (state, action) => {
+    setUserDetails: (state, action: PayloadAction<Partial<UserDetails>>) => {
       state.details = action.payload;
     },
-    updatePersonalPlan: (state, action) => {
-      state.details.plan = action.payload.plan;
+    updatePersonalPlan: (state, action: PayloadAction<{ plan: string }>) => {
+      if (state.details) {
+        state.details = { ...state.details, plan: action.payload.plan };
+      }
     },
   },
   extraReducers: (builder) => {
@@ -147,15 +211,14 @@ const personalDetailsSlice = createSlice({
         };
         showCustomToast({
           status: "success",
-          title: action.payload.message,
+          description: action.payload.message,
         });
       })
       .addCase(updatePersonalDetails.rejected, (state, action) => {
         state.updateDetailsLoading = false;
         showCustomToast({
-          title: "Error updating profile",
-          description: action.payload,
           status: "error",
+          description: action.payload as string,
         });
       })
       .addCase(updateUserImage.pending, (state) => {
@@ -173,7 +236,7 @@ const personalDetailsSlice = createSlice({
         state.imageLoading = false;
         showCustomToast({
           status: "error",
-          description: action.payload.message,
+          description: action.payload as string,
         });
       })
       .addCase(deleteUserImage.pending, (state) => {
@@ -191,7 +254,7 @@ const personalDetailsSlice = createSlice({
         state.deleteImageLoading = false;
         showCustomToast({
           status: "error",
-          description: action.payload.message,
+          description: action.payload as string,
         });
       })
       .addCase(changePassword.pending, (state) => {
@@ -208,7 +271,7 @@ const personalDetailsSlice = createSlice({
         state.updateLoading = false;
         showCustomToast({
           status: "error",
-          description: action.payload.message,
+          description: action.payload as string,
         });
       })
       .addCase(request2FA.pending, (state) => {
@@ -225,7 +288,7 @@ const personalDetailsSlice = createSlice({
         state.request2FALoading = false;
         showCustomToast({
           status: "error",
-          description: action.payload.message,
+          description: action.payload as string,
         });
       })
       .addCase(verify2FA.pending, (state) => {
@@ -243,7 +306,7 @@ const personalDetailsSlice = createSlice({
         state.verify2FALoading = false;
         showCustomToast({
           status: "error",
-          description: action.payload.message,
+          description: action.payload as string,
         });
       })
       .addCase(deleteAccount.pending, (state) => {
@@ -261,7 +324,7 @@ const personalDetailsSlice = createSlice({
         state.updateLoading = false;
         showCustomToast({
           status: "error",
-          description: action.payload.message,
+          description: action.payload as string,
         });
       });
   },

@@ -4,7 +4,7 @@ import ChangePassword from "./components/ChangePassword";
 import TwoFactorAuth from "./components/TwoFactorAuth";
 import DeleteAccount from "./components/DeleteAccount";
 
-const SupplierProfileSettings = () => {
+const SupplierProfileSettings: React.FC = () => {
   const { t } = useTranslation("profileSettings");
   return (
     <div className="flex w-full flex-grow flex-col overflow-y-auto p-4 md:px-14 md:py-10">

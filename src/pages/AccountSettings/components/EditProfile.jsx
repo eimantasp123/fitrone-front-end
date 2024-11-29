@@ -1,5 +1,8 @@
+import FormButton from "@/components/common/FormButton";
+import CustomInput from "@/components/common/NewCharkaInput";
 import { showCustomToast } from "@/hooks/showCustomToast";
 import { updatePersonalDetails } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { useEditProfileSchema } from "@/utils/validationSchema";
 import { Spinner } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,19 +10,16 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdEdit } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
 import ChangeProfileImage from "./ChangeProfileImage";
-import CustomInput from "@/components/common/NewCharkaInput";
-import FormButton from "@/components/common/FormButton";
 
 // EditProfile component
 const EditProfile = () => {
   const { t } = useTranslation("profileSettings");
-  const { details: user, updateDetailsLoading } = useSelector(
+  const { details: user, updateDetailsLoading } = useAppSelector(
     (state) => state.personalDetails,
   );
   const [editMode, setEditMode] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const schema = useEditProfileSchema();
 
   const methods = useForm({

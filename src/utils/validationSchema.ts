@@ -224,6 +224,36 @@ export const useMealInputSchema = () => {
     description: yup
       .string()
       .max(500, t("errors.titleMaxLength", { count: 500 })), // Optional
-    ingredients: yup.array().of(useIngredientInputSchema().required()),
+    ingredients: yup
+      .array()
+      .of(
+        yup.object().shape({
+          title: yup.string().required(t("errors.fieldIsRequired")),
+          amount: yup.number().required(t("errors.fieldIsRequired")),
+          calories: yup.number().required(t("errors.fieldIsRequired")),
+          carbs: yup.number().required(t("errors.fieldIsRequired")),
+          fat: yup.number().required(t("errors.fieldIsRequired")),
+          protein: yup.number().required(t("errors.fieldIsRequired")),
+          currentAmount: yup.number().required(t("errors.fieldIsRequired")),
+        }),
+      )
+      .nullable(),
+    image: yup
+      .mixed<File | "delete" | null>() // File | "delete" | null type
+      .nullable() // Allow null (for no image or deleted image)
+      .test("fileSize", t("errors.filesIsTooLarge"), (value) => {
+        if (value && value !== "delete") {
+          const file = value as File;
+          return file.size <= 5 * 1024 * 1024;
+        }
+        return true;
+      })
+      .test("fileType", t("errors.unsupoortedFileType"), (value) => {
+        if (value && value !== "delete") {
+          const file = value as File;
+          return ["image/jpeg", "image/png", "image/jpg"].includes(file.type);
+        }
+        return true;
+      }),
   });
 };

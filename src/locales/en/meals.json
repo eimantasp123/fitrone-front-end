@@ -123,6 +123,8 @@
     "amountRequired": "Amount is required",
     "noCategory": "No category selected",
     "titleMaxLength": "Title must be less than {{count}} characters",
-    "descriptionMaxLength": "Description must be less than {{count}} characters"
+    "descriptionMaxLength": "Description must be less than {{count}} characters",
+    "filesIsTooLarge": "File is too large. Max size is 5MB",
+    "unsupoortedFileType": "Unsupported file type. Only .png, .jpg, .jpeg allowed"
   }
 }

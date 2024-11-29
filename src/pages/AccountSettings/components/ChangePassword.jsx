@@ -2,6 +2,7 @@ import FormButton from "@/components/common/FormButton";
 import PasswordInput from "@/components/common/PasswordInput";
 import PasswordStrengthIndicator from "@/components/common/PasswordStrenghtIndicator";
 import { changePassword } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { useChangePasswordSchema } from "@/utils/validationSchema";
 import { Spinner } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,14 +10,13 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdEdit } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
 
 // ChangePassword component
 const ChangePassword = () => {
   const { t } = useTranslation("profileSettings");
   const [editMode, setEditMode] = useState(false);
-  const { updateLoading } = useSelector((state) => state.personalDetails);
-  const dispatch = useDispatch();
+  const { updateLoading } = useAppSelector((state) => state.personalDetails);
+  const dispatch = useAppDispatch();
   const schema = useChangePasswordSchema();
   const methods = useForm({
     resolver: yupResolver(schema),

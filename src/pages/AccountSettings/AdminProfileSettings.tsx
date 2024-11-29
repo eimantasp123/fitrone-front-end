@@ -1,4 +1,6 @@
-const AdminProfileSettings = () => {
+import React from "react";
+
+const AdminProfileSettings: React.FC = () => {
   return (
     <div>
       <h1>Admin Profile Settings</h1>

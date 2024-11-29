@@ -6,8 +6,9 @@ import { IoFastFood, IoNotifications } from "react-icons/io5";
 import { MdDashboard, MdOutlinePayments } from "react-icons/md";
 import { VscFeedback } from "react-icons/vsc";
 import SidebarNavLink from "../common/SideBarNavLink";
-import FeedbackFormModal from "../../pages/FeedbackModal/FeedbackFormModal";
+
 import PropTypes from "prop-types";
+import FeedbackFormModal from "@/pages/FeedbackModal/FeedbackFormModal";
 
 export default function ClientMenu({ onClose: closeDrawer }) {
   const { isOpen, onOpen, onClose } = useDisclosure();

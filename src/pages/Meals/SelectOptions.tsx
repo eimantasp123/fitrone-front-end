@@ -1,21 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import PropTypes from "prop-types";
+interface SelectOptionsProps {
+  options: string[];
+  defaultOption: string;
+  onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  title?: string;
+}
 
 // Customer Select Component
-export default function SelectOptions({
+const SelectOptions: React.FC<SelectOptionsProps> = ({
   options,
   defaultOption,
   onClick,
   title,
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-  const modalRef = useRef(null);
+}) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   // Close the dropdown when clicked outside
   useEffect(() => {
-    const checkIfClickedOutside = (e) => {
-      if (isOpen && modalRef.current && !modalRef.current.contains(e.target)) {
+    const checkIfClickedOutside = (e: MouseEvent) => {
+      if (
+        isOpen &&
+        modalRef.current &&
+        !modalRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -60,11 +69,6 @@ export default function SelectOptions({
       </div>
     </div>
   );
-}
-
-SelectOptions.propTypes = {
-  options: PropTypes.array.isRequired,
-  defaultOption: PropTypes.string,
-  title: PropTypes.string,
-  onClick: PropTypes.func,
 };
+
+export default SelectOptions;

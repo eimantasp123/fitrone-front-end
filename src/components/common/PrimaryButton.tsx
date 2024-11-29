@@ -1,13 +1,22 @@
-import PropTypes from "prop-types";
+import React from "react";
 
-export default function PrimaryButton({
+interface PrimaryButtonProps {
+  text: string;
+  type?: "button" | "submit" | "reset";
+  onClick?: () => void;
+  className?: string;
+  children?: React.ReactNode;
+  disabled?: boolean;
+}
+
+const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   text,
   type = "button",
   onClick,
   className = "",
   children,
   disabled = false,
-}) {
+}) => {
   return (
     <button
       onClick={onClick}
@@ -20,13 +29,6 @@ export default function PrimaryButton({
       {children || text}
     </button>
   );
-}
-
-PrimaryButton.propTypes = {
-  text: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  onClick: PropTypes.func,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  disabled: PropTypes.bool,
 };
+
+export default PrimaryButton;
