@@ -88,6 +88,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
         backendData,
       );
       if (response.status === 201) {
+        console.log(response.data.data);
         setIngredients((prev) => [...prev, response.data.data]);
         closeModal();
         showCustomToast({

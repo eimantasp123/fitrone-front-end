@@ -69,8 +69,6 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
     resolver: yupResolver(schema),
   });
 
-  console.log(ingredients);
-
   useEffect(() => {
     // Pre-fill form with meal data
     if (isOpen) {
@@ -133,6 +131,11 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
       return;
     }
 
+    const ingredientsData = ingredients.map((ingredient) => ({
+      id: ingredient.ingredientId,
+      currentAmount: ingredient.currentAmount,
+    }));
+
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
@@ -141,7 +144,7 @@ export default function AddMealModal({ isOpen, onClose, mealToEdit }) {
     formData.append("protein", protein);
     formData.append("carbs", carbs);
     formData.append("fat", fat);
-    formData.append("ingredients", JSON.stringify(ingredients));
+    formData.append("ingredients", JSON.stringify(ingredientsData));
     formData.append("preferences", JSON.stringify(preferences));
     formData.append("restrictions", JSON.stringify(restrictions));
 

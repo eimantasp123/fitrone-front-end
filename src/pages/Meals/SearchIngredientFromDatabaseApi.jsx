@@ -1,6 +1,5 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
-import { formatNumber } from "@/utils/helper";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -164,9 +163,12 @@ export const SearchIngredientFromDatabaseApi = ({
                           </span>
                           <input
                             type="number"
-                            value={amounts[result.id] || ""}
+                            value={amounts[result.ingredientId] || ""}
                             onChange={(e) =>
-                              handleAmountChange(result.id, e.target.value)
+                              handleAmountChange(
+                                result.ingredientId,
+                                e.target.value,
+                              )
                             }
                             className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm font-normal outline-none"
                           />
@@ -191,7 +193,7 @@ export const SearchIngredientFromDatabaseApi = ({
                     {/* Accept and delete button */}
                     <div className="ml-auto flex items-center gap-3">
                       <span
-                        onClick={() => handleAccept(result.id)}
+                        onClick={() => handleAccept(result.ingredientId)}
                         className="flex size-5 cursor-pointer items-center justify-center rounded-full bg-primary"
                       >
                         <MdDownloadDone className="text-md text-black" />
