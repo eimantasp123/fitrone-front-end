@@ -23,36 +23,7 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import AddMealModal from "./AddMealModal";
-
-interface Ingredients {
-  _id: string;
-  title: string;
-  currentAmount: number;
-  unit: string;
-  calories: number;
-  protein: number;
-  carbs: number;
-  fat: number;
-  ingredientId: string;
-}
-
-interface Meal {
-  _id: string;
-  title: string;
-  description: string;
-  ingredients: Ingredients[];
-  category: string;
-  nutrition: {
-    calories: number;
-    protein: number;
-    carbs: number;
-    fat: number;
-  };
-  image?: string;
-  createdAt: string;
-  preferences: string[];
-  restrictions: string[];
-}
+import { Meal } from "@/utils/types";
 
 interface MealCardProps {
   meal: Meal;

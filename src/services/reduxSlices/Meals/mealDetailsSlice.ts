@@ -1,6 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axiosInstance from "../../../utils/axiosInterceptors";
 import { showCustomToast } from "@/hooks/showCustomToast";
+import { Filters, Meal } from "@/utils/types";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axiosInstance from "../../../utils/axiosInterceptors";
 
 interface ApiError {
   response?: {
@@ -9,42 +10,6 @@ interface ApiError {
     };
   };
   message?: string;
-}
-
-interface Ingredients {
-  _id: string;
-  title: string;
-  currentAmount: number;
-  unit: string;
-  calories: number;
-  protein: number;
-  carbs: number;
-  fat: number;
-  ingredientId: string;
-}
-
-interface Filters {
-  category: string | null;
-  preference: string | null;
-  restriction: string | null;
-}
-
-interface Meal {
-  _id: string;
-  title: string;
-  description: string;
-  ingredients: Ingredients[];
-  category: string;
-  nutrition: {
-    calories: number;
-    protein: number;
-    carbs: number;
-    fat: number;
-  };
-  image?: string;
-  createdAt: string;
-  preferences: string[];
-  restrictions: string[];
 }
 
 interface MealsState {

@@ -51,8 +51,10 @@ const MealsHeader: React.FC = () => {
 
   return (
     <>
-      <div className="z-20 flex w-full flex-col gap-4 rounded-lg bg-background px-3 py-1 dark:bg-backgroundSecondary lg:flex-row">
-        <h4 className="flex h-auto items-center pl-2 font-medium">Filters:</h4>
+      <div className="z-20 flex w-full flex-col gap-4 rounded-lg bg-background px-3 dark:bg-backgroundSecondary lg:flex-row">
+        <h4 className="flex h-auto items-center pl-2 font-medium">
+          {t("filters")}:
+        </h4>
         <div className="grid w-full grid-cols-2 gap-5 px-4 py-3 md:grid-cols-3 md:grid-rows-1 xl:grid-cols-3 xl:grid-rows-1">
           <CustomerSelect
             options={dietaryPreferences}
@@ -87,14 +89,12 @@ const MealsHeader: React.FC = () => {
           className="flex w-fit items-end justify-end gap-2 py-3 md:h-full"
         >
           <TextButton text={t("resetFilters")} />
+          <TextButton
+            onClick={onOpen}
+            text={`+ ${t("addMeal")}`}
+            primary={true}
+          />
         </div>
-
-        <button
-          onClick={onOpen}
-          className="m-1 flex w-fit items-center justify-center gap-2 text-nowrap rounded-md bg-primary p-1 px-6 text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
-        >
-          + {t("addMeal")}
-        </button>
       </div>
       <AddMealModal isOpen={isOpen} onClose={onClose} mealToEdit={null} />
     </>

@@ -1,22 +1,11 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
+import { Ingredients } from "@/utils/types";
 import { AxiosError } from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdDownloadDone, MdSearch } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
-
-interface Ingredient {
-  unit: string;
-  calories: number;
-  carbs: number;
-  fat: number;
-  protein: number;
-  ingredientId: string;
-  currentAmount: number;
-  _id?: string;
-  title: string;
-}
 
 interface SearchResult {
   ingredientId: string;
@@ -31,7 +20,7 @@ interface SearchResult {
 
 interface SearchIngredientFromDatabaseApiProps {
   className?: string;
-  setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
+  setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
   closeModal: () => void;
 }
 

@@ -48,7 +48,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ image = null }) => {
           {/* Upload button */}
           <label
             htmlFor="mealImageUpload"
-            className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-borderPrimary bg-black/90 px-4 py-2 text-sm text-white duration-300 ease-in-out hover:bg-black/75 hover:shadow-custom-light2 dark:bg-white/90 dark:text-black dark:hover:bg-white/75 md:w-[120px] md:px-6"
+            className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-borderPrimary bg-primary px-4 py-2 text-sm text-black duration-300 ease-in-out hover:bg-primaryLight hover:shadow-custom-light2 dark:hover:bg-primaryDark md:w-[120px] md:px-6"
           >
             {t("accountSettings.upload")}
             <input

@@ -1,7 +1,10 @@
 import CustomInput from "@/components/common/NewCharkaInput";
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
-import { useIngredientInputSchema } from "@/utils/validationSchema";
+import {
+  useIngredientInputSchema,
+  useIngredientInputSchemaWithoutCurrentAmount,
+} from "@/utils/validationSchema";
 import {
   Modal,
   ModalBody,
@@ -12,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -24,9 +27,8 @@ interface Ingredient {
   carbs: number;
   fat: number;
   protein: number;
-  currentAmount: number;
+  currentAmount?: number;
 }
-
 interface setIngredients {
   unit: string;
   calories: number;
@@ -34,15 +36,27 @@ interface setIngredients {
   fat: number;
   protein: number;
   ingredientId: string;
-  currentAmount: number;
+  currentAmount?: number;
   _id?: string;
   title: string;
+}
+
+interface editIngredient {
+  ingredientId: string;
+  title: string;
+  unit: string;
+  amount: number;
+  calories: number;
+  carbs: number;
+  fat: number;
+  protein: number;
 }
 
 interface AddIngredientManualModalProps {
   isOpen: boolean;
   onClose: () => void;
-  setIngredients: React.Dispatch<React.SetStateAction<setIngredients[]>>;
+  setIngredients?: React.Dispatch<React.SetStateAction<setIngredients[]>>;
+  editIngredient?: editIngredient;
 }
 
 // AddIngredientManualModal component
@@ -50,18 +64,43 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
   isOpen,
   onClose,
   setIngredients,
+  editIngredient,
 }) => {
   const { t } = useTranslation("meals");
   const [unit, setUnit] = useState<string>("g");
-  const schema = useIngredientInputSchema();
   const [loading, setLoading] = useState<boolean>(false);
+  // Call both hooks unconditionally
+  const schemaWithCurrentAmount = useIngredientInputSchema();
+  const schemaWithoutCurrentAmount =
+    useIngredientInputSchemaWithoutCurrentAmount();
+
+  const selectedSchema =
+    setIngredients !== undefined
+      ? schemaWithCurrentAmount
+      : schemaWithoutCurrentAmount;
+
   const methods = useForm<Ingredient>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(selectedSchema),
   });
+
+  useEffect(() => {
+    if (editIngredient) {
+      methods.reset({
+        title: editIngredient.title,
+        calories: editIngredient.calories,
+        carbs: editIngredient.carbs,
+        fat: editIngredient.fat,
+        protein: editIngredient.protein,
+        amount: editIngredient.amount,
+      });
+      setUnit(editIngredient.unit);
+    }
+  }, [editIngredient, methods]);
 
   // Handle form submission
   const handleSubmitForm: SubmitHandler<Ingredient> = async (data) => {
     setLoading(true);
+
     const ingredientData = {
       ...data,
       unit,
@@ -77,7 +116,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
       fat: ingredientData.fat,
       carbs: ingredientData.carbs,
       currentAmount: ingredientData.currentAmount,
-      withCurrentAmount: true,
+      withCurrentAmount: Boolean(setIngredients),
     };
 
     // Send data to backend
@@ -88,7 +127,9 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
       );
       if (response.status === 201) {
         console.log(response.data.data);
-        setIngredients((prev) => [...prev, response.data.data]);
+        if (setIngredients) {
+          setIngredients((prev) => [...prev, response.data.data]);
+        }
         closeModal();
         showCustomToast({
           status: "success",
@@ -110,8 +151,10 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
   // Close modal
   const closeModal = () => {
     onClose();
-    methods.reset();
     methods.clearErrors();
+    setTimeout(() => {
+      methods.reset();
+    }, 500);
   };
 
   return (
@@ -130,7 +173,11 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
       >
         <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
           <div className="flex items-center gap-4">
-            <h4 className="text-xl font-semibold">{t("addIngredient")}</h4>
+            <h4 className="text-xl font-semibold">
+              {editIngredient
+                ? `${t("editIngredient")}`
+                : `${t("addIngredient")}`}
+            </h4>
           </div>
         </div>
         <ModalCloseButton marginTop="3" />
@@ -200,15 +247,19 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
                   </div>
                 ))}
               </div>
-              <p className="pt-2 text-sm">
-                3. {t("addIngredientManuallyLastInfoText")}
-              </p>
-              <CustomInput
-                name="currentAmount"
-                type="number"
-                label={t("needenAmount")}
-                placeholder="e.g. 100"
-              />
+              {setIngredients && (
+                <>
+                  <p className="pt-2 text-sm">
+                    3. {t("addIngredientManuallyLastInfoText")}
+                  </p>
+                  <CustomInput
+                    name="currentAmount"
+                    type="number"
+                    label={t("needenAmount")}
+                    placeholder="e.g. 100"
+                  />
+                </>
+              )}
               <div className="grid w-full grid-cols-2 grid-rows-1 gap-3">
                 <span
                   className="mt-4 flex-1 cursor-pointer rounded-md bg-black/90 px-4 py-3 text-center text-sm text-white transition-colors duration-200 ease-in-out hover:bg-black/80 dark:hover:bg-black/40"
@@ -221,7 +272,13 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
                   disabled={loading}
                   className={`mt-4 rounded-md bg-primary px-4 py-3 text-center ${loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"} text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
                 >
-                  {loading ? <Spinner size="sm" /> : `${t("add")}`}
+                  {loading ? (
+                    <Spinner size="sm" />
+                  ) : editIngredient ? (
+                    `${t("editIngredient")}`
+                  ) : (
+                    `${t("add")}`
+                  )}
                 </button>
               </div>
             </form>

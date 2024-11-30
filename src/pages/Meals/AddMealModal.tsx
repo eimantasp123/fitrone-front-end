@@ -37,38 +37,7 @@ import ImageUpload from "./ImageUpload";
 import SearchIngredientFromDatabase from "./SearchIngredientFromDatabase";
 import SearchIngredientModal from "./SearchIngredientModal";
 import SelectOptions from "./SelectOptions";
-
-// Interface for meal ingredients
-interface Ingredients {
-  _id?: string;
-  title: string;
-  currentAmount: number;
-  unit: string;
-  calories: number;
-  protein: number;
-  carbs: number;
-  fat: number;
-  ingredientId: string;
-}
-
-// Interface for meal
-interface Meal {
-  _id: string;
-  title: string;
-  description: string;
-  ingredients: Ingredients[];
-  category: string;
-  image?: string;
-  createdAt: string;
-  nutrition: {
-    calories: number;
-    protein: number;
-    carbs: number;
-    fat: number;
-  };
-  preferences: string[];
-  restrictions: string[];
-}
+import { Ingredients, Meal } from "@/utils/types";
 
 interface AddMealModalProps {
   isOpen: boolean;

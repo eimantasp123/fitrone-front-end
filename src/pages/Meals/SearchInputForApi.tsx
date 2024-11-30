@@ -1,21 +1,9 @@
 import axiosInstance from "@/utils/axiosInterceptors";
+import { Ingredients } from "@/utils/types";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdDelete, MdDownloadDone, MdSearch } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
-
-// Interface for meal ingredients
-interface Ingredients {
-  _id?: string;
-  title: string;
-  currentAmount: number;
-  unit: string;
-  calories: number;
-  protein: number;
-  carbs: number;
-  fat: number;
-  ingredientId: string;
-}
 
 interface SearchInputForApiProps {
   className?: string;

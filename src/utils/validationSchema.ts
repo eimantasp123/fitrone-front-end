@@ -216,6 +216,46 @@ export const useIngredientInputSchema = () => {
   });
 };
 
+//  Ingredient input schema for ingredient input form validation
+export const useIngredientInputSchemaWithoutCurrentAmount = () => {
+  const { t } = useTranslation("meals");
+
+  const requiredMessage = t("errors.fieldIsRequired");
+  const numberTransform = (
+    value: string | number,
+    originalValue: string | number,
+  ) => (originalValue === "" ? undefined : value);
+
+  return yup.object().shape({
+    title: yup.string().trim().required(requiredMessage),
+    amount: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.amountValid"))
+      .required(requiredMessage),
+    calories: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.caloriesValid"))
+      .required(requiredMessage),
+    carbs: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.carbsValid"))
+      .required(requiredMessage),
+    fat: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.fatValid"))
+      .required(requiredMessage),
+    protein: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("errors.proteinValid"))
+      .required(requiredMessage),
+  });
+};
+
 // Meal input schema for meal input form validation
 export const useMealInputSchema = () => {
   const { t } = useTranslation("meals");

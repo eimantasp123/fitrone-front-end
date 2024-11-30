@@ -13,7 +13,10 @@
   "resetFilters": "Išvalyti filtrus",
   "applyFilters": "Taikyti filtrus",
   "selected": "Pasirinkta",
+  "filters": "Filtrai",
   "selectImage": "Pasirinkite nuotrauką (.png/.jpg/.jpeg) iki 5MB",
+  "noIngredients": "Nėra pridėtų ingredientų",
+  "noIngredientsDescription": "Galite pradėti pridėdami ingredientus naudodami mygtuką apačioje",
 
   "preferences": {
     "vegetarian": "Vegetariškas",
@@ -80,6 +83,7 @@
   "searchIngredientFromDatabaseLastInfoText": "Radę ieškomą ingredientą, įveskite norimą kiekį ir paspauskite žalią mygtuką su varnele, kad patvirtintumėte pasirinkimą ir sistema galėtų tiksliai atlikti skaičiavimus.",
 
   "addIngredient": "Pridėti ingredientą",
+  "editIngredient": "Redaguoti ingredientą",
   "ingredientName": " Ingredientas",
   "enterIngredient": "Įveskite ingredientą",
   "unit": "Matavimo vienetas",
@@ -107,8 +111,10 @@
   "of": "iš",
 
   "delete": "Ištrinti",
-  "editAndView": "Redaguoti ir peržiūrėti",
+  "editAndView": "Redaguoti",
   "deleteMealTitle": "Ištrinti patiekalą ",
+  "deleteIngredientTitle": "Ištrinti ingredientą",
+  "deleteIngredientDescription": "Jei tęsite, ingredientas bus visam laikui pašalintas iš duomenų bazės. Šis veiksmas turės įtakos visiems patiekalams ar receptams, kuriuose naudojamas šis ingredientas, nes ingrediento duomenys nebebus pasiekiami.",
   "deleteMealDescription": " Ar tikrai norite visam laikui ištrinti šį patiekalą? Šis veiksmas negali būti atšauktas, ir patiekalas bus pašalintas iš jūsų įrašų.",
 
   "errors": {
@@ -125,6 +131,8 @@
     "titleMaxLength": "Pavadinimas turi būti trumpesnis nei {{count}} simbolių",
     "descriptionMaxLength": "Aprašymas turi būti trumpesnis nei {{count}} simbolių",
     "filesIsTooLarge": "Failas per didelis. Maksimalus dydis yra 5MB",
-    "unsupoortedFileType": "Nepalaikomas failo tipas. Leidžiami tik .png, .jpg, .jpeg"
+    "unsupoortedFileType": "Nepalaikomas failo tipas. Leidžiami tik .png, .jpg, .jpeg",
+    "noSearchResults": "Nerasta jokių rezultatų",
+    "noSearchResultsDescription": "Pabandykite pakeisti užklausą ir bandykite dar kartą"
   }
 }

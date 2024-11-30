@@ -8,23 +8,12 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import SearchIngredientFromDatabaseApi from "./SearchIngredientFromDatabaseApi";
-
-interface Ingredient {
-  unit: string;
-  calories: number;
-  carbs: number;
-  fat: number;
-  protein: number;
-  ingredientId: string;
-  currentAmount: number;
-  _id?: string;
-  title: string;
-}
+import { Ingredients } from "@/utils/types";
 
 interface SearchIngredientFromDatabseProps {
   isOpen: boolean;
   onClose: () => void;
-  setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
+  setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
 }
 
 const SearchIngredientFromDatabse: React.FC<
