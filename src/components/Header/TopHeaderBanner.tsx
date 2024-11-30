@@ -1,11 +1,12 @@
+import { useAppSelector } from "@/store";
 import { useColorMode } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { showCustomToast } from "../../hooks/showCustomToast";
 import axiosInstance from "../../utils/axiosInterceptors";
 
-export default function TopHeaderBanner({ user }) {
+const TopHeaderBanner: React.FC = () => {
   const { colorMode } = useColorMode();
+  const { details: user } = useAppSelector((state) => state.personalDetails);
 
   const handleManageSubscription = async () => {
     try {
@@ -26,7 +27,7 @@ export default function TopHeaderBanner({ user }) {
 
   return (
     <div>
-      {user.subscriptionStatus === "trialing" &&
+      {/* {user.subscriptionStatus === "trialing" &&
         user.subscriptionCancelAtPeriodEnd === false && (
           <div
             onClick={handleManageSubscription}
@@ -62,11 +63,9 @@ export default function TopHeaderBanner({ user }) {
         >
           Your payment is past due. Update your payment method now.
         </div>
-      )}
+      )} */}
     </div>
   );
-}
-
-TopHeaderBanner.propTypes = {
-  user: PropTypes.object.isRequired,
 };
+
+export default TopHeaderBanner;

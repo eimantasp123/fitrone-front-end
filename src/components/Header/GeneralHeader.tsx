@@ -4,17 +4,15 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { HiMenuAlt2 } from "react-icons/hi";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 // import NotificationButton from "../NotificationButton";
-import SideBarDrawer from "../common/SideBarDrawer";
-import TopHeaderBanner from "./TopHeaderBanner";
 import LanguageSelector from "../LanguageSelector";
 import LightAndDarkMode from "../common/LightAndDarkMode";
+import SideBarDrawer from "../common/SideBarDrawer";
+import TopHeaderBanner from "./TopHeaderBanner";
 
 // Client Header
-export default function GeneralHeader() {
-  const { details: user } = useSelector((state) => state.personalDetails);
+const GeneralHeader: React.FC = () => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isDrawerVisible = useBreakpointValue({ base: true, lg: false });
@@ -34,7 +32,7 @@ export default function GeneralHeader() {
 
   return (
     <>
-      <TopHeaderBanner user={user} />
+      {/* <TopHeaderBanner /> */}
       <header className="sticky top-0 flex max-h-16 min-h-16 select-none items-center justify-between gap-10 border-b-[1px] border-borderPrimary px-2 text-textPrimary dark:border-borderDark md:px-4">
         {/*  */}
         <div className="flex items-center gap-2 lg:gap-4">
@@ -64,4 +62,6 @@ export default function GeneralHeader() {
       )}
     </>
   );
-}
+};
+
+export default GeneralHeader;

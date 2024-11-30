@@ -1,7 +1,18 @@
 import { NavLink as RouterNavLink } from "react-router-dom";
-import PropTypes from "prop-types";
 
-const SidebarNavLink = ({ to = "/", icon: Icon, text, onClick }) => {
+interface SidebarNavLinkProps {
+  to?: string;
+  icon: React.ElementType;
+  text: string | React.ReactNode;
+  onClick?: () => void;
+}
+
+const SidebarNavLink: React.FC<SidebarNavLinkProps> = ({
+  to = "/",
+  icon: Icon,
+  text,
+  onClick,
+}) => {
   return (
     <RouterNavLink
       to={to}
@@ -31,16 +42,6 @@ const SidebarNavLink = ({ to = "/", icon: Icon, text, onClick }) => {
       )}
     </RouterNavLink>
   );
-};
-
-SidebarNavLink.propTypes = {
-  to: PropTypes.string,
-  icon: PropTypes.elementType.isRequired,
-  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-  isActiveColor: PropTypes.string,
-  isHoverColor: PropTypes.string,
-  bgColor: PropTypes.string,
-  onClick: PropTypes.func,
 };
 
 export default SidebarNavLink;

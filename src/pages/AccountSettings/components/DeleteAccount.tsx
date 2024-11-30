@@ -19,7 +19,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 // DeleteAccount component
-const DeleteAccount = () => {
+const DeleteAccount: React.FC = () => {
   const { t } = useTranslation("profileSettings");
   const { updateLoading } = useAppSelector((state) => state.personalDetails);
   const { setIsAuthenticated } = useContext(AuthContext);

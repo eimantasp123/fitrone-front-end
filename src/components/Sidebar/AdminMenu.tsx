@@ -1,4 +1,4 @@
-export default function AdminMenu() {
+const AdminMenu: React.FC = () => {
   return (
     <ul>
       <li>Dashboard</li>
@@ -7,4 +7,6 @@ export default function AdminMenu() {
       <li>Orders</li>
     </ul>
   );
-}
+};
+
+export default AdminMenu;

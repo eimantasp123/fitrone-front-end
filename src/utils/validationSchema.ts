@@ -107,6 +107,10 @@ export const useEditProfileSchema = () => {
       .required(t("validation.firstNameRequired"))
       .min(3, t("validation.firstNameMin")),
     lastName: yup.string().max(50, t("validation.lastNameMax")),
+    email: yup
+      .string()
+      .email(t("validation.invalidEmail"))
+      .max(100, t("validation.maxEmail", { count: 100 })),
     phone: yup.string().matches(phoneRegex, {
       message: t("validation.invalidPhoneNumber"),
       excludeEmptyString: true,

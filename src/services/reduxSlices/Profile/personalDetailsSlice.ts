@@ -56,7 +56,7 @@ const initialState: PersonalDetailsState = {
 // Async Thunks for updating user personal details
 export const updatePersonalDetails = createAsyncThunk(
   "personalDetails/updatePerosnalDetails",
-  async (details, { rejectWithValue }) => {
+  async (details: object, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch("/profile/details", details);
       return response.data;
@@ -113,7 +113,7 @@ export const deleteUserImage = createAsyncThunk(
 // Async Thunks for changing user password
 export const changePassword = createAsyncThunk(
   "personalDetails/changePassword",
-  async (passwords, { rejectWithValue }) => {
+  async (passwords: object, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch(
         "/profile/password",

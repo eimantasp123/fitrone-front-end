@@ -1,10 +1,10 @@
+import { useAppSelector } from "@/store";
+import { Outlet } from "react-router-dom";
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
-import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
 
-const DashboardLayout = () => {
-  const { details: user } = useSelector((state) => state.personalDetails);
+const DashboardLayout: React.FC = () => {
+  const { details: user } = useAppSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

@@ -73,6 +73,8 @@
     "invalidPhoneNumber": "Telefono numeris turi prasidėti +, tęstis šalies kodu ir skaitmenimis.",
     "verificationCodeRequired": "Patvirtinimo kodas yra privalomas",
     "invalidVerificationCode": "Neteisingas patvirtinimas",
-    "bothMustMatch": "Abu laukai turi sutapti"
+    "bothMustMatch": "Abu laukai turi sutapti",
+    "invalidEmail": "Neteisingas el. pašto adresas",
+    "maxEmail": "El. pašto adresas turi būti ne ilgesnis kaip {{count}} simbolių"
   }
 }

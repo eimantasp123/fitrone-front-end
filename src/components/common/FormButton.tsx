@@ -2,7 +2,7 @@ import { Spinner } from "@chakra-ui/react";
 import { FC, ReactNode } from "react";
 
 interface FormButtonProps {
-  isFormValid: boolean | string;
+  isFormValid: boolean | string | undefined;
   loading: boolean;
   children: ReactNode;
   onClick?: () => void;

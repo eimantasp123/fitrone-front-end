@@ -73,6 +73,8 @@
     "invalidPhoneNumber": "Phone number must start with +, followed by country code and digits.",
     "verificationCodeRequired": "Verification code is required",
     "invalidVerificationCode": "Invalid verification",
-    "bothMustMatch": "Both fields must match"
+    "bothMustMatch": "Both fields must match",
+    "invalidEmail": "Invalid email address",
+    "maxEmail": "Email address must be at most {{count}} characters long"
   }
 }

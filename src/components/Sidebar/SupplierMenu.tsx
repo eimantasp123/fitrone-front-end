@@ -1,20 +1,25 @@
+import FeedbackFormModal from "@/pages/FeedbackModal/FeedbackFormModal";
+import SupportModal from "@/pages/SupportModal/SupportModal";
 import { useDisclosure } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { BiSupport } from "react-icons/bi";
 import { BsPeopleFill } from "react-icons/bs";
 import { FaClipboardList } from "react-icons/fa";
-import { PiBowlFoodFill } from "react-icons/pi";
 import { FaRegCalendarCheck } from "react-icons/fa6";
 import { GiMeal } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import { MdCardMembership, MdDashboard } from "react-icons/md";
+import { PiBowlFoodFill } from "react-icons/pi";
 import { RiFeedbackFill } from "react-icons/ri";
 import SidebarNavLink from "../common/SideBarNavLink";
-import SupportModal from "@/pages/SupportModal/SupportModal";
-import FeedbackFormModal from "@/pages/FeedbackModal/FeedbackFormModal";
 
-export default function ClientMenu({ onClose: closeDrawer }) {
+interface SupplierMenuProps {
+  onClose?: () => void;
+}
+
+const SupplierMenu: React.FC<SupplierMenuProps> = ({
+  onClose: closeDrawer,
+}) => {
   const { t } = useTranslation("sidebar");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -110,8 +115,6 @@ export default function ClientMenu({ onClose: closeDrawer }) {
       />
     </>
   );
-}
-
-ClientMenu.propTypes = {
-  onClose: PropTypes.func,
 };
+
+export default SupplierMenu;

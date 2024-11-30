@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store";
 import PrimaryButtonWithLink from "./PrimaryButtonWithLink";
 
-export default function LockPage() {
-  const { details: user } = useSelector((state) => state.personalDetails);
+const LockPage: React.FC = () => {
+  const { details: user } = useAppSelector((state) => state.personalDetails);
 
   return (
     <div className="container mx-auto h-[calc(100dvh-5rem)] max-h-[800px] w-full max-w-[1500px] overflow-y-auto p-4 3xl:mt-6">
@@ -13,7 +13,7 @@ export default function LockPage() {
         <p className="mb-4 max-w-[800px] text-textSecondary">
           Your current plan{" "}
           <span className="px-1 font-bold text-textPrimary">
-            {user.plan.toUpperCase()}
+            {user.plan?.toUpperCase()}
           </span>
           , does not grant access to the features available on this page.
           Upgrade now to unlock exclusive features, advanced tools, and
@@ -28,4 +28,6 @@ export default function LockPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LockPage;

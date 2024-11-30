@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store";
 import AdminHeader from "./AdminHeader";
 import GeneralHeader from "./GeneralHeader";
 
-const Header = () => {
-  const { details: user } = useSelector((state) => state.personalDetails);
+const Header: React.FC = () => {
+  const { details: user } = useAppSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

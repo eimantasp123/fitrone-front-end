@@ -4,11 +4,20 @@ import {
   DrawerContent,
   DrawerOverlay,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { MdOutlineClose } from "react-icons/md";
-import ClientMenu from "../Sidebar/ClientMenu";
+import SupplierMenu from "../Sidebar/SupplierMenu";
 
-export default function SideBarDrawer({ isOpen, onClose, colorMode }) {
+interface SideBarDrawerProps {
+  isOpen: boolean;
+  onClose: () => void;
+  colorMode: string;
+}
+
+const SideBarDrawer: React.FC<SideBarDrawerProps> = ({
+  isOpen,
+  onClose,
+  colorMode,
+}) => {
   return (
     <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay />
@@ -34,15 +43,11 @@ export default function SideBarDrawer({ isOpen, onClose, colorMode }) {
             padding: "0px 0px",
           }}
         >
-          <ClientMenu onClose={onClose} />
+          <SupplierMenu onClose={onClose} />
         </DrawerBody>
       </DrawerContent>
     </Drawer>
   );
-}
-
-SideBarDrawer.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  colorMode: PropTypes.string.isRequired,
 };
+
+export default SideBarDrawer;

@@ -1,11 +1,11 @@
+import Spinner from "@/components/common/Spinner";
+import { useAppSelector } from "@/store";
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import { useSelector } from "react-redux";
-import Spinner from "@/components/common/Spinner";
 
-export const SupplierRoute = () => {
-  const { details: user } = useSelector((state) => state.personalDetails);
+export const SupplierRoute: React.FC = () => {
+  const { details: user } = useAppSelector((state) => state.personalDetails);
   const { isAuthenticated, authChecking } = useContext(AuthContext);
 
   if (authChecking) {
@@ -19,7 +19,7 @@ export const SupplierRoute = () => {
   );
 };
 
-export const AdminRoute = () => {
+export const AdminRoute: React.FC = () => {
   const { user, isAuthenticated, authChecking } = useContext(AuthContext);
 
   if (authChecking) {

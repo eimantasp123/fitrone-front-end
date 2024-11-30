@@ -1,19 +1,25 @@
 import FormButton from "@/components/common/FormButton";
 import CustomInput from "@/components/common/NewCharkaInput";
-import { showCustomToast } from "@/hooks/showCustomToast";
 import { updatePersonalDetails } from "@/services/reduxSlices/Profile/personalDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { useEditProfileSchema } from "@/utils/validationSchema";
 import { Spinner } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdEdit } from "react-icons/md";
 import ChangeProfileImage from "./ChangeProfileImage";
 
+interface EditProfileProps {
+  firstName: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+}
+
 // EditProfile component
-const EditProfile = () => {
+const EditProfile: React.FC = () => {
   const { t } = useTranslation("profileSettings");
   const { details: user, updateDetailsLoading } = useAppSelector(
     (state) => state.personalDetails,
@@ -22,41 +28,31 @@ const EditProfile = () => {
   const dispatch = useAppDispatch();
   const schema = useEditProfileSchema();
 
-  const methods = useForm({
+  const methods = useForm<EditProfileProps>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+    },
   });
 
   // Set form data when user details are fetched from the server
   useEffect(() => {
     if (user) {
       methods.reset({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        phone: user.phone,
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
+        phone: user.phone || "",
       });
     }
   }, [user, methods]);
 
   // Submit form data to update user details
-  const onSubmit = async (data) => {
-    // Filter out fields that have not been changed
-    const filteredFields = Object.keys(data).reduce((acc, key) => {
-      if (data[key] !== user[key]) {
-        acc[key] = data[key];
-      }
-      return acc;
-    }, {});
-
-    // If no changes made, show a toast and return
-    if (Object.keys(filteredFields).length === 0) {
-      showCustomToast({
-        title: t("accountSettings.noChange"),
-        status: "info",
-      });
-      return;
-    }
-    await dispatch(updatePersonalDetails(filteredFields));
+  const onSubmit: SubmitHandler<EditProfileProps> = async (data) => {
+    await dispatch(updatePersonalDetails(data)).unwrap();
     setEditMode(false);
   };
 
@@ -71,7 +67,7 @@ const EditProfile = () => {
     <div className="flex w-full select-none flex-col rounded-lg border border-borderLight bg-background p-5 shadow-custom-dark2 dark:border-borderPrimary dark:bg-backgroundSecondary sm:p-8 xl:flex-col">
       <div className="flex flex-col gap-5">
         {/* Profile image  */}
-        <ChangeProfileImage user={user} />
+        <ChangeProfileImage />
 
         {/* Profile settings form */}
         <FormProvider {...methods}>

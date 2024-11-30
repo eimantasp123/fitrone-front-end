@@ -18,11 +18,15 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 
+interface TwoFactorAuthProps {
+  phone?: string | undefined;
+}
+
 // TwoFactorAuth component
-const TwoFactorAuth = () => {
+const TwoFactorAuth: React.FC = () => {
   const { t } = useTranslation("profileSettings");
   const {
     details: user,
@@ -76,7 +80,7 @@ const TwoFactorAuth = () => {
   };
 
   // Update phone number
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<TwoFactorAuthProps> = async (data) => {
     await dispatch(updatePersonalDetails({ phone: data.phone })).unwrap();
     setEditMode(false);
   };

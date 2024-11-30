@@ -7,12 +7,18 @@ import { useChangePasswordSchema } from "@/utils/validationSchema";
 import { Spinner } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdEdit } from "react-icons/md";
 
+interface ChangePasswordProps {
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
 // ChangePassword component
-const ChangePassword = () => {
+const ChangePassword: React.FC = () => {
   const { t } = useTranslation("profileSettings");
   const [editMode, setEditMode] = useState(false);
   const { updateLoading } = useAppSelector((state) => state.personalDetails);
@@ -23,7 +29,7 @@ const ChangePassword = () => {
   });
 
   // Submit form data to update user password
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<ChangePasswordProps> = async (data) => {
     await dispatch(changePassword(data)).unwrap();
     methods.reset();
     setEditMode(false);

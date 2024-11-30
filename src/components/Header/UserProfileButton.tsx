@@ -1,4 +1,5 @@
 import AuthContext from "@/context/AuthContext";
+import { useAppSelector } from "@/store";
 import {
   Button,
   Menu,
@@ -14,12 +15,11 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { FaQuestion } from "react-icons/fa6";
 import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export default function UserProfileButton() {
+const UserProfileButton: React.FC = () => {
   const { t } = useTranslation("header");
-  const { details: user } = useSelector((state) => state.personalDetails);
+  const { details: user } = useAppSelector((state) => state.personalDetails);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -96,4 +96,6 @@ export default function UserProfileButton() {
       </Menu>
     </>
   );
-}
+};
+
+export default UserProfileButton;

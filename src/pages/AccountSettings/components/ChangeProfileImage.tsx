@@ -4,23 +4,24 @@ import {
 } from "@/services/reduxSlices/Profile/personalDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { Spinner } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { FiTrash, FiUpload } from "react-icons/fi";
 
 // ChangeProfileImage component
-export default function ChangeProfileImage() {
+const ChangeProfileImage: React.FC = () => {
   const { t } = useTranslation("profileSettings");
   const dispatch = useAppDispatch();
   const { details, imageLoading, deleteImageLoading } = useAppSelector(
     (state) => state.personalDetails,
   );
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Upload image to the server
-  const handleImageUpload = async (event) => {
-    const file = event.target.files[0];
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
     if (file) {
       await dispatch(updateUserImage(file));
       if (fileInputRef.current) {
@@ -83,8 +84,6 @@ export default function ChangeProfileImage() {
       </div>
     </div>
   );
-}
-
-ChangeProfileImage.propTypes = {
-  user: PropTypes.object.isRequired,
 };
+
+export default ChangeProfileImage;
