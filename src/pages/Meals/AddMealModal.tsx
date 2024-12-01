@@ -40,7 +40,7 @@ import SelectOptions from "./SelectOptions";
 import { Ingredients, Meal } from "@/utils/types";
 
 interface AddMealModalProps {
-  isOpen: boolean;
+  isOpenModal: boolean;
   onClose: () => void;
   mealToEdit?: Meal | null;
 }
@@ -63,7 +63,7 @@ interface FormData {
 }
 
 const AddMealModal: React.FC<AddMealModalProps> = ({
-  isOpen,
+  isOpenModal,
   onClose,
   mealToEdit = null,
 }) => {
@@ -98,9 +98,10 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
 
   useEffect(() => {
     // Pre-fill form with meal data
-    if (isOpen) {
+    if (isOpenModal) {
       if (mealToEdit) {
         // Pre-fill form with meal data for editing
+        console.log("mealToEdit", mealToEdit);
         methods.reset({
           title: mealToEdit.title,
           description: mealToEdit.description,
@@ -111,6 +112,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
         setCategory(mealToEdit.category || null);
       } else {
         // Clear form for adding a new meal
+        console.log("Else in AddMealModal");
         methods.reset({
           title: "",
           description: "",
@@ -120,7 +122,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
         setRestrictions([]);
       }
     }
-  }, [mealToEdit, methods, isOpen]);
+  }, [mealToEdit, methods, isOpenModal]);
 
   const calories = formatNumber(
     ingredients.reduce((acc, curr) => acc + +curr.calories, 0),
@@ -239,8 +241,8 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
   return (
     <>
       <Modal
-        isOpen={isOpen}
-        onClose={handleClose || onClose}
+        isOpen={isOpenModal}
+        onClose={handleClose}
         closeOnOverlayClick={false}
         size={{ base: "sm", md: "3xl" }}
       >

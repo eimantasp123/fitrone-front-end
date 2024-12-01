@@ -13,7 +13,7 @@ const MealsHeader: React.FC = () => {
   const { t } = useTranslation("meals");
   const { isOpen, onClose, onOpen } = useDisclosure();
   const dispatch = useAppDispatch();
-  const { filters } = useAppSelector((state) => state.mealsDetails);
+  const { filters, limit } = useAppSelector((state) => state.mealsDetails);
 
   const dietaryPreferences = Object.values(
     t("preferences", { returnObjects: true }),
@@ -41,7 +41,7 @@ const MealsHeader: React.FC = () => {
     dispatch(
       getMeals({
         page: 1,
-        limit: 14,
+        limit,
         category: null,
         preference: null,
         restriction: null,
@@ -96,7 +96,7 @@ const MealsHeader: React.FC = () => {
           />
         </div>
       </div>
-      <AddMealModal isOpen={isOpen} onClose={onClose} mealToEdit={null} />
+      <AddMealModal isOpenModal={isOpen} onClose={onClose} mealToEdit={null} />
     </>
   );
 };

@@ -1,6 +1,13 @@
 import RedButton from "@/components/common/RedButton";
 import TextButton from "@/components/common/TextButton";
+import {
+  deleteIngredient,
+  getIngredients,
+  searchIngredients,
+  setCurrentPage,
+} from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
+import { capitalizeFirstLetter } from "@/utils/helper";
 import { IngredientForOnce } from "@/utils/types";
 import {
   Modal,
@@ -13,6 +20,7 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import AddIngredientManualModal from "../Meals/AddIngredientManualModal";
+import { getMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 
 interface IngredientCardProps {
   ingredient: IngredientForOnce;
@@ -20,18 +28,55 @@ interface IngredientCardProps {
 
 const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
   const { t } = useTranslation("meals");
-  const { onOpen, onClose, isOpen } = useDisclosure();
+  // const {
+  //   onOpen: onOpenIngredientModal,
+  //   onClose: onCloseIngredientModal,
+  //   isOpen: isOpenIngredientModal,
+  // } = useDisclosure();
   const {
     onOpen: onOpenDeleteModal,
     onClose: onCloseDeleteModal,
     isOpen: deleteModalOpen,
   } = useDisclosure();
   const dispatch = useAppDispatch();
-  const { loading } = useAppSelector((state) => state.ingredientsDetails);
-  const { title, calories, protein, carbs, fat, unit, amount } = ingredient;
+  const { ingredients, currentPage, searchQuery, limit, loading } =
+    useAppSelector((state) => state.ingredientsDetails);
+  const { title, calories, protein, carbs, fat, unit, amount, ingredientId } =
+    ingredient;
 
+  // Delete ingredient function
   const handleDelete = async () => {
-    // Delete the ingredient
+    await dispatch(deleteIngredient({ ingredientId })).unwrap();
+    if (ingredients[currentPage].length === 1 && searchQuery === "") {
+      const pages = currentPage !== 1 ? currentPage - 1 : currentPage;
+      await dispatch(
+        getIngredients({
+          page: pages,
+          limit: limit,
+        }),
+      ).unwrap();
+      dispatch(setCurrentPage(pages));
+    } else if (ingredients[currentPage].length === 1 && searchQuery !== "") {
+      await dispatch(searchIngredients({ query: searchQuery })).unwrap();
+    } else {
+      await dispatch(
+        getIngredients({
+          page: currentPage,
+          limit: limit,
+        }),
+      ).unwrap();
+    }
+
+    onCloseDeleteModal();
+
+    await dispatch(
+      getMeals({
+        page: 1,
+        category: null,
+        preference: null,
+        restriction: null,
+      }),
+    );
   };
 
   return (
@@ -44,7 +89,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
               {/*  */}
               <div className="w-[85%] flex-1 text-start">
                 <h2 className="text-[16px] font-medium text-textPrimary">
-                  {title}
+                  {capitalizeFirstLetter(title)}
                 </h2>
               </div>
               <div className="flex w-[15%] items-start justify-end gap-2">
@@ -94,7 +139,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
               {t("delete")}
             </button>
             <button
-              onClick={onOpen}
+              // onClick={onOpenIngredientModal}
               className="flex-1 rounded-md bg-primary py-[6px] text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
             >
               {t("editAndView")}
@@ -119,12 +164,12 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
             </p>
             <div className="flex w-full items-center justify-between gap-3">
               <TextButton
-                onClick={onCloseDeleteModal}
+                onClick={() => onCloseDeleteModal()}
                 className="flex-1"
                 text={t("cancel")}
               />
               <RedButton
-                onClick={handleDelete}
+                onClick={() => handleDelete()}
                 type="button"
                 updateLoading={loading}
                 classname="flex-1"
@@ -135,11 +180,11 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
         </ModalContent>
       </Modal>
       {/* Edit ingredient */}
-      <AddIngredientManualModal
-        isOpen={isOpen}
-        onClose={onClose}
+      {/* <AddIngredientManualModal
+        isOpen={isOpenIngredientModal}
+        onClose={onCloseIngredientModal}
         editIngredient={ingredient}
-      />
+      /> */}
     </>
   );
 };

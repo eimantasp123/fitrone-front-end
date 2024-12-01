@@ -3,7 +3,7 @@ import { Filters, Meal } from "@/utils/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance from "../../../utils/axiosInterceptors";
 
-interface ApiError {
+export interface ApiError {
   response?: {
     data?: {
       message: string;
@@ -18,6 +18,7 @@ interface MealsState {
   loading: boolean;
   currentPage: number;
   lastFetched: number | null;
+  limit: number;
   totalPages: number;
   filters: {
     category: string | null;
@@ -32,6 +33,7 @@ const initialState: MealsState = {
   mainLoading: false,
   lastFetched: null,
   currentPage: 1,
+  limit: 14,
   totalPages: 0,
   filters: { category: null, preference: null, restriction: null },
 };
@@ -155,6 +157,7 @@ const mealDetailsSlice = createSlice({
       })
       .addCase(addMeal.fulfilled, (state, action) => {
         state.loading = false;
+        console.log("add meal action");
         showCustomToast({
           status: "success",
           title: action.payload.message,
@@ -169,6 +172,7 @@ const mealDetailsSlice = createSlice({
       })
       .addCase(getMeals.pending, (state) => {
         state.mainLoading = true;
+        console.log("get meal action");
       })
       .addCase(
         getMeals.fulfilled,
@@ -192,6 +196,7 @@ const mealDetailsSlice = createSlice({
       })
       .addCase(deleteMeal.pending, (state) => {
         state.loading = true;
+        console.log("delete meal action");
       })
       .addCase(deleteMeal.fulfilled, (state, action) => {
         state.loading = false;
@@ -209,6 +214,7 @@ const mealDetailsSlice = createSlice({
       })
       .addCase(updateMeal.pending, (state) => {
         state.loading = true;
+        console.log("update meal action");
       })
       .addCase(updateMeal.fulfilled, (state, action) => {
         state.loading = false;

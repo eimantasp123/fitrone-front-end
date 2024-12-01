@@ -60,9 +60,10 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
         // Otherwise, refetch the current page to update its content
         dispatch(getMeals({ page: currentPage, ...filters }));
       }
-      onCloseDeleteModal();
     } catch {
       //
+    } finally {
+      onCloseDeleteModal();
     }
   };
 
@@ -195,7 +196,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
           {/* Call to action buttons */}
           <div className="mt-auto flex items-start gap-2 py-2">
             <button
-              onClick={onOpenDeleteModal}
+              onClick={() => onOpenDeleteModal()}
               className="flex-1 rounded-md py-[6px] text-sm text-red-600 transition-colors duration-200 ease-in-out hover:bg-red-50 dark:hover:bg-red-700/20"
             >
               {t("delete")}
@@ -226,7 +227,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
             </p>
             <div className="flex w-full items-center justify-between gap-3">
               <TextButton
-                onClick={onCloseDeleteModal}
+                onClick={() => onCloseDeleteModal()}
                 className="flex-1"
                 text={t("cancel")}
               />
@@ -242,7 +243,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
         </ModalContent>
       </Modal>
       {/* Update meal */}
-      <AddMealModal isOpen={isOpen} onClose={onClose} mealToEdit={meal} />
+      <AddMealModal isOpenModal={isOpen} onClose={onClose} mealToEdit={meal} />
     </>
   );
 };

@@ -22,6 +22,16 @@ export interface IngredientForOnce {
   fat: number;
 }
 
+export interface IngredientUpdate {
+  title: string;
+  unit: string;
+  amount: number;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+}
+
 export interface Filters {
   category: string | null;
   preference: string | null;

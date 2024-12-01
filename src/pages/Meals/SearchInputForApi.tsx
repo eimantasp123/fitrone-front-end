@@ -43,7 +43,7 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
     setShowResults(true);
     setSearchResults([]);
     try {
-      const response = await axiosInstance.post("/meals/ingredient", {
+      const response = await axiosInstance.post("/ingredients/search-ai", {
         query: searchQuery,
         unit,
         amount,

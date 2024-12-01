@@ -1,5 +1,11 @@
 import CustomInput from "@/components/common/NewCharkaInput";
 import { showCustomToast } from "@/hooks/showCustomToast";
+import {
+  getIngredients,
+  updateIngredient,
+} from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
+import { getMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
+import { useAppDispatch, useAppSelector } from "@/store";
 import axiosInstance from "@/utils/axiosInterceptors";
 import {
   useIngredientInputSchema,
@@ -69,6 +75,8 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
   const { t } = useTranslation("meals");
   const [unit, setUnit] = useState<string>("g");
   const [loading, setLoading] = useState<boolean>(false);
+  const { limit } = useAppSelector((state) => state.ingredientsDetails);
+  const dispatch = useAppDispatch();
   // Call both hooks unconditionally
   const schemaWithCurrentAmount = useIngredientInputSchema();
   const schemaWithoutCurrentAmount =
@@ -108,7 +116,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
 
     // Prepare data for backend
     const backendData = {
-      title: ingredientData.title,
+      title: ingredientData.title.toLocaleLowerCase(),
       amount: 100,
       unit: ingredientData.unit,
       calories: ingredientData.calories,
@@ -121,20 +129,49 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
 
     // Send data to backend
     try {
-      const response = await axiosInstance.post(
-        "/meals/add-ingredient",
-        backendData,
-      );
-      if (response.status === 201) {
-        console.log(response.data.data);
-        if (setIngredients) {
-          setIngredients((prev) => [...prev, response.data.data]);
-        }
+      // If editIngredient is present, update the ingredient
+      if (editIngredient) {
+        const updateIngredientDetails = {
+          title: backendData.title,
+          amount: 100,
+          unit: backendData.unit,
+          calories: backendData.calories,
+          protein: backendData.protein,
+          fat: backendData.fat,
+          carbs: backendData.carbs,
+        };
+        // Update the ingredient
+        await dispatch(
+          updateIngredient({
+            ingredientId: editIngredient.ingredientId,
+            data: updateIngredientDetails,
+          }),
+        ).unwrap();
+
+        // Update the meals
+        await dispatch(
+          getMeals({
+            page: 1,
+            category: null,
+            preference: null,
+            restriction: null,
+          }),
+        ).unwrap();
         closeModal();
-        showCustomToast({
-          status: "success",
-          title: response.data.message,
-        });
+      } else {
+        // Add the ingredient
+        const response = await axiosInstance.post("/ingredients", backendData);
+        if (response.status === 201) {
+          if (setIngredients) {
+            setIngredients((prev) => [...prev, response.data.data]);
+          }
+          await dispatch(getIngredients({ page: 1, limit })).unwrap();
+          closeModal();
+          showCustomToast({
+            status: "success",
+            title: response.data.message,
+          });
+        }
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -162,6 +199,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
       isOpen={isOpen}
       onClose={closeModal}
       isCentered
+      closeOnOverlayClick={false}
       size={{ base: "sm", md: "2xl" }}
     >
       <ModalOverlay />
@@ -237,13 +275,18 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
               </p>
               <div className="grid grid-cols-4 gap-4">
                 {["calories", "carbs", "fat", "protein"].map((field) => (
-                  <div key={field} className="flex flex-col gap-2">
+                  <div key={field} className="flex items-end gap-2">
                     <CustomInput
                       name={field}
                       type="number"
                       label={t(`${field}`)}
                       placeholder="e.g. 50"
                     />
+                    {field === "calories" ? (
+                      <span className="mb-3">kcal</span>
+                    ) : (
+                      <span className="mb-3">g</span>
+                    )}
                   </div>
                 ))}
               </div>

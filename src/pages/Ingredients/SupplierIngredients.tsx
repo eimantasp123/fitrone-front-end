@@ -19,8 +19,14 @@ const SupplierIngredients: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Select meals from the store
-  const { ingredients, mainLoading, currentPage, limit, totalPages } =
-    useAppSelector((state) => state.ingredientsDetails);
+  const {
+    ingredients,
+    searchResults,
+    mainLoading,
+    currentPage,
+    limit,
+    totalPages,
+  } = useAppSelector((state) => state.ingredientsDetails);
 
   // Fetch meals on component mount
   useEffect(() => {
@@ -58,9 +64,6 @@ const SupplierIngredients: React.FC = () => {
     (ingredientArray) => ingredientArray.length === 0,
   );
 
-  // Check if there are no results with the current filters
-  const noSearchResults = false;
-
   // Check if there are meals to display
   const hasIngredients =
     Object.keys(ingredients).length > 0 &&
@@ -80,7 +83,7 @@ const SupplierIngredients: React.FC = () => {
             </div>
           ) : (
             <>
-              {noIngredientsAdded && (
+              {noIngredientsAdded && !searchResults && (
                 <div className="flex w-full flex-col items-center justify-center gap-1 pt-28">
                   <VscEmptyWindow className="text-4xl" />
                   <h1 className="text-lg font-medium text-textPrimary">
@@ -97,7 +100,7 @@ const SupplierIngredients: React.FC = () => {
                 </div>
               )}
 
-              {noSearchResults && (
+              {noIngredientsAdded && searchResults && (
                 <div className="flex w-full flex-col items-center justify-center gap-1 pt-28">
                   <VscEmptyWindow className="text-4xl" />
                   <h1 className="text-lg font-medium text-textPrimary">

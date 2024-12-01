@@ -100,7 +100,7 @@
   "info": "Prašome rankiniu būdu apskaičiuoti ir įvesti maistinę informaciją (kalorijas, angliavandenius, riebalus, baltymus) pagal nurodytą kiekį.",
   "addIngredientManuallyFirstInfoText": "Pridėtas ingredientas bus išsaugotas jūsų asmeninėje ingredientų duomenų bazėje pagal pateiktas maistines vertes. Ši bazė leis lengvai pasiekti ir naudoti jūsų sukurtus ingredientus kituose receptuose ar skaičiavimuose. Rekomenduojame naudoti tikslius ir aiškius ingredientų pavadinimus.",
   "addIngredientManuallySecondInfoText": "Pasirinkite ingredientui matavimo vienetą. Kiekis jau nustatytas (100) ir jo keisti negalima.",
-  "addIngredientManuallyThirdInfoText": "Įveskite visas maistines medžiagas, nurodytas produkto pakuotėje, atsižvelgiant į kiekį 100g. arba 100ml.",
+  "addIngredientManuallyThirdInfoText": "Įveskite visas maistines medžiagas, nurodytas produkto pakuotėje, atsižvelgiant į kiekį.",
   "addIngredientManuallyLastInfoText": "Įrašykite, kokį kiekį šio ingrediento naudosite dabartiniame patiekale.",
 
   "mealAddedSuccessfully": "Patiekalas sėkmingai pridėtas",
@@ -116,6 +116,7 @@
   "deleteIngredientTitle": "Ištrinti ingredientą",
   "deleteIngredientDescription": "Jei tęsite, ingredientas bus visam laikui pašalintas iš duomenų bazės. Šis veiksmas turės įtakos visiems patiekalams ar receptams, kuriuose naudojamas šis ingredientas, nes ingrediento duomenys nebebus pasiekiami.",
   "deleteMealDescription": " Ar tikrai norite visam laikui ištrinti šį patiekalą? Šis veiksmas negali būti atšauktas, ir patiekalas bus pašalintas iš jūsų įrašų.",
+  "ingredientDeletedSuccessfully": "Ingredientas sėkmingai ištrintas",
 
   "errors": {
     "fieldIsRequired": "Laukas yra privalomas",

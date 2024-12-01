@@ -26,6 +26,7 @@ const SearchIngredientFromDatabse: React.FC<
       isOpen={isOpen}
       onClose={onClose}
       isCentered
+      closeOnOverlayClick={false}
       size={{ base: "sm", md: "2xl" }}
     >
       <ModalOverlay />

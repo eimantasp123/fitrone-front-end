@@ -29,6 +29,7 @@ const SearchIngredientModal: React.FC<SearchIngredientModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       isCentered
+      closeOnOverlayClick={false}
       size={{ base: "sm", md: "2xl" }}
     >
       <ModalOverlay />

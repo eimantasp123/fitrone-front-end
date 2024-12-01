@@ -51,7 +51,7 @@ const SearchIngredientFromDatabaseApi: React.FC<
     setShowResults(true);
     setSearchResults([]);
     try {
-      const response = await axiosInstance.get("/meals/ingredient-search", {
+      const response = await axiosInstance.get("/ingredients/search", {
         params: {
           query: searchQuery,
         },
@@ -88,7 +88,7 @@ const SearchIngredientFromDatabaseApi: React.FC<
       return;
     }
     try {
-      const response = await axiosInstance.get(`/meals/ingredient/${id}`, {
+      const response = await axiosInstance.get(`/ingredients/nutrition/${id}`, {
         params: {
           currentAmount: amounts[id],
         },
