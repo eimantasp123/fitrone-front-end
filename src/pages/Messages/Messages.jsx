@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import AdminMessages from "./AdminMessages";
 import ClientMessages from "./ClientsMessages";
@@ -11,12 +11,14 @@ const Messages = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Messages</title>
-      </Helmet>
-      {user.role === "admin" && <AdminMessages />}
-      {user.role === "supplier" && <SupplierMessages />}
-      {user.role === "client" && <ClientMessages user={user} />}
+      <HelmetProvider>
+        <Helmet>
+          <title>Messages</title>
+        </Helmet>
+        {user.role === "admin" && <AdminMessages />}
+        {user.role === "supplier" && <SupplierMessages />}
+        {user.role === "client" && <ClientMessages user={user} />}
+      </HelmetProvider>
     </>
   );
 };

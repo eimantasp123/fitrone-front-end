@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import GeneralNotifications from "./GeneralNotifications";
 
@@ -9,10 +9,12 @@ export default function Notifications() {
 
   return (
     <>
-      <Helmet>
-        <title>Notifications</title>
-      </Helmet>
-      <GeneralNotifications />
+      <HelmetProvider>
+        <Helmet>
+          <title>Notifications</title>
+        </Helmet>
+        <GeneralNotifications />
+      </HelmetProvider>
     </>
   );
 }

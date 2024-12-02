@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/store";
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import SupplierMeals from "./SupplierMeals";
 
 const Meals = () => {
@@ -9,10 +9,12 @@ const Meals = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Meals</title>
-      </Helmet>
-      {user.role === "supplier" && <SupplierMeals />}
+      <HelmetProvider>
+        <Helmet>
+          <title>Meals</title>
+        </Helmet>
+        {user.role === "supplier" && <SupplierMeals />}
+      </HelmetProvider>
     </>
   );
 };

@@ -2,6 +2,8 @@ import CustomInput from "@/components/common/NewCharkaInput";
 import { showCustomToast } from "@/hooks/showCustomToast";
 import {
   getIngredients,
+  setCurrentPage,
+  setSearchQuery,
   updateIngredient,
 } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
 import { getMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
@@ -21,6 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
+import { set } from "lodash";
 import React, { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -75,8 +78,10 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
   const { t } = useTranslation("meals");
   const [unit, setUnit] = useState<string>("g");
   const [loading, setLoading] = useState<boolean>(false);
-  const { limit } = useAppSelector((state) => state.ingredientsDetails);
   const dispatch = useAppDispatch();
+  const { searchQuery, searchResults } = useAppSelector(
+    (state) => state.ingredientsDetails,
+  );
   // Call both hooks unconditionally
   const schemaWithCurrentAmount = useIngredientInputSchema();
   const schemaWithoutCurrentAmount =
@@ -148,6 +153,10 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
           }),
         ).unwrap();
 
+        if (searchResults) {
+          dispatch(setSearchQuery(searchQuery));
+        }
+
         // Update the meals
         await dispatch(
           getMeals({
@@ -165,7 +174,8 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
           if (setIngredients) {
             setIngredients((prev) => [...prev, response.data.data]);
           }
-          await dispatch(getIngredients({ page: 1, limit })).unwrap();
+          await dispatch(getIngredients()).unwrap();
+          dispatch(setCurrentPage(1));
           closeModal();
           showCustomToast({
             status: "success",

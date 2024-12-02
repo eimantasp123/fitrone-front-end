@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import SupplierCustomers from "./SupplierCustomers";
 
@@ -9,10 +9,12 @@ const Customers = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Customers</title>
-      </Helmet>
-      {user.role === "supplier" && <SupplierCustomers />}
+      <HelmetProvider>
+        <Helmet>
+          <title>Customers</title>
+        </Helmet>
+        {user.role === "supplier" && <SupplierCustomers />}
+      </HelmetProvider>
     </>
   );
 };

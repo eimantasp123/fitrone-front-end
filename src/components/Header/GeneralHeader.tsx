@@ -9,7 +9,6 @@ import { useLocation } from "react-router-dom";
 import LanguageSelector from "../LanguageSelector";
 import LightAndDarkMode from "../common/LightAndDarkMode";
 import SideBarDrawer from "../common/SideBarDrawer";
-import TopHeaderBanner from "./TopHeaderBanner";
 
 // Client Header
 const GeneralHeader: React.FC = () => {
@@ -32,8 +31,7 @@ const GeneralHeader: React.FC = () => {
 
   return (
     <>
-      {/* <TopHeaderBanner /> */}
-      <header className="sticky top-0 flex max-h-16 min-h-16 select-none items-center justify-between gap-10 border-b-[1px] border-borderPrimary px-2 text-textPrimary dark:border-borderDark md:px-4">
+      <header className="sticky top-0 z-50 flex max-h-16 min-h-16 select-none items-center justify-between gap-10 overflow-visible border-b-[1px] border-borderPrimary px-2 text-textPrimary dark:border-borderDark md:px-4">
         {/*  */}
         <div className="flex items-center gap-2 lg:gap-4">
           <HiMenuAlt2
@@ -46,6 +44,7 @@ const GeneralHeader: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 md:gap-2">
+          {/* Language switcher */}
           <LanguageSelector />
           {/* Dark Mode ON/OFF */}
           <LightAndDarkMode />

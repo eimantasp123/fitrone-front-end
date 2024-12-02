@@ -8,7 +8,6 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
-  Portal,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useContext } from "react";
@@ -72,27 +71,26 @@ const UserProfileButton: React.FC = () => {
         </MenuButton>
 
         {/* Modal content */}
-        <Portal>
-          <MenuList zIndex={50}>
-            <MenuGroup title={t("profile")}>
-              <MenuItem
-                icon={<IoSettingsOutline />}
-                onClick={() => navigate("/profile")}
-              >
-                {t("accountSettings")}
-              </MenuItem>
-              <MenuItem icon={<IoLogOutOutline />} onClick={handleLogout}>
-                {t("logout")}
-              </MenuItem>
-            </MenuGroup>
-            <MenuDivider />
-            <MenuGroup title={t("help")}>
-              <MenuItem icon={<FaQuestion />} onClick={() => navigate("/faq")}>
-                {t("faq")}
-              </MenuItem>
-            </MenuGroup>
-          </MenuList>
-        </Portal>
+
+        <MenuList zIndex={50}>
+          <MenuGroup title={t("profile")}>
+            <MenuItem
+              icon={<IoSettingsOutline />}
+              onClick={() => navigate("/profile")}
+            >
+              {t("accountSettings")}
+            </MenuItem>
+            <MenuItem icon={<IoLogOutOutline />} onClick={handleLogout}>
+              {t("logout")}
+            </MenuItem>
+          </MenuGroup>
+          <MenuDivider />
+          <MenuGroup title={t("help")}>
+            <MenuItem icon={<FaQuestion />} onClick={() => navigate("/faq")}>
+              {t("faq")}
+            </MenuItem>
+          </MenuGroup>
+        </MenuList>
       </Menu>
     </>
   );

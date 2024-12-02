@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/store";
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import SupplierIngredients from "./SupplierIngredients";
 
@@ -11,10 +11,12 @@ const IngredientsGeneral: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Ingredients</title>
-      </Helmet>
-      {user.role === "supplier" && <SupplierIngredients />}
+      <HelmetProvider>
+        <Helmet>
+          <title>Ingredients</title>
+        </Helmet>
+        {user.role === "supplier" && <SupplierIngredients />}
+      </HelmetProvider>
     </>
   );
 };

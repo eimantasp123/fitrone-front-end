@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/store";
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import AdminProfileSettings from "./AdminProfileSettings";
 import SupplierProfileSettings from "./SupplierProfileSettings";
@@ -12,11 +12,13 @@ const ProfileSettings: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{t("title")}</title>
-      </Helmet>
-      {user.role === "admin" && <AdminProfileSettings />}
-      {user.role === "supplier" && <SupplierProfileSettings />}
+      <HelmetProvider>
+        <Helmet>
+          <title>{t("title")}</title>
+        </Helmet>
+        {user.role === "admin" && <AdminProfileSettings />}
+        {user.role === "supplier" && <SupplierProfileSettings />}
+      </HelmetProvider>
     </>
   );
 };

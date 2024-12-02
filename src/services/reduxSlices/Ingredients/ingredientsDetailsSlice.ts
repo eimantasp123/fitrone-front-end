@@ -6,24 +6,26 @@ import { ApiError } from "../Meals/mealDetailsSlice";
 
 interface IngredientsDetailsState {
   ingredients: Record<number, IngredientForOnce[]>;
+  filteredIngredients: Record<number, IngredientForOnce[]> | null; // Search results
   loading: boolean;
   mainLoading: boolean;
   currentPage: number;
   lastFetched: number | null;
   totalPages: number;
   searchQuery: string;
-  limit: number;
+  pageSize: number;
   searchResults: boolean;
 }
 
 // Initial state of the ingredients details slice
 const initialState: IngredientsDetailsState = {
   ingredients: {},
+  filteredIngredients: null,
   loading: false,
   mainLoading: false,
   currentPage: 1,
   searchResults: false,
-  limit: 3,
+  pageSize: 24,
   searchQuery: "",
   lastFetched: null,
   totalPages: 1,
@@ -32,23 +34,9 @@ const initialState: IngredientsDetailsState = {
 // This function is used to get all ingredients
 export const getIngredients = createAsyncThunk(
   "ingredientsDetails/getIngredients",
-  async (
-    {
-      page,
-      limit,
-    }: {
-      page: number;
-      limit: number;
-    },
-    { rejectWithValue },
-  ) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get("ingredients", {
-        params: {
-          page,
-          limit,
-        },
-      });
+      const response = await axiosInstance.get("ingredients");
       return response.data;
     } catch (error: unknown) {
       const typedError = error as ApiError;
@@ -56,35 +44,6 @@ export const getIngredients = createAsyncThunk(
         return rejectWithValue(typedError.response.data.message);
       }
       return rejectWithValue("An unknown error occurred");
-    }
-  },
-);
-
-// This function is used to search for ingredients
-export const searchIngredients = createAsyncThunk(
-  "ingredientsDetails/searchIngredients",
-  async (
-    {
-      query,
-    }: {
-      query: string;
-    },
-    { rejectWithValue },
-  ) => {
-    try {
-      console.log("query", query);
-      const response = await axiosInstance.get("ingredients/search", {
-        params: {
-          query,
-        },
-      });
-      return response.data;
-    } catch (error: unknown) {
-      const typedError = error as ApiError;
-      if (typedError.response?.data?.message) {
-        return rejectWithValue(typedError.response.data.message);
-      }
-      return rejectWithValue("paieškos errors");
     }
   },
 );
@@ -145,11 +104,28 @@ const ingredientsDetailsSlice = createSlice({
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
-    setIngredientsEmpty: (state) => {
-      state.ingredients = {};
-    },
     setSearchQuery: (state, action: PayloadAction<string>) => {
-      state.searchQuery = action.payload;
+      const query = action.payload.toLowerCase();
+      state.searchQuery = query;
+
+      // Get all ingredients from the original `ingredients` object
+      const allIngredients = Object.values(state.ingredients).flat();
+
+      if (query) {
+        // Filter ingredients based on the query
+        const filtered = allIngredients.filter((ingredient) =>
+          ingredient.title.toLowerCase().includes(query),
+        );
+        state.currentPage = 1;
+        state.filteredIngredients = { 1: filtered };
+        state.searchResults = true;
+        state.totalPages = 1;
+      } else {
+        // Reset the search results
+        state.filteredIngredients = null;
+        state.searchResults = false;
+        state.totalPages = Math.ceil(allIngredients.length / state.pageSize);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -160,32 +136,27 @@ const ingredientsDetailsSlice = createSlice({
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
         state.mainLoading = false;
-        state.totalPages = action.payload.totalPages;
-        state.ingredients[action.payload.currentPage] = action.payload.data;
+        const ingredientsData = action.payload.data;
+        const paginatedData: Record<number, IngredientForOnce[]> = {};
+        // Paginate the data
+        ingredientsData.forEach(
+          (ingredient: IngredientForOnce, index: number) => {
+            const pageNumber: number = Math.floor(index / state.pageSize) + 1;
+            if (!paginatedData[pageNumber]) {
+              paginatedData[pageNumber] = [];
+            }
+            paginatedData[pageNumber].push(ingredient);
+          },
+        );
+        state.ingredients = paginatedData;
+        state.totalPages = Math.ceil(
+          action.payload.data.length / state.pageSize,
+        );
         state.lastFetched = new Date().getTime();
+        state.searchResults = false;
       })
       .addCase(getIngredients.rejected, (state, action) => {
         state.mainLoading = false;
-        showCustomToast({
-          status: "error",
-          title: action.payload as string,
-        });
-      })
-      .addCase(searchIngredients.pending, (state) => {
-        state.mainLoading = true;
-      })
-      .addCase(searchIngredients.fulfilled, (state, action) => {
-        state.mainLoading = false;
-        state.currentPage = 1;
-        state.searchResults = true;
-        state.ingredients = {};
-        state.totalPages = 1;
-        state.ingredients[1] = action.payload.data;
-        state.lastFetched = new Date().getTime();
-      })
-      .addCase(searchIngredients.rejected, (state, action) => {
-        state.mainLoading = false;
-        state.searchResults = false;
         showCustomToast({
           status: "error",
           title: action.payload as string,
@@ -196,8 +167,12 @@ const ingredientsDetailsSlice = createSlice({
       })
       .addCase(updateIngredient.fulfilled, (state, action) => {
         state.loading = false;
+
+        // Extract the updated ingredient
         const updatedIngredient = action.payload.data;
         const ingredientId = updatedIngredient.ingredientId;
+
+        // Update the ingredient in the state
         Object.keys(state.ingredients).forEach((page) => {
           state.ingredients[Number(page)] = state.ingredients[Number(page)].map(
             (ingredient) =>
@@ -206,6 +181,7 @@ const ingredientsDetailsSlice = createSlice({
                 : ingredient,
           );
         });
+
         showCustomToast({
           status: "success",
           title: action.payload.message,

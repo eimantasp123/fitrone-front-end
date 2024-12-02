@@ -21,7 +21,11 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
   onClose: closeDrawer,
 }) => {
   const { t } = useTranslation("sidebar");
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isFeedbackOpen,
+    onOpen: onFeedbackOpen,
+    onClose: onFeedbackClose,
+  } = useDisclosure();
   const {
     isOpen: isSupportModalOpen,
     onOpen: onSupportModalOpen,
@@ -88,7 +92,7 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
         />
         {/* Feedback modal */}
         <button
-          onClick={onOpen}
+          onClick={onFeedbackOpen}
           className="relative flex items-center gap-3 overflow-hidden py-3 pl-7 text-neutral-300 transition-colors duration-300 ease-in-out lg:py-[10px]"
         >
           <div className="flex items-center gap-3">
@@ -108,11 +112,19 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
           </div>
         </button>
       </ul>
-      <FeedbackFormModal isOpen={isOpen} onClose={onClose} />
-      <SupportModal
-        isModalOpen={isSupportModalOpen}
-        onClose={onSupportModalClose}
-      />
+
+      {/* Feedback modal */}
+      {isFeedbackOpen && (
+        <FeedbackFormModal isOpen={isFeedbackOpen} onClose={onFeedbackClose} />
+      )}
+
+      {/* Support modal */}
+      {isSupportModalOpen && (
+        <SupportModal
+          isModalOpen={isSupportModalOpen}
+          onClose={onSupportModalClose}
+        />
+      )}
     </>
   );
 };

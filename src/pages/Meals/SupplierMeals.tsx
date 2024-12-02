@@ -150,7 +150,14 @@ const SupplierMeals: React.FC = () => {
           )}
         </div>
       </div>
-      <AddMealModal isOpenModal={isOpen} onClose={onClose} mealToEdit={null} />
+
+      {isOpen && (
+        <AddMealModal
+          isOpenModal={isOpen}
+          onClose={onClose}
+          mealToEdit={null}
+        />
+      )}
     </>
   );
 };

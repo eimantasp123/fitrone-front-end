@@ -14,31 +14,32 @@ import IngredientsHeader from "./IngredientsHeader";
 
 const SupplierIngredients: React.FC = () => {
   const { t } = useTranslation("meals");
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isAddIngredientOpen,
+    onOpen: onAddIngredientOpen,
+    onClose: onAddIngredientClose,
+  } = useDisclosure();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Select meals from the store
   const {
     ingredients,
+    filteredIngredients,
+    searchQuery,
     searchResults,
     mainLoading,
     currentPage,
-    limit,
+    lastFetched,
     totalPages,
   } = useAppSelector((state) => state.ingredientsDetails);
 
   // Fetch meals on component mount
   useEffect(() => {
-    if (!ingredients[currentPage]) {
-      dispatch(
-        getIngredients({
-          page: currentPage,
-          limit: limit,
-        }),
-      );
+    if (!lastFetched) {
+      dispatch(getIngredients());
     }
-  }, [currentPage, dispatch, ingredients, limit]);
+  }, [dispatch, ingredients, lastFetched]);
 
   const handlePageChange = (newPage: number) => {
     dispatch(setCurrentPage(newPage));
@@ -59,15 +60,21 @@ const SupplierIngredients: React.FC = () => {
     }
   }, [currentPage]);
 
+  // Determine the data to display (filtered or all ingredients)
+  const displayedIngredients =
+    filteredIngredients && searchQuery ? filteredIngredients : ingredients;
+
   // Check if there are no meals added
-  const noIngredientsAdded = Object.values(ingredients).every(
+  const noIngredientsAdded = Object.values(displayedIngredients).every(
     (ingredientArray) => ingredientArray.length === 0,
   );
 
   // Check if there are meals to display
   const hasIngredients =
-    Object.keys(ingredients).length > 0 &&
-    Object.values(ingredients).some((mealArray) => mealArray.length > 0);
+    Object.keys(displayedIngredients).length > 0 &&
+    Object.values(displayedIngredients).some(
+      (mealArray) => mealArray.length > 0,
+    );
 
   return (
     <>
@@ -93,7 +100,7 @@ const SupplierIngredients: React.FC = () => {
                     {t("noIngredientsDescription")}
                   </p>
                   <PrimaryButton
-                    onClick={onOpen}
+                    onClick={onAddIngredientOpen}
                     className="w-[200px]"
                     text={t("addIngredient")}
                   />
@@ -115,9 +122,11 @@ const SupplierIngredients: React.FC = () => {
               {hasIngredients && (
                 <>
                   <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-3">
-                    {ingredients[currentPage]?.map((ingredient, index) => (
-                      <IngredientCard key={index} ingredient={ingredient} />
-                    ))}
+                    {displayedIngredients[currentPage]?.map(
+                      (ingredient, index) => (
+                        <IngredientCard key={index} ingredient={ingredient} />
+                      ),
+                    )}
                   </div>
                   {/* Pagination */}
                   {totalPages > 1 && (
@@ -147,7 +156,12 @@ const SupplierIngredients: React.FC = () => {
           )}
         </div>
       </div>
-      <AddIngredientManualModal isOpen={isOpen} onClose={onClose} />
+      {isAddIngredientOpen && (
+        <AddIngredientManualModal
+          isOpen={isAddIngredientOpen}
+          onClose={onAddIngredientClose}
+        />
+      )}
     </>
   );
 };

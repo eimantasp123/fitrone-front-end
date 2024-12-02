@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import AdminDashboard from "./AdminDashboard";
 import SupplierDashboard from "./SupplierDashboard";
@@ -20,10 +20,12 @@ const Dashboard = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Fitrone | Personal Dashboard & Insights</title>
-      </Helmet>
-      {renderDashboard()}
+      <HelmetProvider>
+        <Helmet>
+          <title>Fitrone | Personal Dashboard & Insights</title>
+        </Helmet>
+        {renderDashboard()}
+      </HelmetProvider>
     </>
   );
 };

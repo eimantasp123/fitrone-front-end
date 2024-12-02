@@ -101,7 +101,6 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
     if (isOpenModal) {
       if (mealToEdit) {
         // Pre-fill form with meal data for editing
-        console.log("mealToEdit", mealToEdit);
         methods.reset({
           title: mealToEdit.title,
           description: mealToEdit.description,
@@ -112,7 +111,6 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
         setCategory(mealToEdit.category || null);
       } else {
         // Clear form for adding a new meal
-        console.log("Else in AddMealModal");
         methods.reset({
           title: "",
           description: "",
@@ -180,38 +178,35 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
     }
 
     // Add or update meal
-    try {
-      if (mealToEdit) {
-        await dispatch(
-          updateMeal({ mealId: mealToEdit._id, mealData: formData }),
-        ).unwrap();
-        const { category, preference, restriction } = filters;
-        await dispatch(
-          getMeals({
-            page: currentPage,
-            category: category || null,
-            preference: preference || null,
-            restriction: restriction || null,
-          }),
-        );
-      } else {
-        await dispatch(addMeal(formData)).unwrap();
-        dispatch(
-          setFilters({ category: null, preference: null, restriction: null }),
-        );
-        await dispatch(
-          getMeals({
-            page: 1,
-            category: null,
-            preference: null,
-            restriction: null,
-          }),
-        );
-      }
-      handleClose();
-    } catch {
-      //
+
+    if (mealToEdit) {
+      await dispatch(
+        updateMeal({ mealId: mealToEdit._id, mealData: formData }),
+      ).unwrap();
+      const { category, preference, restriction } = filters;
+      await dispatch(
+        getMeals({
+          page: currentPage,
+          category: category || null,
+          preference: preference || null,
+          restriction: restriction || null,
+        }),
+      );
+    } else {
+      await dispatch(addMeal(formData)).unwrap();
+      dispatch(
+        setFilters({ category: null, preference: null, restriction: null }),
+      );
+      await dispatch(
+        getMeals({
+          page: 1,
+          category: null,
+          preference: null,
+          restriction: null,
+        }),
+      );
     }
+    handleClose();
   };
 
   // Get dietary preferences
@@ -510,25 +505,30 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
       </Modal>
 
       {/* Search input for API */}
-      <SearchIngredientModal
-        isOpen={searchInputOpen}
-        setIngredients={setIngredients}
-        onClose={closeSearchInput}
-      />
+      {searchInputOpen && (
+        <SearchIngredientModal
+          isOpen={searchInputOpen}
+          setIngredients={setIngredients}
+          onClose={closeSearchInput}
+        />
+      )}
 
       {/* Search ingredient from database */}
-      <SearchIngredientFromDatabase
-        isOpen={searchIngredientDatabaseOpen}
-        onClose={searchIngredientDatabaseClose}
-        setIngredients={setIngredients}
-      />
-
+      {searchIngredientDatabaseOpen && (
+        <SearchIngredientFromDatabase
+          isOpen={searchIngredientDatabaseOpen}
+          onClose={searchIngredientDatabaseClose}
+          setIngredients={setIngredients}
+        />
+      )}
       {/* Ingredient inputs manual */}
-      <AddIngredientManualModal
-        isOpen={recipeInputOpen}
-        onClose={CloseRecipeInputs}
-        setIngredients={setIngredients}
-      />
+      {recipeInputOpen && (
+        <AddIngredientManualModal
+          isOpen={recipeInputOpen}
+          onClose={CloseRecipeInputs}
+          setIngredients={setIngredients}
+        />
+      )}
     </>
   );
 };

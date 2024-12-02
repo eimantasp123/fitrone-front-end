@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import PropTypes from "prop-types";
 import { HiPlus } from "react-icons/hi";
 
@@ -77,47 +77,49 @@ export default function Faq() {
   };
   return (
     <>
-      <Helmet>
-        <title> Frequently Asked Questions</title>
-      </Helmet>
-      <div className="flex w-full overflow-y-auto p-4 scrollbar-thin md:px-14 md:py-10">
-        <div className="container mx-auto mb-4 h-full w-full max-w-[1400px] md:mb-0">
-          <section id="faq" className="flex select-none flex-col">
-            <div className="flex flex-col items-center justify-center gap-5">
-              <h2 className="mt-2 text-xl font-semibold text-textPrimary md:text-2xl lg:text-2xl">
-                Frequently Asked Questions
-              </h2>
-            </div>
-
-            {/* FAQ SECTIONS */}
-            <div className="my-10 flex flex-col gap-6 lg:my-10 lg:flex-row">
-              {/* Left Column */}
-              <div className="flex w-full flex-col gap-3 lg:w-1/2 lg:gap-4">
-                {faqs.slice(0, 6).map((faq, index) => (
-                  <Accordion
-                    key={index}
-                    faq={faq}
-                    isOpen={openIndex === index}
-                    onToggle={() => handleToggle(index)}
-                  />
-                ))}
+      <HelmetProvider>
+        <Helmet>
+          <title> Frequently Asked Questions</title>
+        </Helmet>
+        <div className="flex w-full overflow-y-auto p-4 scrollbar-thin md:px-14 md:py-10">
+          <div className="container mx-auto mb-4 h-full w-full max-w-[1400px] md:mb-0">
+            <section id="faq" className="flex select-none flex-col">
+              <div className="flex flex-col items-center justify-center gap-5">
+                <h2 className="mt-2 text-xl font-semibold text-textPrimary md:text-2xl lg:text-2xl">
+                  Frequently Asked Questions
+                </h2>
               </div>
 
-              {/* Right Column */}
-              <div className="flex w-full flex-col gap-3 lg:w-1/2 lg:gap-4">
-                {faqs.slice(6, 12).map((faq, index) => (
-                  <Accordion
-                    key={index + 6}
-                    faq={faq}
-                    isOpen={openIndex === index + 6}
-                    onToggle={() => handleToggle(index + 6)}
-                  />
-                ))}
+              {/* FAQ SECTIONS */}
+              <div className="my-10 flex flex-col gap-6 lg:my-10 lg:flex-row">
+                {/* Left Column */}
+                <div className="flex w-full flex-col gap-3 lg:w-1/2 lg:gap-4">
+                  {faqs.slice(0, 6).map((faq, index) => (
+                    <Accordion
+                      key={index}
+                      faq={faq}
+                      isOpen={openIndex === index}
+                      onToggle={() => handleToggle(index)}
+                    />
+                  ))}
+                </div>
+
+                {/* Right Column */}
+                <div className="flex w-full flex-col gap-3 lg:w-1/2 lg:gap-4">
+                  {faqs.slice(6, 12).map((faq, index) => (
+                    <Accordion
+                      key={index + 6}
+                      faq={faq}
+                      isOpen={openIndex === index + 6}
+                      onToggle={() => handleToggle(index + 6)}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         </div>
-      </div>
+      </HelmetProvider>
     </>
   );
 }
@@ -137,7 +139,7 @@ const Accordion = ({ faq, isOpen, onToggle }) => {
   return (
     <div
       className={`rounded-lg border bg-background p-5 shadow-custom-dark2 transition-colors duration-300 ease-in-out lg:p-6 ${
-        isOpen ? "border-primary" : "dark:border-borderLight border-borderLight"
+        isOpen ? "border-primary" : "border-borderLight dark:border-borderLight"
       }`}
     >
       {/* Accordion Header */}

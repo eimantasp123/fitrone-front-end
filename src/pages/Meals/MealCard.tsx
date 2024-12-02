@@ -211,39 +211,47 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
         </div>
       </div>
       {/* Delete confirm */}
-      <Modal
-        isOpen={deleteModalOpen}
-        onClose={onCloseDeleteModal}
-        isCentered
-        size={{ base: "xs", md: "lg" }}
-      >
-        <ModalOverlay />
-        <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
-          <h2 className="p-1 font-medium">{t("deleteMealTitle")}</h2>
-          <ModalCloseButton marginTop="2" />
-          <ModalBody sx={{ padding: "4px" }}>
-            <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
-              {t("deleteMealDescription")}
-            </p>
-            <div className="flex w-full items-center justify-between gap-3">
-              <TextButton
-                onClick={() => onCloseDeleteModal()}
-                className="flex-1"
-                text={t("cancel")}
-              />
-              <RedButton
-                onClick={handleDelete}
-                type="button"
-                updateLoading={loading}
-                classname="flex-1"
-                text={t("deleteMealTitle")}
-              />
-            </div>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      {deleteModalOpen && (
+        <Modal
+          isOpen={deleteModalOpen}
+          onClose={onCloseDeleteModal}
+          isCentered
+          size={{ base: "xs", md: "lg" }}
+        >
+          <ModalOverlay />
+          <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
+            <h2 className="p-1 font-medium">{t("deleteMealTitle")}</h2>
+            <ModalCloseButton marginTop="2" />
+            <ModalBody sx={{ padding: "4px" }}>
+              <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
+                {t("deleteMealDescription")}
+              </p>
+              <div className="flex w-full items-center justify-between gap-3">
+                <TextButton
+                  onClick={onCloseDeleteModal}
+                  className="flex-1"
+                  text={t("cancel")}
+                />
+                <RedButton
+                  onClick={handleDelete}
+                  type="button"
+                  updateLoading={loading}
+                  classname="flex-1"
+                  text={t("deleteMealTitle")}
+                />
+              </div>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
       {/* Update meal */}
-      <AddMealModal isOpenModal={isOpen} onClose={onClose} mealToEdit={meal} />
+      {isOpen && (
+        <AddMealModal
+          isOpenModal={isOpen}
+          onClose={onClose}
+          mealToEdit={meal}
+        />
+      )}
     </>
   );
 };

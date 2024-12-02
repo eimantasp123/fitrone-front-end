@@ -1,5 +1,4 @@
 import { Spinner } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 
 interface RedButtonProps {
   updateLoading: boolean;
@@ -29,10 +28,3 @@ export default function RedButton({
     </button>
   );
 }
-
-RedButton.propTypes = {
-  updateLoading: PropTypes.bool.isRequired,
-  width: PropTypes.string,
-  type: PropTypes.string,
-  text: PropTypes.string,
-};

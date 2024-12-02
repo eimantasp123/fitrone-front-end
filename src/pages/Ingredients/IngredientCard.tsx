@@ -3,9 +3,10 @@ import TextButton from "@/components/common/TextButton";
 import {
   deleteIngredient,
   getIngredients,
-  searchIngredients,
   setCurrentPage,
+  setSearchQuery,
 } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
+import { getMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { capitalizeFirstLetter } from "@/utils/helper";
 import { IngredientForOnce } from "@/utils/types";
@@ -20,7 +21,6 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import AddIngredientManualModal from "../Meals/AddIngredientManualModal";
-import { getMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 
 interface IngredientCardProps {
   ingredient: IngredientForOnce;
@@ -28,47 +28,55 @@ interface IngredientCardProps {
 
 const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
   const { t } = useTranslation("meals");
-  // const {
-  //   onOpen: onOpenIngredientModal,
-  //   onClose: onCloseIngredientModal,
-  //   isOpen: isOpenIngredientModal,
-  // } = useDisclosure();
+  const {
+    onOpen: onOpenIngredientModal,
+    onClose: onCloseIngredientModal,
+    isOpen: isOpenIngredientModal,
+  } = useDisclosure();
   const {
     onOpen: onOpenDeleteModal,
     onClose: onCloseDeleteModal,
     isOpen: deleteModalOpen,
   } = useDisclosure();
   const dispatch = useAppDispatch();
-  const { ingredients, currentPage, searchQuery, limit, loading } =
-    useAppSelector((state) => state.ingredientsDetails);
+  const {
+    ingredients,
+    filteredIngredients,
+    searchQuery,
+    currentPage,
+    loading,
+  } = useAppSelector((state) => state.ingredientsDetails);
   const { title, calories, protein, carbs, fat, unit, amount, ingredientId } =
     ingredient;
+
+  // Determine the data to display (filtered or all ingredients)
+  const displayedIngredients =
+    filteredIngredients && searchQuery ? filteredIngredients : ingredients;
 
   // Delete ingredient function
   const handleDelete = async () => {
     await dispatch(deleteIngredient({ ingredientId })).unwrap();
-    if (ingredients[currentPage].length === 1 && searchQuery === "") {
+
+    // If the ingredient is the only one on the page and no search query, go back one page
+    if (displayedIngredients[currentPage].length === 1 && !searchQuery) {
       const pages = currentPage !== 1 ? currentPage - 1 : currentPage;
-      await dispatch(
-        getIngredients({
-          page: pages,
-          limit: limit,
-        }),
-      ).unwrap();
+      await dispatch(getIngredients()).unwrap();
       dispatch(setCurrentPage(pages));
-    } else if (ingredients[currentPage].length === 1 && searchQuery !== "") {
-      await dispatch(searchIngredients({ query: searchQuery })).unwrap();
+
+      // If there are more ingredients on the page, just fetch the current page
+    } else if (displayedIngredients[currentPage].length === 1 && searchQuery) {
+      await dispatch(getIngredients()).unwrap();
+      dispatch(setSearchQuery(""));
     } else {
-      await dispatch(
-        getIngredients({
-          page: currentPage,
-          limit: limit,
-        }),
-      ).unwrap();
+      // If there are more ingredients on the page, just fetch the current page
+      await dispatch(getIngredients()).unwrap();
+      dispatch(setSearchQuery(searchQuery));
     }
 
+    // Close the modal
     onCloseDeleteModal();
 
+    // Refetch meals to update the ingredients
     await dispatch(
       getMeals({
         page: 1,
@@ -77,6 +85,12 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
         restriction: null,
       }),
     );
+  };
+
+  // Add logging to confirm state changes
+  const handleCloseDeleteModal = () => {
+    console.log("Closing delete modal");
+    onCloseDeleteModal();
   };
 
   return (
@@ -139,7 +153,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
               {t("delete")}
             </button>
             <button
-              // onClick={onOpenIngredientModal}
+              onClick={onOpenIngredientModal}
               className="flex-1 rounded-md bg-primary py-[6px] text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
             >
               {t("editAndView")}
@@ -148,43 +162,49 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
         </div>
       </div>
       {/* Delete confirm */}
-      <Modal
-        isOpen={deleteModalOpen}
-        onClose={onCloseDeleteModal}
-        isCentered
-        size={{ base: "xs", md: "lg" }}
-      >
-        <ModalOverlay />
-        <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
-          <h2 className="p-1 font-medium">{t("deleteIngredientTitle")}</h2>
-          <ModalCloseButton marginTop="2" />
-          <ModalBody sx={{ padding: "4px" }}>
-            <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
-              {t("deleteIngredientDescription")}
-            </p>
-            <div className="flex w-full items-center justify-between gap-3">
-              <TextButton
-                onClick={() => onCloseDeleteModal()}
-                className="flex-1"
-                text={t("cancel")}
-              />
-              <RedButton
-                onClick={() => handleDelete()}
-                type="button"
-                updateLoading={loading}
-                classname="flex-1"
-                text={t("deleteIngredientTitle")}
-              />
-            </div>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+
+      {deleteModalOpen && (
+        <Modal
+          isOpen={deleteModalOpen}
+          onClose={handleCloseDeleteModal}
+          isCentered
+          size={{ base: "xs", md: "lg" }}
+        >
+          <ModalOverlay />
+          <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
+            <h2 className="p-1 font-medium">{t("deleteIngredientTitle")}</h2>
+            <ModalCloseButton marginTop="2" />
+            <ModalBody sx={{ padding: "4px" }}>
+              <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
+                {t("deleteIngredientDescription")}
+              </p>
+              <div className="flex w-full items-center justify-between gap-3">
+                <TextButton
+                  onClick={handleCloseDeleteModal}
+                  className="flex-1"
+                  text={t("cancel")}
+                />
+                <RedButton
+                  onClick={handleDelete}
+                  type="button"
+                  updateLoading={loading}
+                  classname="flex-1"
+                  text={t("deleteIngredientTitle")}
+                />
+              </div>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
+
       {/* Edit ingredient */}
-      {/* <AddIngredientManualModal
-        isOpen={isOpenIngredientModal}
-        onClose={onCloseIngredientModal}
-        editIngredient={ingredient}
-      /> */}
+      {isOpenIngredientModal && (
+        <AddIngredientManualModal
+          isOpen={isOpenIngredientModal}
+          onClose={onCloseIngredientModal}
+          editIngredient={ingredient}
+        />
+      )}
     </>
   );
 };

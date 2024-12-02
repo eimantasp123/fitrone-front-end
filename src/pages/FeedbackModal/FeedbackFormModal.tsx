@@ -1,3 +1,9 @@
+import CustomTextarea from "@/components/common/CustomTextarea";
+import PrimaryButton from "@/components/common/PrimaryButton";
+import { showCustomToast } from "@/hooks/showCustomToast";
+import useAsync from "@/hooks/useAsync";
+import axiosInstance from "@/utils/axiosInterceptors";
+import { useFeedbackSchema } from "@/utils/validationSchema";
 import {
   Modal,
   ModalBody,
@@ -7,17 +13,10 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { RiFeedbackLine } from "react-icons/ri";
 import { useTranslation } from "react-i18next";
-import { useFeedbackSchema } from "@/utils/validationSchema";
-import useAsync from "@/hooks/useAsync";
-import axiosInstance from "@/utils/axiosInterceptors";
-import { showCustomToast } from "@/hooks/showCustomToast";
-import CustomTextarea from "@/components/common/CustomTextarea";
-import PrimaryButton from "@/components/common/PrimaryButton";
+import { RiFeedbackLine } from "react-icons/ri";
 
 interface FeedbackFormModalProps {
   isOpen: boolean;
@@ -77,6 +76,7 @@ const FeedbackFormModal: React.FC<FeedbackFormModalProps> = ({
       isOpen={isOpen}
       onClose={handleModalClose}
       isCentered
+      closeOnOverlayClick={true}
       size={{ base: "sm", md: "xl" }}
     >
       <ModalOverlay />

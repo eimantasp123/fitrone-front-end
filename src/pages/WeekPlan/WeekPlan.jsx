@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import SupplierWeekPlan from "./SupplierWeekPlan";
 
@@ -9,11 +9,13 @@ const WeekPlan = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Meal Plan</title>
-      </Helmet>
-      {/* {user.role === "admin" && <AdminDietPlans />} */}
-      {user.role === "supplier" && <SupplierWeekPlan />}
+      <HelmetProvider>
+        <Helmet>
+          <title>Meal Plan</title>
+        </Helmet>
+        {/* {user.role === "admin" && <AdminDietPlans />} */}
+        {user.role === "supplier" && <SupplierWeekPlan />}
+      </HelmetProvider>
     </>
   );
 };

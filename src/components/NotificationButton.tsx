@@ -4,7 +4,6 @@
 //   MenuButton,
 //   MenuDivider,
 //   MenuList,
-//   Portal,
 //   Tooltip,
 //   useColorMode,
 //   useDisclosure,
@@ -122,7 +121,6 @@
 //             <div className="z-40 size-2 animate-ping rounded-full bg-primary" />
 //           </div>
 //         )}
-//         <Portal>
 //           <MenuList
 //             borderRadius="xl"
 //             w={{ base: "95vw", sm: "400px" }} // Full width (100vw) on mobile, 400px on larger screens
@@ -169,7 +167,6 @@
 //               />
 //             </div>
 //           </MenuList>
-//         </Portal>
 //       </Menu>
 //     </div>
 //   );

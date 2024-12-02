@@ -84,11 +84,8 @@ const MealsHeader: React.FC = () => {
             }}
           />
         </div>
-        <div
-          onClick={() => resetFilters()}
-          className="flex w-fit items-end justify-end gap-2 py-3 md:h-full"
-        >
-          <TextButton text={t("resetFilters")} />
+        <div className="flex w-fit items-end justify-end gap-2 py-3 md:h-full">
+          <TextButton onClick={resetFilters} text={t("resetFilters")} />
           <TextButton
             onClick={onOpen}
             text={`+ ${t("addMeal")}`}
@@ -96,7 +93,14 @@ const MealsHeader: React.FC = () => {
           />
         </div>
       </div>
-      <AddMealModal isOpenModal={isOpen} onClose={onClose} mealToEdit={null} />
+
+      {isOpen && (
+        <AddMealModal
+          isOpenModal={isOpen}
+          onClose={onClose}
+          mealToEdit={null}
+        />
+      )}
     </>
   );
 };
