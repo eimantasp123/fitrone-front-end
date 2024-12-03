@@ -23,10 +23,9 @@ const SearchIngredientFromDatabse: React.FC<
 
   return (
     <Modal
+      isCentered
       isOpen={isOpen}
       onClose={onClose}
-      isCentered
-      closeOnOverlayClick={false}
       size={{ base: "sm", md: "2xl" }}
     >
       <ModalOverlay />
@@ -38,7 +37,7 @@ const SearchIngredientFromDatabse: React.FC<
       >
         <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
           <div className="flex items-center gap-4">
-            <h4 className="text-xl font-semibold">
+            <h4 className="text-md font-semibold md:text-xl">
               {t("searchIngredientFromDatabase")}
             </h4>
           </div>

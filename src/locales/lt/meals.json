@@ -1,4 +1,5 @@
 {
+  "meals": "Patiekalai",
   "addFirstMeal": "Pridėkite pirmąjį patiekalą",
   "addMeal": "Pridėti patiekalą",
   "updateMeal": "Atnaujinti patiekalą",
@@ -86,11 +87,12 @@
   "editIngredient": "Redaguoti ingredientą",
   "ingredientName": " Ingredientas",
   "enterIngredient": "Įveskite ingredientą",
+  "ingredientsFound": "Rasti ingredientai",
   "unit": "Matavimo vienetas",
   "grams": "Gramai",
   "milliliters": "Mililitrai",
   "amount": "Kiekis",
-  "needenAmount": "Jums reikalingas kiekis",
+  "needenAmount": "Reikalingas kiekis",
   "calories": "Kalorijos",
   "protein": "Baltymai",
   "carbs": "Angliavandeniai",
@@ -105,10 +107,11 @@
 
   "mealAddedSuccessfully": "Patiekalas sėkmingai pridėtas",
 
-  "previousPage": "Ankstesnis puslapis",
-  "nextPage": "Kitas puslapis",
+  "previousPage": "Ankstesnis",
+  "nextPage": "Kitas",
   "page": "Puslapis",
   "of": "iš",
+  "clean": "Išvalyti",
 
   "delete": "Ištrinti",
   "editAndView": "Redaguoti",

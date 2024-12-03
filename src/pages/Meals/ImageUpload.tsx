@@ -44,33 +44,37 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ image = null }) => {
             className="size-[50px] rounded-md object-cover object-top lg:size-[50px]"
           />
         )}
-        <div className="flex gap-2 md:gap-4">
+        <div className="flex flex-col items-center gap-2 md:flex-row md:gap-4">
           {/* Upload button */}
-          <label
-            htmlFor="mealImageUpload"
-            className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-borderPrimary bg-primary px-4 py-2 text-sm text-black duration-300 ease-in-out hover:bg-primaryLight hover:shadow-custom-light2 dark:hover:bg-primaryDark md:w-[120px] md:px-6"
-          >
-            {t("accountSettings.upload")}
-            <input
-              id="mealImageUpload"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageUpload}
-            />
-          </label>
+          <div className="md-gap-4 flex gap-2">
+            <label
+              htmlFor="mealImageUpload"
+              className="tansition-all flex w-[110px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-borderPrimary bg-primary px-4 py-2 text-sm text-black duration-300 ease-in-out hover:bg-primaryLight hover:shadow-custom-light2 dark:hover:bg-primaryDark md:w-[120px] md:px-6"
+            >
+              {t("accountSettings.upload")}
+              <input
+                id="mealImageUpload"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+              />
+            </label>
 
-          {/* Remove button */}
-          <button
-            type="button"
-            onClick={handleImageDelete}
-            className="flex w-[110px] items-center justify-center gap-2 rounded-lg border border-borderPrimary bg-transparent px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:bg-backgroundSecondary hover:shadow-custom-light2 dark:hover:bg-white/5 md:w-[120px] md:px-6"
-          >
-            <FiTrash />
-            {t("accountSettings.remove")}
-          </button>
+            {/* Remove button */}
+            <button
+              type="button"
+              onClick={handleImageDelete}
+              className="flex w-[110px] items-center justify-center gap-2 rounded-lg border border-borderPrimary bg-transparent px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:bg-backgroundSecondary hover:shadow-custom-light2 dark:hover:bg-white/5 md:w-[120px] md:px-6"
+            >
+              <FiTrash />
+              {t("accountSettings.remove")}
+            </button>
+          </div>
           {imageFileName && (
-            <span className="flex items-center text-xs">{imageFileName}</span>
+            <span className="w-[230px] items-center text-wrap text-xs md:w-full">
+              {imageFileName}
+            </span>
           )}
         </div>
         {errors.image && (

@@ -1,4 +1,4 @@
-import { extendTheme, theme as baseTheme } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 
 const customTheme = extendTheme({
   colors: {
@@ -34,7 +34,7 @@ const customTheme = extendTheme({
       secondary: "#012212",
       secondaryLight: "#013019",
       /* Background */
-      background: "#1a1a1a",
+      background: "#1d1d1d",
       backgroundSecondary: "#141414",
       backgroundLight: "#1b1b1b",
       /* Text */

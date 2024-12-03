@@ -1,7 +1,8 @@
 import axiosInstance from "@/utils/axiosInterceptors";
 import { Ingredients } from "@/utils/types";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdDelete, MdDownloadDone, MdSearch } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
 
@@ -33,10 +34,11 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
   const [showResults, setShowResults] = useState<boolean>(false);
   const [amount, setAmount] = useState<number>(100);
   const [unit, setUnit] = useState<string>("g");
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Search for ingredients
-  const handleSearch = async (e: MouseEvent) => {
+  const handleSearch = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     if (searchQuery.length < 1) return;
     setLoading(true);
@@ -61,26 +63,26 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
   };
 
   // Accept search results
-  // const handleAccept = () => {
-  //   if(searchResults.length === 0) return;
-  //   setIngredients((prevIngredients) => [
-  //     ...prevIngredients,
-  //     {
-  //       ingredientId: "".
-  //       title: searchResults[0].title,
-  //       amount: searchResults[0].amount,
-  //       calories: searchResults[0].calories,
-  //       protein: searchResults[0].protein,
-  //       fat: searchResults[0].fat,
-  //       carbs: searchResults[0].carbs,
-  //       unit: searchResults[0].unit,
-  //     },
-  //   ]);
-  //   setShowResults(false);
-  //   setSearchQuery("");
-  //   setSearchResults([]);
-  //   closeModal();
-  // };
+  const handleAccept = () => {
+    // if(searchResults.length === 0) return;
+    // setIngredients((prevIngredients) => [
+    //   ...prevIngredients,
+    //   {
+    //     ingredientId: "".
+    //     title: searchResults[0].title,
+    //     amount: searchResults[0].amount,
+    //     calories: searchResults[0].calories,
+    //     protein: searchResults[0].protein,
+    //     fat: searchResults[0].fat,
+    //     carbs: searchResults[0].carbs,
+    //     unit: searchResults[0].unit,
+    //   },
+    // ]);
+    // setShowResults(false);
+    // setSearchQuery("");
+    // setSearchResults([]);
+    // closeModal();
+  };
 
   // Delete search results
   const handleDeleteResults = () => {
@@ -90,21 +92,10 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
   };
 
   // Close search results when clicked outside
-  const handleClickOutside = (e: MouseEvent) => {
-    if (
-      containerRef.current &&
-      !containerRef.current.contains(e.target as Node)
-    ) {
-      setShowResults(false);
-      setSearchQuery("");
-    }
+  const handleClean = () => {
+    setShowResults(false);
+    setSearchQuery("");
   };
-
-  // Close search results when clicked outside
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
     <div className="w-full">
@@ -112,7 +103,7 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
       <p className="flex items-center gap-1 pt-3 text-[13px] text-textPrimary">
         1. {t("firstInfoForSearchIngredient")}
       </p>
-      <div className="my-2 flex w-full items-center gap-4 text-nowrap">
+      <div className="my-2 flex w-full flex-col gap-4 text-nowrap md:flex-row">
         <div className="flex items-center gap-3">
           <span className="text-xs">{t("amount")}</span>
           <input
@@ -120,7 +111,7 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
             placeholder={t("amount")}
             value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
-            className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm outline-none"
+            className="h-8 w-[140px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm outline-none"
           />
         </div>
         {/*  */}
@@ -129,13 +120,13 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
           <div className="flex flex-1 items-center gap-1 text-xs">
             <div
               onClick={() => setUnit("g")}
-              className={`flex flex-1 cursor-pointer items-center ${unit === "g" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} justify-center rounded-lg px-4 py-2`}
+              className={`flex w-[100px] cursor-pointer items-center ${unit === "g" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} justify-center rounded-lg px-4 py-2`}
             >
               {t("grams")}
             </div>
             <div
               onClick={() => setUnit("ml")}
-              className={`flex flex-1 cursor-pointer items-center justify-center rounded-lg ${unit === "ml" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} px-4 py-2`}
+              className={`flex w-[100px] cursor-pointer items-center justify-center rounded-lg ${unit === "ml" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} px-4 py-2`}
             >
               {t("milliliters")}
             </div>
@@ -147,12 +138,9 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
       <p className="flex items-center gap-1 border-t-[1px] border-borderPrimary py-2 text-[13px] text-textPrimary">
         2. {t("secondInfoForSearchIngredient")}
       </p>
-      <div
-        ref={containerRef}
-        className={`relative min-w-[200px] ${className} mx-auto`}
-      >
+      <div className={`relative min-w-[200px] ${className} mx-auto`}>
         <form className="flex items-center">
-          <div className="pointer-events-none absolute left-0 top-[10px] flex items-center pl-4">
+          <div className="pointer-events-none absolute left-0 top-[13px] flex items-center pl-4">
             <MdSearch className="text-xl text-placeholder" />
           </div>
           <input
@@ -160,19 +148,27 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
             onChange={(e) => setSearchQuery(e.target.value)}
             type="text"
             placeholder={t("searchPlaceholder")}
-            className={`w-full px-12 py-2 text-sm ${
+            className={`w-full px-12 py-3 text-sm ${
               showResults
                 ? "focus:border-t-1 focus:border-l-1 focus:border-r-1 rounded-tl-lg rounded-tr-lg border-b-transparent shadow-none"
                 : "rounded-lg transition-shadow duration-300 ease-in-out focus:shadow-custom-light4"
             } border border-borderPrimary placeholder-placeholder outline-none`}
           />
           <button
-            // onClick={(e) => handleSearch(e)}
+            onClick={(e) => handleSearch(e)}
             type="submit"
-            className={`absolute right-0 top-0 m-1 flex h-[29px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black`}
+            className={`absolute right-0 top-0 m-1 flex h-[38px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black`}
           >
             {t("search")}
           </button>
+          {searchQuery && (
+            <span
+              onClick={handleClean}
+              className={`absolute right-[76px] top-0 m-1 flex h-[38px] cursor-pointer items-center rounded-lg bg-red-500 px-3 text-sm text-white`}
+            >
+              <IoIosCloseCircleOutline className="text-xl" />
+            </span>
+          )}
         </form>
 
         {showResults && (

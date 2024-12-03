@@ -72,6 +72,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
   const { loading, currentPage, filters } = useAppSelector(
     (state) => state.mealsDetails,
   );
+  const { details: user } = useAppSelector((state) => state.personalDetails);
   const [preferences, setPreferences] = useState<string[]>([]);
   const [restrictions, setRestrictions] = useState<string[]>([]);
   const [ingredients, setIngredients] = useState<Ingredients[]>([]);
@@ -111,6 +112,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
         setCategory(mealToEdit.category || null);
       } else {
         // Clear form for adding a new meal
+
         methods.reset({
           title: "",
           description: "",
@@ -239,6 +241,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
         isOpen={isOpenModal}
         onClose={handleClose}
         closeOnOverlayClick={false}
+        blockScrollOnMount={false}
         size={{ base: "sm", md: "3xl" }}
       >
         <ModalOverlay />
@@ -253,7 +256,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
               <span className="flex size-9 items-center justify-center rounded-full bg-textPrimary">
                 <GiMeal className="text-lg text-background" />
               </span>
-              <h4 className="text-2xl font-semibold">
+              <h4 className="text-xl font-semibold md:text-2xl">
                 {mealToEdit ? `${t("updateMeal")}` : `${t("addNewDish")}`}
               </h4>
             </div>
@@ -271,19 +274,19 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
 
                 {/* Calculate meal nutritions */}
                 <div className="my-4 h-fit w-full">
-                  <div className="flex justify-between gap-2">
+                  <div className="grid grid-cols-1 gap-2 md:grid-cols-4">
                     <InfoCard
                       value={calories}
                       title={t("calories")}
                       unit="kcal"
-                      className="bg-backgroundSecondary px-4 py-3 dark:bg-neutral-800 sm:py-2 3xl:px-3 3xl:py-3"
+                      className="bg-backgroundSecondary px-4 py-2 dark:bg-backgroundSecondary sm:py-2 3xl:px-3 3xl:py-3"
                       icon={<FaBurn className="text-red-500" />}
                     />
                     <InfoCard
                       value={protein}
                       title={t("protein")}
                       unit="g."
-                      className="bg-backgroundSecondary px-4 py-3 dark:bg-neutral-800 sm:py-2 3xl:px-3 3xl:py-3"
+                      className="bg-backgroundSecondary px-4 py-2 dark:bg-backgroundSecondary sm:py-2 3xl:px-3 3xl:py-3"
                       icon={<BiCircle className="text-green-600" />}
                     />
 
@@ -292,7 +295,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
                       value={carbs}
                       title={t("carbs")}
                       unit="g."
-                      className="bg-backgroundSecondary px-4 py-3 dark:bg-neutral-800 sm:py-2 3xl:px-3 3xl:py-3"
+                      className="bg-backgroundSecondary px-4 py-2 dark:bg-backgroundSecondary sm:py-2 3xl:px-3 3xl:py-3"
                       icon={<FaTachometerAlt className="text-sky-500" />}
                     />
 
@@ -301,7 +304,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
                       value={fat}
                       title={t("fat")}
                       unit="g."
-                      className="bg-backgroundSecondary px-4 py-3 dark:bg-neutral-800 sm:py-2 3xl:px-3 3xl:py-3"
+                      className="bg-backgroundSecondary px-4 py-2 dark:bg-backgroundSecondary sm:py-2 3xl:px-3 3xl:py-3"
                       icon={<AiOutlineBarChart className="text-yellow-500" />}
                     />
                   </div>
@@ -329,9 +332,9 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
                         className="flex w-full items-center gap-4"
                       >
                         <FaRegCircleDot className="text-xs text-textPrimary" />
-                        <div className="flex flex-col gap-2 py-1 text-textSecondary">
+                        <div className="flex w-full flex-col gap-2 py-1 text-textSecondary">
                           {/*  */}
-                          <div className="flex items-center gap-2">
+                          <div className="flex w-full items-center gap-2">
                             <span className="flex items-center gap-3 font-medium text-textPrimary">
                               {capitalizeFirstLetter(ingredient.title)}
                             </span>
@@ -342,58 +345,63 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
                             <span className="text-textPrimary">
                               ({formatNumber(ingredient.calories)} kcal)
                             </span>
+
+                            <MdDelete
+                              onClick={() =>
+                                setIngredients((prev) =>
+                                  prev.filter((_, i) => i !== index),
+                                )
+                              }
+                              className="ml-auto flex cursor-pointer text-xl text-red-500"
+                            />
                           </div>
 
-                          <div className="flex items-center gap-3 text-xs text-textPrimary">
-                            <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-neutral-800">
+                          <div className="grid grid-cols-2 gap-1 text-xs text-textPrimary md:flex md:gap-2">
+                            <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundSecondary">
                               {t("protein")}: {ingredient.protein}g.
                             </span>
-                            <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-neutral-800">
+                            <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundSecondary">
                               {t("carbs")}: {ingredient.carbs}g.
                             </span>
-                            <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-neutral-800">
+                            <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundSecondary">
                               {t("fat")}: {ingredient.fat}g.
                             </span>
                           </div>
                         </div>
-                        <MdDelete
-                          onClick={() =>
-                            setIngredients((prev) =>
-                              prev.filter((_, i) => i !== index),
-                            )
-                          }
-                          className="ml-auto cursor-pointer text-lg text-red-500"
-                        />
                       </div>
                     ))}
                   </div>
                 )}
 
                 {/* Button for open search input or recipe inputs */}
-                <div className="flex w-full justify-between gap-3 text-sm">
-                  <span
-                    onClick={openSearchInputModal}
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-primaryLight py-3 text-black transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-primary dark:text-black dark:hover:bg-neutral-800 dark:hover:text-white"
-                  >
-                    <span>{t("findIngredientAi")}</span>
-                    <WiStars className="mt-0 text-xl" />
-                  </span>
+                <div
+                  className={`mt-2 grid grid-cols-1 gap-2 text-sm ${user.plan !== "free" ? "md:grid-cols-3" : "md:grid-cols-2"} md:gap-3`}
+                >
+                  {user.plan !== "free" && (
+                    <span
+                      onClick={openSearchInputModal}
+                      className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primaryLight py-3 text-black transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-primary dark:text-black dark:hover:bg-neutral-800 dark:hover:text-white"
+                    >
+                      <span>{t("findIngredientAi")}</span>
+                      <WiStars className="mt-0 text-xl" />
+                    </span>
+                  )}
                   <span
                     onClick={openSearchIngredientDatabase}
-                    className="flex-1 cursor-pointer rounded-lg bg-backgroundSecondary py-3 text-center transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800"
+                    className="cursor-pointer rounded-lg bg-backgroundSecondary py-3 text-center transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800"
                   >
                     {t("findIngredientFromDatabase")}
                   </span>
                   <span
                     onClick={openRecipeInput}
-                    className="flex-1 cursor-pointer rounded-lg bg-backgroundSecondary py-3 text-center transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800"
+                    className="cursor-pointer rounded-lg bg-backgroundSecondary py-3 text-center transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800"
                   >
                     {t("enterIngredientManually")}
                   </span>
                 </div>
 
                 {/* Section for preferences and  restrictions  */}
-                <div className="my-2 flex w-full items-center justify-between gap-3">
+                <div className="mt-2 grid grid-cols-1 items-center gap-3 md:grid-cols-2">
                   {/* Preferences */}
                   <div className="flex w-full flex-col gap-2">
                     <h4 className="text-sm">{t("preferencesTitle")}</h4>
@@ -505,12 +513,16 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
       </Modal>
 
       {/* Search input for API */}
-      {searchInputOpen && (
-        <SearchIngredientModal
-          isOpen={searchInputOpen}
-          setIngredients={setIngredients}
-          onClose={closeSearchInput}
-        />
+      {user.plan !== "free" && (
+        <>
+          {searchInputOpen && (
+            <SearchIngredientModal
+              isOpen={searchInputOpen}
+              setIngredients={setIngredients}
+              onClose={closeSearchInput}
+            />
+          )}
+        </>
       )}
 
       {/* Search ingredient from database */}

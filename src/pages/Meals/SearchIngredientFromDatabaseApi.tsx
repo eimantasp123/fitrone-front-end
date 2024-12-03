@@ -1,11 +1,13 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
+import { capitalizeFirstLetter } from "@/utils/helper";
 import { Ingredients } from "@/utils/types";
 import { AxiosError } from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdDownloadDone, MdSearch } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 interface SearchResult {
   ingredientId: string;
@@ -115,34 +117,22 @@ const SearchIngredientFromDatabaseApi: React.FC<
   };
 
   // Close search results when clicked outside
-  const handleClickOutside = (e: MouseEvent) => {
-    if (
-      containerRef.current &&
-      !containerRef.current.contains(e.target as Node)
-    ) {
-      setShowResults(false);
-      setSearchQuery("");
-    }
+  const handleClean = () => {
+    setShowResults(false);
+    setSearchQuery("");
   };
 
-  // Close search results when clicked outside
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
-    <div className="w-full">
-      {/*  */}
+    <>
       <p className="flex items-center gap-1 border-t-[1px] border-borderPrimary py-2 text-[13px] text-textPrimary">
         1. {t("searchIngredientFromDatabaseFirstInfoText")}
       </p>
       <div
         ref={containerRef}
-        className={`relative min-w-[200px] ${className} mx-auto`}
+        className={`relative h-auto ${className} mx-auto`}
       >
         <form className="flex items-center">
-          <div className="pointer-events-none absolute left-0 top-[10px] flex items-center pl-4">
+          <div className="pointer-events-none absolute left-0 flex items-center pl-4">
             <MdSearch className="text-xl text-placeholder" />
           </div>
           <input
@@ -150,23 +140,35 @@ const SearchIngredientFromDatabaseApi: React.FC<
             onChange={(e) => setSearchQuery(e.target.value)}
             type="text"
             placeholder={t("searchPlaceholder")}
-            className={`w-full px-12 py-2 text-sm ${
+            className={`w-full px-12 py-3 text-sm ${
               showResults
                 ? "focus:border-t-1 focus:border-l-1 focus:border-r-1 rounded-tl-lg rounded-tr-lg border-b-transparent shadow-none"
                 : "rounded-lg transition-shadow duration-300 ease-in-out focus:shadow-custom-light4"
             } border border-borderPrimary placeholder-placeholder outline-none`}
           />
+
           <button
             onClick={(e) => handleSearch(e)}
             type="submit"
-            className={`absolute right-0 top-0 m-1 flex h-[29px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black`}
+            className={`absolute right-0 m-1 flex h-[30px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black`}
           >
             {t("search")}
           </button>
+          {searchQuery && (
+            <span
+              onClick={handleClean}
+              className={`absolute right-[76px] m-1 flex h-[30px] cursor-pointer items-center rounded-lg bg-backgroundSecondary px-3 text-sm dark:bg-backgroundLight`}
+            >
+              <IoIosCloseCircleOutline className="text-lg" />
+            </span>
+          )}
         </form>
 
         {showResults && (
-          <div className="border-b-1 border-l-1 border-r-1 z-10 max-h-[300px] overflow-y-auto rounded-b-lg border border-t-0 border-borderPrimary bg-background scrollbar-thin dark:border-borderDark">
+          <div
+            onWheel={(e) => e.stopPropagation()}
+            className="border-b-1 border-l-1 border-r-1 custom-scrollbar-select z-10 max-h-[350px] overflow-y-auto rounded-b-lg border border-t-0 border-borderPrimary bg-background dark:border-borderDark dark:bg-neutral-900/70"
+          >
             {loading ? (
               <div className="flex items-center justify-center px-4 py-5">
                 <ThreeDots color="#BBC22C" height={30} width={30} />
@@ -175,70 +177,75 @@ const SearchIngredientFromDatabaseApi: React.FC<
               searchResults.map((result, index) => (
                 <div
                   key={index}
-                  className="flex flex-col gap-2 bg-background p-4 text-sm"
+                  className={`flex w-full flex-col gap-2 bg-background p-4 text-sm dark:bg-neutral-900/20 ${searchResults.length === index + 1 ? "border-none" : "border-b-[1px]"}`}
                 >
-                  {/*  */}
-                  <div className="flex">
-                    <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-3 font-medium">
-                        <div className="space-x-1">
-                          <span>{result.title}</span>
-                          <span>
-                            {result.amount} {`(${result.unit})`}
-                          </span>
-                        </div>
-
-                        <hr className="h-[50%] border-[1px] border-black dark:border-white/50" />
-
-                        <div className="flex w-[30%] items-center gap-3 text-nowrap">
-                          <span className="text-sm font-normal">
-                            {t("needenAmount")}
-                          </span>
-                          <input
-                            type="number"
-                            value={amounts[result.ingredientId] || ""}
-                            onChange={(e) =>
-                              handleAmountChange(
-                                result.ingredientId,
-                                e.target.value,
-                              )
-                            }
-                            className="h-8 w-[100px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm font-normal outline-none"
-                          />
-                          <span className="font-normal">{result.unit}.</span>
-                        </div>
+                  <div className="flex w-full items-end gap-1 font-medium md:items-center md:gap-3">
+                    <div className="gap-3 md:flex md:items-center">
+                      {/* Ingredient title */}
+                      <div className="space-x-1">
+                        <span>{capitalizeFirstLetter(result.title)}</span>
+                        <span>
+                          {result.amount} {`(${result.unit})`}
+                        </span>
                       </div>
-                      <div className="flex gap-4">
-                        <span>
-                          {t("calories")}: {result.calories}kcal
+
+                      {/* Divider */}
+                      <hr className="hidden h-[15px] border-r-[1px] border-black dark:border-white/50 md:block" />
+
+                      {/* Amount input */}
+                      <div className="flex w-[30%] items-center gap-3 text-nowrap">
+                        <span className="text-sm font-normal">
+                          {t("needenAmount")}
                         </span>
-                        <span>
-                          {t("protein")}: {result.protein}g.
-                        </span>
-                        <span>
-                          {t("fat")}: {result.fat}g.
-                        </span>
-                        <span>
-                          {t("carbs")}: {result.carbs}g.
-                        </span>
+                        <input
+                          type="number"
+                          value={amounts[result.ingredientId] || ""}
+                          onChange={(e) =>
+                            handleAmountChange(
+                              result.ingredientId,
+                              e.target.value,
+                            )
+                          }
+                          className="h-8 w-[80px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm font-normal outline-none md:w-[100px]"
+                        />
+                        <span className="font-normal">{result.unit}.</span>
                       </div>
                     </div>
+
                     {/* Accept and delete button */}
-                    <div className="ml-auto flex items-center gap-3">
+                    <div className="ml-auto mr-4 flex items-center gap-3">
                       <span
                         onClick={() => handleAccept(result.ingredientId)}
-                        className="flex size-5 cursor-pointer items-center justify-center rounded-full bg-primary"
+                        className="mb-1 flex size-7 cursor-pointer items-center justify-center rounded-full bg-primary md:mb-0 md:size-7"
                       >
                         <MdDownloadDone className="text-md text-black" />
                       </span>
                     </div>
+                  </div>
+
+                  {/* Nutrition information */}
+                  <div className="mt-2 grid grid-cols-2 gap-1 text-xs md:flex md:gap-2">
+                    <span className="dark:bg-backgroundDark rounded-full bg-backgroundSecondary px-3 py-1">
+                      {t("calories")}: {result.calories} kcal
+                    </span>
+                    <span className="dark:bg-backgroundDark rounded-full bg-backgroundSecondary px-3 py-1">
+                      {t("protein")}: {result.protein}g.
+                    </span>
+                    <span className="dark:bg-backgroundDark rounded-full bg-backgroundSecondary px-3 py-1">
+                      {t("fat")}: {result.fat}g.
+                    </span>
+                    <span className="dark:bg-backgroundDark rounded-full bg-backgroundSecondary px-3 py-1">
+                      {t("carbs")}: {result.carbs}g.
+                    </span>
                   </div>
                 </div>
               ))
             ) : (
               <div className="flex flex-col items-center justify-center px-4 py-6 text-sm">
                 <p className="font-medium">{t("noIngredientsFound")}</p>
-                <p>{t("noIngredietnsFoundDescription")}</p>
+                <p className="text-center">
+                  {t("noIngredietnsFoundDescription")}
+                </p>
               </div>
             )}
           </div>
@@ -249,7 +256,7 @@ const SearchIngredientFromDatabaseApi: React.FC<
           </p>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

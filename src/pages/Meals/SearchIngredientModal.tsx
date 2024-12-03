@@ -41,7 +41,7 @@ const SearchIngredientModal: React.FC<SearchIngredientModalProps> = ({
       >
         <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
           <div className="flex items-center gap-4">
-            <h4 className="text-xl font-semibold">
+            <h4 className="font-semibold md:text-xl">
               {t("searchPlaceholder")} AI
             </h4>
             <WiStars className="text-2xl" />

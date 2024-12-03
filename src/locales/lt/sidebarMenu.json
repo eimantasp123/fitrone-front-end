@@ -7,13 +7,14 @@
   "notifications": "Pranešimai",
   "messages": "Žinutės",
   "giveFeedback": "Pateikti atsiliepimą",
-  "subscription": "Prenumerata",
+  "subscriptions": "Prenumerata",
   "preferences": "Nuostatos",
-  "weekPlan": "Savaitės planas",
+  "week-plan": "Savaitės planas",
   "meals": "Valgiai",
   "businessPage": "Verslo puslapis",
   "general": "Bendras",
   "settings": "Nustatymai",
+  "profile": "Profilio nustatymai",
   "support": "Pagalba",
   "ingredients": "Ingredientai"
 }

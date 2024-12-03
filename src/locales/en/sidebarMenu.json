@@ -7,13 +7,14 @@
   "notifications": "Notifications",
   "messages": "Messages",
   "giveFeedback": "Give Feedback",
-  "subscription": "Subscription",
+  "subscriptions": "Subscription",
   "preferences": "Preferences",
-  "weekPlan": "Week Plan",
+  "week-plan": "Week Plan",
   "meals": "Meals",
   "businessPage": "Business Page",
   "general": "General",
   "settings": "Settings",
+  "profile": "Profile Settings",
   "support": "Support",
   "ingredients": "Ingredients"
 }

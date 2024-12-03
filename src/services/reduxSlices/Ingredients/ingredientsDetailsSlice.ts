@@ -15,6 +15,8 @@ interface IngredientsDetailsState {
   searchQuery: string;
   pageSize: number;
   searchResults: boolean;
+  totalIngredients?: number;
+  searchIngredientsResult?: number;
 }
 
 // Initial state of the ingredients details slice
@@ -29,6 +31,8 @@ const initialState: IngredientsDetailsState = {
   searchQuery: "",
   lastFetched: null,
   totalPages: 1,
+  totalIngredients: 0,
+  searchIngredientsResult: 0,
 };
 
 // This function is used to get all ingredients
@@ -119,10 +123,12 @@ const ingredientsDetailsSlice = createSlice({
         state.currentPage = 1;
         state.filteredIngredients = { 1: filtered };
         state.searchResults = true;
+        state.searchIngredientsResult = filtered.length;
         state.totalPages = 1;
       } else {
         // Reset the search results
         state.filteredIngredients = null;
+        state.searchIngredientsResult = 0;
         state.searchResults = false;
         state.totalPages = Math.ceil(allIngredients.length / state.pageSize);
       }
@@ -154,6 +160,7 @@ const ingredientsDetailsSlice = createSlice({
         );
         state.lastFetched = new Date().getTime();
         state.searchResults = false;
+        state.totalIngredients = action.payload.results;
       })
       .addCase(getIngredients.rejected, (state, action) => {
         state.mainLoading = false;

@@ -19,6 +19,7 @@ interface MealsState {
   currentPage: number;
   lastFetched: number | null;
   limit: number;
+  totalResults: number;
   totalPages: number;
   filters: {
     category: string | null;
@@ -32,8 +33,9 @@ const initialState: MealsState = {
   loading: false,
   mainLoading: false,
   lastFetched: null,
+  totalResults: 0,
   currentPage: 1,
-  limit: 14,
+  limit: 18,
   totalPages: 0,
   filters: { category: null, preference: null, restriction: null },
 };
@@ -61,7 +63,7 @@ export const getMeals = createAsyncThunk(
   async (
     {
       page = 1,
-      limit = 14,
+      limit = 18,
       category,
       preference,
       restriction,
@@ -82,6 +84,7 @@ export const getMeals = createAsyncThunk(
         data: response.data.data,
         totalPages: response.data.totalPages,
         currentPage: page,
+        totalResults: response.data.totalResults,
       };
     } catch (error: unknown) {
       const typedError = error as ApiError;
@@ -157,7 +160,6 @@ const mealDetailsSlice = createSlice({
       })
       .addCase(addMeal.fulfilled, (state, action) => {
         state.loading = false;
-        console.log("add meal action");
         showCustomToast({
           status: "success",
           title: action.payload.message,
@@ -172,7 +174,6 @@ const mealDetailsSlice = createSlice({
       })
       .addCase(getMeals.pending, (state) => {
         state.mainLoading = true;
-        console.log("get meal action");
       })
       .addCase(
         getMeals.fulfilled,
@@ -182,11 +183,14 @@ const mealDetailsSlice = createSlice({
             data: Meal[];
             totalPages: number;
             currentPage: number;
+            totalResults: number;
           }>,
         ) => {
-          const { data, totalPages, currentPage } = action.payload;
+          const { data, totalPages, currentPage, totalResults } =
+            action.payload;
           state.meals[currentPage] = data;
           state.totalPages = totalPages;
+          state.totalResults = totalResults;
           state.lastFetched = new Date().getTime();
           state.mainLoading = false;
         },
@@ -196,7 +200,6 @@ const mealDetailsSlice = createSlice({
       })
       .addCase(deleteMeal.pending, (state) => {
         state.loading = true;
-        console.log("delete meal action");
       })
       .addCase(deleteMeal.fulfilled, (state, action) => {
         state.loading = false;
@@ -214,7 +217,6 @@ const mealDetailsSlice = createSlice({
       })
       .addCase(updateMeal.pending, (state) => {
         state.loading = true;
-        console.log("update meal action");
       })
       .addCase(updateMeal.fulfilled, (state, action) => {
         state.loading = false;

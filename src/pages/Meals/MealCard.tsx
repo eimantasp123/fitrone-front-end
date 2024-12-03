@@ -120,7 +120,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
                     {t("preferencesTitle")}
                   </button>
                 </PopoverTrigger>
-                <PopoverContent>
+                <PopoverContent sx={{ maxWidth: "270px" }}>
                   <PopoverCloseButton />
                   <PopoverHeader>{t("selected")}:</PopoverHeader>
                   <PopoverBody>
@@ -154,7 +154,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
                     {t("restrictionsTitle")}
                   </button>
                 </PopoverTrigger>
-                <PopoverContent>
+                <PopoverContent sx={{ maxWidth: "270px" }}>
                   <PopoverCloseButton />
                   <PopoverHeader>{t("selected")}:</PopoverHeader>
                   <PopoverBody>

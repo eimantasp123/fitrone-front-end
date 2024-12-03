@@ -1,25 +1,41 @@
+import PrimaryButton from "@/components/common/PrimaryButton";
+import TextButton from "@/components/common/TextButton";
 import {
   getMeals,
   setCurrentPage,
 } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { Spinner, useDisclosure } from "@chakra-ui/react";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
+  Spinner,
+  useColorMode,
+  useDisclosure,
+} from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { VscEmptyWindow } from "react-icons/vsc";
-import MealsHeader from "./MealsHeader";
 import AddMealModal from "./AddMealModal";
 import MealCard from "./MealCard";
-import PrimaryButton from "@/components/common/PrimaryButton";
+import MealsHeader from "./MealsHeader";
 
 const SupplierMeals: React.FC = () => {
   const { t } = useTranslation("meals");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isFiltersOpen,
+    onOpen: onFiltersOpen,
+    onClose: onFiltersClose,
+  } = useDisclosure();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const { colorMode } = useColorMode();
 
   // Select meals from the store
-  const { meals, mainLoading, currentPage, totalPages, filters } =
+  const { meals, mainLoading, totalResults, currentPage, totalPages, filters } =
     useAppSelector((state) => state.mealsDetails);
 
   // Fetch meals on component mount
@@ -76,9 +92,24 @@ const SupplierMeals: React.FC = () => {
     <>
       <div ref={containerRef} className="w-full overflow-y-auto scrollbar-thin">
         <div className="container mx-auto flex max-w-[1550px] flex-col">
-          <div className="sticky top-0 z-10 w-full bg-backgroundSecondary p-3 dark:bg-background">
+          <div className="sticky top-0 z-10 hidden w-full bg-backgroundSecondary pb-2 dark:bg-background md:flex md:p-3">
             {/* Filters */}
             <MealsHeader />
+          </div>
+          <div className="sticky top-0 z-10 mb-2 w-full bg-backgroundSecondary pb-2 dark:bg-background md:sticky md:top-0 md:hidden md:p-3">
+            <div className="flex justify-between gap-3 bg-background px-4 py-3">
+              <TextButton
+                onClick={onFiltersOpen}
+                className="w-1/2"
+                text="Filters"
+              />
+              <TextButton
+                className="w-1/2"
+                onClick={onOpen}
+                text={t("addMeal")}
+                primary={true}
+              />
+            </div>
           </div>
           {mainLoading ? (
             <div className="mt-80 flex w-full justify-center overflow-hidden">
@@ -89,10 +120,10 @@ const SupplierMeals: React.FC = () => {
               {noMealsAdded && (
                 <div className="flex w-full flex-col items-center justify-center gap-1 pt-28">
                   <VscEmptyWindow className="text-4xl" />
-                  <h1 className="text-lg font-medium text-textPrimary">
+                  <h1 className="text-md font-medium text-textPrimary">
                     {t("noMealsAdded")}
                   </h1>
-                  <p className="text-textSecondary">
+                  <p className="text-center text-sm text-textSecondary">
                     {t("noMealsDescription")}
                   </p>
                   <PrimaryButton
@@ -106,10 +137,10 @@ const SupplierMeals: React.FC = () => {
               {noFilteredResults && (
                 <div className="flex w-full flex-col items-center justify-center gap-1 pt-28">
                   <VscEmptyWindow className="text-4xl" />
-                  <h1 className="text-lg font-medium text-textPrimary">
+                  <h1 className="text-md font-medium text-textPrimary">
                     {t("noFiltersResultsFound")}
                   </h1>
-                  <p className="text-textSecondary">
+                  <p className="text-center text-sm text-textSecondary">
                     {t("tryAdjustingFilters")}
                   </p>
                 </div>
@@ -117,6 +148,9 @@ const SupplierMeals: React.FC = () => {
 
               {hasMeals && (
                 <>
+                  <span className="pl-5 text-sm">
+                    {t("ingredientsFound")}: {totalResults || 0}
+                  </span>
                   <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-2">
                     {meals[currentPage]?.map((meal, index) => (
                       <MealCard key={index} meal={meal} />
@@ -124,21 +158,21 @@ const SupplierMeals: React.FC = () => {
                   </div>
                   {/* Pagination */}
                   {totalPages > 1 && (
-                    <div className="-mt-5 mb-5 flex w-full items-center justify-end gap-4 px-4">
+                    <div className="-mt-3 mb-5 flex w-full items-center justify-center gap-4 px-4 sm:justify-end">
                       <button
                         disabled={currentPage === 1}
                         onClick={() => handlePageChange(currentPage - 1)}
-                        className="rounded-md bg-background px-4 py-2 text-sm text-textPrimary transition-colors duration-200 ease-in-out hover:bg-neutral-200 disabled:opacity-50 dark:bg-backgroundLight dark:hover:bg-neutral-800"
+                        className="w-[120px] rounded-md bg-background px-4 py-2 text-sm text-textPrimary transition-colors duration-200 ease-in-out hover:bg-neutral-200 disabled:opacity-50 dark:bg-backgroundLight dark:hover:bg-neutral-800 sm:w-[140px] sm:text-sm"
                       >
                         {t("previousPage")}
                       </button>
-                      <span className="text-sm">
+                      <span className="text-center text-xs md:text-sm">
                         {t("page")} {currentPage} {t("of")} {totalPages}
                       </span>
                       <button
                         disabled={currentPage === totalPages}
                         onClick={() => handlePageChange(currentPage + 1)}
-                        className="rounded-md bg-primary px-4 py-2 text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight disabled:opacity-50 dark:hover:bg-primaryDark"
+                        className="w-[120px] rounded-md bg-primary px-4 py-2 text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight disabled:opacity-50 dark:hover:bg-primaryDark sm:w-[140px] sm:text-sm"
                       >
                         {t("nextPage")}
                       </button>
@@ -157,6 +191,31 @@ const SupplierMeals: React.FC = () => {
           onClose={onClose}
           mealToEdit={null}
         />
+      )}
+
+      {isFiltersOpen && (
+        <Drawer isOpen={isFiltersOpen} placement="top" onClose={onFiltersClose}>
+          <DrawerOverlay />
+          <DrawerContent
+            sx={{
+              height: "70vh",
+              background:
+                colorMode === "dark"
+                  ? "dark.backgroundSecondary"
+                  : "light.background",
+            }}
+          >
+            <DrawerCloseButton />
+
+            <DrawerBody
+              sx={{
+                padding: "0px 0px",
+              }}
+            >
+              <MealsHeader onFiltersClose={onFiltersClose} />
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
       )}
     </>
   );

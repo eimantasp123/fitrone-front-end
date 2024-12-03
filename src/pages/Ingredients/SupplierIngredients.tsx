@@ -2,6 +2,7 @@ import PrimaryButton from "@/components/common/PrimaryButton";
 import {
   getIngredients,
   setCurrentPage,
+  setSearchQuery,
 } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
@@ -32,6 +33,8 @@ const SupplierIngredients: React.FC = () => {
     currentPage,
     lastFetched,
     totalPages,
+    totalIngredients,
+    searchIngredientsResult,
   } = useAppSelector((state) => state.ingredientsDetails);
 
   // Fetch meals on component mount
@@ -48,6 +51,7 @@ const SupplierIngredients: React.FC = () => {
   useEffect(() => {
     return () => {
       dispatch(setCurrentPage(1));
+      dispatch(setSearchQuery(""));
     };
   }, [dispatch]);
 
@@ -80,8 +84,7 @@ const SupplierIngredients: React.FC = () => {
     <>
       <div ref={containerRef} className="w-full overflow-y-auto scrollbar-thin">
         <div className="container mx-auto flex max-w-[1550px] flex-col">
-          <div className="sticky top-0 z-10 w-full bg-backgroundSecondary p-3 dark:bg-background">
-            {/* Filters */}
+          <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <IngredientsHeader />
           </div>
           {mainLoading ? (
@@ -91,12 +94,12 @@ const SupplierIngredients: React.FC = () => {
           ) : (
             <>
               {noIngredientsAdded && !searchResults && (
-                <div className="flex w-full flex-col items-center justify-center gap-1 pt-28">
+                <div className="flex w-full flex-col items-center justify-center gap-1 p-2 pt-28">
                   <VscEmptyWindow className="text-4xl" />
-                  <h1 className="text-lg font-medium text-textPrimary">
+                  <h1 className="text-md font-medium text-textPrimary">
                     {t("noIngredients")}
                   </h1>
-                  <p className="text-textSecondary">
+                  <p className="text-center text-sm text-textSecondary">
                     {t("noIngredientsDescription")}
                   </p>
                   <PrimaryButton
@@ -108,12 +111,12 @@ const SupplierIngredients: React.FC = () => {
               )}
 
               {noIngredientsAdded && searchResults && (
-                <div className="flex w-full flex-col items-center justify-center gap-1 pt-28">
+                <div className="flex w-full flex-col items-center justify-center gap-1 p-2 pt-28">
                   <VscEmptyWindow className="text-4xl" />
-                  <h1 className="text-lg font-medium text-textPrimary">
+                  <h1 className="text-md font-medium text-textPrimary">
                     {t("errors.noSearchResults")}
                   </h1>
-                  <p className="text-textSecondary">
+                  <p className="text-center text-sm text-textSecondary">
                     {t("errors.noSearchResultsDescription")}
                   </p>
                 </div>
@@ -121,7 +124,13 @@ const SupplierIngredients: React.FC = () => {
 
               {hasIngredients && (
                 <>
-                  <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-3">
+                  <span className="pl-5 text-sm">
+                    {t("ingredientsFound")}:{" "}
+                    {searchQuery
+                      ? searchIngredientsResult
+                      : totalIngredients || 0}
+                  </span>
+                  <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 md:grid-cols-2 2xl:grid-cols-3">
                     {displayedIngredients[currentPage]?.map(
                       (ingredient, index) => (
                         <IngredientCard key={index} ingredient={ingredient} />
@@ -130,21 +139,21 @@ const SupplierIngredients: React.FC = () => {
                   </div>
                   {/* Pagination */}
                   {totalPages > 1 && (
-                    <div className="-mt-5 mb-5 flex w-full items-center justify-end gap-4 px-4">
+                    <div className="-mt-3 mb-5 flex w-full items-center justify-center gap-4 px-4 sm:justify-end">
                       <button
                         disabled={currentPage === 1}
                         onClick={() => handlePageChange(currentPage - 1)}
-                        className="rounded-md bg-background px-4 py-2 text-sm text-textPrimary transition-colors duration-200 ease-in-out hover:bg-neutral-200 disabled:opacity-50 dark:bg-backgroundLight dark:hover:bg-neutral-800"
+                        className="w-[100px] rounded-md bg-background px-4 py-2 text-xs text-textPrimary transition-colors duration-200 ease-in-out hover:bg-neutral-200 disabled:opacity-50 dark:bg-backgroundLight dark:hover:bg-neutral-800 sm:w-[140px] sm:text-sm"
                       >
                         {t("previousPage")}
                       </button>
-                      <span className="text-sm">
+                      <span className="text-center text-xs md:text-sm">
                         {t("page")} {currentPage} {t("of")} {totalPages}
                       </span>
                       <button
                         disabled={currentPage === totalPages}
                         onClick={() => handlePageChange(currentPage + 1)}
-                        className="rounded-md bg-primary px-4 py-2 text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight disabled:opacity-50 dark:hover:bg-primaryDark"
+                        className="w-[100px] rounded-md bg-primary px-4 py-2 text-xs text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight disabled:opacity-50 dark:hover:bg-primaryDark sm:w-[140px] sm:text-sm"
                       >
                         {t("nextPage")}
                       </button>

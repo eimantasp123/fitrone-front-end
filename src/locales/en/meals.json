@@ -1,4 +1,5 @@
 {
+  "meals": "Meals",
   "addFirstMeal": "Add your first meal",
   "addMeal": "Add Meal",
   "updateMeal": "Update Meal",
@@ -86,6 +87,7 @@
   "editIngredient": "Edit Ingredient",
   "ingredientName": "Ingredient Name",
   "enterIngredient": "Enter Ingredient",
+  "ingredientsFound": "Ingredients Found",
   "unit": "Unit",
   "grams": "Grams",
   "milliliters": "Milliliters",
@@ -105,10 +107,11 @@
 
   "mealAddedSuccessfully": "Meal added successfully",
 
-  "previousPage": "Previous Page",
-  "nextPage": "Next Page",
+  "previousPage": "Previous",
+  "nextPage": "Next",
   "page": "Page",
   "of": "of",
+  "clean": "Clean",
 
   "delete": "Delete",
   "editAndView": "Edit",

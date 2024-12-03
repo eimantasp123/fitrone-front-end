@@ -208,7 +208,6 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={closeModal}
-      isCentered
       closeOnOverlayClick={false}
       size={{ base: "sm", md: "2xl" }}
     >
@@ -250,7 +249,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
               </p>
               <div className="flex gap-4">
                 {/* Select unit */}
-                <div className="flex flex-1 flex-col gap-2">
+                <div className="flex flex-1 flex-col gap-1">
                   <span className="text-[13px] text-textPrimary">
                     {t("unit")}
                   </span>
@@ -283,20 +282,19 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
               <p className="pt-2 text-sm">
                 2. {t("addIngredientManuallyThirdInfoText")}
               </p>
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
                 {["calories", "carbs", "fat", "protein"].map((field) => (
                   <div key={field} className="flex items-end gap-2">
                     <CustomInput
                       name={field}
                       type="number"
-                      label={t(`${field}`)}
+                      label={
+                        field === "calories"
+                          ? `${t(`${field}`)} (kcal)`
+                          : `${t(`${field}`)} (g)`
+                      }
                       placeholder="e.g. 50"
                     />
-                    {field === "calories" ? (
-                      <span className="mb-3">kcal</span>
-                    ) : (
-                      <span className="mb-3">g</span>
-                    )}
                   </div>
                 ))}
               </div>
@@ -313,17 +311,18 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
                   />
                 </>
               )}
-              <div className="grid w-full grid-cols-2 grid-rows-1 gap-3">
+              <div className="flex gap-3">
                 <span
-                  className="mt-4 flex-1 cursor-pointer rounded-md bg-black/90 px-4 py-3 text-center text-sm text-white transition-colors duration-200 ease-in-out hover:bg-black/80 dark:hover:bg-black/40"
+                  className="mt-4 w-1/3 cursor-pointer rounded-md bg-black/90 px-4 py-3 text-center text-sm text-white transition-colors duration-200 ease-in-out hover:bg-black/80 dark:bg-white/90 dark:text-black dark:hover:bg-white/70"
                   onClick={closeModal}
                 >
                   {t("cancel")}
                 </span>
+
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`mt-4 rounded-md bg-primary px-4 py-3 text-center ${loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"} text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
+                  className={`mt-4 w-2/3 rounded-md bg-primary px-4 py-3 text-center ${loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"} text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
                 >
                   {loading ? (
                     <Spinner size="sm" />

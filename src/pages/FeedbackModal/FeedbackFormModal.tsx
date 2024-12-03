@@ -76,7 +76,6 @@ const FeedbackFormModal: React.FC<FeedbackFormModalProps> = ({
       isOpen={isOpen}
       onClose={handleModalClose}
       isCentered
-      closeOnOverlayClick={true}
       size={{ base: "sm", md: "xl" }}
     >
       <ModalOverlay />

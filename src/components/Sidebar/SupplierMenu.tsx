@@ -35,7 +35,7 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
   return (
     <>
       <p className="mb-2 pl-5 text-xs text-white">{t("menu").toUpperCase()}</p>
-      <ul className="flex w-full flex-col gap-1 lg:gap-1">
+      <ul className="flex w-full flex-col gap-0 lg:gap-1">
         {/*  */}
         <SidebarNavLink
           onClick={closeDrawer}
@@ -47,7 +47,7 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
           onClick={closeDrawer}
           to="/week-plan"
           icon={FaRegCalendarCheck}
-          text={t("weekPlan")}
+          text={t("week-plan")}
         />
         <SidebarNavLink
           onClick={closeDrawer}
@@ -77,7 +77,7 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
           onClick={closeDrawer}
           to="/subscriptions"
           icon={MdCardMembership}
-          text={t("subscription")}
+          text={t("subscriptions")}
         />
         <hr className="mx-6 my-4 border-[#6161618c]" />
         <p className="mt-2 pl-5 text-xs text-white">
@@ -114,17 +114,13 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
       </ul>
 
       {/* Feedback modal */}
-      {isFeedbackOpen && (
-        <FeedbackFormModal isOpen={isFeedbackOpen} onClose={onFeedbackClose} />
-      )}
+      <FeedbackFormModal isOpen={isFeedbackOpen} onClose={onFeedbackClose} />
 
       {/* Support modal */}
-      {isSupportModalOpen && (
-        <SupportModal
-          isModalOpen={isSupportModalOpen}
-          onClose={onSupportModalClose}
-        />
-      )}
+      <SupportModal
+        isModalOpen={isSupportModalOpen}
+        onClose={onSupportModalClose}
+      />
     </>
   );
 };

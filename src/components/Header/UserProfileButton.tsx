@@ -43,10 +43,10 @@ const UserProfileButton: React.FC = () => {
           sx={{
             bg: "transparent",
             _hover: {
-              bg: "light.secondaryLight",
+              bg: "transparent",
             },
             _active: {
-              bg: "light.secondaryLight",
+              bg: "transparent",
             },
           }}
           padding="24px 0px"
@@ -57,13 +57,13 @@ const UserProfileButton: React.FC = () => {
             <img
               src={user?.profileImage}
               alt="Profile"
-              className="objet-top size-[38px] rounded-full object-cover lg:size-[33px]"
+              className="objet-top size-[32px] rounded-full object-cover lg:size-[33px]"
             />
             <div className="flex flex-col items-start">
-              <div className="hidden whitespace-nowrap text-sm font-normal text-white transition-all duration-1000 ease-in-out xl:block">
+              <div className="hidden whitespace-nowrap text-sm font-normal text-white transition-all duration-1000 ease-in-out lg:block">
                 {user.firstName} {user.lastName}
               </div>
-              <div className="hidden whitespace-nowrap text-xs font-normal text-white transition-all duration-1000 ease-in-out xl:block">
+              <div className="hidden whitespace-nowrap text-xs font-normal text-white transition-all duration-1000 ease-in-out lg:block">
                 {user.email}
               </div>
             </div>

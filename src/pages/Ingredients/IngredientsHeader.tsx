@@ -21,16 +21,20 @@ const IngredientsHeader: React.FC = () => {
 
   return (
     <>
-      <div className="z-20 flex w-full flex-col gap-4 rounded-lg bg-background px-3 py-3 dark:bg-backgroundSecondary lg:flex-row lg:items-center">
-        <input
-          type="text"
-          value={searchQuery}
-          className="h-9 w-full rounded-lg bg-backgroundSecondary px-6 focus:outline-none dark:bg-backgroundSecondary"
-          placeholder={t("searchPlaceholder")}
-          onChange={handleSearch}
-        />
+      <div className="z-20 flex w-full flex-col gap-2 bg-background px-3 py-3 dark:bg-backgroundSecondary sm:flex-row md:rounded-lg lg:items-center xl:gap-4">
+        <div className="flex w-full gap-3">
+          <input
+            type="text"
+            value={searchQuery}
+            className="h-9 w-full rounded-lg bg-backgroundSecondary px-6 placeholder:text-placeholder focus:outline-none dark:bg-background"
+            placeholder={t("searchPlaceholder")}
+            onChange={handleSearch}
+          />
 
-        {searchQuery && <TextButton onClick={cleanSearch} text="Clean" />}
+          {searchQuery && (
+            <TextButton onClick={cleanSearch} text={t("clean")} />
+          )}
+        </div>
         <TextButton
           onClick={onOpen}
           text={`+ ${t("addIngredient")}`}
