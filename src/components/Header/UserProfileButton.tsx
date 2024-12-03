@@ -64,7 +64,9 @@ const UserProfileButton: React.FC = () => {
                 {user.firstName} {user.lastName}
               </div>
               <div className="hidden whitespace-nowrap text-xs font-normal text-white transition-all duration-1000 ease-in-out lg:block">
-                {user.email}
+                {user.email && user.email.length > 22
+                  ? `${user.email.slice(0, 22)}...`
+                  : user.email}
               </div>
             </div>
           </div>

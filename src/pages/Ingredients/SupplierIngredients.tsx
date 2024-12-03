@@ -104,7 +104,7 @@ const SupplierIngredients: React.FC = () => {
                   </p>
                   <PrimaryButton
                     onClick={onAddIngredientOpen}
-                    className="w-[200px]"
+                    className="mt-4 w-[200px]"
                     text={t("addIngredient")}
                   />
                 </div>

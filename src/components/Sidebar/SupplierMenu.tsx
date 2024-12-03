@@ -75,9 +75,9 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
         />
         <SidebarNavLink
           onClick={closeDrawer}
-          to="/subscriptions"
+          to="/subscription"
           icon={MdCardMembership}
-          text={t("subscriptions")}
+          text={t("subscription")}
         />
         <hr className="mx-6 my-4 border-[#6161618c]" />
         <p className="mt-2 pl-5 text-xs text-white">

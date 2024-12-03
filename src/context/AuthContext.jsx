@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import useAsync from "../hooks/useAsync";
 import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
 import axiosInstance from "../utils/axiosInterceptors";
+import { cleanAllIngredients } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
 
 const AuthContext = createContext();
 const MOCK_API = import.meta.env.VITE_API_URL;
@@ -216,6 +217,7 @@ export const AuthProvider = ({ children }) => {
     await axiosInstance.post("/auth/logout");
     dispatch(setUserDetails(null));
     dispatch(cleanAll());
+    dispatch(cleanAllIngredients());
     localStorage.removeItem("authenticated");
     setAuthChecking(true);
   });

@@ -128,7 +128,7 @@ const SupplierMeals: React.FC = () => {
                   </p>
                   <PrimaryButton
                     onClick={onOpen}
-                    className="w-[200px]"
+                    className="mt-4 w-[200px]"
                     text={t("addMeal")}
                   />
                 </div>

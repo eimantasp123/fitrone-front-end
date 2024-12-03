@@ -141,7 +141,7 @@ const FeedbackFormModal: React.FC<FeedbackFormModalProps> = ({
               {/* Submit button */}
               <PrimaryButton
                 disabled={loading}
-                className="w-full py-3"
+                className="mt-4 w-full py-3"
                 text="Send Feedback"
                 type="submit"
               >

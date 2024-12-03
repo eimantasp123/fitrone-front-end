@@ -13,7 +13,7 @@ interface ApiError {
 }
 
 // Define the userDetails interface
-interface UserDetails {
+export interface UserDetails {
   _id: string;
   email: string;
   phone?: string;
@@ -29,10 +29,17 @@ interface UserDetails {
   registrationCompleted?: boolean;
   createdAt?: string;
   __v?: number;
+  subscriptionStatus?: string;
+  subscriptionCancelAtPeriodEnd?: boolean;
+  trialEnd?: string;
+  subscriptionId?: string;
+  subscriptionPlan?: string;
+  subscriptionCancelAt?: string;
+  hasUsedFreeTrial: boolean;
 }
 
 // Define the initial state interface
-interface PersonalDetailsState {
+export interface PersonalDetailsState {
   details: Partial<UserDetails>;
   updateLoading: boolean;
   imageLoading: boolean;

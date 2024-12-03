@@ -26,6 +26,7 @@ export default {
         background: "var(--color-background)",
         backgroundSecondary: "var(--color-background-secondary)",
         backgroundLight: "var(--color-background-light)",
+        backgroundDark: "var(--color-background-dark)",
         // Text Colors
         textPrimary: "var(--color-text-primary)",
         textSecondary: "var(--color-text-secondary)",

@@ -42,7 +42,7 @@ const AppRoutes: React.FC = () => (
       <Route path="/" element={<DashboardLayout />}>
         <Route index path="/" element={<Dashboard />} />
         <Route path="/dashboard" element={<Navigate replace to="/" />} />
-        <Route path="subscriptions" element={<ManageSubscriptionPlan />} />
+        <Route path="subscription" element={<ManageSubscriptionPlan />} />
         {/* <Route path="meal-plan" element={<MealPlans />} />
         <Route path="meal-plan/:id" element={<MealPlanDetails />} /> */}
         <Route path="week-plan" element={<WeekPlan />} />

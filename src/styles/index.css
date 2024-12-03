@@ -13,6 +13,7 @@
   --color-background: #fcfcfc;
   --color-background-secondary: #f3f3f3;
   --color-background-light: #e4e4e4c2;
+  --color-background-dark: #2e2e2ec2;
   /* Text */
   --color-text-primary: #0d0d0d;
   --color-text-secondary: #3b3b3b;
@@ -38,6 +39,7 @@
   --color-background: #202020;
   --color-background-secondary: #141414;
   --color-background-light: #1d1d1d;
+  --color-background-dark: #181818;
   /* Text */
   --color-text-primary: #e7e5e4;
   --color-text-secondary: #a7a7a7;

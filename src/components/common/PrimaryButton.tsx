@@ -1,7 +1,7 @@
 import React from "react";
 
 interface PrimaryButtonProps {
-  text: string;
+  text?: string;
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
   className?: string;
@@ -13,7 +13,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   text,
   type = "button",
   onClick,
-  className = "",
+  className = "mt-4 ",
   children,
   disabled = false,
 }) => {
@@ -24,7 +24,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       disabled={disabled}
       className={`${className} bg-primary ${
         disabled ? "cursor-not-allowed bg-primaryLight dark:bg-primaryDark" : ""
-      } mt-4 text-nowrap rounded-lg py-2 text-sm font-medium text-secondary transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
+      } flex items-center justify-center text-nowrap rounded-lg py-2 text-sm font-medium text-secondary transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
     >
       {children || text}
     </button>

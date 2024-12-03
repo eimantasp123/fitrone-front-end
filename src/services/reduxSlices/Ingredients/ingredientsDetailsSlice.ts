@@ -133,6 +133,12 @@ const ingredientsDetailsSlice = createSlice({
         state.totalPages = Math.ceil(allIngredients.length / state.pageSize);
       }
     },
+    cleanAllIngredients: (state) => {
+      state.ingredients = {};
+      state.filteredIngredients = null;
+      state.currentPage = 1;
+      state.lastFetched = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -164,6 +170,7 @@ const ingredientsDetailsSlice = createSlice({
       })
       .addCase(getIngredients.rejected, (state, action) => {
         state.mainLoading = false;
+        console.log(action.payload);
         showCustomToast({
           status: "error",
           title: action.payload as string,
@@ -221,6 +228,6 @@ const ingredientsDetailsSlice = createSlice({
   },
 });
 
-export const { setCurrentPage, setSearchQuery } =
+export const { setCurrentPage, setSearchQuery, cleanAllIngredients } =
   ingredientsDetailsSlice.actions;
 export default ingredientsDetailsSlice.reducer;
