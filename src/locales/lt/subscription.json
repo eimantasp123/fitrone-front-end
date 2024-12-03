@@ -1,0 +1,20 @@
+{
+  "subscriptionPlans": "Prenumeratos planai",
+  "manageSubscriptionAndPayments": "Tvarkyti prenumeratą ir mokėjimus",
+  "perMonth": "Per mėnesį",
+  "selectedPlan": "Pasirinktas planas",
+  "features": "Funkcijos",
+  "basicPlan": "Basic planas",
+  "proPlan": "Pro planas",
+  "premiumPlan": "Premium planas",
+  "messages": {
+    "yourFreeTrialEndsOn": "Jūsų nemokamas bandymas baigiasi",
+    "upgradeToEnjoyFeatures": "Atnaujinkite dabar, kad galėtumėte toliau naudotis premium funkcijomis!",
+    "yourFreeTrialCancelled": "Jūsų nemokamas bandymas buvo atšauktas ir išliks aktyvus iki dabartinio apmokėjimo laikotarpio pabaigos. Prarasite prieigą nuo",
+    "renewSubscription": "Atnaujinkite savo planą, kad galėtumėte toliau naudotis premium funkcijomis.",
+    "incompleteMessage": "Jūsų prenumeratos užsakymo procesas yra nebaigtas. Norėdami aktyvuoti planą ir gauti prieigą prie visų funkcijų, užbaikite mokėjimą.",
+    "icompleteExpiredMessage": "Jūsų paskutinis mokėjimas nepavyko, dėl ko buvo atšaukta jūsų prenumerata. Pasirinkite naują planą, kad vėl galėtumėte naudotis visomis funkcijomis.",
+    "pastDueMessage": "Jūsų mokėjimas yra pradelstas. Norėdami išvengti paslaugų nutraukimo ir toliau naudotis prenumerata, atnaujinkite savo mokėjimo būdą.",
+    "canceledSubscriptionMessage": "Jūsų prenumerata buvo atšaukta ir išliks aktyvi iki dabartinio apmokėjimo laikotarpio pabaigos. Prarasite prieigą nuo"
+  }
+}

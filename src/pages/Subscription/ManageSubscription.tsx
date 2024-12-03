@@ -1,15 +1,16 @@
+import PrimaryButton from "@/components/common/PrimaryButton";
 import PlanCard from "@/pages/Subscription/PlanCard";
-import TextButton from "@/components/common/TextButton";
 import { useAppSelector } from "@/store";
+import { useTranslation } from "react-i18next";
 import { IoMdSettings } from "react-icons/io";
 import { showCustomToast } from "../../hooks/showCustomToast";
 import axiosInstance from "../../utils/axiosInterceptors";
 import MessagesForSubscription from "./MessagesForSubscription";
 import { plans } from "./mockData/plans";
 import Tabel from "./Tabel";
-import PrimaryButton from "@/components/common/PrimaryButton";
 
 const ManageSubscription = () => {
+  const { t } = useTranslation("subscription");
   const { details: user } = useAppSelector((state) => state.personalDetails);
 
   // Redirect the user to the Stripe Customer Portal
@@ -64,7 +65,7 @@ const ManageSubscription = () => {
         <div className="flex flex-col gap-5 2xl:w-full">
           <div className="flex flex-col items-center justify-between gap-2 md:flex-row md:items-center xl:gap-6">
             <h3 className="mt-3 text-lg font-semibold text-textPrimary md:mt-0 md:w-1/3 lg:mt-0 xl:px-0">
-              Subscription Plans
+              {t("subscriptionPlans")}
             </h3>
             {user.subscriptionStatus &&
               ["active", "trialing", "past_due", "incomplete"].includes(
@@ -75,7 +76,7 @@ const ManageSubscription = () => {
                   className="flex w-full items-center py-3 md:w-fit md:px-6"
                 >
                   <IoMdSettings className="-mb-[1px] mr-2 text-[16px]" />
-                  Manage Subscription & Payments
+                  {t("manageSubscriptionAndPayments")}
                 </PrimaryButton>
               )}
           </div>

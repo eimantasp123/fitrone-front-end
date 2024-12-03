@@ -1,4 +1,4 @@
-import { useColorMode } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { SlStar } from "react-icons/sl";
 
 interface PlanCardProps {
@@ -21,6 +21,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
   visible,
   hasUsedFreeTrial,
 }) => {
+  const { t } = useTranslation("subscription");
   return (
     <div
       className={`relative flex h-full flex-col rounded-2xl border p-5 shadow-custom-dark2 transition-all duration-300 md:flex-row md:items-center md:gap-10 md:px-10 md:py-10 lg:p-7 xl:flex-col xl:items-start xl:gap-0 ${
@@ -43,7 +44,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
           </div>
           {selectedPlan === plan.name && (
             <div className="text-nowrap rounded-full border border-primary bg-primary px-4 py-1 text-[14px] text-black">
-              Selected Plan
+              {t("selectedPlan")}
             </div>
           )}
         </div>
@@ -72,7 +73,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
                 : "text-textSecondary"
             }`}
           >
-            / Per month
+            / {t("perMonth")}
           </span>
         </div>
         {/* Button */}

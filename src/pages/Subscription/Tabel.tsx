@@ -1,7 +1,9 @@
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { featuresList, tablePlans } from "./mockData/tablePlans";
+import { useTranslation } from "react-i18next";
 
 const Tabel: React.FC = () => {
+  const { t } = useTranslation("subscription");
   return (
     <>
       <div className="relative my-5 w-full overflow-auto bg-backgroundSecondary scrollbar-none dark:bg-background md:text-base">
@@ -9,7 +11,7 @@ const Tabel: React.FC = () => {
           <thead className="relative">
             <tr className="border-b border-borderPrimary bg-background dark:bg-backgroundSecondary">
               <th className="w-1/4 p-5 text-left text-sm uppercase">
-                Features
+                {t("features")}
               </th>
               {tablePlans.map((plan, index) => (
                 <th

@@ -1,0 +1,20 @@
+{
+  "subscriptionPlans": "Subscription plans",
+  "manageSubscriptionAndPayments": "Manage Subscription & Payments",
+  "perMonth": "Per month",
+  "selectedPlan": "Selected plan",
+  "features": "Features",
+  "basicPlan": "Basic plan",
+  "proPlan": "Pro plan",
+  "premiumPlan": "Premium plan",
+  "messages": {
+    "yourFreeTrialEndsOn": "Your free trial ends on",
+    "upgradeToEnjoyFeatures": " Upgrade now to continue enjoying premium features!",
+    "yourFreeTrialCancelled": "Your free trial has been canceled and will remain active until the end of the current billing period. You will lose access after",
+    "renewSubscription": "Renew your plan to continue enjoying premium features.",
+    "incompleteMessage": "Your subscription process is incomplete. Please complete your payment to activate your plan and gain access to all features.",
+    "icompleteExpiredMessage": "Your last payment failed, which resulted in the cancellation of your subscription. Select a new plan to regain access to all features.",
+    "pastDueMessage": "Your payment is past due. Please update your payment method to avoid service disruption and continue enjoying your subscription.",
+    "canceledSubscriptionMessage": "Your subscription has been canceled and will remain active until the end of the current billing period. You will lose access after"
+  }
+}
