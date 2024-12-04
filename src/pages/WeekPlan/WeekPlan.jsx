@@ -1,6 +1,7 @@
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import SupplierWeekPlan from "./SupplierWeekPlan";
+import LockPage from "@/components/common/LockPage";
 
 const WeekPlan = () => {
   const { details: user } = useSelector((state) => state.personalDetails);
@@ -13,8 +14,10 @@ const WeekPlan = () => {
         <Helmet>
           <title>Meal Plan</title>
         </Helmet>
-        {/* {user.role === "admin" && <AdminDietPlans />} */}
-        {user.role === "supplier" && <SupplierWeekPlan />}
+        {user.plan === "base" && <LockPage userPlan={user.plan} />}
+        {user.role === "supplier" && user.plan !== "base" && (
+          <SupplierWeekPlan />
+        )}
       </HelmetProvider>
     </>
   );

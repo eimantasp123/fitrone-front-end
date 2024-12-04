@@ -15,7 +15,7 @@ const PrimaryButtonWithLink: React.FC<PrimaryButtonWithLinkProps> = ({
   return (
     <NavLink
       to={to}
-      className={`mt-4 ${className} rounded-full bg-primary py-2 text-sm font-semibold text-stone-800 transition-colors duration-300 ease-in-out hover:bg-[#9aea49b0]`}
+      className={`mt-4 ${className} rounded-lg bg-primary py-2 text-sm font-semibold text-stone-800 transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
     >
       {text}
     </NavLink>

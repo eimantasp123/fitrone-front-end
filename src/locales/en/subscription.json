@@ -11,6 +11,11 @@
   "proPlan": "Pro plan",
   "premiumPlan": "Premium plan",
 
+  "upgradeYourPlan": "Upgrade your plan",
+  "upgradePlan": "Upgrade plan",
+  "yourCurrentPlan": "Your current plan",
+  "doesNotHaveAccess": "does not grant access to the features available on this page. Upgrade now to unlock exclusive features and advanced tools.",
+
   "plans": {
     "basic-plan": {
       "title": "Basic plan",

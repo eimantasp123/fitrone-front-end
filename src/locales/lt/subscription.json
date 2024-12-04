@@ -11,6 +11,11 @@
   "proPlan": "Pro planas",
   "premiumPlan": "Premium planas",
 
+  "upgradeYourPlan": "Atnaujinkite savo planą",
+  "upgradePlan": "Atnaujinti planą",
+  "yourCurrentPlan": "Jūsų dabartinis planas",
+  "doesNotHaveAccess": "neteikia prieigos prie funkcijų, kurios yra šioje puslapyje. Atnaujinkite dabar, kad atrakintumėte išskirtines funkcijas bei pažangius įrankius",
+
   "plans": {
     "basic-plan": {
       "title": "Basic planas",

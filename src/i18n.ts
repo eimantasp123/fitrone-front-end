@@ -21,6 +21,8 @@ import enMeals from "./locales/en/meals.json";
 import ltMeals from "./locales/lt/meals.json";
 import enSubscription from "./locales/en/subscription.json";
 import ltSubscription from "./locales/lt/subscription.json";
+import enDashboard from "./locales/en/dashboard.json";
+import ltDashboard from "./locales/lt/dashboard.json";
 
 // Initialize i18n
 i18n
@@ -38,6 +40,7 @@ i18n
         errorPage: enErrorPage,
         meals: enMeals,
         subscription: enSubscription,
+        dashboard: enDashboard,
       },
       lt: {
         common: ltCommon,
@@ -49,6 +52,7 @@ i18n
         errorPage: ltErrorPage,
         meals: ltMeals,
         subscription: ltSubscription,
+        dashboard: ltDashboard,
       },
     },
     fallbackLng: "en", // Fallback language if the current language is not available
