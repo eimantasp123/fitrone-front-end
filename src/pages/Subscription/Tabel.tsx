@@ -1,5 +1,5 @@
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { featuresList, tablePlans } from "./mockData/tablePlans";
+import { featuresList, tablePlans } from "./mockData/mockData";
 import { useTranslation } from "react-i18next";
 
 const Tabel: React.FC = () => {
@@ -11,14 +11,14 @@ const Tabel: React.FC = () => {
           <thead className="relative">
             <tr className="border-b border-borderPrimary bg-background dark:bg-backgroundSecondary">
               <th className="w-1/4 p-5 text-left text-sm uppercase">
-                {t("features")}
+                {t("featuresTitle")}
               </th>
               {tablePlans.map((plan, index) => (
                 <th
                   key={index}
                   className="w-1/4 p-5 text-center text-sm uppercase"
                 >
-                  {plan.name}
+                  {t(`tablePlans.${plan.key}`)}
                 </th>
               ))}
             </tr>
@@ -32,8 +32,12 @@ const Tabel: React.FC = () => {
                 {/* Feature Name & Description */}
                 <td className="bg-background p-5 text-left text-sm dark:bg-backgroundSecondary">
                   <div className="flex w-full flex-col">
-                    <p>{feature.title}</p>
-                    <p className="text-textSecondary">{feature.description}</p>
+                    <p className="font-medium">
+                      {t(`features.${feature.key}.title`)}
+                    </p>
+                    <p className="text-textSecondary">
+                      {t(`features.${feature.key}.description`)}
+                    </p>
                   </div>
                 </td>
 
@@ -41,11 +45,11 @@ const Tabel: React.FC = () => {
                 {tablePlans.map((plan, planIndex) => (
                   <td
                     key={planIndex}
-                    data-label={plan.name}
+                    data-label={t(`tablePlans.${plan.key}`)}
                     className="p-5 text-center text-textSecondary"
                   >
                     {plan.features[
-                      feature.title as keyof typeof plan.features
+                      feature.key as keyof typeof plan.features
                     ] ? (
                       <span className="flex justify-center">
                         <IoMdCheckmarkCircleOutline className="text-xl text-primaryDark" />

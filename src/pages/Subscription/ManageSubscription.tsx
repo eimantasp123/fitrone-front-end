@@ -6,8 +6,8 @@ import { IoMdSettings } from "react-icons/io";
 import { showCustomToast } from "../../hooks/showCustomToast";
 import axiosInstance from "../../utils/axiosInterceptors";
 import MessagesForSubscription from "./MessagesForSubscription";
-import { plans } from "./mockData/plans";
 import Tabel from "./Tabel";
+import { plans } from "./mockData/mockData";
 
 const ManageSubscription = () => {
   const { t } = useTranslation("subscription");
@@ -87,11 +87,11 @@ const ManageSubscription = () => {
           <div className="mt-0 grid grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:mt-2 lg:grid-cols-3">
             {plans.map((plan, index) => (
               <div
-                key={plan.name}
+                key={plan.key}
                 className={` ${
                   index === 2 &&
                   "md:col-span-2 md:block md:w-full lg:col-span-1 lg:flex"
-                }`} /* Apply full width on 2nd index in medium screens */
+                }`}
               >
                 <PlanCard
                   plan={plan}

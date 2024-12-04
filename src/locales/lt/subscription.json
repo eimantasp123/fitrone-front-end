@@ -3,10 +3,86 @@
   "manageSubscriptionAndPayments": "Tvarkyti prenumeratą ir mokėjimus",
   "perMonth": "Per mėnesį",
   "selectedPlan": "Pasirinktas planas",
-  "features": "Funkcijos",
+  "featuresTitle": "Funkcijos",
+  "startFreeTrial": "Pradėti nemokamą bandymą",
+  "selectPlan": "Pasirinkite planą",
+
   "basicPlan": "Basic planas",
   "proPlan": "Pro planas",
   "premiumPlan": "Premium planas",
+
+  "plans": {
+    "basic-plan": {
+      "title": "Basic planas",
+      "description": "Paprastas planas, kuris padės jums pradėti sveiką gyvenimo būdą."
+    },
+    "pro-plan": {
+      "title": "Pro planas",
+      "description": "Pro planas, kuris padės jums pasiekti savo tikslus ir daugiau visko."
+    },
+    "premium-plan": {
+      "title": "Premium planas",
+      "description": "Premium planas, kuris padės jums pasiekti aukščiausią lygį bei jūsų verslą."
+    }
+  },
+
+  "tablePlans": {
+    "basic-plan": "Basic planas",
+    "pro-plan": "Pro planas",
+    "premium-plan": "Premium planas"
+  },
+
+  "features": {
+    "weekly-tailored-meal-plans": {
+      "title": "Savaitės pritaikyti mitybos planai",
+      "description": "Gaukite asmeninį mitybos planą kiekvieną savaitę."
+    },
+    "manual-progress-tracking": {
+      "title": "Rankinis pažangos sekimas",
+      "description": "Stebėkite svorį ir kūno matmenis."
+    },
+    "adaptive-meal-plans": {
+      "title": "Pritaikomi mitybos planai",
+      "description": "Mitybos planai kinta pagal jūsų duomenis."
+    },
+    "cheat-day-management": {
+      "title": "Cheat day valdymas",
+      "description": "Pritaikykite planus po sukčiavimo val"
+    },
+    "meal-swap-options": {
+      "title": "Valgių keitimo parinktys",
+      "description": "Keiskite valgius, neįtakojant mitybos."
+    },
+    "batch-cooking-time-saving-recipes": {
+      "title": "Laiko taupymo receptai partijų gaminimui",
+      "description": "Sutaupykite laiko su partijų gaminimo galimybėmis."
+    },
+    "personalized-support": {
+      "title": "Asmeninis palaikymas",
+      "description": "Tiesioginė pokalbių sistema su mitybos specialistu."
+    },
+    "advanced-progress-tracking": {
+      "title": "Papildomas pažangos sekimas",
+      "description": "Išsami informacija apie mitybą ir fizinę formą."
+    },
+    "device-integration": {
+      "title": "Įrenginio integracija",
+      "description": "Sinchronizuokite savo Apple Watch, Garmin ar Fitbit, kad galėtumėte stebėti fizinę formą."
+    },
+    "grocery-shopping-list-generation": {
+      "title": "Pirkinių sąrašo generavimas",
+      "description": "Automatiškai sugeneruoja pirkinių sąrašą pagal jūsų mitybos planą."
+    },
+    "adaptive-functionality-workday": {
+      "title": "Pritaikoma funkcionalumas darbo dienomis",
+      "description": "Pritaikykite savo mitybos planą pagal darbo dienos laiką."
+    },
+    "goal-setting-meals": {
+      "title": "Tikslų nustatymo valgiai",
+      "description": "Nustatykite savo tikslus ir gaukite asmeninį mitybos planą."
+    }
+  },
+
   "messages": {
     "yourFreeTrialEndsOn": "Jūsų nemokamas bandymas baigiasi",
     "upgradeToEnjoyFeatures": "Atnaujinkite dabar, kad galėtumėte toliau naudotis premium funkcijomis!",

@@ -3,10 +3,86 @@
   "manageSubscriptionAndPayments": "Manage Subscription & Payments",
   "perMonth": "Per month",
   "selectedPlan": "Selected plan",
-  "features": "Features",
+  "featuresTitle": "Features",
+  "startFreeTrial": "Start free trial",
+  "selectPlan": "Select plan",
+
   "basicPlan": "Basic plan",
   "proPlan": "Pro plan",
   "premiumPlan": "Premium plan",
+
+  "plans": {
+    "basic-plan": {
+      "title": "Basic plan",
+      "description": "For those seeking simple, automated meal plans and basic progress tracking"
+    },
+    "pro-plan": {
+      "title": "Pro plan",
+      "description": "Ideal for fitness enthusiasts wanting more flexibility and in-depth nutrition insights."
+    },
+    "premium-plan": {
+      "title": "Premium plan",
+      "description": "For individuals seeking maximum customization and direct professional support."
+    }
+  },
+
+  "tablePlans": {
+    "basic-plan": "Basic plan",
+    "pro-plan": "Pro plan",
+    "premium-plan": "Premium plan"
+  },
+
+  "features": {
+    "weekly-tailored-meal-plans": {
+      "title": "Weekly tailored meal plans",
+      "description": "Get a personalized meal plan each week."
+    },
+    "manual-progress-tracking": {
+      "title": "Manual progress tracking",
+      "description": "Track weight and body measurements."
+    },
+    "adaptive-meal-plans": {
+      "title": "Adaptive meal plans",
+      "description": "Meal plans evolve based on your data."
+    },
+    "cheat-day-management": {
+      "title": "Cheat day management",
+      "description": "Adjust plans after cheat meals."
+    },
+    "meal-swap-options": {
+      "title": "Meal swap options",
+      "description": "Swap meals without affecting nutrition."
+    },
+    "batch-cooking-time-saving-recipes": {
+      "title": "Batch cooking time-saving recipes",
+      "description": "Save time with batch cooking options."
+    },
+    "personalized-support": {
+      "title": "Personalized support",
+      "description": "Direct chat with a nutritionist."
+    },
+    "advanced-progress-tracking": {
+      "title": "Advanced progress tracking",
+      "description": "Detailed reports on diet and fitness."
+    },
+    "device-integration": {
+      "title": "Device integration",
+      "description": "Sync your Apple Watch, Garmin, or Fitbit for fitness tracking."
+    },
+    "grocery-shopping-list-generation": {
+      "title": "Grocery shopping list generation",
+      "description": "Automatically generates a grocery shopping list based on your meal plan."
+    },
+    "adaptive-functionality-workday": {
+      "title": "Adaptive functionality workday",
+      "description": "Adapts your meal plan according to your workday schedule."
+    },
+    "goal-setting-meals": {
+      "title": "Goal setting meals",
+      "description": "Set goals like 'eat more greens' or 'stay under 2000 calories' today."
+    }
+  },
+
   "messages": {
     "yourFreeTrialEndsOn": "Your free trial ends on",
     "upgradeToEnjoyFeatures": " Upgrade now to continue enjoying premium features!",
