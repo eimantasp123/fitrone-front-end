@@ -1,8 +1,8 @@
-import { useAppSelector } from "@/store";
-import { HelmetProvider, Helmet } from "react-helmet-async";
-import SupplierMeals from "./SupplierMeals";
-import { useTranslation } from "react-i18next";
 import LockPage from "@/components/common/LockPage";
+import { useAppSelector } from "@/store";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import SupplierMeals from "./SupplierMeals";
 
 const Meals = () => {
   const { t } = useTranslation("meals");

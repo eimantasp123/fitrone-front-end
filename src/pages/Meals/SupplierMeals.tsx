@@ -111,7 +111,7 @@ const SupplierMeals: React.FC = () => {
               />
             </div>
           </div>
-          {mainLoading ? (
+          {mainLoading[currentPage] ? (
             <div className="mt-80 flex w-full justify-center overflow-hidden">
               <Spinner size="lg" />
             </div>

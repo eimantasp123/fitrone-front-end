@@ -14,7 +14,7 @@ export interface ApiError {
 
 interface MealsState {
   meals: Record<number, Meal[]>;
-  mainLoading: boolean;
+  mainLoading: { [key: string]: boolean };
   loading: boolean;
   currentPage: number;
   lastFetched: number | null;
@@ -31,7 +31,7 @@ interface MealsState {
 const initialState: MealsState = {
   meals: {},
   loading: false,
-  mainLoading: false,
+  mainLoading: {},
   lastFetched: null,
   totalResults: 0,
   currentPage: 1,
@@ -172,8 +172,9 @@ const mealDetailsSlice = createSlice({
           title: (action.payload as string) || "An error occurred",
         });
       })
-      .addCase(getMeals.pending, (state) => {
-        state.mainLoading = true;
+      .addCase(getMeals.pending, (state, action) => {
+        const page = action.meta.arg.page ?? 1;
+        state.mainLoading[page] = true;
       })
       .addCase(
         getMeals.fulfilled,
@@ -189,14 +190,17 @@ const mealDetailsSlice = createSlice({
           const { data, totalPages, currentPage, totalResults } =
             action.payload;
           state.meals[currentPage] = data;
+          console.log("currentPage", currentPage);
+          console.log("data", data);
           state.totalPages = totalPages;
           state.totalResults = totalResults;
           state.lastFetched = new Date().getTime();
-          state.mainLoading = false;
+          delete state.mainLoading[currentPage];
         },
       )
-      .addCase(getMeals.rejected, (state) => {
-        state.mainLoading = false;
+      .addCase(getMeals.rejected, (state, actions) => {
+        const page = actions.meta.arg.page ?? 1;
+        delete state.mainLoading[page];
       })
       .addCase(deleteMeal.pending, (state) => {
         state.loading = true;

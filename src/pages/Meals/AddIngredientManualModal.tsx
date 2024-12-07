@@ -168,18 +168,41 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
         ).unwrap();
         closeModal();
       } else {
-        // Add the ingredient
+        // Add the ingredient to database
         const response = await axiosInstance.post("/ingredients", backendData);
-        if (response.status === 201) {
+        const { status, message, warning, data } = response.data;
+
+        // Handle based on the response status
+        if (status === "success") {
+          // Update the ingredients lists
           if (setIngredients) {
-            setIngredients((prev) => [...prev, response.data.data]);
+            setIngredients((prev) => [...prev, data]);
           }
+
+          // Get fresh ingredients from the backend
           await dispatch(getIngredients()).unwrap();
           dispatch(setCurrentPage(1));
           closeModal();
+
+          // Show success message if no warning
+          if (!warning) {
+            showCustomToast({
+              status: "success",
+              title: message,
+            });
+          }
+        } else if (status === "limit_reached") {
           showCustomToast({
-            status: "success",
-            title: response.data.message,
+            status: "info",
+            title: message,
+          });
+        }
+
+        // Show warning message if there is a warning
+        if (warning) {
+          showCustomToast({
+            status: "warning",
+            title: warning,
           });
         }
       }

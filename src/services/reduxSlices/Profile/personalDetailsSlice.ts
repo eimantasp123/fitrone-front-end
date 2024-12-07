@@ -36,6 +36,13 @@ export interface UserDetails {
   subscriptionPlan?: string;
   subscriptionCancelAt?: string;
   hasUsedFreeTrial: boolean;
+  archivedData?: {
+    messageRead: boolean;
+    ingredients: number;
+    meals: number;
+    meelWeekTypes: number;
+    clients: number;
+  };
 }
 
 // Define the initial state interface
@@ -191,6 +198,25 @@ export const deleteAccount = createAsyncThunk(
   },
 );
 
+// Mark archived data as read
+export const markArchivedDataAsRead = createAsyncThunk(
+  "personalDetails/markArchivedDataAsRead",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(
+        "/subscription/archived-data/read",
+      );
+      return response.data;
+    } catch (error: unknown) {
+      const typedError = error as ApiError;
+      if (typedError.response?.data?.message) {
+        return rejectWithValue(typedError.response.data.message);
+      }
+      return rejectWithValue("Failed to mark archived data as read");
+    }
+  },
+);
+
 // Personal Details Slice
 const personalDetailsSlice = createSlice({
   name: "personalDetails",
@@ -329,6 +355,21 @@ const personalDetailsSlice = createSlice({
       })
       .addCase(deleteAccount.rejected, (state, action) => {
         state.updateLoading = false;
+        showCustomToast({
+          status: "error",
+          description: action.payload as string,
+        });
+      })
+      .addCase(markArchivedDataAsRead.fulfilled, (state) => {
+        state.details.archivedData = {
+          messageRead: true,
+          ingredients: state.details.archivedData?.ingredients || 0,
+          meals: state.details.archivedData?.meals || 0,
+          meelWeekTypes: state.details.archivedData?.meelWeekTypes || 0,
+          clients: state.details.archivedData?.clients || 0,
+        };
+      })
+      .addCase(markArchivedDataAsRead.rejected, (state, action) => {
         showCustomToast({
           status: "error",
           description: action.payload as string,

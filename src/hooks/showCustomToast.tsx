@@ -11,6 +11,7 @@ import { MdClose } from "react-icons/md";
 const { toast } = createStandaloneToast();
 let currentToastId: string | number | undefined;
 
+// Custom toast function
 export const showCustomToast = ({
   status,
   title,
@@ -28,7 +29,7 @@ export const showCustomToast = ({
   // Show the custom toast
   currentToastId = toast({
     position: "bottom",
-    duration: 4000,
+    duration: ["info", "warning"].includes(status) ? 10000 : 4000,
     isClosable: true,
     render: ({ id, onClose }) => (
       <div
@@ -55,35 +56,36 @@ export const showCustomToast = ({
   });
 };
 
+// Get toast style based on status
 const getToastStyle = (status: "success" | "error" | "warning" | "info") => {
   switch (status) {
     case "success":
       return {
-        bg: "bg-[#f0faf0]",
-        border: "border-green-500/40",
+        bg: "bg-primaryLight dark:bg-primaryDark",
+        border: "border-transparent",
         textColor: "text-black",
-        icon: <IoCheckmarkCircle className="text-green-500" />,
+        icon: <IoCheckmarkCircle className="text-black" />,
       };
     case "error":
       return {
-        bg: "bg-[#fceded]",
-        border: "border-red-500/40",
-        textColor: "text-black",
-        icon: <IoCloseCircle className="text-red-500" />,
+        bg: "bg-red-500",
+        border: "border-transparent",
+        textColor: "text-white",
+        icon: <IoCloseCircle className="text-white" />,
       };
     case "warning":
       return {
-        bg: "bg-[#FDF0E6]",
-        border: "border-yellow-500/40",
+        bg: "bg-yellow-400",
+        border: "border-transparent",
         textColor: "text-black",
-        icon: <IoWarning className="text-yellow-500" />,
+        icon: <IoWarning className="text-black" />,
       };
     case "info":
       return {
-        bg: "bg-[#eaeff8]",
-        border: "border-blue-500/40",
+        bg: "bg-blue-200",
+        border: "border-transparent",
         textColor: "text-black",
-        icon: <IoInformationCircle className="text-blue-400" />,
+        icon: <IoInformationCircle className="text-black" />,
       };
     default:
       return {

@@ -45,20 +45,25 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
 
   const handleDelete = async () => {
     try {
+      //  Delete the meal
       await dispatch(deleteMeal(id)).unwrap();
-      // Check if the current page is now empty
-      const remainingMeals = meals[currentPage]?.filter(
+
+      const updatedPages = { ...meals }; // Clone the current meals object
+      updatedPages[currentPage] = meals[currentPage]?.filter(
         (meal) => meal._id !== id,
       );
 
-      // Check if the current page is now empty
-      if (remainingMeals?.length === 0 && currentPage > 1) {
-        // If the current page becomes empty, move to the previous page
+      // If the current page becomes empty and not the first page, move back a page
+      if (updatedPages[currentPage]?.length === 0 && currentPage > 1) {
         dispatch(setCurrentPage(currentPage - 1));
-        dispatch(getMeals({ page: currentPage - 1, ...filters }));
-      } else {
-        // Otherwise, refetch the current page to update its content
-        dispatch(getMeals({ page: currentPage, ...filters }));
+      }
+
+      // Determine which pages need fetching
+      const pagesToRefetch = Object.keys(updatedPages).map(Number);
+
+      // Fetch all affected pages sequentially
+      for (const page of pagesToRefetch) {
+        await dispatch(getMeals({ page, ...filters }));
       }
     } catch {
       //

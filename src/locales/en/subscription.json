@@ -16,6 +16,18 @@
   "yourCurrentPlan": "Your current plan",
   "doesNotHaveAccess": "does not grant access to the features available on this page. Upgrade now to unlock exclusive features and advanced tools.",
 
+  "archivedData": {
+    "noArchivedData": "You currently have no archived data.",
+    "dataSummaryTitle": "Your subscription has been adjusted to the '{{planName}}' plan.",
+    "dataSummaryDescription": "Certain features of your previous plan exceeded the limits of your current '{{planName}}' plan. As a result, some of your data has been archived to maintain compliance with the plan's features. You can upgrade your subscription at any time to restore access to your archived data and fully manage it again.",
+    "archivedData": "Archived data",
+    "ingredients": "Ingredients",
+    "meals": "Meals",
+    "mealWeekTypes": "Meal week types",
+    "clients": "Clients",
+    "markMessageAsRead": "Mark message as read"
+  },
+
   "plans": {
     "basic-plan": {
       "title": "Basic plan",

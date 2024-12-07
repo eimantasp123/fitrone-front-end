@@ -16,6 +16,18 @@
   "yourCurrentPlan": "Jūsų dabartinis planas",
   "doesNotHaveAccess": "neteikia prieigos prie funkcijų, kurios yra šioje puslapyje. Atnaujinkite dabar, kad atrakintumėte išskirtines funkcijas bei pažangius įrankius",
 
+  "archivedData": {
+    "noArchivedData": "Šiuo metu neturite archyvuotų duomenų.",
+    "dataSummaryTitle": "Jūsų prenumerata buvo pritaikyta prie '{{planName}}' plano.",
+    "dataSummaryDescription": "Kai kurios jūsų ankstesnio plano funkcijos viršijo jūsų dabartinio '{{planName}}' plano ribas. Dėl to kai kurie jūsų duomenys buvo archyvuoti, kad būtų išlaikytas atitikimas planui būdingoms funkcijoms. Jūs galite bet kuriuo metu atnaujinti savo prenumeratą, kad atkurtumėte prieigą prie jūsų archyvuotų duomenų ir vėl juos visiškai tvarkytumėte.",
+    "archivedData": "Archyvuoti duomenys",
+    "ingredients": "Ingredientai",
+    "meals": "Patiekalai",
+    "mealWeekTypes": "Savaitės meniu tipai",
+    "clients": "Klientai",
+    "markMessageAsRead": "Pažymėti žinutę kaip perskaitytą"
+  },
+
   "plans": {
     "basic-plan": {
       "title": "Basic planas",
