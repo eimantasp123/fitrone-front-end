@@ -42,7 +42,7 @@ const ChangePassword: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full flex-col rounded-lg border border-borderLight bg-background p-5 shadow-custom-dark2 dark:border-borderDark dark:bg-backgroundSecondary sm:p-8 xl:flex-col">
+    <div className="flex w-full flex-col rounded-lg border border-transparent bg-background p-5 shadow-custom-dark2 dark:border-borderDark dark:bg-backgroundSecondary sm:p-8 xl:flex-col">
       {/* <h2 className="text-lg font-semibold ">Change Password</h2> */}
       <div className="flex flex-col gap-5">
         <FormProvider {...methods}>

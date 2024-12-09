@@ -180,7 +180,6 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
     }
 
     // Add or update meal
-
     if (mealToEdit) {
       await dispatch(
         updateMeal({ mealId: mealToEdit._id, mealData: formData }),
@@ -195,7 +194,16 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
         }),
       );
     } else {
-      await dispatch(addMeal(formData)).unwrap();
+      const response = await dispatch(addMeal(formData)).unwrap();
+      if (response.status === "limit_reached") {
+        showCustomToast({
+          status: "info",
+          description: response.message,
+        });
+        return;
+      }
+
+      // Reset filters and get meals
       dispatch(
         setFilters({ category: null, preference: null, restriction: null }),
       );
@@ -208,6 +216,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
         }),
       );
     }
+
     handleClose();
   };
 
@@ -279,34 +288,14 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
                       value={calories}
                       title={t("calories")}
                       unit="kcal"
-                      className="bg-backgroundSecondary px-4 py-2 dark:bg-backgroundSecondary sm:py-2 3xl:px-3 3xl:py-3"
-                      icon={<FaBurn className="text-red-500" />}
                     />
-                    <InfoCard
-                      value={protein}
-                      title={t("protein")}
-                      unit="g."
-                      className="bg-backgroundSecondary px-4 py-2 dark:bg-backgroundSecondary sm:py-2 3xl:px-3 3xl:py-3"
-                      icon={<BiCircle className="text-green-600" />}
-                    />
+                    <InfoCard value={protein} title={t("protein")} unit="g." />
 
                     {/* Carbs */}
-                    <InfoCard
-                      value={carbs}
-                      title={t("carbs")}
-                      unit="g."
-                      className="bg-backgroundSecondary px-4 py-2 dark:bg-backgroundSecondary sm:py-2 3xl:px-3 3xl:py-3"
-                      icon={<FaTachometerAlt className="text-sky-500" />}
-                    />
+                    <InfoCard value={carbs} title={t("carbs")} unit="g." />
 
                     {/* Fats */}
-                    <InfoCard
-                      value={fat}
-                      title={t("fat")}
-                      unit="g."
-                      className="bg-backgroundSecondary px-4 py-2 dark:bg-backgroundSecondary sm:py-2 3xl:px-3 3xl:py-3"
-                      icon={<AiOutlineBarChart className="text-yellow-500" />}
-                    />
+                    <InfoCard value={fat} title={t("fat")} unit="g." />
                   </div>
                 </div>
 
@@ -375,12 +364,12 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
 
                 {/* Button for open search input or recipe inputs */}
                 <div
-                  className={`mt-2 grid grid-cols-1 gap-2 text-sm ${user.plan !== "free" ? "md:grid-cols-3" : "md:grid-cols-2"} md:gap-3`}
+                  className={`mt-2 grid grid-cols-1 gap-2 text-sm ${user.plan === "premium" ? "md:grid-cols-3" : "md:grid-cols-2"} md:gap-3`}
                 >
-                  {user.plan !== "free" && (
+                  {user.plan === "premium" && (
                     <span
                       onClick={openSearchInputModal}
-                      className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primaryLight py-3 text-black transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-primary dark:text-black dark:hover:bg-neutral-800 dark:hover:text-white"
+                      className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary py-3 text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:bg-primary dark:text-black dark:hover:bg-primaryDark"
                     >
                       <span>{t("findIngredientAi")}</span>
                       <WiStars className="mt-0 text-xl" />
@@ -513,7 +502,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
       </Modal>
 
       {/* Search input for API */}
-      {user.plan !== "free" && (
+      {user.plan === "premium" && (
         <>
           {searchInputOpen && (
             <SearchIngredientModal

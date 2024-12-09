@@ -67,7 +67,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
                 <div
                   key={option}
                   onClick={() => handleOptionSelect(option)}
-                  className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundLight ${
+                  className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundDark ${
                     defaultOption === option
                       ? "bg-backgroundSecondary dark:bg-neutral-800"
                       : ""

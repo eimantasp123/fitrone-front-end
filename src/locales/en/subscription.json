@@ -31,15 +31,15 @@
   "plans": {
     "basic-plan": {
       "title": "Basic plan",
-      "description": "For those seeking simple, automated meal plans and basic progress tracking"
+      "description": "Ideal for starting out with meal planning and basic client management."
     },
     "pro-plan": {
       "title": "Pro plan",
-      "description": "Ideal for fitness enthusiasts wanting more flexibility and in-depth nutrition insights."
+      "description": "Designed for professionals seeking advanced meal planning and client management tools."
     },
     "premium-plan": {
       "title": "Premium plan",
-      "description": "For individuals seeking maximum customization and direct professional support."
+      "description": "Perfect for medium-sized businesses requiring unlimited functionality and personalized support."
     }
   },
 
@@ -50,53 +50,42 @@
   },
 
   "features": {
-    "weekly-tailored-meal-plans": {
-      "title": "Weekly tailored meal plans",
-      "description": "Get a personalized meal plan each week."
+    "unlimited": "+ Unlimited",
+    "ingredients_limit": {
+      "title": "Ingredients Limit",
+      "description": "You can add up to a specific number of ingredients depending on your plan."
     },
-    "manual-progress-tracking": {
-      "title": "Manual progress tracking",
-      "description": "Track weight and body measurements."
+    "meals_limit": {
+      "title": "Meals Limit",
+      "description": "You can create up to a specific number of meals depending on your plan."
     },
-    "adaptive-meal-plans": {
-      "title": "Adaptive meal plans",
-      "description": "Meal plans evolve based on your data."
+    "meal_week_types_limit": {
+      "title": "Weekly Meal Plan Types Limit",
+      "description": "You can create a specific number of different weekly meal plan types depending on your plan."
     },
-    "cheat-day-management": {
-      "title": "Cheat day management",
-      "description": "Adjust plans after cheat meals."
+    "clients_limit": {
+      "title": "Clients Limit",
+      "description": "You can manage up to a specific number of clients depending on your plan."
     },
-    "meal-swap-options": {
-      "title": "Meal swap options",
-      "description": "Swap meals without affecting nutrition."
+    "ai_search": {
+      "title": "AI Search for Ingredients",
+      "description": "Automated AI-powered assistance for ingredient searching."
     },
-    "batch-cooking-time-saving-recipes": {
-      "title": "Batch cooking time-saving recipes",
-      "description": "Save time with batch cooking options."
+    "business_page": {
+      "title": "Business Page",
+      "description": "A private page designed to showcase your weekly meal plans."
     },
-    "personalized-support": {
-      "title": "Personalized support",
-      "description": "Direct chat with a nutritionist."
+    "client_request_form": {
+      "title": "Individual Request Forms",
+      "description": "Create and send individual request forms to your clients."
     },
-    "advanced-progress-tracking": {
-      "title": "Advanced progress tracking",
-      "description": "Detailed reports on diet and fitness."
+    "order_management": {
+      "title": "Order Management",
+      "description": "Manage orders based on your plan. Higher plans offer more features."
     },
-    "device-integration": {
-      "title": "Device integration",
-      "description": "Sync your Apple Watch, Garmin, or Fitbit for fitness tracking."
-    },
-    "grocery-shopping-list-generation": {
-      "title": "Grocery shopping list generation",
-      "description": "Automatically generates a grocery shopping list based on your meal plan."
-    },
-    "adaptive-functionality-workday": {
-      "title": "Adaptive functionality workday",
-      "description": "Adapts your meal plan according to your workday schedule."
-    },
-    "goal-setting-meals": {
-      "title": "Goal setting meals",
-      "description": "Set goals like 'eat more greens' or 'stay under 2000 calories' today."
+    "weekly_reports": {
+      "title": "Weekly Reports",
+      "description": "Automatically generated weekly reports for your clients."
     }
   },
 

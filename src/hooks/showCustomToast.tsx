@@ -61,7 +61,7 @@ const getToastStyle = (status: "success" | "error" | "warning" | "info") => {
   switch (status) {
     case "success":
       return {
-        bg: "bg-primaryLight dark:bg-primaryDark",
+        bg: "bg-primaryLight dark:bg-primary",
         border: "border-transparent",
         textColor: "text-black",
         icon: <IoCheckmarkCircle className="text-black" />,

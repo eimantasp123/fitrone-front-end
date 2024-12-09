@@ -60,7 +60,7 @@ const ManageSubscription = () => {
   };
 
   return (
-    <div className="h-fit-content flex w-full flex-col gap-10 overflow-y-auto p-4 scrollbar-none md:p-10 md:px-14 2xl:flex-col">
+    <div className="h-fit-content flex w-full flex-col gap-10 overflow-y-auto p-4 scrollbar-thin md:p-10 md:px-14 2xl:flex-col">
       <div className="container mx-auto flex w-full max-w-[1400px] flex-col gap-6 xl:flex-col">
         <div className="flex flex-col gap-5 2xl:w-full">
           <div className="flex flex-col items-center justify-between gap-2 md:flex-row md:items-center xl:gap-6">

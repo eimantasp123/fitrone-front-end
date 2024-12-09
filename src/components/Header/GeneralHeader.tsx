@@ -23,7 +23,7 @@ const GeneralHeader: React.FC = () => {
   const isDrawerVisible = useBreakpointValue({ base: true, lg: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
-  const { t } = useTranslation("sidebar");
+  const { t } = useTranslation(["sidebar", "header"]);
 
   const pathArray = location.pathname.split("/").filter((segment) => segment);
 
@@ -53,6 +53,9 @@ const GeneralHeader: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 md:gap-2">
+          <span className="cursor-pointer rounded-lg px-3 py-2 text-[14px] transition-colors duration-200 ease-in-out hover:bg-background dark:hover:bg-neutral-700/50">
+            🐞 {t("header:systemIssues")}
+          </span>
           {/* Language switcher */}
           <LanguageSelector />
 

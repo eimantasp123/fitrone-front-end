@@ -1,4 +1,5 @@
 import CustomInput from "@/components/common/NewCharkaInput";
+import NumberInputs from "@/components/common/NumberInputs";
 import { showCustomToast } from "@/hooks/showCustomToast";
 import {
   getIngredients,
@@ -23,7 +24,6 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import { set } from "lodash";
 import React, { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -308,7 +308,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
               <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
                 {["calories", "carbs", "fat", "protein"].map((field) => (
                   <div key={field} className="flex items-end gap-2">
-                    <CustomInput
+                    <NumberInputs
                       name={field}
                       type="number"
                       label={

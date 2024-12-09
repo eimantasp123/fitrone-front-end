@@ -160,10 +160,20 @@ const mealDetailsSlice = createSlice({
       })
       .addCase(addMeal.fulfilled, (state, action) => {
         state.loading = false;
-        showCustomToast({
-          status: "success",
-          title: action.payload.message,
-        });
+
+        if (action.payload.status === "success" && !action.payload.warning) {
+          showCustomToast({
+            status: "success",
+            title: action.payload.message,
+          });
+        }
+
+        if (action.payload.warning) {
+          showCustomToast({
+            status: "warning",
+            title: action.payload.warning,
+          });
+        }
       })
       .addCase(addMeal.rejected, (state, action) => {
         state.loading = false;

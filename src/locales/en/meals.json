@@ -75,9 +75,10 @@
   "searchPlaceholder": "Search for ingredient",
   "noIngredientsFound": "No ingredients found",
   "noIngredietnsFoundDescription": "Try adjusting your query and try again",
-  "firstInfoForSearchIngredient": "Before searching for ingredients, select the amount and unit of measurement, as they cannot be changed later. If you do not specify anything, the system will automatically assign 100 as the amount and 'g' (grams) as the unit of measurement.",
-  "secondInfoForSearchIngredient": "Please include one specific ingredient in your query, such as 'Milk 2.5%' or 'Cucumber', and write in proper English. Avoid multiple ingredients in a single query to ensure accurate search results.",
-  "lastInfoForSearchIngredient": "If everything looks logical and you haven't noticed any mistakes, click the green checkmark button. If you notice any mistakes, click the red trash button.",
+
+  "firstInfoForSearchIngredient": "Before searching for ingredients, select the unit of measurement (e.g., grams or milliliters) that best suits your needs.",
+  "secondInfoForSearchIngredient": "To search for an ingredient, include one specific item in your query, such as 'Milk 2.5%' or 'Cucumber'. Use clear and proper English, and avoid including multiple ingredients in a single search for accurate results.",
+  "lastInfoForSearchIngredient": "The ingredient has been successfully found! Specify the current amount you need for this meal. If everything looks correct, click the green checkmark button to add it to your database. If there are any issues, click the red trash button to discard the result.",
 
   "searchIngredientFromDatabase": "Search Ingredient from Database",
   "searchIngredientFromDatabaseFirstInfoText": "Search for the ingredient in your personal database. Make sure your query is clear and precise.",

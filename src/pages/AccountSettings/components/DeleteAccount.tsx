@@ -50,7 +50,7 @@ const DeleteAccount: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full flex-col rounded-lg border border-borderLight bg-background p-6 shadow-custom-dark2 dark:border-borderDark dark:bg-backgroundSecondary md:p-8 xl:flex-col">
+    <div className="flex w-full flex-col rounded-lg border border-transparent bg-background p-6 shadow-custom-dark2 dark:border-borderDark dark:bg-backgroundSecondary md:p-8 xl:flex-col">
       {/* Content */}
       <div className="flex flex-col">
         <div className="w-full space-y-8">

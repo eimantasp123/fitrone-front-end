@@ -31,15 +31,15 @@
   "plans": {
     "basic-plan": {
       "title": "Basic planas",
-      "description": "Paprastas planas, kuris padės jums pradėti sveiką gyvenimo būdą."
+      "description": "Idealus pradedantiesiems, norintiems pradėti su mitybos planavimu ir pagrindiniu klientų valdymu."
     },
     "pro-plan": {
       "title": "Pro planas",
-      "description": "Pro planas, kuris padės jums pasiekti savo tikslus ir daugiau visko."
+      "description": "Sukurtas profesionalams, ieškantiems pažangaus mitybos planavimo ir klientų valdymo įrankių."
     },
     "premium-plan": {
       "title": "Premium planas",
-      "description": "Premium planas, kuris padės jums pasiekti aukščiausią lygį bei jūsų verslą."
+      "description": "Puikiai tinka vidutiniam verslui, kuriam reikalingas neribotas funkcionalumas ir asmeninis palaikymas."
     }
   },
 
@@ -50,53 +50,42 @@
   },
 
   "features": {
-    "weekly-tailored-meal-plans": {
-      "title": "Savaitės pritaikyti mitybos planai",
-      "description": "Gaukite asmeninį mitybos planą kiekvieną savaitę."
+    "unlimited": "+ Neribotas",
+    "ingredients_limit": {
+      "title": "Ingredientų limitas",
+      "description": "Galite pridėti iki tam tikro skaičiaus ingredientų, atsižvelgiant į jūsų planą."
     },
-    "manual-progress-tracking": {
-      "title": "Rankinis pažangos sekimas",
-      "description": "Stebėkite svorį ir kūno matmenis."
+    "meals_limit": {
+      "title": "Patiekalo limitas",
+      "description": "Galite sukurti iki tam tikro skaičiaus patiekalų, atsižvelgiant į jūsų planą."
     },
-    "adaptive-meal-plans": {
-      "title": "Pritaikomi mitybos planai",
-      "description": "Mitybos planai kinta pagal jūsų duomenis."
+    "meal_week_types_limit": {
+      "title": "Savaitės mitybos planų tipų limitas",
+      "description": "Galite sukurti tam tikrą skaičių skirtingų savaitės mitybos planų tipų, atsižvelgiant į jūsų planą."
     },
-    "cheat-day-management": {
-      "title": "Cheat day valdymas",
-      "description": "Pritaikykite planus po sukčiavimo val"
+    "clients_limit": {
+      "title": "Klientų limitas",
+      "description": "Galite valdyti iki tam tikro skaičiaus klientų, atsižvelgiant į jūsų planą."
     },
-    "meal-swap-options": {
-      "title": "Valgių keitimo parinktys",
-      "description": "Keiskite valgius, neįtakojant mitybos."
+    "ai_search": {
+      "title": "AI paieška ingredientams",
+      "description": "Automatizuota dirbtinio intelekto pagalba ingredientų paieškai."
     },
-    "batch-cooking-time-saving-recipes": {
-      "title": "Laiko taupymo receptai partijų gaminimui",
-      "description": "Sutaupykite laiko su partijų gaminimo galimybėmis."
+    "business_page": {
+      "title": "Verslo puslapis",
+      "description": "Privatus puslapis, skirtas atvaizduoti savaitės mitybos planus."
     },
-    "personalized-support": {
-      "title": "Asmeninis palaikymas",
-      "description": "Tiesioginė pokalbių sistema su mitybos specialistu."
+    "client_request_form": {
+      "title": "Individualios užklausos formos",
+      "description": "Galimybė kurti ir siųsti individualias užklausos formas savo klientams."
     },
-    "advanced-progress-tracking": {
-      "title": "Papildomas pažangos sekimas",
-      "description": "Išsami informacija apie mitybą ir fizinę formą."
+    "order_management": {
+      "title": "Užsakymų valdymas",
+      "description": "Valdykite užsakymus pagal savo planą. Aukštesnių planų vartotojai gauna daugiau funkcijų."
     },
-    "device-integration": {
-      "title": "Įrenginio integracija",
-      "description": "Sinchronizuokite savo Apple Watch, Garmin ar Fitbit, kad galėtumėte stebėti fizinę formą."
-    },
-    "grocery-shopping-list-generation": {
-      "title": "Pirkinių sąrašo generavimas",
-      "description": "Automatiškai sugeneruoja pirkinių sąrašą pagal jūsų mitybos planą."
-    },
-    "adaptive-functionality-workday": {
-      "title": "Pritaikoma funkcionalumas darbo dienomis",
-      "description": "Pritaikykite savo mitybos planą pagal darbo dienos laiką."
-    },
-    "goal-setting-meals": {
-      "title": "Tikslų nustatymo valgiai",
-      "description": "Nustatykite savo tikslus ir gaukite asmeninį mitybos planą."
+    "weekly_reports": {
+      "title": "Savaitės ataskaitos",
+      "description": "Automatiškai sugeneruotos savaitės ataskaitos jūsų klientams."
     }
   },
 

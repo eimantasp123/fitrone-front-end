@@ -1,24 +1,33 @@
 import { Tooltip, useDisclosure } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineRemove } from "react-icons/md";
 
-export default function InfoCard({
+interface InfoCardProps {
+  title: string;
+  value: string | number;
+  icon?: React.ReactNode;
+  unit: string;
+  description?: string;
+  className?: string;
+  width?: string;
+}
+
+const InfoCard: React.FC<InfoCardProps> = ({
   icon,
   title,
   value,
   unit,
   description,
   width = "flex-1",
-  className = "px-4 py-3 sm:py-2 3xl:px-5 3xl:py-3 bg-backgroundSecondary",
-}) {
+  className = "px-5 py-2  bg-backgroundSecondary dark:bg-backgroundSecondary",
+}) => {
   const { onOpen, onClose } = useDisclosure();
 
   return (
     <div
       className={`flex ${className} ${width} items-center gap-3 rounded-full`}
     >
-      {icon}
+      {icon && icon}
 
       <div className="mr-auto flex h-full flex-col justify-center">
         <div className="flex items-center justify-between gap-8">
@@ -50,15 +59,6 @@ export default function InfoCard({
       )}
     </div>
   );
-}
-
-InfoCard.propTypes = {
-  title: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  iconColor: PropTypes.string,
-  icon: PropTypes.element,
-  unit: PropTypes.string,
-  description: PropTypes.string,
-  className: PropTypes.string,
-  width: PropTypes.string,
 };
+
+export default InfoCard;

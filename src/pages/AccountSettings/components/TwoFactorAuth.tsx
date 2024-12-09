@@ -106,7 +106,7 @@ const TwoFactorAuth: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full flex-col rounded-lg border border-borderLight bg-background p-6 shadow-custom-dark2 dark:border-borderDark dark:bg-backgroundSecondary sm:p-8 xl:flex-col">
+    <div className="flex w-full flex-col rounded-lg border border-transparent bg-background p-6 shadow-custom-dark2 dark:border-borderDark dark:bg-backgroundSecondary sm:p-8 xl:flex-col">
       <div className="flex flex-col gap-5">
         <FormProvider {...methods}>
           <div className="w-full">

@@ -25,6 +25,7 @@ const MessagesForSubscription: React.FC<MessagesForSubscriptionProps> = ({
     subscriptionStatus,
   } = user;
   const dispatch = useAppDispatch();
+  const { updateLoading } = useAppSelector((state) => state.personalDetails);
 
   const archivedDataList = generateArchivedDataMessage(archivedData, t);
 
@@ -64,7 +65,7 @@ const MessagesForSubscription: React.FC<MessagesForSubscriptionProps> = ({
               text={t("archivedData.markMessageAsRead") as string}
               classname="mt-4 w-[250px] md:w-[300px]"
               onClick={markMessageAsRead}
-              updateLoading={false}
+              updateLoading={updateLoading}
             />
           </div>
         </div>

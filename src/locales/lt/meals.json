@@ -75,9 +75,10 @@
   "searchPlaceholder": "Ieškoti ingrediento",
   "noIngredientsFound": "Ingredientų nerasta",
   "noIngredietnsFoundDescription": "Pabandykite pataisyti užklausą ir bandykite dar kartą",
-  "firstInfoForSearchIngredient": "Prieš ieškodami ingredientų, pasirinkite kiekį ir matavimo vienetą, nes jų vėliau keisti nebus galima. Jei nieko nenurodysite, sistema automatiškai priskirs 100 kaip kiekį ir „g“ (gramus) kaip matavimo vienetą.",
+
+  "firstInfoForSearchIngredient": "Prieš ieškodami ingredientų, pasirinkite matavimo vienetą (pvz., gramus arba mililitrus), kuris geriausiai atitinka jūsų poreikius.",
   "secondInfoForSearchIngredient": "Užklausoje nurodykite tik vieną ingredientą ir rašykite tiksliai, pavyzdžiui, 'Pienas 2.5%' arba 'Agurkas'. Rašykite gramatiškai taisyklingai, naudodami visas lietuviškas raides, tokias kaip ž, š, č ir kt., kad sistema galėtų tiksliai suprasti užklausą.",
-  "lastInfoForSearchIngredient": "Jei nepastebėjote didelių klaidų ar keistų skaičių, spauskite žalią mygtuką su varnele, kad patvirtintumėte. Jei duomenys atrodo neteisingi, spauskite raudoną mygtuką su šiukšledėže.",
+  "lastInfoForSearchIngredient": "Ingredientas sėkmingai rastas! Nurodykite dabartinį kiekį, kurio jums reikia šiam patiekalui. Jei viskas atrodo teisinga, spustelėkite žalią varnelės mygtuką, kad įtrauktumėte jį į savo duomenų bazę. Jei kyla problemų, spustelėkite raudoną šiukšliadėžės mygtuką, kad atmestumėte rezultatą.",
 
   "searchIngredientFromDatabase": "Ieškoti ingredientą duomenų bazėje",
   "searchIngredientFromDatabaseFirstInfoText": "Ieškokite ingrediento savo asmeninėje duomenų bazėje. Įsitikinkite, kad užklausa pateikta aiškiai ir tiksliai.",

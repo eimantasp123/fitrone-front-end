@@ -58,7 +58,7 @@ const SelectOptions: React.FC<SelectOptionsProps> = ({
                 <div
                   key={option}
                   onClick={onClick}
-                  className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundLight`}
+                  className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundDark`}
                 >
                   {option}
                 </div>

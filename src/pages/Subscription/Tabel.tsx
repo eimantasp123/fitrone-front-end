@@ -16,7 +16,7 @@ const Tabel: React.FC = () => {
               {tablePlans.map((plan, index) => (
                 <th
                   key={index}
-                  className="w-1/4 p-5 text-center text-sm uppercase"
+                  className="w-1/4 p-5 text-center text-[10px] uppercase md:text-sm"
                 >
                   {t(`tablePlans.${plan.key}`)}
                 </th>
@@ -46,15 +46,42 @@ const Tabel: React.FC = () => {
                   <td
                     key={planIndex}
                     data-label={t(`tablePlans.${plan.key}`)}
-                    className="p-5 text-center text-textSecondary"
+                    className="p-5 text-center text-sm text-textSecondary md:text-base"
                   >
-                    {plan.features[
+                    {typeof plan.features[
                       feature.key as keyof typeof plan.features
-                    ] ? (
-                      <span className="flex justify-center">
-                        <IoMdCheckmarkCircleOutline className="text-xl text-primaryDark" />
-                      </span>
+                    ] === "number" ? (
+                      // Check if it's "unlimited" for the premium plan
+                      plan.key === "premium-plan" &&
+                      plan.features[
+                        feature.key as keyof typeof plan.features
+                      ] === -1 ? (
+                        <span>{t("features.unlimited")}</span>
+                      ) : (
+                        // Otherwise, display the number
+                        <span>
+                          {
+                            plan.features[
+                              feature.key as keyof typeof plan.features
+                            ]
+                          }
+                        </span>
+                      )
+                    ) : typeof plan.features[
+                        feature.key as keyof typeof plan.features
+                      ] === "boolean" ? (
+                      // If the feature is a boolean, display the icon based on its value
+                      plan.features[
+                        feature.key as keyof typeof plan.features
+                      ] ? (
+                        <span className="flex justify-center">
+                          <IoMdCheckmarkCircleOutline className="text-xl text-primaryDark" />
+                        </span>
+                      ) : (
+                        <span>—</span>
+                      )
                     ) : (
+                      // Fallback if the feature type is neither number nor boolean
                       <span>—</span>
                     )}
                   </td>

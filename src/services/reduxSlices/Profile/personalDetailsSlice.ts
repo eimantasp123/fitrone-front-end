@@ -360,7 +360,11 @@ const personalDetailsSlice = createSlice({
           description: action.payload as string,
         });
       })
+      .addCase(markArchivedDataAsRead.pending, (state) => {
+        state.updateLoading = true;
+      })
       .addCase(markArchivedDataAsRead.fulfilled, (state) => {
+        state.updateLoading = false;
         state.details.archivedData = {
           messageRead: true,
           ingredients: state.details.archivedData?.ingredients || 0,
@@ -370,6 +374,7 @@ const personalDetailsSlice = createSlice({
         };
       })
       .addCase(markArchivedDataAsRead.rejected, (state, action) => {
+        state.updateLoading = false;
         showCustomToast({
           status: "error",
           description: action.payload as string,

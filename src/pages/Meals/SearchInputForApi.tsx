@@ -1,5 +1,10 @@
+import { showCustomToast } from "@/hooks/showCustomToast";
+import { getIngredients } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
+import { useAppDispatch } from "@/store";
 import axiosInstance from "@/utils/axiosInterceptors";
+import { capitalizeFirstLetter } from "@/utils/helper";
 import { Ingredients } from "@/utils/types";
+import axios from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -32,8 +37,10 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
   const [searchResults, setSearchResults] = useState<SearchResults[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [showResults, setShowResults] = useState<boolean>(false);
-  const [amount, setAmount] = useState<number>(100);
+  const [amount] = useState<number>(100);
+  const [currentAmount, setCurrentAmount] = useState<number | string>("");
   const [unit, setUnit] = useState<string>("g");
+  const dispatch = useAppDispatch();
 
   // Search for ingredients
   const handleSearch = async (
@@ -62,26 +69,86 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
     }
   };
 
+  //
   // Accept search results
-  const handleAccept = () => {
-    // if(searchResults.length === 0) return;
-    // setIngredients((prevIngredients) => [
-    //   ...prevIngredients,
-    //   {
-    //     ingredientId: "".
-    //     title: searchResults[0].title,
-    //     amount: searchResults[0].amount,
-    //     calories: searchResults[0].calories,
-    //     protein: searchResults[0].protein,
-    //     fat: searchResults[0].fat,
-    //     carbs: searchResults[0].carbs,
-    //     unit: searchResults[0].unit,
-    //   },
-    // ]);
-    // setShowResults(false);
-    // setSearchQuery("");
-    // setSearchResults([]);
-    // closeModal();
+  //
+  const handleAccept = async () => {
+    // Check if search results are empty
+    if (searchResults.length === 0) return;
+
+    // Check if current amount is empty
+    if (currentAmount === "" || currentAmount === 0) {
+      showCustomToast({
+        status: "error",
+        description: t("errors.amountRequired"),
+      });
+      return;
+    }
+
+    try {
+      // Prepare data for backend
+      const backendData = {
+        title: searchResults[0].title.toLocaleLowerCase(),
+        amount: 100,
+        unit: searchResults[0].unit,
+        calories: searchResults[0].calories,
+        protein: searchResults[0].protein,
+        fat: searchResults[0].fat,
+        carbs: searchResults[0].carbs,
+        currentAmount: currentAmount,
+        withCurrentAmount: true,
+      };
+
+      // Add the ingredient to database
+      const response = await axiosInstance.post("/ingredients", backendData);
+      const { status, message, warning, data } = response.data;
+
+      // Handle based on the response status
+      if (status === "success") {
+        // Update the ingredients lists
+        if (setIngredients) {
+          setIngredients((prev) => [...prev, data]);
+        }
+
+        // Get fresh ingredients from the backend
+        await dispatch(getIngredients()).unwrap();
+
+        // Show success message if no warning
+        if (!warning) {
+          showCustomToast({
+            status: "success",
+            title: message,
+          });
+        }
+
+        // Show info message if the limit is reached
+      } else if (status === "limit_reached") {
+        showCustomToast({
+          status: "info",
+          title: message,
+        });
+      }
+
+      // Show warning message if there is a warning
+      if (warning) {
+        showCustomToast({
+          status: "warning",
+          title: warning,
+        });
+      }
+
+      setShowResults(false);
+      setSearchQuery("");
+      setSearchResults([]);
+      closeModal();
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        showCustomToast({
+          status: "error",
+          description: error.response.data.message,
+        });
+      }
+    }
   };
 
   // Delete search results
@@ -105,19 +172,8 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
       </p>
       <div className="my-2 flex w-full flex-col gap-4 text-nowrap md:flex-row">
         <div className="flex items-center gap-3">
-          <span className="text-xs">{t("amount")}</span>
-          <input
-            type="number"
-            placeholder={t("amount")}
-            value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
-            className="h-8 w-[140px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm outline-none"
-          />
-        </div>
-        {/*  */}
-        <div className="flex items-center gap-3">
           <span className="text-xs">{t("unit")}</span>
-          <div className="flex flex-1 items-center gap-1 text-xs">
+          <div className="flex flex-1 items-center gap-2 text-xs">
             <div
               onClick={() => setUnit("g")}
               className={`flex w-[100px] cursor-pointer items-center ${unit === "g" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} justify-center rounded-lg px-4 py-2`}
@@ -157,14 +213,14 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
           <button
             onClick={(e) => handleSearch(e)}
             type="submit"
-            className={`absolute right-0 top-0 m-1 flex h-[38px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black`}
+            className={`absolute right-0 m-1 flex h-[30px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black`}
           >
             {t("search")}
           </button>
           {searchQuery && (
             <span
               onClick={handleClean}
-              className={`absolute right-[76px] top-0 m-1 flex h-[38px] cursor-pointer items-center rounded-lg bg-red-500 px-3 text-sm text-white`}
+              className={`absolute right-[80px] m-1 flex h-[30px] cursor-pointer items-center rounded-lg bg-backgroundSecondary px-3 text-sm dark:bg-backgroundLight`}
             >
               <IoIosCloseCircleOutline className="text-xl" />
             </span>
@@ -181,36 +237,42 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
               searchResults.map((result, index) => (
                 <div
                   key={index}
-                  className="flex flex-col gap-2 bg-neutral-100 p-4 text-sm dark:bg-neutral-900"
+                  className={`flex w-full flex-col gap-2 bg-background p-4 text-sm dark:bg-neutral-900/20`}
                 >
-                  {/*  */}
-                  <div className="flex">
-                    <div className="flex flex-col gap-1">
-                      <div className="flex gap-1 font-medium">
-                        <span>{result.title}</span>
+                  <div className="flex w-full items-end gap-1 font-medium md:items-center md:gap-3">
+                    <div className="gap-3 md:flex md:items-center">
+                      {/* Ingredient title */}
+                      <div className="space-x-1">
+                        <span>{capitalizeFirstLetter(result.title)}</span>
                         <span>
-                          {result.amount} {`(${unit})`}
+                          {result.amount} {`(${result.unit})`}
                         </span>
                       </div>
-                      <div className="flex gap-4">
-                        <span>
-                          {t("calories")}: {result.calories}kcal
+
+                      {/* Divider */}
+                      <hr className="hidden h-[15px] border-r-[1px] border-black dark:border-white/50 md:block" />
+
+                      {/* Amount input */}
+                      <div className="flex w-[30%] items-center gap-3 text-nowrap">
+                        <span className="text-sm font-normal">
+                          {t("needenAmount")}
                         </span>
-                        <span>
-                          {t("protein")}: {result.protein}g.
-                        </span>
-                        <span>
-                          {t("fat")}: {result.fat}g.
-                        </span>
-                        <span>
-                          {t("carbs")}: {result.carbs}g.
-                        </span>
+                        <input
+                          type="number"
+                          value={currentAmount}
+                          onChange={(e) =>
+                            setCurrentAmount(parseInt(e.target.value) || 0)
+                          }
+                          className="h-8 w-[80px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm font-normal outline-none md:w-[100px]"
+                        />
+                        <span className="font-normal">{result.unit}.</span>
                       </div>
                     </div>
+
                     {/* Accept and delete button */}
                     <div className="ml-auto flex items-center gap-3">
                       <span
-                        // onClick={handleAccept}
+                        onClick={handleAccept}
                         className="flex size-5 cursor-pointer items-center justify-center rounded-full bg-primary"
                       >
                         <MdDownloadDone className="text-md text-black" />
@@ -220,7 +282,23 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
                       </span>
                     </div>
                   </div>
-                  {/*  */}
+
+                  {/* Nutrition information */}
+                  <div className="mt-2 grid grid-cols-2 gap-1 text-xs md:flex md:gap-2">
+                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
+                      {t("calories")}: {result.calories} kcal
+                    </span>
+                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
+                      {t("protein")}: {result.protein}g.
+                    </span>
+                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
+                      {t("fat")}: {result.fat}g.
+                    </span>
+                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
+                      {t("carbs")}: {result.carbs}g.
+                    </span>
+                  </div>
+
                   <p className="gap-1 rounded-lg bg-primaryLight p-2 text-center text-[13px] text-black">
                     {t("lastInfoForSearchIngredient")}
                   </p>

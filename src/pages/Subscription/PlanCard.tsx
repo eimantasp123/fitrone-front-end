@@ -26,7 +26,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
       className={`relative flex h-full flex-col rounded-2xl border p-5 shadow-custom-dark2 transition-all duration-300 md:flex-row md:items-center md:gap-10 md:px-10 md:py-10 lg:p-7 xl:flex-col xl:items-start xl:gap-0 ${
         selectedPlan === planName
           ? "border-transparent bg-neutral-800 text-white dark:border-primary dark:bg-background dark:text-white"
-          : "dark:border-borderColor bg-background dark:bg-[#2c2c2c]"
+          : "dark:border-borderColor border-transparent bg-background dark:bg-[#2c2c2c]"
       } ${selectedPlan === planName ? "border-primaryDark" : ""} `}
     >
       <div className="w-full">

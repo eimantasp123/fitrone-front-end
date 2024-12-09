@@ -89,6 +89,7 @@ const SearchIngredientFromDatabaseApi: React.FC<
       });
       return;
     }
+
     try {
       const response = await axiosInstance.get(`/ingredients/nutrition/${id}`, {
         params: {
@@ -157,7 +158,7 @@ const SearchIngredientFromDatabaseApi: React.FC<
           {searchQuery && (
             <span
               onClick={handleClean}
-              className={`absolute right-[76px] m-1 flex h-[30px] cursor-pointer items-center rounded-lg bg-backgroundSecondary px-3 text-sm dark:bg-backgroundLight`}
+              className={`absolute right-[80px] m-1 flex h-[30px] cursor-pointer items-center rounded-lg bg-backgroundSecondary px-3 text-sm dark:bg-backgroundLight`}
             >
               <IoIosCloseCircleOutline className="text-lg" />
             </span>
@@ -225,16 +226,16 @@ const SearchIngredientFromDatabaseApi: React.FC<
 
                   {/* Nutrition information */}
                   <div className="mt-2 grid grid-cols-2 gap-1 text-xs md:flex md:gap-2">
-                    <span className="dark:bg-backgroundDark rounded-full bg-backgroundSecondary px-3 py-1">
+                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
                       {t("calories")}: {result.calories} kcal
                     </span>
-                    <span className="dark:bg-backgroundDark rounded-full bg-backgroundSecondary px-3 py-1">
+                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
                       {t("protein")}: {result.protein}g.
                     </span>
-                    <span className="dark:bg-backgroundDark rounded-full bg-backgroundSecondary px-3 py-1">
+                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
                       {t("fat")}: {result.fat}g.
                     </span>
-                    <span className="dark:bg-backgroundDark rounded-full bg-backgroundSecondary px-3 py-1">
+                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
                       {t("carbs")}: {result.carbs}g.
                     </span>
                   </div>
