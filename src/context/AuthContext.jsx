@@ -40,6 +40,7 @@ export const AuthProvider = ({ children }) => {
         dispatch(setUserDetails(response.data.user));
         setIsAuthenticated(true);
       } catch (error) {
+        console.error(error);
         if (error.response && error.response.status === 401) {
           setIsAuthenticated(false);
           dispatch(setUserDetails(null));

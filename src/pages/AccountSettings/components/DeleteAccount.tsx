@@ -71,55 +71,61 @@ const DeleteAccount: React.FC = () => {
         </div>
       </div>
       {/* Modal */}
-      <Modal
-        isOpen={isOpen}
-        onClose={closeModal}
-        isCentered
-        size={{ base: "xs", md: "lg" }}
-      >
-        <ModalOverlay />
-        <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
-          <h2 className="p-2 font-medium">{t("deleteAccount.modal.title")}</h2>
-          <ModalCloseButton marginTop="2" />
-          <ModalBody sx={{ padding: "1rem" }}>
-            <FormProvider {...methods}>
-              <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
-                <Trans
-                  i18nKey="deleteAccount.modal.description"
-                  ns="profileSettings"
-                  components={{ 1: <strong /> }}
-                />
-              </p>
-              <form
-                onSubmit={methods.handleSubmit(handleDelete)}
-                className="flex flex-col gap-3"
-              >
-                <CustomInput
-                  name="verificationInput"
-                  placeholder={t("deleteAccount.modal.inputPlaceholder")}
-                />
-                <CustomInput
-                  name="secondVerificationInput"
-                  placeholder={t("deleteAccount.modal.inputPlaceholderConfirm")}
-                />
+      {isOpen && (
+        <Modal
+          isOpen={isOpen}
+          onClose={closeModal}
+          isCentered
+          size={{ base: "xs", md: "lg" }}
+        >
+          <ModalOverlay />
+          <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
+            <h2 className="p-2 font-medium">
+              {t("deleteAccount.modal.title")}
+            </h2>
+            <ModalCloseButton marginTop="2" />
+            <ModalBody sx={{ padding: "1rem" }}>
+              <FormProvider {...methods}>
+                <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
+                  <Trans
+                    i18nKey="deleteAccount.modal.description"
+                    ns="profileSettings"
+                    components={{ 1: <strong /> }}
+                  />
+                </p>
+                <form
+                  onSubmit={methods.handleSubmit(handleDelete)}
+                  className="flex flex-col gap-3"
+                >
+                  <CustomInput
+                    name="verificationInput"
+                    placeholder={t("deleteAccount.modal.inputPlaceholder")}
+                  />
+                  <CustomInput
+                    name="secondVerificationInput"
+                    placeholder={t(
+                      "deleteAccount.modal.inputPlaceholderConfirm",
+                    )}
+                  />
 
-                {/*  */}
-                <div className="mt-3 flex gap-2 md:justify-end">
-                  <RedButton
-                    updateLoading={updateLoading}
-                    text={t("deleteAccount.modal.delete")}
-                    width="180px"
-                  />
-                  <TextButton
-                    text={t("deleteAccount.modal.cancel")}
-                    onClick={closeModal}
-                  />
-                </div>
-              </form>
-            </FormProvider>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+                  {/*  */}
+                  <div className="mt-3 flex gap-2 md:justify-end">
+                    <RedButton
+                      updateLoading={updateLoading}
+                      text={t("deleteAccount.modal.delete")}
+                      width="180px"
+                    />
+                    <TextButton
+                      text={t("deleteAccount.modal.cancel")}
+                      onClick={closeModal}
+                    />
+                  </div>
+                </form>
+              </FormProvider>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
     </div>
   );
 };

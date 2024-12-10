@@ -24,7 +24,11 @@ import MealsHeader from "./MealsHeader";
 
 const SupplierMeals: React.FC = () => {
   const { t } = useTranslation("meals");
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isSupplierMealModalOpen,
+    onOpen: onSupplierMealModalOpen,
+    onClose: onSupplierMealModalClose,
+  } = useDisclosure();
   const {
     isOpen: isFiltersOpen,
     onOpen: onFiltersOpen,
@@ -105,7 +109,7 @@ const SupplierMeals: React.FC = () => {
               />
               <TextButton
                 className="w-1/2"
-                onClick={onOpen}
+                onClick={onSupplierMealModalOpen}
                 text={t("addMeal")}
                 primary={true}
               />
@@ -127,7 +131,7 @@ const SupplierMeals: React.FC = () => {
                     {t("noMealsDescription")}
                   </p>
                   <PrimaryButton
-                    onClick={onOpen}
+                    onClick={onSupplierMealModalOpen}
                     className="mt-4 w-[200px]"
                     text={t("addMeal")}
                   />
@@ -185,10 +189,10 @@ const SupplierMeals: React.FC = () => {
         </div>
       </div>
 
-      {isOpen && (
+      {isSupplierMealModalOpen && (
         <AddMealModal
-          isOpenModal={isOpen}
-          onClose={onClose}
+          isOpenModal={isSupplierMealModalOpen}
+          onClose={onSupplierMealModalClose}
           mealToEdit={null}
         />
       )}

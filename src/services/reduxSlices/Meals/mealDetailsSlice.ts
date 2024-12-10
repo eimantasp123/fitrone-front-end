@@ -200,8 +200,6 @@ const mealDetailsSlice = createSlice({
           const { data, totalPages, currentPage, totalResults } =
             action.payload;
           state.meals[currentPage] = data;
-          console.log("currentPage", currentPage);
-          console.log("data", data);
           state.totalPages = totalPages;
           state.totalResults = totalResults;
           state.lastFetched = new Date().getTime();

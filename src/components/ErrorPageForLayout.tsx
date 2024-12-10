@@ -20,7 +20,11 @@ const ErrorPageForLayout: React.FC<ErrorPageForLayoutProps> = ({
   buttonLink,
   message = "",
 }) => {
-  const { isOpen: isModalOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isModalOpen,
+    onOpen: onSupportModalOpen,
+    onClose: onSupportModalClose,
+  } = useDisclosure();
 
   return (
     <>
@@ -42,7 +46,7 @@ const ErrorPageForLayout: React.FC<ErrorPageForLayoutProps> = ({
         <p className="absolute bottom-6 left-1/2 mt-4 -translate-x-1/2 text-textSecondary">
           Need help? Contact{" "}
           <span
-            onClick={onOpen}
+            onClick={onSupportModalOpen}
             className="cursor-pointer font-semibold text-textPrimary"
           >
             Support
@@ -55,7 +59,9 @@ const ErrorPageForLayout: React.FC<ErrorPageForLayoutProps> = ({
           section.
         </p>
       </div>
-      <SupportModal isModalOpen={isModalOpen} onClose={onClose} />
+      {isModalOpen && (
+        <SupportModal isModalOpen={isModalOpen} onClose={onSupportModalClose} />
+      )}
     </>
   );
 };

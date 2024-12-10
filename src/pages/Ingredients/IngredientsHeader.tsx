@@ -7,7 +7,11 @@ import AddIngredientManualModal from "../Meals/AddIngredientManualModal";
 
 const IngredientsHeader: React.FC = () => {
   const { t } = useTranslation("meals");
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isIngredientHeader,
+    onClose: onIngredientHeaderClose,
+    onOpen: onIngredientHeaderOpen,
+  } = useDisclosure();
   const dispatch = useAppDispatch();
   const { searchQuery } = useAppSelector((state) => state.ingredientsDetails);
 
@@ -36,13 +40,18 @@ const IngredientsHeader: React.FC = () => {
           )}
         </div>
         <TextButton
-          onClick={onOpen}
+          onClick={onIngredientHeaderOpen}
           text={`+ ${t("addIngredient")}`}
           primary={true}
         />
       </div>
       {/* Ingredient inputs manual */}
-      <AddIngredientManualModal isOpen={isOpen} onClose={onClose} />
+      {isIngredientHeader && (
+        <AddIngredientManualModal
+          isOpen={isIngredientHeader}
+          onClose={onIngredientHeaderClose}
+        />
+      )}
     </>
   );
 };

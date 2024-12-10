@@ -28,25 +28,16 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
         await refreshToken();
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        if (refreshError.response && refreshError.response.status === 401) {
-          console.error("An error occurred while making a request:", error);
-          return Promise.reject(refreshError);
-        }
         return Promise.reject(refreshError);
       }
-    } else {
-      return Promise.reject(error);
     }
+    return Promise.reject(error);
   },
 );
 

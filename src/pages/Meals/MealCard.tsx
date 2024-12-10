@@ -31,7 +31,11 @@ interface MealCardProps {
 
 const MealCard: React.FC<MealCardProps> = ({ meal }) => {
   const { t } = useTranslation("meals");
-  const { onOpen, onClose, isOpen } = useDisclosure();
+  const {
+    onOpen: onOpenMealModalInCard,
+    onClose: onCloseMealModalInCard,
+    isOpen: isOpenMealModalInCard,
+  } = useDisclosure();
   const {
     onOpen: onOpenDeleteModal,
     onClose: onCloseDeleteModal,
@@ -207,7 +211,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
               {t("delete")}
             </button>
             <button
-              onClick={onOpen}
+              onClick={onOpenMealModalInCard}
               className="flex-1 rounded-md bg-primary py-[6px] text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
             >
               {t("editAndView")}
@@ -216,6 +220,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
         </div>
       </div>
       {/* Delete confirm */}
+
       {deleteModalOpen && (
         <Modal
           isOpen={deleteModalOpen}
@@ -249,11 +254,12 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
           </ModalContent>
         </Modal>
       )}
+
       {/* Update meal */}
-      {isOpen && (
+      {isOpenMealModalInCard && (
         <AddMealModal
-          isOpenModal={isOpen}
-          onClose={onClose}
+          isOpenModal={isOpenMealModalInCard}
+          onClose={onCloseMealModalInCard}
           mealToEdit={meal}
         />
       )}

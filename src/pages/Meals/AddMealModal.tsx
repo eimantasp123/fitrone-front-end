@@ -10,6 +10,7 @@ import {
 } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { capitalizeFirstLetter, formatNumber } from "@/utils/helper";
+import { Ingredients, Meal } from "@/utils/types";
 import { useMealInputSchema } from "@/utils/validationSchema";
 import {
   Modal,
@@ -23,9 +24,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { AiOutlineBarChart } from "react-icons/ai";
-import { BiCircle } from "react-icons/bi";
-import { FaBurn, FaTachometerAlt } from "react-icons/fa";
 import { FaRegCircleDot } from "react-icons/fa6";
 import { GiMeal } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -37,7 +35,6 @@ import ImageUpload from "./ImageUpload";
 import SearchIngredientFromDatabase from "./SearchIngredientFromDatabase";
 import SearchIngredientModal from "./SearchIngredientModal";
 import SelectOptions from "./SelectOptions";
-import { Ingredients, Meal } from "@/utils/types";
 
 interface AddMealModalProps {
   isOpenModal: boolean;
@@ -123,6 +120,11 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
       }
     }
   }, [mealToEdit, methods, isOpenModal]);
+
+  useEffect(() => {
+    console.log("Modal Mounted");
+    return () => console.log("Modal Unmounted");
+  }, []);
 
   const calories = formatNumber(
     ingredients.reduce((acc, curr) => acc + +curr.calories, 0),
