@@ -38,10 +38,10 @@ export interface UserDetails {
   hasUsedFreeTrial: boolean;
   archivedData?: {
     messageRead: boolean;
-    ingredients: number;
-    meals: number;
-    meelWeekTypes: number;
-    clients: number;
+    ingredients: number | null;
+    meals: number | null;
+    mealWeekTypes: number | null;
+    clients: number | null;
   };
 }
 
@@ -369,7 +369,7 @@ const personalDetailsSlice = createSlice({
           messageRead: true,
           ingredients: state.details.archivedData?.ingredients || 0,
           meals: state.details.archivedData?.meals || 0,
-          meelWeekTypes: state.details.archivedData?.meelWeekTypes || 0,
+          mealWeekTypes: state.details.archivedData?.mealWeekTypes || 0,
           clients: state.details.archivedData?.clients || 0,
         };
       })

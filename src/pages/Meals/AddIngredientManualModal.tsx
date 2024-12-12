@@ -168,6 +168,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
         ).unwrap();
         closeModal();
       } else {
+        console.log("backendData", backendData);
         // Add the ingredient to database
         const response = await axiosInstance.post("/ingredients", backendData);
         const { status, message, warning, data } = response.data;

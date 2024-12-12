@@ -34,9 +34,16 @@ const MessagesForSubscription: React.FC<MessagesForSubscriptionProps> = ({
     dispatch(markArchivedDataAsRead());
   };
 
+  const archivedDataValid =
+    archivedData &&
+    archivedData.messageRead === false &&
+    !Object.keys(archivedData)
+      .filter((item) => item !== "messageRead")
+      .every((key) => archivedData[key as keyof ArchivedData] === null);
+
   return (
     <>
-      {archivedData && archivedData.messageRead === false && (
+      {archivedDataValid && (
         <div className="rounded-xl bg-background p-5 text-sm text-textPrimary dark:bg-backgroundSecondary">
           <h3 className="mb-1 font-semibold uppercase text-red-500">
             {t("archivedData.dataSummaryTitle", {
@@ -147,10 +154,10 @@ export default MessagesForSubscription;
 
 interface ArchivedData {
   messageRead: boolean;
-  ingredients: number;
-  meals: number;
-  meelWeekTypes: number;
-  clients: number;
+  ingredients: number | null;
+  meals: number | null;
+  mealWeekTypes: number | null;
+  clients: number | null;
 }
 
 const generateArchivedDataMessage = (
@@ -161,28 +168,28 @@ const generateArchivedDataMessage = (
 
   const details = [];
 
-  if (archivedData.ingredients > 0) {
+  if (archivedData.ingredients !== null) {
     details.push({
       label: t("archivedData.ingredients"),
       count: archivedData.ingredients,
     });
   }
 
-  if (archivedData.meals > 0) {
+  if (archivedData.meals !== null) {
     details.push({
       label: t("archivedData.meals"),
       count: archivedData.meals,
     });
   }
 
-  if (archivedData.meelWeekTypes > 0) {
+  if (archivedData.mealWeekTypes !== null) {
     details.push({
       label: t("archivedData.mealWeekTypes"),
-      count: archivedData.meelWeekTypes,
+      count: archivedData.mealWeekTypes,
     });
   }
 
-  if (archivedData.clients > 0) {
+  if (archivedData.clients !== null) {
     details.push({
       label: t("archivedData.clients"),
       count: archivedData.clients,

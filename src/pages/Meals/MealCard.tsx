@@ -24,6 +24,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import AddMealModal from "./AddMealModal";
 import { Meal } from "@/utils/types";
+import { capitalizeFirstLetter } from "@/utils/helper";
 
 interface MealCardProps {
   meal: Meal;
@@ -92,7 +93,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
               {/*  */}
               <div className="w-[85%] flex-1 text-start">
                 <h2 className="text-[16px] font-medium text-textPrimary">
-                  {title}
+                  {capitalizeFirstLetter(title)}
                 </h2>
               </div>
               <div className="flex w-[15%] items-start justify-end">
