@@ -1,10 +1,10 @@
-import { HelmetProvider, Helmet } from "react-helmet-async";
-import { useSelector } from "react-redux";
-import SupplierWeekPlan from "./SupplierWeekPlan";
 import LockPage from "@/components/common/LockPage";
+import { useAppSelector } from "@/store";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import SupplierWeekPlan from "./SupplierWeekPlan";
 
-const WeekPlan = () => {
-  const { details: user } = useSelector((state) => state.personalDetails);
+const WeekPlan: React.FC = () => {
+  const { details: user } = useAppSelector((state) => state.personalDetails);
 
   if (!user) return null;
 

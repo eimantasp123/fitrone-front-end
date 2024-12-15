@@ -23,6 +23,8 @@ import enSubscription from "./locales/en/subscription.json";
 import ltSubscription from "./locales/lt/subscription.json";
 import enDashboard from "./locales/en/dashboard.json";
 import ltDashboard from "./locales/lt/dashboard.json";
+import enWeekPlan from "./locales/en/weekPlan.json";
+import ltWeekPlan from "./locales/lt/weekPlan.json";
 
 // Initialize i18n
 i18n
@@ -41,6 +43,7 @@ i18n
         meals: enMeals,
         subscription: enSubscription,
         dashboard: enDashboard,
+        weekPlan: enWeekPlan,
       },
       lt: {
         common: ltCommon,
@@ -53,6 +56,7 @@ i18n
         meals: ltMeals,
         subscription: ltSubscription,
         dashboard: ltDashboard,
+        weekPlan: ltWeekPlan,
       },
     },
     fallbackLng: "en", // Fallback language if the current language is not available

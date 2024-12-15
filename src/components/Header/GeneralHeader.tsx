@@ -53,7 +53,7 @@ const GeneralHeader: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 md:gap-2">
-          <span className="cursor-pointer rounded-lg px-3 py-2 text-[14px] transition-colors duration-200 ease-in-out hover:bg-background dark:hover:bg-neutral-700/50">
+          <span className="hidden cursor-pointer rounded-lg px-3 py-2 text-[14px] transition-colors duration-200 ease-in-out hover:bg-background dark:hover:bg-neutral-700/50 md:block">
             🐞 {t("header:systemIssues")}
           </span>
           {/* Language switcher */}

@@ -101,9 +101,7 @@ export const deleteMeal = createAsyncThunk(
   "mealsDetails/deleteMeal",
   async (mealId: string, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.delete("/meals", {
-        params: { mealId },
-      });
+      const response = await axiosInstance.delete(`/meals/${mealId}`);
       return response.data;
     } catch (error: unknown) {
       const typedError = error as ApiError;
