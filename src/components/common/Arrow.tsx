@@ -8,7 +8,6 @@ interface ArrowProps {
 }
 
 const Arrow: React.FC<ArrowProps> = ({ onClick, type, direction = "left" }) => {
-  // Compute the className based on the type
   const classname = (() => {
     switch (type) {
       case "dark":

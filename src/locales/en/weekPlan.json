@@ -1,5 +1,7 @@
 {
-  "addWeekPlan": "Add week plan",
-  "noWeekPlanForCurrentWeek": "No plan for current week",
-  "noWeekPlanForCurrentWeekDescription": "You can add a new week plan by clicking the button below"
+  "addMenu": "Assign Existing Menu",
+  "addNewMenu": "Create New Menu",
+  "seeAllMenys": "See All Created Menus",
+  "noMenuForCurrentWeek": "You have not assigned any menus for this week yet.",
+  "noMenuForCurrentWeekDescription": "Assign an existing menu or create a new one to start planning."
 }

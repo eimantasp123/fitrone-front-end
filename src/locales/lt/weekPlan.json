@@ -1,5 +1,7 @@
 {
-  "addWeekPlan": "Pridėti savaitės planą",
-  "noWeekPlanForCurrentWeek": "Nėra  plano šiai savaitėi",
-  "noWeekPlanForCurrentWeekDescription": "Jūs galite pridėti naują savaitės planą paspaudę mygtuką apačioje"
+  "addMenu": "Priskirti Esamą Meniu",
+  "addNewMenu": "Sukurti Naują Meniu",
+  "seeAllMenys": "Peržiūrėti Visus Sukurtus Meniu",
+  "noMenuForCurrentWeek": "Šiai savaitei dar nepriskyrėte jokių meniu.",
+  "noMenuForCurrentWeekDescription": "Priskirkite esamą meniu arba sukurkite naują, kad pradėtumėte planavimą."
 }

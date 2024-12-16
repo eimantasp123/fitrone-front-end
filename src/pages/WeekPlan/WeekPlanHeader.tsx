@@ -2,22 +2,26 @@ import Arrow from "@/components/common/Arrow";
 import TextButton from "@/components/common/TextButton";
 import { useTranslation } from "react-i18next";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import WeekPlanCarouselForHeader from "./components/WeekPlanCarouselForHeader";
+import CustomButton from "@/components/common/CustomButton";
+import { useState } from "react";
+import { getWeekRange } from "./utils/dataUtils";
 
-interface WeekPlanHeaderProps {
-  currentWeekPlans: string[];
-}
-
-const WeekPlanHeader: React.FC<WeekPlanHeaderProps> = ({
-  currentWeekPlans,
-}) => {
+const WeekPlanHeader: React.FC = () => {
   const { t } = useTranslation("weekPlan");
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-  const goBack = true;
+  const { start, end } = getWeekRange(currentDate);
+
+  console.log(new Date());
+  const date = new Date();
+  console.log(date.getDate());
+  console.log(date.getDay());
+  const startOfWeek = new Date(date);
+  const goBack = false;
 
   return (
     <>
-      <div className="z-20 flex w-full flex-col items-center justify-between gap-4 bg-background px-3 py-3 dark:bg-backgroundSecondary md:flex-row md:gap-10 md:rounded-lg lg:items-center">
+      <div className="z-20 flex w-full flex-col items-center justify-between gap-4 bg-background px-5 py-3 dark:bg-backgroundSecondary md:flex-row md:gap-10 md:rounded-lg lg:items-center">
         {/* Navigation Section */}
         <div
           className={`flex w-full ${goBack ? "md:w-[400px]" : "w-full flex-col-reverse gap-3 md:w-[200px]"} items-center justify-between md:gap-6`}
@@ -56,21 +60,9 @@ const WeekPlanHeader: React.FC<WeekPlanHeaderProps> = ({
           </div>
         </div>
 
-        {/* Week Plans Carousel */}
-        <WeekPlanCarouselForHeader
-          goBack={goBack}
-          currentWeekPlan={currentWeekPlans}
-        />
-
-        {/* Add Week Plan Button */}
         {!goBack && (
           <div className="hidden md:block">
-            <TextButton
-              // onClick={onIngredientHeaderOpen}
-              text={`+ ${t("addWeekPlan")}`}
-              primary={true}
-              className="w-[200px]"
-            />
+            <CustomButton text={t("seeAllMenys")} type="primary" />
           </div>
         )}
       </div>
