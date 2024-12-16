@@ -17,6 +17,8 @@ const LanguageSelector = () => {
     i18n.changeLanguage(lang);
   };
 
+  const normalizedLanguage = i18n.language.split("-")[0].toLowerCase();
+
   return (
     <Menu>
       <MenuButton
@@ -37,7 +39,7 @@ const LanguageSelector = () => {
       >
         <div className="flex items-center justify-center gap-3">
           <div className="hidden whitespace-nowrap text-[13px] font-normal transition-all duration-1000 ease-in-out xl:block">
-            {t("language")}: {i18n.language.toUpperCase()}
+            {t("language")}: {normalizedLanguage.toUpperCase()}
           </div>
           <GrLanguage className="text-sm" />
         </div>

@@ -36,7 +36,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       disabled={disabled}
       className={`${className} ${
         disabled ? "cursor-not-allowed" : ""
-      } text-nowrap rounded-lg px-6 py-2 text-sm font-medium transition-colors duration-300 ease-in-out`}
+      } select-none text-nowrap rounded-lg px-6 py-2 text-sm font-medium transition-colors duration-300 ease-in-out`}
     >
       {children || text}
     </button>

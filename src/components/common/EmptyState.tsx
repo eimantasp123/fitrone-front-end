@@ -20,11 +20,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   secondButtonText,
 }) => {
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-1 p-2 pt-28">
-      <VscEmptyWindow className="text-4xl" />
+    <div className="mt-2 flex h-[50vh] w-[94%] flex-col items-center justify-center gap-1 rounded-2xl border-[1.5px] border-dashed border-primary bg-background text-center dark:bg-backgroundSecondary md:mt-1 md:w-[98%]">
+      <VscEmptyWindow className="mb-4 text-4xl" />
       <h1 className="text-md font-medium text-textPrimary">{title}</h1>
       <p className="text-center text-sm text-textSecondary">{description}</p>
-      <div className="mt-4 flex items-center gap-4">
+      <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
         {firstButtonText && (
           <CustomButton
             onClick={onClickFirstButton}

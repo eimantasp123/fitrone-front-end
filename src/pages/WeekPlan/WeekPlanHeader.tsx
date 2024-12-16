@@ -1,40 +1,84 @@
 import Arrow from "@/components/common/Arrow";
+import CustomButton from "@/components/common/CustomButton";
 import TextButton from "@/components/common/TextButton";
+import { capitalizeFirstLetter, formatDate } from "@/utils/helper";
+import { addWeeks, endOfWeek, format, getISOWeek, startOfWeek } from "date-fns";
+import { enUS, lt } from "date-fns/locale";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import CustomButton from "@/components/common/CustomButton";
-import { useState } from "react";
-import { getWeekRange } from "./utils/dataUtils";
+
+// Custom locale for Lithuanian
+const customLt = {
+  ...lt,
+  localize: {
+    ...lt.localize,
+    day: (dayIndex: number) => {
+      const days = [
+        "Sekmadienis",
+        "Pirmadienis",
+        "Antradienis",
+        "Trečiadienis",
+        "Ketvirtadienis",
+        "Penktadienis",
+        "Šeštadienis",
+      ];
+      return days[dayIndex];
+    },
+  },
+};
 
 const WeekPlanHeader: React.FC = () => {
   const { t } = useTranslation("weekPlan");
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [goBack, setGoBack] = useState(true);
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
-  const { start, end } = getWeekRange(currentDate);
+  const lng = localStorage.getItem("i18nextLng");
+  const locale = lng === "lt" ? customLt : enUS;
 
-  console.log(new Date());
-  const date = new Date();
-  console.log(date.getDate());
-  console.log(date.getDay());
-  const startOfWeek = new Date(date);
-  const goBack = false;
+  // Get the current day name
+  const getCurrentDayName = () => {
+    const today = new Date();
+    return format(today, "EEEE", { locale });
+  };
+
+  // Derived state for week start, end, and number
+  const weekStart = useMemo(
+    () => startOfWeek(currentDate, { weekStartsOn: 1 }),
+    [currentDate],
+  );
+  const weekEnd = useMemo(
+    () => endOfWeek(currentDate, { weekStartsOn: 1 }),
+    [currentDate],
+  );
+  const weekNumber = useMemo(() => getISOWeek(currentDate), [currentDate]);
+
+  // Navigate weeks based on the offset
+  const navigateWeeks = (offset: number) => {
+    setCurrentDate(addWeeks(currentDate, offset));
+  };
+
+  // Format the week range
+  const formatWeek = useMemo(() => {
+    const start = format(weekStart, "dd MMMM", { locale });
+    const end = format(weekEnd, "dd MMMM", { locale });
+    return `${formatDate(start)} - ${formatDate(end)}`;
+  }, [weekStart, weekEnd, locale]);
 
   return (
     <>
-      <div className="z-20 flex w-full flex-col items-center justify-between gap-4 bg-background px-5 py-3 dark:bg-backgroundSecondary md:flex-row md:gap-10 md:rounded-lg lg:items-center">
+      <div className="z-20 grid w-full grid-cols-1 grid-rows-3 gap-2 bg-background px-5 py-3 dark:bg-backgroundSecondary sm:grid-cols-2 sm:grid-rows-2 md:rounded-lg xl:grid-cols-6 xl:grid-rows-1">
         {/* Navigation Section */}
-        <div
-          className={`flex w-full ${goBack ? "md:w-[400px]" : "w-full flex-col-reverse gap-3 md:w-[200px]"} items-center justify-between md:gap-6`}
-        >
+        <div className="flex items-center justify-center space-x-10 sm:col-span-1 sm:justify-start md:col-span-1 xl:col-span-2">
+          {/* Current day */}
           {goBack && (
             <TextButton
               primary={true}
-              className="w-[60%] items-center justify-center gap-3"
-              text="Go back"
-              icon={<MdKeyboardDoubleArrowLeft className="text-lg" />}
+              className="w-[130px] items-center justify-center gap-3"
+              text={t("goBack")}
             />
           )}
-          {!goBack && (
+          {/* {!goBack && (
             <div className="md:hidden">
               <TextButton
                 // onClick={onIngredientHeaderOpen}
@@ -43,28 +87,38 @@ const WeekPlanHeader: React.FC = () => {
                 className="w-[300px]"
               />
             </div>
-          )}
-
-          <div
-            className={`flex w-full items-center justify-end gap-4 md:justify-start ${goBack ? "" : "justify-center gap-8"}`}
-          >
-            <span>
-              <Arrow direction="left" type="dark" />
-            </span>
-            <span className="text-nowrap text-sm font-medium">
-              21 Sep - 28 Sep
-            </span>
-            <span>
-              <Arrow direction="right" type="dark" />
-            </span>
-          </div>
+          )} */}
+          <span className="text-md font-medium">
+            {capitalizeFirstLetter(getCurrentDayName())}
+          </span>
         </div>
 
-        {!goBack && (
-          <div className="hidden md:block">
-            <CustomButton text={t("seeAllMenys")} type="primary" />
-          </div>
-        )}
+        {/* Week navigation */}
+        <div
+          className={`flex items-center justify-center sm:col-span-2 xl:col-span-2`}
+        >
+          <span>
+            <Arrow
+              onClick={() => navigateWeeks(-1)}
+              direction="left"
+              type="dark"
+            />
+          </span>
+          <span className="w-[300px] select-none text-nowrap text-center text-sm font-medium">
+            {`${formatWeek} (${t("week")} ${weekNumber})`}
+          </span>
+          <span>
+            <Arrow
+              onClick={() => navigateWeeks(1)}
+              direction="right"
+              type="dark"
+            />
+          </span>
+        </div>
+
+        <div className="text-center sm:col-start-2 sm:col-end-3 sm:row-start-1 sm:row-end-2 sm:text-end xl:col-span-2 xl:row-auto">
+          <CustomButton text={t("seeAllMenys")} type="primary" />
+        </div>
       </div>
     </>
   );
