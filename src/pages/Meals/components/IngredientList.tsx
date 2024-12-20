@@ -48,15 +48,14 @@ const IngredientList: React.FC<IngredientListProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-1 text-xs text-textPrimary md:flex md:gap-2">
-                  <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundSecondary">
-                    {t("protein")}: {ingredient.protein}g.
-                  </span>
-                  <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundSecondary">
-                    {t("carbs")}: {ingredient.carbs}g.
-                  </span>
-                  <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundSecondary">
-                    {t("fat")}: {ingredient.fat}g.
-                  </span>
+                  {(["protein", "carbs", "fat"] as const).map((key) => (
+                    <span
+                      key={key}
+                      className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundSecondary"
+                    >
+                      {t(key)}: {ingredient[key]}g.
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>

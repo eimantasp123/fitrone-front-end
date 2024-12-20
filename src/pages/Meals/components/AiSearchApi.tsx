@@ -6,9 +6,9 @@ import { Ingredients } from "@/utils/types";
 import axios from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IoIosCloseCircleOutline } from "react-icons/io";
-import { MdSearch } from "react-icons/md";
+import SearchInputForm from "./SearchInputForm";
 import ShowSearchResults from "./ShowSearchResults";
+import SetUnit from "./SetUnit";
 
 interface SearchInputForApiProps {
   className?: string;
@@ -169,66 +169,28 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
   return (
     <div className="w-full">
       {/*  */}
-      <p className="flex items-center gap-1 pt-3 text-[13px] text-textPrimary">
+      <p className="flex items-center gap-1 pt-3 text-sm text-textPrimary">
         1. {t("firstInfoForSearchIngredient")}
       </p>
-      <div className="my-2 flex w-full flex-col gap-4 text-nowrap md:flex-row">
-        <div className="flex items-center gap-3">
-          <span className="text-xs">{t("unit")}</span>
-          <div className="flex flex-1 items-center gap-2 text-xs">
-            <div
-              onClick={() => setUnit("g")}
-              className={`flex w-[100px] cursor-pointer items-center ${unit === "g" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} justify-center rounded-lg px-4 py-2`}
-            >
-              {t("grams")}
-            </div>
-            <div
-              onClick={() => setUnit("ml")}
-              className={`flex w-[100px] cursor-pointer items-center justify-center rounded-lg ${unit === "ml" ? "bg-secondary text-white dark:bg-primary dark:text-black" : "border bg-transparent"} px-4 py-2`}
-            >
-              {t("milliliters")}
-            </div>
-          </div>
-        </div>
+      <div className="my-3 flex w-full flex-col gap-4 text-nowrap md:flex-row">
+        <SetUnit unit={unit} setUnit={setUnit} t={t} showLabel={false} />
       </div>
 
       {/*  */}
-      <p className="flex items-center gap-1 border-t-[1px] border-borderPrimary py-2 text-[13px] text-textPrimary">
+      <p className="flex items-center gap-1 py-2 text-sm text-textPrimary">
         2. {t("secondInfoForSearchIngredient")}
       </p>
       <div className={`relative min-w-[200px] ${className} mx-auto`}>
-        <form className="flex items-center">
-          <div className="pointer-events-none absolute left-0 top-[13px] flex items-center pl-4">
-            <MdSearch className="text-xl text-placeholder" />
-          </div>
-          <input
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            type="text"
-            placeholder={t("searchPlaceholder")}
-            className={`w-full px-12 py-3 text-sm ${
-              showResults
-                ? "focus:border-t-1 focus:border-l-1 focus:border-r-1 rounded-tl-lg rounded-tr-lg border-b-transparent shadow-none"
-                : "rounded-lg transition-shadow duration-300 ease-in-out focus:shadow-custom-light4"
-            } border border-borderPrimary placeholder-placeholder outline-none`}
-          />
-          <button
-            onClick={(e) => handleSearch(e)}
-            type="submit"
-            className={`absolute right-0 m-1 flex h-[30px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black`}
-          >
-            {t("search")}
-          </button>
-          {searchQuery && (
-            <span
-              onClick={handleClean}
-              className={`absolute right-[80px] m-1 flex h-[30px] cursor-pointer items-center rounded-lg bg-backgroundSecondary px-3 text-sm dark:bg-backgroundLight`}
-            >
-              <IoIosCloseCircleOutline className="text-xl" />
-            </span>
-          )}
-        </form>
-
+        {/* Search input */}
+        <SearchInputForm
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          showResults={showResults}
+          handleSearch={handleSearch}
+          handleClean={handleClean}
+          t={t}
+        />
+        {/* Search results */}
         {showResults && (
           <ShowSearchResults
             loading={loading}
@@ -237,7 +199,7 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
             currentSingleAmount={currentAmount}
             onAccept={handleAccept}
             onDelete={handleDeleteResults}
-            onChangeHandler={(e) =>
+            onSingleAmountChange={(e) =>
               setCurrentAmount(parseInt(e.target.value) || "")
             }
           />

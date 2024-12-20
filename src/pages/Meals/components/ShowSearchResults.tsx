@@ -16,7 +16,7 @@ interface ShowSearchResultsProps {
   onAccept: (id?: string) => void;
   onDelete?: () => void;
   infoForSearchIngredient?: string | null;
-  onChangeHandler?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSingleAmountChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ShowSearchResults: React.FC<ShowSearchResultsProps> = ({
@@ -26,12 +26,19 @@ const ShowSearchResults: React.FC<ShowSearchResultsProps> = ({
   currentSingleAmount,
   currentAmounts,
   onAmountChange,
-  onChangeHandler,
+  onSingleAmountChange,
   onAccept,
   onDelete,
   handleAcceptByResultId = false,
   infoForSearchIngredient,
 }) => {
+  // Render input value based on the current amount state
+  const renderInputValue = (id: string) => {
+    if (currentSingleAmount !== undefined) return currentSingleAmount;
+    if (currentAmounts) return currentAmounts[id] || "";
+    return "";
+  };
+
   return (
     <div
       onWheel={(e) => e.stopPropagation()}
@@ -67,20 +74,16 @@ const ShowSearchResults: React.FC<ShowSearchResultsProps> = ({
                   </span>
                   <input
                     type="number"
-                    value={
-                      currentSingleAmount
-                        ? currentSingleAmount
-                        : (result.ingredientId &&
-                            currentAmounts &&
-                            currentAmounts[result.ingredientId]) ||
-                          ""
-                    }
+                    value={renderInputValue(result.ingredientId as string)}
                     onChange={(e) => {
-                      if (onAmountChange && result.ingredientId) {
-                        onAmountChange(e.target.value, result.ingredientId);
+                      if (onAmountChange && (result.ingredientId as string)) {
+                        onAmountChange(
+                          e.target.value,
+                          result.ingredientId as string,
+                        );
                       } else {
-                        if (onChangeHandler) {
-                          onChangeHandler(e);
+                        if (onSingleAmountChange) {
+                          onSingleAmountChange(e);
                         }
                       }
                     }}
@@ -100,7 +103,7 @@ const ShowSearchResults: React.FC<ShowSearchResultsProps> = ({
                       onAccept();
                     }
                   }}
-                  className="flex size-5 cursor-pointer items-center justify-center rounded-full bg-primary"
+                  className={`flex ${onDelete ? "size-5" : "size-6"} cursor-pointer items-center justify-center rounded-full bg-primary`}
                 >
                   <MdDownloadDone className="text-md text-black" />
                 </span>

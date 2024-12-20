@@ -268,11 +268,14 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
                 {/* Calculate meal nutritions */}
                 <div className="my-4 h-fit w-full">
                   <div className="grid grid-cols-1 gap-2 md:grid-cols-4">
+                    {/* Calories */}
                     <InfoCard
                       value={calories}
                       title={t("calories")}
                       unit="kcal"
                     />
+
+                    {/* Protein */}
                     <InfoCard value={protein} title={t("protein")} unit="g." />
 
                     {/* Carbs */}

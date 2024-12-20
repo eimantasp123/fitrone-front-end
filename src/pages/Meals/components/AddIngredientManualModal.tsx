@@ -27,6 +27,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import SetUnit from "./SetUnit";
 
 interface Ingredient {
   title: string;
@@ -273,25 +274,7 @@ const AddIngredientManualModal: React.FC<AddIngredientManualModalProps> = ({
               </p>
               <div className="flex gap-4">
                 {/* Select unit */}
-                <div className="flex flex-1 flex-col gap-1">
-                  <span className="text-[13px] text-textPrimary">
-                    {t("unit")}
-                  </span>
-                  <div className="flex flex-1 items-center gap-2 text-sm">
-                    <div
-                      onClick={() => setUnit("g")}
-                      className={`flex flex-1 cursor-pointer items-center ${unit === "g" ? "bg-primary text-black dark:bg-primary" : "border border-borderDark bg-transparent text-black/60 dark:border-borderLight dark:text-white/40"} justify-center rounded-lg px-4 py-[11px]`}
-                    >
-                      {t("grams")}
-                    </div>
-                    <div
-                      onClick={() => setUnit("ml")}
-                      className={`flex flex-1 cursor-pointer items-center justify-center rounded-lg ${unit === "ml" ? "bg-primary text-black dark:bg-primary" : "border border-borderDark bg-transparent text-black/60 dark:border-borderLight dark:text-white/40"} px-4 py-[11px]`}
-                    >
-                      {t("milliliters")}
-                    </div>
-                  </div>
-                </div>
+                <SetUnit unit={unit} setUnit={setUnit} t={t} />
                 {/*  */}
                 <div className="flex flex-1 flex-col gap-2">
                   <CustomInput

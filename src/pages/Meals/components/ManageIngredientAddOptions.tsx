@@ -1,12 +1,12 @@
+import { UserDetails } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { Ingredients } from "@/utils/types";
+import { useDisclosure } from "@chakra-ui/react";
 import { TFunction } from "i18next";
 import React from "react";
 import { WiStars } from "react-icons/wi";
-import SearchIngredientModal from "./SearchIngredientModal";
-import SearchIngredientFromDatabase from "./SearchIngredientFromDatabase";
 import AddIngredientManualModal from "./AddIngredientManualModal";
-import { useDisclosure } from "@chakra-ui/react";
-import { Ingredients } from "@/utils/types";
-import { UserDetails } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import SearchIngredientFromDatabase from "./SearchIngredientFromDatabase";
+import SearchIngredientModal from "./SearchIngredientModal";
 
 interface ManageIngredientAddOptionsProps {
   user: Partial<UserDetails>;

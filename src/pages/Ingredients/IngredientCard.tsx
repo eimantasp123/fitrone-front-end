@@ -21,6 +21,7 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import AddIngredientManualModal from "../Meals/components/AddIngredientManualModal";
+import CustomButton from "@/components/common/CustomButton";
 
 interface IngredientCardProps {
   ingredient: IngredientForOnce;
@@ -46,8 +47,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
     currentPage,
     loading,
   } = useAppSelector((state) => state.ingredientsDetails);
-  const { title, calories, protein, carbs, fat, unit, amount, ingredientId } =
-    ingredient;
+  const { title, calories, unit, amount, ingredientId } = ingredient;
 
   // Determine the data to display (filtered or all ingredients)
   const displayedIngredients =
@@ -89,7 +89,6 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
 
   // Add logging to confirm state changes
   const handleCloseDeleteModal = () => {
-    console.log("Closing delete modal");
     onCloseDeleteModal();
   };
 
@@ -128,36 +127,29 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
 
             {/* Nutrition details */}
             <div className="flex w-full gap-3 border-b-[1px] px-3 py-2 text-xs md:gap-5">
-              <div className="flex justify-center gap-2">
-                <p className="font-medium">{t("carbs")}:</p>
-                <p className="text-textPrimary">{carbs}g</p>
-              </div>
-
-              <div className="flex justify-center gap-2">
-                <p className="font-medium">{t("protein")}:</p>
-                <p className="text-textPrimary">{protein}g</p>
-              </div>
-
-              <div className="flex justify-center gap-2">
-                <p className="font-medium">{t("fat")}:</p>
-                <p className="text-textPrimary">{fat}g</p>
-              </div>
+              {(["carbs", "protein", "fat"] as const).map((key) => (
+                <div key={key} className="flex justify-center gap-2">
+                  <p className="font-medium">{t(key)}:</p>
+                  <p className="text-textPrimary">{ingredient[key]}g</p>
+                </div>
+              ))}
             </div>
           </div>
           {/* Call to action buttons */}
           <div className="mt-auto flex items-start gap-2 pt-2">
-            <button
+            <CustomButton
+              text={t("delete")}
               onClick={onOpenDeleteModal}
-              className="flex-1 rounded-md py-[6px] text-sm text-red-600 transition-colors duration-200 ease-in-out hover:bg-red-50 dark:hover:bg-red-700/20"
-            >
-              {t("delete")}
-            </button>
-            <button
+              type="delete"
+              textLight={true}
+              widthFull={true}
+            />
+            <CustomButton
+              text={t("editAndView")}
               onClick={onOpenIngredientModal}
-              className="flex-1 rounded-md bg-primary py-[6px] text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
-            >
-              {t("editAndView")}
-            </button>
+              textLight={true}
+              widthFull={true}
+            />
           </div>
         </div>
       </div>

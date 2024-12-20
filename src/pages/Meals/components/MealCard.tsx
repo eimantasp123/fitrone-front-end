@@ -1,31 +1,26 @@
-import RedButton from "@/components/common/RedButton";
-import TextButton from "@/components/common/TextButton";
+import CustomButton from "@/components/common/CustomButton";
 import {
   deleteMeal,
   getMeals,
   setCurrentPage,
 } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
+import { capitalizeFirstLetter } from "@/utils/helper";
+import { Meal } from "@/utils/types";
 import {
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  Popover,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import AddMealModal from "../AddMealModal";
-import { Meal } from "@/utils/types";
-import { capitalizeFirstLetter } from "@/utils/helper";
+import MealCardPopover from "./MealCardPopover";
 
+// Meal card component props interface
 interface MealCardProps {
   meal: Meal;
   dietaryPreferences: { key: string; title: string }[];
@@ -33,6 +28,7 @@ interface MealCardProps {
   categories: { key: string; title: string }[];
 }
 
+// Meal card component
 const MealCard: React.FC<MealCardProps> = ({
   meal,
   dietaryPreferences,
@@ -56,6 +52,7 @@ const MealCard: React.FC<MealCardProps> = ({
   );
   const { title, _id: id, nutrition, preferences, restrictions } = meal;
 
+  // Delete meal function
   const handleDelete = async () => {
     try {
       //  Delete the meal
@@ -113,102 +110,24 @@ const MealCard: React.FC<MealCardProps> = ({
 
             {/* Nutrition details */}
             <div className="flex w-full gap-3 border-b-[1px] px-3 py-2 text-xs md:gap-5">
-              <div className="flex justify-center gap-2">
-                <p className="font-medium">{t("carbs")}:</p>
-                <p className="text-textPrimary">{nutrition.carbs}g</p>
-              </div>
-
-              <div className="flex justify-center gap-2">
-                <p className="font-medium">{t("protein")}:</p>
-                <p className="text-textPrimary">{nutrition.protein}g</p>
-              </div>
-
-              <div className="flex justify-center gap-2">
-                <p className="font-medium">{t("fat")}:</p>
-                <p className="text-textPrimary">{nutrition.fat}g</p>
-              </div>
+              {(["carbs", "protein", "fat"] as const).map((key) => (
+                <div key={key} className="flex justify-center gap-2">
+                  <p className="font-medium">{t(key)}:</p>
+                  <p className="text-textPrimary">{nutrition[key]}g</p>
+                </div>
+              ))}
             </div>
 
             {/* Preferences and restrictions */}
-            <div className="flex w-full items-center gap-4 border-b-[1px] px-3 py-2 text-xs">
-              {/* Preferences */}
-              <Popover>
-                <PopoverTrigger>
-                  <button className="text-nowrap text-xs font-medium dark:text-neutral-200">
-                    {t("preferencesTitle")}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent sx={{ maxWidth: "270px" }}>
-                  <PopoverCloseButton />
-                  <PopoverHeader>{t("selected")}:</PopoverHeader>
-                  <PopoverBody>
-                    <div className="flex flex-wrap gap-2 text-xs">
-                      {preferences.length > 0 ? (
-                        preferences.map((preference) => {
-                          const translatedPreference = dietaryPreferences.find(
-                            (item) => item.key === preference,
-                          )?.title;
-
-                          return (
-                            <span
-                              key={preference}
-                              className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800"
-                            >
-                              {translatedPreference || preference}
-                            </span>
-                          );
-                        })
-                      ) : (
-                        <span className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800">
-                          {t("noPreferences")}
-                        </span>
-                      )}
-                    </div>
-                  </PopoverBody>
-                </PopoverContent>
-              </Popover>
-
-              {/* Vertical line */}
-              <hr className="h-[12px] w-[1px] bg-borderPrimary dark:bg-borderLight" />
-
-              {/* Preferences */}
-              <Popover>
-                <PopoverTrigger>
-                  <button className="text-nowrap text-xs font-medium dark:text-neutral-200">
-                    {t("restrictionsTitle")}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent sx={{ maxWidth: "270px" }}>
-                  <PopoverCloseButton />
-                  <PopoverHeader>{t("selected")}:</PopoverHeader>
-                  <PopoverBody>
-                    <div className="flex flex-wrap gap-2 text-xs">
-                      {restrictions.length > 0 ? (
-                        restrictions.map((restriction) => {
-                          const translatedRestriction =
-                            dietaryRestrictions.find(
-                              (item) => item.key === restriction,
-                            )?.title;
-
-                          return (
-                            <span
-                              key={restriction}
-                              className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800"
-                            >
-                              {translatedRestriction || restriction}
-                            </span>
-                          );
-                        })
-                      ) : (
-                        <span className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800">
-                          {t("noRestrictions")}
-                        </span>
-                      )}
-                    </div>
-                  </PopoverBody>
-                </PopoverContent>
-              </Popover>
-            </div>
+            <MealCardPopover
+              {...{
+                preferences,
+                dietaryPreferences,
+                restrictions,
+                dietaryRestrictions,
+                t,
+              }}
+            />
 
             {/* Ctegory */}
             <div className="flex w-full flex-wrap items-center gap-2 border-b-[1px] px-3 py-2 text-xs">
@@ -224,18 +143,19 @@ const MealCard: React.FC<MealCardProps> = ({
           </div>
           {/* Call to action buttons */}
           <div className="mt-auto flex items-start gap-2 py-2">
-            <button
+            <CustomButton
+              text={t("delete")}
               onClick={() => onOpenDeleteModal()}
-              className="flex-1 rounded-md py-[6px] text-sm text-red-600 transition-colors duration-200 ease-in-out hover:bg-red-50 dark:hover:bg-red-700/20"
-            >
-              {t("delete")}
-            </button>
-            <button
+              textLight={true}
+              widthFull={true}
+              type="delete"
+            />
+            <CustomButton
+              text={t("editAndView")}
               onClick={onOpenMealModalInCard}
-              className="flex-1 rounded-md bg-primary py-[6px] text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
-            >
-              {t("editAndView")}
-            </button>
+              textLight={true}
+              widthFull={true}
+            />
           </div>
         </div>
       </div>
@@ -257,17 +177,18 @@ const MealCard: React.FC<MealCardProps> = ({
                 {t("deleteMealDescription")}
               </p>
               <div className="flex w-full items-center justify-between gap-3">
-                <TextButton
-                  onClick={onCloseDeleteModal}
-                  className="flex-1"
+                <CustomButton
                   text={t("cancel")}
+                  type="light"
+                  widthFull={true}
+                  onClick={onCloseDeleteModal}
                 />
-                <RedButton
-                  onClick={handleDelete}
-                  type="button"
-                  updateLoading={loading}
-                  classname="flex-1"
+                <CustomButton
                   text={t("deleteMealTitle")}
+                  type="red"
+                  widthFull={true}
+                  loading={loading}
+                  onClick={handleDelete}
                 />
               </div>
             </ModalBody>

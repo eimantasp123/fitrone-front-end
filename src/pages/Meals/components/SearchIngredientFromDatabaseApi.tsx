@@ -1,15 +1,11 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
-import { capitalizeFirstLetter } from "@/utils/helper";
 import { Ingredients } from "@/utils/types";
 import { AxiosError } from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MdDownloadDone, MdSearch } from "react-icons/md";
-import { ThreeDots } from "react-loader-spinner";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+import SearchInputForm from "./SearchInputForm";
 import ShowSearchResults from "./ShowSearchResults";
-import IngredientCard from "@/pages/Ingredients/IngredientCard";
 
 interface SearchResult {
   ingredientId: string;
@@ -134,39 +130,17 @@ const SearchIngredientFromDatabaseApi: React.FC<
         ref={containerRef}
         className={`relative h-auto ${className} mx-auto`}
       >
-        <form className="flex items-center">
-          <div className="pointer-events-none absolute left-0 flex items-center pl-4">
-            <MdSearch className="text-xl text-placeholder" />
-          </div>
-          <input
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            type="text"
-            placeholder={t("searchPlaceholder")}
-            className={`w-full px-12 py-3 text-sm ${
-              showResults
-                ? "focus:border-t-1 focus:border-l-1 focus:border-r-1 rounded-tl-lg rounded-tr-lg border-b-transparent shadow-none"
-                : "rounded-lg transition-shadow duration-300 ease-in-out focus:shadow-custom-light4"
-            } border border-borderPrimary placeholder-placeholder outline-none`}
-          />
+        {/* Search input for ingredients */}
+        <SearchInputForm
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          showResults={showResults}
+          handleSearch={handleSearch}
+          handleClean={handleClean}
+          t={t}
+        />
 
-          <button
-            onClick={(e) => handleSearch(e)}
-            type="submit"
-            className={`absolute right-0 m-1 flex h-[30px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black`}
-          >
-            {t("search")}
-          </button>
-          {searchQuery && (
-            <span
-              onClick={handleClean}
-              className={`absolute right-[80px] m-1 flex h-[30px] cursor-pointer items-center rounded-lg bg-backgroundSecondary px-3 text-sm dark:bg-backgroundLight`}
-            >
-              <IoIosCloseCircleOutline className="text-lg" />
-            </span>
-          )}
-        </form>
-
+        {/* Show search results */}
         {showResults && (
           <ShowSearchResults
             handleAcceptByResultId={true}
