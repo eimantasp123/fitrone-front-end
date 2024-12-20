@@ -10,6 +10,8 @@ import { GiMeal } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import { MdCardMembership, MdDashboard } from "react-icons/md";
 import { PiBowlFoodFill } from "react-icons/pi";
+import { MdOutlineRestaurantMenu } from "react-icons/md";
+
 import { RiFeedbackFill } from "react-icons/ri";
 import SidebarNavLink from "../common/SideBarNavLink";
 
@@ -48,6 +50,12 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
           to="/week-plan"
           icon={FaRegCalendarCheck}
           text={t("week-plan")}
+        />
+        <SidebarNavLink
+          onClick={closeDrawer}
+          to="/weekly-menu"
+          icon={MdOutlineRestaurantMenu}
+          text={t("menu")}
         />
         <SidebarNavLink
           onClick={closeDrawer}

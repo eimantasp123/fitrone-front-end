@@ -1,0 +1,98 @@
+import { TFunction } from "i18next";
+import React from "react";
+import { WiStars } from "react-icons/wi";
+import SearchIngredientModal from "./SearchIngredientModal";
+import SearchIngredientFromDatabase from "./SearchIngredientFromDatabase";
+import AddIngredientManualModal from "./AddIngredientManualModal";
+import { useDisclosure } from "@chakra-ui/react";
+import { Ingredients } from "@/utils/types";
+import { UserDetails } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+
+interface ManageIngredientAddOptionsProps {
+  user: Partial<UserDetails>;
+  setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
+  t: TFunction;
+}
+
+const ManageIngredientAddOptions: React.FC<ManageIngredientAddOptionsProps> = ({
+  user,
+  setIngredients,
+  t,
+}) => {
+  const {
+    isOpen: recipeInputOpen,
+    onClose: CloseRecipeInputs,
+    onOpen: openRecipeInput,
+  } = useDisclosure();
+  const {
+    isOpen: searchInputOpen,
+    onClose: closeSearchInput,
+    onOpen: openSearchInputModal,
+  } = useDisclosure();
+  const {
+    isOpen: searchIngredientDatabaseOpen,
+    onClose: searchIngredientDatabaseClose,
+    onOpen: openSearchIngredientDatabase,
+  } = useDisclosure();
+  return (
+    <>
+      <div
+        className={`mt-2 grid grid-cols-1 gap-2 text-sm ${user.plan === "premium" ? "md:grid-cols-3" : "md:grid-cols-2"} md:gap-3`}
+      >
+        {user.plan === "premium" && (
+          <span
+            onClick={openSearchInputModal}
+            className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary py-3 text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:bg-primary dark:text-black dark:hover:bg-primaryDark"
+          >
+            <span>{t("findIngredientAi")}</span>
+            <WiStars className="mt-0 text-xl" />
+          </span>
+        )}
+        <span
+          onClick={openSearchIngredientDatabase}
+          className="cursor-pointer rounded-lg bg-backgroundSecondary py-3 text-center transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800"
+        >
+          {t("findIngredientFromDatabase")}
+        </span>
+        <span
+          onClick={openRecipeInput}
+          className="cursor-pointer rounded-lg bg-backgroundSecondary py-3 text-center transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800"
+        >
+          {t("enterIngredientManually")}
+        </span>
+      </div>
+
+      {/* Search input for API */}
+      {user.plan === "premium" && (
+        <>
+          {searchInputOpen && (
+            <SearchIngredientModal
+              isOpen={searchInputOpen}
+              setIngredients={setIngredients}
+              onClose={closeSearchInput}
+            />
+          )}
+        </>
+      )}
+
+      {/* Search ingredient from database */}
+      {searchIngredientDatabaseOpen && (
+        <SearchIngredientFromDatabase
+          isOpen={searchIngredientDatabaseOpen}
+          onClose={searchIngredientDatabaseClose}
+          setIngredients={setIngredients}
+        />
+      )}
+      {/* Ingredient inputs manual */}
+      {recipeInputOpen && (
+        <AddIngredientManualModal
+          isOpen={recipeInputOpen}
+          onClose={CloseRecipeInputs}
+          setIngredients={setIngredients}
+        />
+      )}
+    </>
+  );
+};
+
+export default ManageIngredientAddOptions;

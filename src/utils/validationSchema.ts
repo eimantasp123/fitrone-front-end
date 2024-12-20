@@ -301,3 +301,15 @@ export const useMealInputSchema = () => {
       }),
   });
 };
+
+export const useCreateMenuSchema = () => {
+  const { t } = useTranslation("menu");
+  return yup.object().shape({
+    title: yup
+      .string()
+      .required(t("validation.titleRequired"))
+      .min(3, t("validation.titleLength"))
+      .max(70, t("validation.titleLength")),
+    description: yup.string().max(500, t("validation.descriptionLength")),
+  });
+};

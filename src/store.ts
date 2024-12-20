@@ -3,6 +3,7 @@ import personalDetailsReducer from "./services/reduxSlices/Profile/personalDetai
 import dietPlanDetailsReducer from "./services/reduxSlices/DietPlan/dietPlanDetailsSlice";
 import mealsPlanDetailsReducer from "./services/reduxSlices/Meals/mealDetailsSlice";
 import ingredientsDetailsReducer from "./services/reduxSlices/Ingredients/ingredientsDetailsSlice";
+import weeklyMenuDetailsReducer from "./services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     dietPlanDetails: dietPlanDetailsReducer,
     mealsDetails: mealsPlanDetailsReducer,
     ingredientsDetails: ingredientsDetailsReducer,
+    weeklyMenuDetails: weeklyMenuDetailsReducer,
   },
 });
 

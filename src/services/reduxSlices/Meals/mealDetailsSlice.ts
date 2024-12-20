@@ -22,9 +22,9 @@ interface MealsState {
   totalResults: number;
   totalPages: number;
   filters: {
-    category: string | null;
-    preference: string | null;
-    restriction: string | null;
+    category: { key: string; title: string } | null;
+    preference: { key: string; title: string } | null;
+    restriction: { key: string; title: string } | null;
   };
 }
 
@@ -70,15 +70,21 @@ export const getMeals = createAsyncThunk(
     }: {
       page?: number;
       limit?: number;
-      category: string | null;
-      preference: string | null;
-      restriction: string | null;
+      category: { key: string; title: string } | null;
+      preference: { key: string; title: string } | null;
+      restriction: { key: string; title: string } | null;
     },
     { rejectWithValue },
   ) => {
     try {
       const response = await axiosInstance.get("/meals", {
-        params: { page, limit, category, preference, restriction },
+        params: {
+          page,
+          limit,
+          category: category?.key,
+          preference: preference?.key,
+          restriction: restriction?.key,
+        },
       });
       return {
         data: response.data.data,

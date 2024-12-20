@@ -1,3 +1,6 @@
+/**
+ * Ingredients interface for the ingredients object
+ */
 export interface Ingredients {
   _id?: string;
   title: string;
@@ -11,6 +14,9 @@ export interface Ingredients {
   ingredientId: string;
 }
 
+/**
+ * Ingredient interface for the ingredient object
+ */
 export interface IngredientForOnce {
   ingredientId: string;
   title: string;
@@ -22,6 +28,9 @@ export interface IngredientForOnce {
   fat: number;
 }
 
+/**
+ * Ingredient interface for the ingredient object update
+ */
 export interface IngredientUpdate {
   title: string;
   unit: string;
@@ -32,12 +41,18 @@ export interface IngredientUpdate {
   fat: number;
 }
 
+/**
+ * Filters interface for the filters object
+ */
 export interface Filters {
-  category: string | null;
-  preference: string | null;
-  restriction: string | null;
+  category: { key: string; title: string } | null;
+  preference: { key: string; title: string } | null;
+  restriction: { key: string; title: string } | null;
 }
 
+/**
+ * Meal interface for the meal object
+ */
 export interface Meal {
   _id: string;
   title: string;
@@ -54,4 +69,14 @@ export interface Meal {
   createdAt: string;
   preferences: string[];
   restrictions: string[];
+}
+
+/**
+ * Form data for creating a new weekly menu
+ */
+export interface CreateWeeklyMenuModalForm {
+  title: string;
+  description?: string;
+  preferences: string[] | null;
+  restrictions: string[] | null;
 }

@@ -19,42 +19,42 @@
   "noIngredients": "No ingredients added",
   "noIngredientsDescription": "You can start by adding ingredients using the button below",
 
-  "preferences": {
-    "vegetarian": "Vegetarian",
-    "vegan": "Vegan",
-    "pescatarian": "Pescatarian",
-    "flexitarian": "Flexitarian",
-    "paleo": "Paleo",
-    "keto": "Keto",
-    "lowCarb": "Low-Carb",
-    "mediterranean": "Mediterranean",
-    "highProtein": "High-Protein",
-    "organic": "Organic",
-    "nonGMO": "Non-GMO",
-    "plantBased": "Plant-Based",
-    "intermittentFasting": "Intermittent Fasting"
-  },
+  "preferences": [
+    { "key": "vegetarian", "title": "Vegetarian" },
+    { "key": "vegan", "title": "Vegan" },
+    { "key": "pescatarian", "title": "Pescatarian" },
+    { "key": "flexitarian", "title": "Flexitarian" },
+    { "key": "paleo", "title": "Paleo" },
+    { "key": "keto", "title": "Keto" },
+    { "key": "lowCarb", "title": "Low-Carb" },
+    { "key": "mediterranean", "title": "Mediterranean" },
+    { "key": "highProtein", "title": "High-Protein" },
+    { "key": "organic", "title": "Organic" },
+    { "key": "nonGMO", "title": "Non-GMO" },
+    { "key": "plantBased", "title": "Plant-Based" },
+    { "key": "intermittentFasting", "title": "Intermittent Fasting" }
+  ],
 
-  "restrictions": {
-    "glutenFree": "Gluten-Free",
-    "dairyFree": "Dairy-Free",
-    "nutFree": "Nut-Free",
-    "eggFree": "Egg-Free",
-    "soyFree": "Soy-Free",
-    "shellfishFree": "Shellfish-Free",
-    "lowSodium": "Low-Sodium",
-    "sugarFree": "Sugar-Free"
-  },
+  "restrictions": [
+    { "key": "glutenFree", "title": "Gluten-Free" },
+    { "key": "dairyFree", "title": "Dairy-Free" },
+    { "key": "nutFree", "title": "Nut-Free" },
+    { "key": "eggFree", "title": "Egg-Free" },
+    { "key": "soyFree", "title": "Soy-Free" },
+    { "key": "shellfishFree", "title": "Shellfish-Free" },
+    { "key": "lowSodium", "title": "Low-Sodium" },
+    { "key": "sugarFree", "title": "Sugar-Free" }
+  ],
 
-  "categories": {
-    "breakfast": "Breakfast",
-    "lunch": "Lunch",
-    "dinner": "Dinner",
-    "snack": "Snack",
-    "dessert": "Dessert",
-    "drink": "Drink",
-    "other": "Other"
-  },
+  "categories": [
+    { "key": "breakfast", "title": "Breakfast" },
+    { "key": "lunch", "title": "Lunch" },
+    { "key": "dinner", "title": "Dinner" },
+    { "key": "snack", "title": "Snack" },
+    { "key": "dessert", "title": "Dessert" },
+    { "key": "drink", "title": "Drink" },
+    { "key": "other", "title": "Other" }
+  ],
 
   "mealCategory": "Meal Category",
   "selectMealCategory": "Select Meal Category",

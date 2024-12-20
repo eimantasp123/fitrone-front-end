@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import AddIngredientManualModal from "../Meals/AddIngredientManualModal";
+import AddIngredientManualModal from "../Meals/components/AddIngredientManualModal";
 
 interface IngredientCardProps {
   ingredient: IngredientForOnce;

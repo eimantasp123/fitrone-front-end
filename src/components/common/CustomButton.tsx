@@ -5,6 +5,8 @@ interface CustomButtonProps {
   onClick?: () => void;
   children?: React.ReactNode;
   disabled?: boolean;
+  widthFull?: boolean;
+  paddingY?: string;
   type?: string;
 }
 
@@ -13,6 +15,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   onClick,
   children,
   disabled = false,
+  widthFull = false,
+  paddingY = "py-2",
   type,
 }) => {
   const className = (() => {
@@ -36,7 +40,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       disabled={disabled}
       className={`${className} ${
         disabled ? "cursor-not-allowed" : ""
-      } select-none text-nowrap rounded-lg px-6 py-2 text-sm font-medium transition-colors duration-300 ease-in-out`}
+      } select-none ${widthFull ? "w-full" : "px-6"} text-nowrap rounded-lg ${paddingY} text-sm font-medium transition-colors duration-300 ease-in-out`}
     >
       {children || text}
     </button>

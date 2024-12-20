@@ -11,9 +11,17 @@ import AddMealModal from "./AddMealModal";
 
 interface MealsHeaderProps {
   onFiltersClose?: () => void;
+  dietaryPreferences: { key: string; title: string }[];
+  dietaryRestrictions: { key: string; title: string }[];
+  categories: { key: string; title: string }[];
 }
 
-const MealsHeader: React.FC<MealsHeaderProps> = ({ onFiltersClose }) => {
+const MealsHeader: React.FC<MealsHeaderProps> = ({
+  onFiltersClose,
+  dietaryPreferences,
+  dietaryRestrictions,
+  categories,
+}) => {
   const { t } = useTranslation("meals");
   const {
     isOpen: isMealOpen,
@@ -23,17 +31,12 @@ const MealsHeader: React.FC<MealsHeaderProps> = ({ onFiltersClose }) => {
   const dispatch = useAppDispatch();
   const { filters, limit } = useAppSelector((state) => state.mealsDetails);
 
-  const dietaryPreferences = Object.values(
-    t("preferences", { returnObjects: true }),
-  );
-  const dietaryRestrictions = Object.values(
-    t("restrictions", { returnObjects: true }),
-  );
-  const categories = Object.values(t("categories", { returnObjects: true }));
-
   // Handle filter selection
-  const handleFilterChange = (filterType: string, value: string) => {
-    const updatedFilters = { ...filters, [filterType]: value };
+  const handleFilterChange = (
+    filterType: string,
+    option: { key: string; title: string },
+  ) => {
+    const updatedFilters = { ...filters, [filterType]: option };
     dispatch(setFilters(updatedFilters));
     dispatch(getMeals({ page: 1, ...updatedFilters }));
     if (onFiltersClose) {
@@ -72,29 +75,23 @@ const MealsHeader: React.FC<MealsHeaderProps> = ({ onFiltersClose }) => {
         <div className="mb-3 grid w-full grid-cols-1 gap-3 md:mb-0 md:grid-cols-2 md:grid-rows-2 xl:py-3 2xl:grid-cols-4 2xl:grid-rows-1 2xl:gap-5 2xl:px-4">
           <CustomerSelect
             options={dietaryPreferences}
-            defaultOption={
-              filters.preference
-                ? filters.preference
-                : t("preferencesPlaceholder")
-            }
+            defaultOption={t("preferencesPlaceholder")}
+            selectedOption={filters.preference?.title}
             onChange={(value) => handleFilterChange("preference", value)}
           />
           <CustomerSelect
             options={dietaryRestrictions}
-            defaultOption={
-              filters.restriction
-                ? filters.restriction
-                : t("restrictionsPlaceholder")
-            }
+            defaultOption={t("restrictionsPlaceholder")}
+            selectedOption={filters.restriction?.title}
             onChange={(value) => handleFilterChange("restriction", value)}
           />
           <CustomerSelect
             options={categories}
             defaultOption={t("selectMealCategory")}
-            selectedOption={filters.category}
-            onChange={(value) => {
-              console.log("value", value);
-              handleFilterChange("category", value);
+            selectedOption={filters.category?.title}
+            onChange={(option) => {
+              console.log("value", option);
+              handleFilterChange("category", option);
             }}
           />
           <div className="flex justify-between gap-2">

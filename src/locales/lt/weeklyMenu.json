@@ -1,0 +1,17 @@
+{
+  "createNewMenu": "Sukurti Naują Meniu",
+  "createMenu": "Sukurti Meniu",
+  "description": "Ši forma leidžia sukurti naują savaitės meniu, kuris gali būti priskirtas dabartinei savaitei. Įveskite meniu pavadinimą (privaloma), trumpą aprašymą (nebūtina) ir, jei reikalinga, pasirinkite dietinius apribojimus. Sukūrus meniu, galėsite pradėti planuoti ir valdyti savaitės valgiaraštį",
+  "titleInput": "Įveskite meniu pavadinimą",
+  "descriptionInput": "Trumpai aprašykite šį meniu (nebūtina)",
+  "assingExistingMenu": "Priskirti turimą meniu",
+  "noWeeklyMenu": "Jūs dar neturite sukūrę nei vieno savaitės meniu",
+  "createFirstMenu": "Sukurti pirmą meniu",
+  "cancel": "Atšaukti",
+
+  "validation": {
+    "titleRequired": "Pavadinimas yra privalomas ir turi būti unikalus",
+    "titleLength": "Pavadinimas turi būti nuo 3 iki 70 simbolių",
+    "descriptionLength": "Aprašymas turi būti trumpesnis nei 200 simbolių"
+  }
+}

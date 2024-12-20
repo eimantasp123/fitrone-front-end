@@ -1,5 +1,5 @@
 {
-  "menu": "Meniu",
+  "menu": "Savaitės meniu",
   "dashboard": "Prietaisų skydelis",
   "meal": "Valgių planai",
   "customers": "Klientai",
@@ -10,6 +10,7 @@
   "subscription": "Prenumerata",
   "preferences": "Nuostatos",
   "week-plan": "Savaitės planas",
+  "weekly-menu": "Savaitės meniu",
   "meals": "Valgiai",
   "businessPage": "Verslo puslapis",
   "general": "Bendras",

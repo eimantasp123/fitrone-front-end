@@ -22,15 +22,23 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import AddMealModal from "./AddMealModal";
+import AddMealModal from "../AddMealModal";
 import { Meal } from "@/utils/types";
 import { capitalizeFirstLetter } from "@/utils/helper";
 
 interface MealCardProps {
   meal: Meal;
+  dietaryPreferences: { key: string; title: string }[];
+  dietaryRestrictions: { key: string; title: string }[];
+  categories: { key: string; title: string }[];
 }
 
-const MealCard: React.FC<MealCardProps> = ({ meal }) => {
+const MealCard: React.FC<MealCardProps> = ({
+  meal,
+  dietaryPreferences,
+  dietaryRestrictions,
+  categories,
+}) => {
   const { t } = useTranslation("meals");
   const {
     onOpen: onOpenMealModalInCard,
@@ -136,14 +144,20 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
                   <PopoverBody>
                     <div className="flex flex-wrap gap-2 text-xs">
                       {preferences.length > 0 ? (
-                        preferences.map((preference: string, index: number) => (
-                          <span
-                            key={index}
-                            className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800"
-                          >
-                            {preference}
-                          </span>
-                        ))
+                        preferences.map((preference) => {
+                          const translatedPreference = dietaryPreferences.find(
+                            (item) => item.key === preference,
+                          )?.title;
+
+                          return (
+                            <span
+                              key={preference}
+                              className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800"
+                            >
+                              {translatedPreference || preference}
+                            </span>
+                          );
+                        })
                       ) : (
                         <span className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800">
                           {t("noPreferences")}
@@ -170,16 +184,21 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
                   <PopoverBody>
                     <div className="flex flex-wrap gap-2 text-xs">
                       {restrictions.length > 0 ? (
-                        restrictions.map(
-                          (restriction: string, index: number) => (
+                        restrictions.map((restriction) => {
+                          const translatedRestriction =
+                            dietaryRestrictions.find(
+                              (item) => item.key === restriction,
+                            )?.title;
+
+                          return (
                             <span
-                              key={index}
+                              key={restriction}
                               className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800"
                             >
-                              {restriction}
+                              {translatedRestriction || restriction}
                             </span>
-                          ),
-                        )
+                          );
+                        })
                       ) : (
                         <span className="rounded-full bg-backgroundLight px-[10px] py-[2px] text-textPrimary dark:bg-neutral-800">
                           {t("noRestrictions")}
@@ -198,7 +217,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal }) => {
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="rounded-full bg-backgroundSecondary px-[10px] py-[2px] text-textPrimary dark:bg-backgroundLight">
-                  {meal.category}
+                  {categories.find((item) => item.key === meal.category)?.title}
                 </span>
               </div>
             </div>

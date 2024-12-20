@@ -8,7 +8,7 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { WiStars } from "react-icons/wi";
-import SearchInputForApi from "./SearchInputForApi";
+import SearchInputForApi from "./AiSearchApi";
 import { Ingredients } from "@/utils/types";
 
 interface SearchIngredientModalProps {

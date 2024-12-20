@@ -19,7 +19,7 @@ import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { VscEmptyWindow } from "react-icons/vsc";
 import AddMealModal from "./AddMealModal";
-import MealCard from "./MealCard";
+import MealCard from "./components/MealCard";
 import MealsHeader from "./MealsHeader";
 
 const SupplierMeals: React.FC = () => {
@@ -49,9 +49,9 @@ const SupplierMeals: React.FC = () => {
       dispatch(
         getMeals({
           page: currentPage,
-          category: category || "",
-          preference: preference || "",
-          restriction: restriction || "",
+          category: category || null,
+          preference: preference || null,
+          restriction: restriction || null,
         }),
       );
     }
@@ -92,13 +92,33 @@ const SupplierMeals: React.FC = () => {
     Object.keys(meals).length > 0 &&
     Object.values(meals).some((mealArray) => mealArray.length > 0);
 
+  // Fetch translations for dropdown options
+  const dietaryPreferences = t("preferences", { returnObjects: true }) as {
+    key: string;
+    title: string;
+  }[];
+
+  const dietaryRestrictions = t("restrictions", { returnObjects: true }) as {
+    key: string;
+    title: string;
+  }[];
+
+  const categories = t("categories", { returnObjects: true }) as {
+    key: string;
+    title: string;
+  }[];
+
   return (
     <>
       <div ref={containerRef} className="w-full overflow-y-auto scrollbar-thin">
         <div className="container mx-auto flex max-w-[1550px] flex-col">
           <div className="sticky top-0 z-10 hidden w-full bg-backgroundSecondary pb-2 dark:bg-background md:flex md:p-3">
             {/* Filters */}
-            <MealsHeader />
+            <MealsHeader
+              dietaryPreferences={dietaryPreferences}
+              dietaryRestrictions={dietaryRestrictions}
+              categories={categories}
+            />
           </div>
           <div className="sticky top-0 z-10 mb-2 w-full bg-backgroundSecondary pb-2 dark:bg-background md:sticky md:top-0 md:hidden md:p-3">
             <div className="flex justify-between gap-3 bg-background px-4 py-3">
@@ -157,7 +177,13 @@ const SupplierMeals: React.FC = () => {
                   </span>
                   <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-2">
                     {meals[currentPage]?.map((meal, index) => (
-                      <MealCard key={index} meal={meal} />
+                      <MealCard
+                        dietaryPreferences={dietaryPreferences}
+                        dietaryRestrictions={dietaryRestrictions}
+                        categories={categories}
+                        key={index}
+                        meal={meal}
+                      />
                     ))}
                   </div>
                   {/* Pagination */}
@@ -216,7 +242,12 @@ const SupplierMeals: React.FC = () => {
                 padding: "0px 0px",
               }}
             >
-              <MealsHeader onFiltersClose={onFiltersClose} />
+              <MealsHeader
+                dietaryPreferences={dietaryPreferences}
+                dietaryRestrictions={dietaryRestrictions}
+                categories={categories}
+                onFiltersClose={onFiltersClose}
+              />
             </DrawerBody>
           </DrawerContent>
         </Drawer>

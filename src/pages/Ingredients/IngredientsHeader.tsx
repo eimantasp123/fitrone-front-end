@@ -3,7 +3,7 @@ import { setSearchQuery } from "@/services/reduxSlices/Ingredients/ingredientsDe
 import { useAppDispatch, useAppSelector } from "@/store";
 import { useDisclosure } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import AddIngredientManualModal from "../Meals/AddIngredientManualModal";
+import AddIngredientManualModal from "../Meals/components/AddIngredientManualModal";
 
 const IngredientsHeader: React.FC = () => {
   const { t } = useTranslation("meals");

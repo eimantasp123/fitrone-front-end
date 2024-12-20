@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
+
 interface SelectOptionsProps {
-  options: string[];
+  options: { key: string; title: string }[];
   defaultOption: string;
-  onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onClick: (option: { key: string; title: string }) => void;
   title?: string;
 }
 
@@ -36,6 +37,11 @@ const SelectOptions: React.FC<SelectOptionsProps> = ({
     };
   }, [isOpen]);
 
+  const handleOptionSelect = (option: { key: string; title: string }) => {
+    onClick(option); // Pass the selected value back to parent
+    setIsOpen(false); // Close the dropdown
+  };
+
   return (
     <div ref={modalRef} className="flex w-full items-center gap-2">
       {/* The visible part of the custom select */}
@@ -56,11 +62,11 @@ const SelectOptions: React.FC<SelectOptionsProps> = ({
             <div className="space-y-1">
               {options.map((option) => (
                 <div
-                  key={option}
-                  onClick={onClick}
+                  key={option.key}
+                  onClick={() => handleOptionSelect(option)}
                   className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundDark`}
                 >
-                  {option}
+                  {option.title}
                 </div>
               ))}
             </div>

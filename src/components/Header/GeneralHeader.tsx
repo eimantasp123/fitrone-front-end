@@ -25,13 +25,15 @@ const GeneralHeader: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation(["sidebar", "header"]);
 
-  const pathArray = location.pathname.split("/").filter((segment) => segment);
+  const pathArray = location.pathname
+    .split("/")
+    .filter((segment) => segment !== "")
+    .slice(0, 1);
 
   // Translate breadcrumb segments using i18n keys
   const breadcrumb = pathArray.map((segment) => {
     const translationKey = `${segment}`;
     const translatedSegment = t(translationKey);
-
     // Fallback to capitalized segment if translation is missing
     return translatedSegment !== translationKey
       ? translatedSegment

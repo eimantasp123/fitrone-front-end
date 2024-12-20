@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 interface CustomerSelectProps {
-  options: string[];
+  options: { key: string; title: string }[];
   defaultOption?: string;
   title?: string;
-  onChange: (value: string) => void;
+  onChange: (option: { key: string; title: string }) => void;
   selectedOption?: string | null;
 }
 
@@ -38,9 +38,9 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
     };
   }, [isOpen]);
 
-  const handleOptionSelect = (option: string) => {
-    onChange(option); // Pass the selected value back to parent
-    setIsOpen(false); // Close the dropdown
+  const handleOptionSelect = (option: { key: string; title: string }) => {
+    onChange(option);
+    setIsOpen(false);
   };
 
   return (
@@ -65,15 +65,15 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
             <div className="space-y-1">
               {options.map((option) => (
                 <div
-                  key={option}
+                  key={option.title}
                   onClick={() => handleOptionSelect(option)}
                   className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundDark ${
-                    defaultOption === option
+                    defaultOption === option.key
                       ? "bg-backgroundSecondary dark:bg-neutral-800"
                       : ""
                   }`}
                 >
-                  {option}
+                  {option.title}
                 </div>
               ))}
             </div>

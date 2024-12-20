@@ -9,7 +9,7 @@ import { Spinner, useDisclosure } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { VscEmptyWindow } from "react-icons/vsc";
-import AddIngredientManualModal from "../Meals/AddIngredientManualModal";
+import AddIngredientManualModal from "../Meals/components/AddIngredientManualModal";
 import IngredientCard from "./IngredientCard";
 import IngredientsHeader from "./IngredientsHeader";
 

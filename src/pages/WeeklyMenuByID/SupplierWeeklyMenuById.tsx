@@ -3,10 +3,10 @@ import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import CreateMenuModal from "../WeeklyMenu/modals/CreateMenuModal";
-import WeekPlanHeader from "./WeekPlanHeader";
 import AssignExistingMenuModal from "../WeeklyMenu/modals/AssignExistingMenuModal";
+import WeekPlanHeader from "../WeekPlan/WeekPlanHeader";
 
-const SupplierWeekPlan: React.FC = () => {
+const SupplierWeeklyMenyById: React.FC = () => {
   const { t } = useTranslation("weekPlan");
   const {
     isOpen: isAssignModalOpen,
@@ -83,4 +83,4 @@ const SupplierWeekPlan: React.FC = () => {
   );
 };
 
-export default SupplierWeekPlan;
+export default SupplierWeeklyMenyById;

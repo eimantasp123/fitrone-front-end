@@ -1,5 +1,5 @@
 {
-  "menu": "Menu",
+  "menu": "Weekly Menu",
   "dashboard": "Dashboard",
   "meal": "Meal Plans",
   "customers": "Customers",
@@ -10,6 +10,7 @@
   "subscription": "Subscription",
   "preferences": "Preferences",
   "week-plan": "Week Plan",
+  "weekly-menu": "Weekly Menu",
   "meals": "Meals",
   "businessPage": "Business Page",
   "general": "General",

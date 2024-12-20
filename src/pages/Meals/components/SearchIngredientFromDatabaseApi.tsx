@@ -8,6 +8,8 @@ import { useTranslation } from "react-i18next";
 import { MdDownloadDone, MdSearch } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import ShowSearchResults from "./ShowSearchResults";
+import IngredientCard from "@/pages/Ingredients/IngredientCard";
 
 interface SearchResult {
   ingredientId: string;
@@ -38,7 +40,7 @@ const SearchIngredientFromDatabaseApi: React.FC<
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Handle amount change
-  const handleAmountChange = (id: string, value: string) => {
+  const handleAmountChange = (value: string, id: string) => {
     setAmounts((prevAmounts) => ({
       ...prevAmounts,
       [id]: value,
@@ -81,8 +83,8 @@ const SearchIngredientFromDatabaseApi: React.FC<
   };
 
   // Accept search results
-  const handleAccept = async (id: string) => {
-    if (!amounts[id]) {
+  const handleAccept = async (id: string | undefined) => {
+    if (id !== undefined && !amounts[id]) {
       showCustomToast({
         status: "error",
         title: t("errors.amountRequired"),
@@ -93,7 +95,7 @@ const SearchIngredientFromDatabaseApi: React.FC<
     try {
       const response = await axiosInstance.get(`/ingredients/nutrition/${id}`, {
         params: {
-          currentAmount: amounts[id],
+          currentAmount: id && amounts[id],
         },
       });
       const { data } = response.data;
@@ -166,90 +168,15 @@ const SearchIngredientFromDatabaseApi: React.FC<
         </form>
 
         {showResults && (
-          <div
-            onWheel={(e) => e.stopPropagation()}
-            className="border-b-1 border-l-1 border-r-1 custom-scrollbar-select z-10 max-h-[350px] overflow-y-auto rounded-b-lg border border-t-0 border-borderPrimary bg-background dark:border-borderDark dark:bg-neutral-900/70"
-          >
-            {loading ? (
-              <div className="flex items-center justify-center px-4 py-5">
-                <ThreeDots color="#BBC22C" height={30} width={30} />
-              </div>
-            ) : searchResults.length > 0 ? (
-              searchResults.map((result, index) => (
-                <div
-                  key={index}
-                  className={`flex w-full flex-col gap-2 bg-background p-4 text-sm dark:bg-neutral-900/20 ${searchResults.length === index + 1 ? "border-none" : "border-b-[1px]"}`}
-                >
-                  <div className="flex w-full items-end gap-1 font-medium md:items-center md:gap-3">
-                    <div className="gap-3 md:flex md:items-center">
-                      {/* Ingredient title */}
-                      <div className="space-x-1">
-                        <span>{capitalizeFirstLetter(result.title)}</span>
-                        <span>
-                          {result.amount} {`(${result.unit})`}
-                        </span>
-                      </div>
-
-                      {/* Divider */}
-                      <hr className="hidden h-[15px] border-r-[1px] border-black dark:border-white/50 md:block" />
-
-                      {/* Amount input */}
-                      <div className="flex w-[30%] items-center gap-3 text-nowrap">
-                        <span className="text-sm font-normal">
-                          {t("needenAmount")}
-                        </span>
-                        <input
-                          type="number"
-                          value={amounts[result.ingredientId] || ""}
-                          onChange={(e) =>
-                            handleAmountChange(
-                              result.ingredientId,
-                              e.target.value,
-                            )
-                          }
-                          className="h-8 w-[80px] flex-1 rounded-lg border border-borderPrimary px-2 py-[3px] text-sm font-normal outline-none md:w-[100px]"
-                        />
-                        <span className="font-normal">{result.unit}.</span>
-                      </div>
-                    </div>
-
-                    {/* Accept and delete button */}
-                    <div className="ml-auto mr-4 flex items-center gap-3">
-                      <span
-                        onClick={() => handleAccept(result.ingredientId)}
-                        className="mb-1 flex size-7 cursor-pointer items-center justify-center rounded-full bg-primary md:mb-0 md:size-7"
-                      >
-                        <MdDownloadDone className="text-md text-black" />
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Nutrition information */}
-                  <div className="mt-2 grid grid-cols-2 gap-1 text-xs md:flex md:gap-2">
-                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
-                      {t("calories")}: {result.calories} kcal
-                    </span>
-                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
-                      {t("protein")}: {result.protein}g.
-                    </span>
-                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
-                      {t("fat")}: {result.fat}g.
-                    </span>
-                    <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundDark">
-                      {t("carbs")}: {result.carbs}g.
-                    </span>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="flex flex-col items-center justify-center px-4 py-6 text-sm">
-                <p className="font-medium">{t("noIngredientsFound")}</p>
-                <p className="text-center">
-                  {t("noIngredietnsFoundDescription")}
-                </p>
-              </div>
-            )}
-          </div>
+          <ShowSearchResults
+            handleAcceptByResultId={true}
+            currentAmounts={amounts}
+            onAccept={handleAccept}
+            onAmountChange={handleAmountChange}
+            loading={loading}
+            t={t}
+            searchResults={searchResults}
+          />
         )}
         {showResults && searchResults.length > 0 && (
           <p className="mt-3 gap-1 rounded-lg bg-primaryLight p-2 text-center text-[13px] text-black">

@@ -4,6 +4,7 @@
   "seeAllMenys": "See All Menus",
   "week": "Week",
   "goBack": "Go Back",
+  "cancel": "Cancel",
   "noMenuForCurrentWeek": "You have not assigned any menus for this week yet.",
   "noMenuForCurrentWeekDescription": "Assign an existing menu or create a new one to start planning."
 }

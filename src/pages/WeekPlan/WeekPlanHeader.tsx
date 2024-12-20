@@ -6,41 +6,16 @@ import { addWeeks, endOfWeek, format, getISOWeek, startOfWeek } from "date-fns";
 import { enUS, lt } from "date-fns/locale";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-
-// Custom locale for Lithuanian
-const customLt = {
-  ...lt,
-  localize: {
-    ...lt.localize,
-    day: (dayIndex: number) => {
-      const days = [
-        "Sekmadienis",
-        "Pirmadienis",
-        "Antradienis",
-        "Trečiadienis",
-        "Ketvirtadienis",
-        "Penktadienis",
-        "Šeštadienis",
-      ];
-      return days[dayIndex];
-    },
-  },
-};
+import { useNavigate } from "react-router-dom";
 
 const WeekPlanHeader: React.FC = () => {
   const { t } = useTranslation("weekPlan");
   const [goBack, setGoBack] = useState(true);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const navigate = useNavigate();
 
   const lng = localStorage.getItem("i18nextLng");
-  const locale = lng === "lt" ? customLt : enUS;
-
-  // Get the current day name
-  const getCurrentDayName = () => {
-    const today = new Date();
-    return format(today, "EEEE", { locale });
-  };
+  const locale = lng === "lt" ? lt : enUS;
 
   // Derived state for week start, end, and number
   const weekStart = useMemo(
@@ -78,19 +53,6 @@ const WeekPlanHeader: React.FC = () => {
               text={t("goBack")}
             />
           )}
-          {/* {!goBack && (
-            <div className="md:hidden">
-              <TextButton
-                // onClick={onIngredientHeaderOpen}
-                text={`+ ${t("addWeekPlan")}`}
-                primary={true}
-                className="w-[300px]"
-              />
-            </div>
-          )} */}
-          <span className="text-md font-medium">
-            {capitalizeFirstLetter(getCurrentDayName())}
-          </span>
         </div>
 
         {/* Week navigation */}
@@ -117,7 +79,11 @@ const WeekPlanHeader: React.FC = () => {
         </div>
 
         <div className="text-center sm:col-start-2 sm:col-end-3 sm:row-start-1 sm:row-end-2 sm:text-end xl:col-span-2 xl:row-auto">
-          <CustomButton text={t("seeAllMenys")} type="primary" />
+          <CustomButton
+            onClick={() => navigate("/weekly-menu")}
+            text={t("seeAllMenys")}
+            type="primary"
+          />
         </div>
       </div>
     </>

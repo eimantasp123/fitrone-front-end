@@ -1,3 +1,4 @@
+import CustomerSelect from "@/components/common/CustomerSelect";
 import CustomTextarea from "@/components/common/CustomTextarea";
 import FormButton from "@/components/common/FormButton";
 import CustomInput from "@/components/common/NewCharkaInput";
@@ -9,7 +10,7 @@ import {
   updateMeal,
 } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { capitalizeFirstLetter, formatNumber } from "@/utils/helper";
+import { formatNumber } from "@/utils/helper";
 import { Ingredients, Meal } from "@/utils/types";
 import { useMealInputSchema } from "@/utils/validationSchema";
 import {
@@ -18,23 +19,18 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FaRegCircleDot } from "react-icons/fa6";
 import { GiMeal } from "react-icons/gi";
-import { IoMdCloseCircle } from "react-icons/io";
-import { MdDelete } from "react-icons/md";
-import { WiStars } from "react-icons/wi";
 import InfoCard from "../MealPlan/components/client/InfoCard";
-import AddIngredientManualModal from "./AddIngredientManualModal";
-import ImageUpload from "./ImageUpload";
-import SearchIngredientFromDatabase from "./SearchIngredientFromDatabase";
-import SearchIngredientModal from "./SearchIngredientModal";
-import SelectOptions from "./SelectOptions";
+import DietaryPreferences from "./components/DietaryPreferences";
+import DietaryRestrictions from "./components/DietaryRestrictions";
+import ImageUpload from "./components/ImageUpload";
+import IngredientList from "./components/IngredientList";
+import ManageIngredientAddOptions from "./components/ManageIngredientAddOptions";
 
 interface AddMealModalProps {
   isOpenModal: boolean;
@@ -70,29 +66,32 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
     (state) => state.mealsDetails,
   );
   const { details: user } = useAppSelector((state) => state.personalDetails);
+
+  // State for preferences, restrictions, and category (keys only)
   const [preferences, setPreferences] = useState<string[]>([]);
   const [restrictions, setRestrictions] = useState<string[]>([]);
-  const [ingredients, setIngredients] = useState<Ingredients[]>([]);
-  const {
-    isOpen: recipeInputOpen,
-    onClose: CloseRecipeInputs,
-    onOpen: openRecipeInput,
-  } = useDisclosure();
-  const {
-    isOpen: searchInputOpen,
-    onClose: closeSearchInput,
-    onOpen: openSearchInputModal,
-  } = useDisclosure();
-  const {
-    isOpen: searchIngredientDatabaseOpen,
-    onClose: searchIngredientDatabaseClose,
-    onOpen: openSearchIngredientDatabase,
-  } = useDisclosure();
   const [category, setCategory] = useState<string | null>(null);
+  const [ingredients, setIngredients] = useState<Ingredients[]>([]);
   const schema = useMealInputSchema();
   const methods = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+
+  // Fetch translations for dropdown options
+  const dietaryPreferences = t("preferences", { returnObjects: true }) as {
+    key: string;
+    title: string;
+  }[];
+
+  const dietaryRestrictions = t("restrictions", { returnObjects: true }) as {
+    key: string;
+    title: string;
+  }[];
+
+  const categories = t("categories", { returnObjects: true }) as {
+    key: string;
+    title: string;
+  }[];
 
   useEffect(() => {
     // Pre-fill form with meal data
@@ -117,14 +116,10 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
         setIngredients([]);
         setPreferences([]);
         setRestrictions([]);
+        setCategory(null);
       }
     }
   }, [mealToEdit, methods, isOpenModal]);
-
-  useEffect(() => {
-    console.log("Modal Mounted");
-    return () => console.log("Modal Unmounted");
-  }, []);
 
   const calories = formatNumber(
     ingredients.reduce((acc, curr) => acc + +curr.calories, 0),
@@ -222,19 +217,6 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
     handleClose();
   };
 
-  // Get dietary preferences
-  const dietaryPreferences = Object.values(
-    t("preferences", { returnObjects: true }),
-  );
-
-  // Get dietary restrictions
-  const dietaryRestrictions = Object.values(
-    t("restrictions", { returnObjects: true }),
-  );
-
-  // Get categories
-  const categories = Object.values(t("categories", { returnObjects: true }));
-
   // Close the modal and reset the form
   const handleClose = () => {
     onClose();
@@ -315,177 +297,48 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
                 {/* Write ingredients */}
                 <h4 className="-mb-2 text-[13px]">{t("ingredients")}</h4>
 
-                {ingredients.length !== 0 && (
-                  <div className="flex flex-col gap-2 text-sm">
-                    {ingredients.map((ingredient, index) => (
-                      <div
-                        key={index}
-                        className="flex w-full items-center gap-4"
-                      >
-                        <FaRegCircleDot className="text-xs text-textPrimary" />
-                        <div className="flex w-full flex-col gap-2 py-1 text-textSecondary">
-                          {/*  */}
-                          <div className="flex w-full items-center gap-2">
-                            <span className="flex items-center gap-3 font-medium text-textPrimary">
-                              {capitalizeFirstLetter(ingredient.title)}
-                            </span>
-                            <span className="text-textPrimary">
-                              {ingredient.currentAmount}
-                              {ingredient.unit}
-                            </span>
-                            <span className="text-textPrimary">
-                              ({formatNumber(ingredient.calories)} kcal)
-                            </span>
-
-                            <MdDelete
-                              onClick={() =>
-                                setIngredients((prev) =>
-                                  prev.filter((_, i) => i !== index),
-                                )
-                              }
-                              className="ml-auto flex cursor-pointer text-xl text-red-500"
-                            />
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-1 text-xs text-textPrimary md:flex md:gap-2">
-                            <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundSecondary">
-                              {t("protein")}: {ingredient.protein}g.
-                            </span>
-                            <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundSecondary">
-                              {t("carbs")}: {ingredient.carbs}g.
-                            </span>
-                            <span className="rounded-full bg-backgroundSecondary px-3 py-1 dark:bg-backgroundSecondary">
-                              {t("fat")}: {ingredient.fat}g.
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <IngredientList
+                  ingredients={ingredients}
+                  setIngredients={setIngredients}
+                  t={t}
+                />
 
                 {/* Button for open search input or recipe inputs */}
-                <div
-                  className={`mt-2 grid grid-cols-1 gap-2 text-sm ${user.plan === "premium" ? "md:grid-cols-3" : "md:grid-cols-2"} md:gap-3`}
-                >
-                  {user.plan === "premium" && (
-                    <span
-                      onClick={openSearchInputModal}
-                      className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary py-3 text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:bg-primary dark:text-black dark:hover:bg-primaryDark"
-                    >
-                      <span>{t("findIngredientAi")}</span>
-                      <WiStars className="mt-0 text-xl" />
-                    </span>
-                  )}
-                  <span
-                    onClick={openSearchIngredientDatabase}
-                    className="cursor-pointer rounded-lg bg-backgroundSecondary py-3 text-center transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800"
-                  >
-                    {t("findIngredientFromDatabase")}
-                  </span>
-                  <span
-                    onClick={openRecipeInput}
-                    className="cursor-pointer rounded-lg bg-backgroundSecondary py-3 text-center transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800"
-                  >
-                    {t("enterIngredientManually")}
-                  </span>
-                </div>
+                <ManageIngredientAddOptions
+                  user={user}
+                  setIngredients={setIngredients}
+                  t={t}
+                />
 
                 {/* Section for preferences and  restrictions  */}
                 <div className="mt-2 grid grid-cols-1 items-center gap-3 md:grid-cols-2">
                   {/* Preferences */}
-                  <div className="flex w-full flex-col gap-2">
-                    <h4 className="text-sm">{t("preferencesTitle")}</h4>
-                    {preferences.length !== 0 && (
-                      <div className="flex flex-wrap items-center gap-1">
-                        {preferences.map((preference) => (
-                          <div
-                            key={preference}
-                            className="flex items-center gap-2 rounded-full bg-backgroundSecondary px-2 py-1"
-                          >
-                            <span className="text-xs text-textSecondary">
-                              {preference}
-                            </span>
-
-                            <IoMdCloseCircle
-                              onClick={() =>
-                                setPreferences(
-                                  preferences.filter(
-                                    (item) => item !== preference,
-                                  ),
-                                )
-                              }
-                              className="-mb-[1px] cursor-pointer text-[14px] text-red-500"
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    <SelectOptions
-                      options={dietaryPreferences}
-                      onClick={(e) => {
-                        const target = e.target as HTMLDivElement;
-                        if (!preferences.includes(target.innerText)) {
-                          setPreferences([...preferences, target.innerText]);
-                        }
-                      }}
-                      defaultOption={t("preferencesPlaceholder")}
-                    />
-                  </div>
+                  <DietaryPreferences
+                    preferences={preferences}
+                    setPreferences={setPreferences}
+                    dietaryPreferences={dietaryPreferences}
+                    t={t}
+                  />
 
                   {/* Restrictions */}
-                  <div className="flex w-full flex-col gap-2">
-                    <h4 className="text-sm">{t("restrictionsTitle")}</h4>
-                    {restrictions.length !== 0 && (
-                      <div className="flex flex-wrap items-center gap-1">
-                        {restrictions.map((restriction) => (
-                          <div
-                            key={restriction}
-                            className="flex items-center gap-2 rounded-full bg-backgroundSecondary px-2 py-1"
-                          >
-                            <span className="text-xs text-textSecondary">
-                              {restriction}
-                            </span>
-
-                            <IoMdCloseCircle
-                              onClick={() =>
-                                setRestrictions(
-                                  restrictions.filter(
-                                    (item) => item !== restriction,
-                                  ),
-                                )
-                              }
-                              className="-mb-[1px] cursor-pointer text-[14px] text-red-500"
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    <SelectOptions
-                      options={dietaryRestrictions}
-                      defaultOption={t("restrictionsPlaceholder")}
-                      onClick={(e) => {
-                        const target = e.target as HTMLDivElement;
-                        if (!restrictions.includes(target.innerText)) {
-                          setRestrictions([...restrictions, target.innerText]);
-                        }
-                      }}
-                    />
-                  </div>
+                  <DietaryRestrictions
+                    restrictions={restrictions}
+                    dietaryRestrictions={dietaryRestrictions}
+                    setRestrictions={setRestrictions}
+                    t={t}
+                  />
                 </div>
 
                 {/* Categories */}
                 <div className="mb-4 flex w-full flex-col gap-2">
                   <h4 className="text-sm">{t("mealCategory")}</h4>
-                  <SelectOptions
+                  <CustomerSelect
                     options={categories}
-                    onClick={(e) => {
-                      const target = e.target as HTMLDivElement;
-                      if (target.innerText) {
-                        setCategory(target.innerText);
-                      }
-                    }}
-                    defaultOption={category || t("selectMealCategory")}
+                    defaultOption={t("selectMealCategory")}
+                    selectedOption={
+                      categories.find((item) => item.key === category)?.title
+                    }
+                    onChange={(option) => setCategory(option.key)}
                   />
                 </div>
 
@@ -502,36 +355,6 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
           </ModalBody>
         </ModalContent>
       </Modal>
-
-      {/* Search input for API */}
-      {user.plan === "premium" && (
-        <>
-          {searchInputOpen && (
-            <SearchIngredientModal
-              isOpen={searchInputOpen}
-              setIngredients={setIngredients}
-              onClose={closeSearchInput}
-            />
-          )}
-        </>
-      )}
-
-      {/* Search ingredient from database */}
-      {searchIngredientDatabaseOpen && (
-        <SearchIngredientFromDatabase
-          isOpen={searchIngredientDatabaseOpen}
-          onClose={searchIngredientDatabaseClose}
-          setIngredients={setIngredients}
-        />
-      )}
-      {/* Ingredient inputs manual */}
-      {recipeInputOpen && (
-        <AddIngredientManualModal
-          isOpen={recipeInputOpen}
-          onClose={CloseRecipeInputs}
-          setIngredients={setIngredients}
-        />
-      )}
     </>
   );
 };
