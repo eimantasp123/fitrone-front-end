@@ -1,4 +1,4 @@
-import TextButton from "@/components/common/TextButton";
+import CustomButton from "@/components/common/CustomButton";
 import { setSearchQuery } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { useDisclosure } from "@chakra-ui/react";
@@ -36,13 +36,16 @@ const IngredientsHeader: React.FC = () => {
           />
 
           {searchQuery && (
-            <TextButton onClick={cleanSearch} text={t("clean")} />
+            <CustomButton
+              type="light"
+              onClick={cleanSearch}
+              text={t("clean")}
+            />
           )}
         </div>
-        <TextButton
+        <CustomButton
           onClick={onIngredientHeaderOpen}
           text={`+ ${t("addIngredient")}`}
-          primary={true}
         />
       </div>
       {/* Ingredient inputs manual */}

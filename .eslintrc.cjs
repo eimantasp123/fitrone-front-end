@@ -7,6 +7,7 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
+    "plugin:jest/recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
@@ -20,7 +21,7 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ["@typescript-eslint", "react"],
+  plugins: ["@typescript-eslint", "react", "jest"],
   rules: {
     "react/jsx-no-target-blank": "off",
     "@typescript-eslint/no-unused-vars": "warn",

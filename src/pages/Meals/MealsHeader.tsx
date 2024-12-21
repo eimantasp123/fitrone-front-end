@@ -1,4 +1,4 @@
-import CustomerSelect from "@/components/common/CustomerSelect";
+import CustomSelect from "@/components/common/CustomSelect";
 import TextButton from "@/components/common/TextButton";
 import {
   getMeals,
@@ -73,19 +73,19 @@ const MealsHeader: React.FC<MealsHeaderProps> = ({
           {t("filters")}:
         </h4>
         <div className="mb-3 grid w-full grid-cols-1 gap-3 md:mb-0 md:grid-cols-2 md:grid-rows-2 xl:py-3 2xl:grid-cols-4 2xl:grid-rows-1 2xl:gap-5 2xl:px-4">
-          <CustomerSelect
+          <CustomSelect
             options={dietaryPreferences}
             defaultOption={t("preferencesPlaceholder")}
             selectedOption={filters.preference?.title}
             onChange={(value) => handleFilterChange("preference", value)}
           />
-          <CustomerSelect
+          <CustomSelect
             options={dietaryRestrictions}
             defaultOption={t("restrictionsPlaceholder")}
             selectedOption={filters.restriction?.title}
             onChange={(value) => handleFilterChange("restriction", value)}
           />
-          <CustomerSelect
+          <CustomSelect
             options={categories}
             defaultOption={t("selectMealCategory")}
             selectedOption={filters.category?.title}

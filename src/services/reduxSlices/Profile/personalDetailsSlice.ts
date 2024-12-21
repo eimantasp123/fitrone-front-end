@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axiosInstance from "../../../utils/axiosInterceptors";
 import { showCustomToast } from "@/hooks/showCustomToast";
+import axiosInstance from "@/utils/axiosInterceptors";
 
 // Define the ApiError interface
 interface ApiError {

@@ -12,12 +12,14 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "types": ["jest"],
+    "typeRoots": ["node_modules/@types"],
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src/**/*", "**/*.test.ts", "**/*.test.tsx"],
   "exclude": ["node_modules"]
 }

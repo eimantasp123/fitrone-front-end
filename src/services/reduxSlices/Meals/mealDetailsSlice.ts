@@ -1,7 +1,7 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
+import axiosInstance from "@/utils/axiosInterceptors";
 import { Filters, Meal } from "@/utils/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axiosInstance from "../../../utils/axiosInterceptors";
 
 export interface ApiError {
   response?: {

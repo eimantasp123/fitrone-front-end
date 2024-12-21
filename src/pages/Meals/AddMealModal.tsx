@@ -1,4 +1,4 @@
-import CustomerSelect from "@/components/common/CustomerSelect";
+import CustomSelect from "@/components/common/CustomSelect";
 import CustomTextarea from "@/components/common/CustomTextarea";
 import FormButton from "@/components/common/FormButton";
 import CustomInput from "@/components/common/NewCharkaInput";
@@ -92,6 +92,9 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
     key: string;
     title: string;
   }[];
+
+  console.log("categories", categories);
+  console.log("categories", typeof categories);
 
   useEffect(() => {
     // Pre-fill form with meal data
@@ -335,11 +338,14 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
                 {/* Categories */}
                 <div className="mb-4 flex w-full flex-col gap-2">
                   <h4 className="text-sm">{t("mealCategory")}</h4>
-                  <CustomerSelect
+                  <CustomSelect
                     options={categories}
                     defaultOption={t("selectMealCategory")}
+                    background="bg-backgroundSecondary dark:bg-backgroundSecondary"
                     selectedOption={
-                      categories.find((item) => item.key === category)?.title
+                      Object.values(categories).find(
+                        (item) => item.key === category,
+                      )?.title
                     }
                     onChange={(option) => setCategory(option.key)}
                   />

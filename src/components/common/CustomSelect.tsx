@@ -1,20 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-interface CustomerSelectProps {
+interface CustomSelectProps {
   options: { key: string; title: string }[];
   defaultOption?: string;
   title?: string;
   onChange: (option: { key: string; title: string }) => void;
   selectedOption?: string | null;
+  background?: string;
 }
 
-const CustomerSelect: React.FC<CustomerSelectProps> = ({
+const CustomSelect: React.FC<CustomSelectProps> = ({
   options,
   defaultOption = "",
   selectedOption,
   onChange,
   title,
+  background = "bg-backgroundSecondary dark:bg-backgroundLight",
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -50,7 +52,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
         <h3 className="text-nowrap pl-1 text-sm font-semibold">{title}</h3>
       )}
       <div
-        className={`relative flex w-full cursor-pointer items-center justify-between text-nowrap rounded-md bg-backgroundSecondary py-2 pl-4 pr-2 text-sm transition-colors duration-300 ease-in-out dark:bg-backgroundLight md:py-2 3xl:py-2`}
+        className={`relative flex w-full cursor-pointer items-center ${background} justify-between text-nowrap rounded-md py-2 pl-4 pr-2 text-sm transition-colors duration-300 ease-in-out md:py-2 3xl:py-2`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <span>{!selectedOption ? defaultOption : selectedOption}</span>
@@ -63,9 +65,9 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
         {isOpen && (
           <div className="custom-scrollbar-select absolute left-0 top-[40px] z-10 max-h-52 w-full overflow-y-auto rounded-lg border border-borderPrimary bg-background p-2 text-sm text-textSecondary shadow-custom-light md:top-[40px] 3xl:top-[40px]">
             <div className="space-y-1">
-              {options.map((option) => (
+              {Object.values(options).map((option, index) => (
                 <div
-                  key={option.title}
+                  key={index}
                   onClick={() => handleOptionSelect(option)}
                   className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundDark ${
                     defaultOption === option.key
@@ -84,4 +86,4 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
   );
 };
 
-export default CustomerSelect;
+export default CustomSelect;
