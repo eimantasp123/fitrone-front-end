@@ -93,9 +93,6 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
     title: string;
   }[];
 
-  console.log("categories", categories);
-  console.log("categories", typeof categories);
-
   useEffect(() => {
     // Pre-fill form with meal data
     if (isOpenModal) {
@@ -124,21 +121,19 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
     }
   }, [mealToEdit, methods, isOpenModal]);
 
-  const calories = formatNumber(
-    ingredients.reduce((acc, curr) => acc + +curr.calories, 0),
-  );
+  const calories =
+    formatNumber(ingredients.reduce((acc, curr) => acc + curr.calories, 0)) ||
+    0;
 
-  const fat = formatNumber(
-    ingredients.reduce((acc, curr) => acc + +curr.fat, 0),
-  );
+  const fat =
+    formatNumber(ingredients.reduce((acc, curr) => acc + +curr.fat, 0)) || 0;
 
-  const protein = formatNumber(
-    ingredients.reduce((acc, curr) => acc + +curr.protein, 0),
-  );
+  const protein =
+    formatNumber(ingredients.reduce((acc, curr) => acc + +curr.protein, 0)) ||
+    0;
 
-  const carbs = formatNumber(
-    ingredients.reduce((acc, curr) => acc + +curr.carbs, 0),
-  );
+  const carbs =
+    formatNumber(ingredients.reduce((acc, curr) => acc + +curr.carbs, 0)) || 0;
 
   // Handle form submit
   const handleSubmitForm: SubmitHandler<FormData> = async (data) => {
