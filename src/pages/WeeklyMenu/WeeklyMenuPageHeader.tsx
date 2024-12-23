@@ -2,18 +2,17 @@ import CustomButton from "@/components/common/CustomButton";
 import CustomSearchInput from "@/components/common/CustomSearchInput";
 import DrawerFromTop from "@/components/common/DrawerFromTop";
 import {
-  getAllWeeklyMenus,
   setCurrentPage,
   setFilters,
   setSearchQuery,
 } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { useBreakpointValue, useDisclosure } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebounce } from "use-debounce";
 import CustomFilters from "./components/FiltersForPrefAndRest";
 import CreateMenuModal from "./modals/WeeklyMenuAddModal";
-import { useEffect, useState } from "react";
 
 const WeeklyMenuPageHeader: React.FC = () => {
   const { t } = useTranslation(["weeklyMenu", "meals"]);
@@ -32,25 +31,30 @@ const WeeklyMenuPageHeader: React.FC = () => {
     onClose: onFiltersModalClose,
   } = useDisclosure();
   const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
-  const [debouncedQuery] = useDebounce(searchQuery, 300);
+  const [debouncedQuery] = useDebounce(searchQuery, 500);
+  const isFilterChangeRef = useRef<boolean>(false);
+  const hadInteractedRef = useRef<boolean>(false);
 
   // Clean search query
   const cleanSearch = async () => {
-    dispatch(setFilters({ ...filters }));
+    dispatch(setFilters({ filters }));
   };
 
   // Fetch meals on search query change
   useEffect(() => {
-    if (debouncedQuery && debouncedQuery.length > 0) {
-      console.log("fetching weekly menu inside header useefeect");
-      dispatch(
-        getAllWeeklyMenus({
-          page: 1,
-          limit,
-          searchQuery: debouncedQuery,
-          ...filters,
-        }),
-      );
+    if (
+      isFilterChangeRef.current === false &&
+      debouncedQuery &&
+      debouncedQuery.length > 0
+    ) {
+      dispatch(setFilters({ filters, searchQuery: debouncedQuery }));
+      hadInteractedRef.current = true;
+    }
+
+    // Reset filters and fetch data when search query is empty
+    if (hadInteractedRef.current && debouncedQuery === "") {
+      dispatch(setFilters({ filters }));
+      hadInteractedRef.current = false;
     }
   }, [dispatch, filters, limit, debouncedQuery]);
 
@@ -62,7 +66,12 @@ const WeeklyMenuPageHeader: React.FC = () => {
     const updatedFilters = { ...filters, [filterType]: option };
 
     // Update filters
-    dispatch(setFilters(updatedFilters));
+    isFilterChangeRef.current = true;
+    dispatch(setFilters({ filters: updatedFilters }));
+
+    setTimeout(() => {
+      isFilterChangeRef.current = false;
+    }, 300);
 
     if (isFiltersModalOpen) {
       onFiltersModalClose();
@@ -76,8 +85,13 @@ const WeeklyMenuPageHeader: React.FC = () => {
       restriction: null,
       archived: null,
     };
-    dispatch(setFilters(defaultFilters));
+    isFilterChangeRef.current = true;
+    dispatch(setFilters({ filters: defaultFilters }));
     dispatch(setCurrentPage(1));
+
+    setTimeout(() => {
+      isFilterChangeRef.current = false;
+    }, 300);
 
     if (isFiltersModalOpen) {
       onFiltersModalClose();

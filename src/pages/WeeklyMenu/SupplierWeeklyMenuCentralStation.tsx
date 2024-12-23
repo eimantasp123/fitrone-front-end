@@ -37,7 +37,6 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
   // Fetch meals on component mount
   useEffect(() => {
     if (!weeklyMenu[1]) {
-      console.log("fetching weekly menu");
       dispatch(
         getAllWeeklyMenus({
           page: 1,
@@ -136,6 +135,7 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
                     description={t("noWeeklyMenuDescription")}
                     secondButtonText={t("createFirstMenu")}
                     onClickSecondButton={onMenuModalOpen}
+                    height="h-[73vh]"
                   />
                 </div>
               )}
@@ -145,6 +145,7 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
                   <EmptyState
                     title={t("meals:noFiltersResultsFound")}
                     description={t("meals:tryAdjustingFilters")}
+                    height="h-[73vh]"
                   />
                 </div>
               )}

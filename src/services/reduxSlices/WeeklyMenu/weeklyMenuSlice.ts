@@ -91,9 +91,16 @@ const weeklyMenuSlice = createSlice({
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
-    setFilters: (state, action: PayloadAction<WeeklyMenyFilters>) => {
-      state.filters = action.payload;
-      state.searchQuery = null;
+    setFilters: (
+      state,
+      action: PayloadAction<{
+        filters: WeeklyMenyFilters;
+        searchQuery?: string | null;
+      }>,
+    ) => {
+      const { filters, searchQuery } = action.payload;
+      state.filters = filters;
+      state.searchQuery = searchQuery ?? null;
       state.currentPage = 1;
       state.weeklyMenu = {};
     },
