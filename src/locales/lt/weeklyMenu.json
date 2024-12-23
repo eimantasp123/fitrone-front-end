@@ -16,5 +16,26 @@
     "titleRequired": "Pavadinimas yra privalomas ir turi būti unikalus",
     "titleLength": "Pavadinimas turi būti nuo 3 iki 70 simbolių",
     "descriptionLength": "Aprašymas turi būti trumpesnis nei 200 simbolių"
-  }
+  },
+
+  "weeklyMenuFound": "Rasti savaitės meniu",
+
+  "deleteWeeklyMenuTitle": "Ištrinti Savaitės Meniu",
+  "deleteWeeklyMenuDescription": "Ar tikrai norite ištrinti šį savaitės meniu? Šis veiksmas negali būti atšauktas.",
+  "deleteWeeklyMenu": "Ištrinti Meniu",
+
+  "archiveWeeklyMenuModalTitle": "Archyvuoti Savaitės Meniu",
+  "archiveWeeklyMenuModalDescription": "Ar tikrai norite archyvuoti šį savaitės meniu? Šis veiksmas negali būti atšauktas.",
+  "archiveWeeklyMenu": "Archyvuoti Meniu",
+
+  "unarchiveWeeklyMenuModalTitle": "Išarchyvuoti Savaitės Meniu",
+  "unarchiveWeeklyMenuModalDescription": "Ar tikrai norite išarchyvuoti šį savaitės meniu? Šis veiksmas negali būti atšauktas.",
+  "unarchiveWeeklyMenu": "Išarchyvuoti Meniu",
+
+  "menuArchiving": [
+    { "key": true, "title": "Archyvuoti meniu" },
+    { "key": false, "title": "Nearchyvuoti meniu" }
+  ],
+
+  "menuStatusOptionsPlaceholder": "Pasirinkite meniu būseną"
 }

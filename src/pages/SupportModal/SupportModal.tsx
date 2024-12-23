@@ -69,58 +69,69 @@ const SupportModal: React.FC<SupportModalProps> = ({
   };
 
   return (
-    <Modal
-      isOpen={isModalOpen}
-      onClose={handleModalClose}
-      isCentered
-      size={{ base: "sm", md: "xl" }}
-    >
-      <ModalOverlay />
-      <ModalContent p={6} sx={{ borderRadius: "0.75rem" }}>
-        <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
-          <div className="flex items-center gap-4">
-            <span className="flex size-9 items-center justify-center rounded-full bg-textPrimary">
-              <MdContactSupport className="text-lg text-background" />
-            </span>
+    <>
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          isCentered
+          size={{ base: "sm", md: "xl" }}
+        >
+          <ModalOverlay />
+          <ModalContent p={6} sx={{ borderRadius: "0.75rem" }}>
+            <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
+              <div className="flex items-center gap-4">
+                <span className="flex size-9 items-center justify-center rounded-full bg-textPrimary">
+                  <MdContactSupport className="text-lg text-background" />
+                </span>
 
-            <h4 className="text-2xl font-semibold">
-              {t("supportModal.headerTitle")}
-            </h4>
-          </div>
-        </div>
-        <ModalCloseButton marginTop="3" />
-        <ModalBody style={{ padding: "0px 0px" }}>
-          <FormProvider {...methods}>
-            <form
-              className="mt-6 flex flex-col gap-3"
-              onSubmit={methods.handleSubmit(handleSubmitForm)}
-            >
-              <h3 className="mb-2 text-center text-2xl font-bold text-textPrimary md:mb-4 md:text-3xl">
-                {t("supportModal.title")}
-              </h3>
-              <p className="mb-4 text-center leading-tight text-textSecondary">
-                {t("supportModal.description")}
-              </p>
+                <h4 className="text-2xl font-semibold">
+                  {t("supportModal.headerTitle")}
+                </h4>
+              </div>
+            </div>
+            <ModalCloseButton marginTop="3" />
+            <ModalBody style={{ padding: "0px 0px" }}>
+              <FormProvider {...methods}>
+                <form
+                  className="mt-6 flex flex-col gap-3"
+                  onSubmit={methods.handleSubmit(handleSubmitForm)}
+                >
+                  <h3 className="mb-2 text-center text-2xl font-bold text-textPrimary md:mb-4 md:text-3xl">
+                    {t("supportModal.title")}
+                  </h3>
+                  <p className="mb-4 text-center leading-tight text-textSecondary">
+                    {t("supportModal.description")}
+                  </p>
 
-              <CustomInput name="subject" label={t("supportModal.subject")} />
-              <CustomTextarea
-                name="message"
-                label={t("supportModal.message")}
-                size="lg"
-              />
-              <PrimaryButton
-                disabled={loading}
-                className="py-3"
-                text="Send Message"
-                type="submit"
-              >
-                {loading ? <Spinner size="sm" /> : `${t("supportModal.send")}`}
-              </PrimaryButton>
-            </form>
-          </FormProvider>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+                  <CustomInput
+                    name="subject"
+                    label={t("supportModal.subject")}
+                  />
+                  <CustomTextarea
+                    name="message"
+                    label={t("supportModal.message")}
+                    size="lg"
+                  />
+                  <PrimaryButton
+                    disabled={loading}
+                    className="py-3"
+                    text="Send Message"
+                    type="submit"
+                  >
+                    {loading ? (
+                      <Spinner size="sm" />
+                    ) : (
+                      `${t("supportModal.send")}`
+                    )}
+                  </PrimaryButton>
+                </form>
+              </FormProvider>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
+    </>
   );
 };
 

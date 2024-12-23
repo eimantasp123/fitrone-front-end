@@ -34,14 +34,16 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         return "hover:bg-neutral-700 bg-neutral-800 text-white dark:bg-neutral-800 dark:hover:bg-neutral-700";
       case "light":
         return "bg-backgroundSecondary hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800";
-      case "lightSecodanry":
-        return "bg-neutral-200 hover:bg-neutral-300 dark:bg-background dark:hover:bg-neutral-800";
+      case "lightSecondary":
+        return "bg-neutral-200/50 hover:bg-neutral-200/80 dark:bg-background dark:hover:bg-neutral-800";
       case "white":
         return "bg-white  hover:bg-neutral-200 dark:bg-white dark:text-black dark:hover:bg-neutral-300";
       case "delete":
         return "bg-transparent text-red-500 hover:bg-red-500/10 dark:hover:bg-red-800/30";
       case "red":
         return "bg-red-500 text-white hover:bg-red-500/85 dark:hover:bg-red-700 dark:bg-red-600";
+      case "warning":
+        return "bg-yellow-400 text-black hover:bg-yellow-400/85 dark:hover:bg-yellow-600 dark:bg-yellow-500";
       default:
         return "bg-primary hover:bg-primaryLight text-black dark:hover:bg-primaryDark";
     }

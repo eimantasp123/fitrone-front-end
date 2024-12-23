@@ -1,5 +1,5 @@
+import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import CustomButton from "@/components/common/CustomButton";
-import DeleteConfirmationModal from "@/components/common/DeleteConfirmationModal";
 import useFiltersOptions from "@/hooks/useFiltersOptions";
 import {
   deleteMeal,
@@ -13,7 +13,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import MealAddModal from "../MealAddModal";
-import MealCardPopover from "./MealDetailPopover";
+import RestAndPrefDetailsPopover from "./RestAndPrefDetailsPopover";
 
 // Meal card component props interface
 interface MealOverviewCardProps {
@@ -37,8 +37,7 @@ const MealOverviewCard: React.FC<MealOverviewCardProps> = ({ meal }) => {
   const { loading, currentPage, filters, meals, limit } = useAppSelector(
     (state) => state.mealsDetails,
   );
-  const { categories, dietaryPreferences, dietaryRestrictions } =
-    useFiltersOptions();
+  const { categories } = useFiltersOptions();
   const { title, _id: id, nutrition, preferences, restrictions } = meal;
 
   // Delete meal function
@@ -107,13 +106,10 @@ const MealOverviewCard: React.FC<MealOverviewCardProps> = ({ meal }) => {
             </div>
 
             {/* Preferences and restrictions */}
-            <MealCardPopover
+            <RestAndPrefDetailsPopover
               {...{
                 preferences,
-                dietaryPreferences,
                 restrictions,
-                dietaryRestrictions,
-                t,
               }}
             />
 
@@ -148,11 +144,11 @@ const MealOverviewCard: React.FC<MealOverviewCardProps> = ({ meal }) => {
         </div>
       </div>
       {/* Delete confirm */}
-      <DeleteConfirmationModal
+      <ConfirmActionModal
         isOpen={deleteModalOpen}
         onClose={onCloseDeleteModal}
         loading={loading}
-        handleDelete={handleDelete}
+        onAction={handleDelete}
         title={t("deleteMealTitle")}
         description={t("deleteMealDescription")}
         cancelButtonText={t("cancel")}

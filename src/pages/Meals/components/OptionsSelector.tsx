@@ -58,7 +58,7 @@ const OptionsSelector: React.FC<OptionsSelectorProps> = ({
         />
         {/* Dropdown menu */}
         {isOpen && (
-          <div className="custom-scrollbar-select border-border absolute bottom-11 left-0 z-10 max-h-52 w-full overflow-y-auto rounded-lg border bg-background p-2 text-sm text-textSecondary shadow-custom-light">
+          <div className="custom-scrollbar-select border-border absolute bottom-11 left-0 z-10 max-h-52 w-full overflow-y-auto rounded-lg border border-neutral-200 bg-background p-2 text-sm text-textSecondary shadow-custom-light dark:border-neutral-700/50">
             <div className="space-y-1">
               {Object.values(options).map((option) => (
                 <div

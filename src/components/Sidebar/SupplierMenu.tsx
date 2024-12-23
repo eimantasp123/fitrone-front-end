@@ -121,18 +121,13 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
         </button>
       </ul>
       {/* Feedback modal */}
-      {isFeedbackOpen && (
-        <FeedbackFormModal isOpen={isFeedbackOpen} onClose={onFeedbackClose} />
-      )}
+      <FeedbackFormModal isOpen={isFeedbackOpen} onClose={onFeedbackClose} />
 
       {/* Support modal */}
-
-      {isSupportModalOpen && (
-        <SupportModal
-          isModalOpen={isSupportModalOpen}
-          onClose={onSupportModalClose}
-        />
-      )}
+      <SupportModal
+        isModalOpen={isSupportModalOpen}
+        onClose={onSupportModalClose}
+      />
     </>
   );
 };

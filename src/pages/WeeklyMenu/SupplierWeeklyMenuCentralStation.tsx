@@ -1,27 +1,30 @@
 import EmptyState from "@/components/common/EmptyState";
 import PagePagination from "@/components/common/PagePagination";
-import { getAllWeeklyMenus } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
+import {
+  getAllWeeklyMenus,
+  setCurrentPage,
+} from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import WeeklyMenuItemCard from "./components/WeeklyMenuItemCard";
-import CreateMenuModal from "./modals/WeeklyMenuAddModal";
-import WeeklyMenuPageHeader from "./WeeklyMenuPageHeader";
 import WeeklyMenuAddModal from "./modals/WeeklyMenuAddModal";
+import WeeklyMenuPageHeader from "./WeeklyMenuPageHeader";
 
 const SupplierWeeklyMenuCentralStation: React.FC = () => {
-  const { t } = useTranslation(["weeklyMenu", "meals"]);
+  const { t } = useTranslation(["weeklyMenu", "meals", "common"]);
   const dispatch = useAppDispatch();
   const {
-    mainLoading,
+    generalLoading,
     weeklyMenu,
     currentPage,
+    searchQuery,
     filters,
     totalPages,
-    lastFetched,
     totalResults,
     limit,
+    loading,
   } = useAppSelector((state) => state.weeklyMenuDetails);
   const {
     isOpen: isMenuModalOpen,
@@ -29,22 +32,22 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
     onClose: onMenuModalClose,
   } = useDisclosure();
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [nextPageLoading, setNextPageLoading] = useState(false);
+  const [nextPageLoading, setNextPageLoading] = useState<boolean>(false);
 
   // Fetch meals on component mount
   useEffect(() => {
-    if (!lastFetched) {
-      const { preference, restriction } = filters;
+    if (!weeklyMenu[1]) {
+      console.log("fetching weekly menu");
       dispatch(
         getAllWeeklyMenus({
           page: 1,
           limit,
-          preference: preference || null,
-          restriction: restriction || null,
+          searchQuery,
+          ...filters,
         }),
       );
     }
-  }, [filters, dispatch, limit, lastFetched]);
+  }, [filters, dispatch, limit, searchQuery, weeklyMenu]);
 
   // Scroll to top whenever the page changes
   useEffect(() => {
@@ -55,9 +58,40 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
     }
   }, [currentPage]);
 
+  // Reset the current page to default whenever the component unmounts
+  useEffect(() => {
+    return () => {
+      dispatch(setCurrentPage(1));
+    };
+  }, [dispatch]);
+
   // Handle page change
-  const handlePageChange = (newPage: number) => {
-    // dispatch(setCurrentPage(newPage));
+  const handlePageChange = async (newPage: number) => {
+    // Check if the page already exists in the store
+    if (weeklyMenu[newPage] && weeklyMenu[newPage].length > 0) {
+      dispatch(setCurrentPage(newPage));
+      return;
+    }
+    // Fetch the page
+    try {
+      setNextPageLoading(true);
+      const { preference, restriction, archived } = filters;
+      await dispatch(
+        getAllWeeklyMenus({
+          page: newPage,
+          limit,
+          searchQuery,
+          archived: archived || null,
+          preference: preference || null,
+          restriction: restriction || null,
+        }),
+      ).unwrap();
+      dispatch(setCurrentPage(newPage));
+    } catch {
+      //
+    } finally {
+      setNextPageLoading(false);
+    }
   };
 
   // Check if there are weekly menu to display
@@ -89,7 +123,7 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <WeeklyMenuPageHeader />
           </div>
-          {mainLoading ? (
+          {generalLoading ? (
             <div className="mt-56 flex w-full justify-center overflow-hidden">
               <Spinner size="lg" />
             </div>
@@ -117,12 +151,18 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
 
               {hasWeeklyMenu && (
                 <>
-                  <span className="pl-5 text-sm">
-                    {t("mealsFound")}: {totalResults || 0}
+                  <span className="my-1 px-5 text-sm">
+                    {t("weeklyMenuFound")}: {totalResults || 0}
                   </span>
+
                   <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-2">
                     {weeklyMenu[currentPage]?.map((menu) => (
-                      <WeeklyMenuItemCard key={menu._id} menu={menu} />
+                      <WeeklyMenuItemCard
+                        key={menu._id}
+                        menu={menu}
+                        t={t}
+                        loading={loading}
+                      />
                     ))}
                   </div>
                   {/* Pagination */}

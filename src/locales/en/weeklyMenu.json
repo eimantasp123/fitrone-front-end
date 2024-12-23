@@ -16,5 +16,26 @@
     "titleRequired": "Title is required and must be unique",
     "titleLength": "Title must be between 3 and 70 characters",
     "descriptionLength": "Description must be less than 200 characters"
-  }
+  },
+
+  "weeklyMenuFound": "Weekly menus found",
+
+  "deleteWeeklyMenuTitle": "Delete Weekly Menu",
+  "deleteWeeklyMenuDescription": "Are you sure you want to delete this weekly menu? This action cannot be undone.",
+  "deleteWeeklyMenu": "Delete Menu",
+
+  "archiveWeeklyMenuModalTitle": "Archive Weekly Menu",
+  "archiveWeeklyMenuModalDescription": "Are you sure you want to archive this weekly menu? This action cannot be undone.",
+  "archiveWeeklyMenu": "Archive Menu",
+
+  "unarchiveWeeklyMenuModalTitle": "Unarchive Weekly Menu",
+  "unarchiveWeeklyMenuModalDescription": "Are you sure you want to unarchive this weekly menu? This action cannot be undone.",
+  "unarchiveWeeklyMenu": "Unarchive Menu",
+
+  "menuArchiving": [
+    { "key": true, "title": "Archived Menus" },
+    { "key": false, "title": "Unarchived Menus" }
+  ],
+
+  "menuStatusOptionsPlaceholder": "Select menu status"
 }

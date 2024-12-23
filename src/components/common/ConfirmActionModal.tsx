@@ -8,26 +8,28 @@ import {
 import React from "react";
 import CustomButton from "./CustomButton";
 
-interface DeleteConfirmationModalProps {
+interface ConfirmActionModalProps {
   isOpen: boolean;
   onClose: () => void;
   loading: boolean;
-  handleDelete: () => void;
+  onAction: () => void;
   title: string;
   description: string;
   cancelButtonText: string;
   confirmButtonText: string;
+  type?: "warning" | "delete" | "primary";
 }
 
-const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
+const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
   isOpen,
   onClose,
   loading,
-  handleDelete,
+  onAction,
   title,
   description,
   cancelButtonText,
   confirmButtonText,
+  type = "delete",
 }) => {
   return (
     <>
@@ -55,10 +57,16 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
                 />
                 <CustomButton
                   text={confirmButtonText}
-                  type="red"
+                  type={
+                    type === "delete"
+                      ? "red"
+                      : type === "primary"
+                        ? "primary"
+                        : "warning"
+                  }
                   widthFull={true}
                   loading={loading}
-                  onClick={handleDelete}
+                  onClick={onAction}
                 />
               </div>
             </ModalBody>
@@ -69,4 +77,4 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   );
 };
 
-export default DeleteConfirmationModal;
+export default ConfirmActionModal;

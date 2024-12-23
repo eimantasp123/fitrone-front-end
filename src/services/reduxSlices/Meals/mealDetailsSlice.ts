@@ -208,11 +208,12 @@ const mealDetailsSlice = createSlice({
           state.generalLoading = false;
         },
       )
-      .addCase(getMeals.rejected, (state, actions) => {
-        const page = actions.meta.arg.page ?? 1;
-        if (page === 1 && !state.meals[1]) {
-          state.generalLoading = false;
-        }
+      .addCase(getMeals.rejected, (state, action) => {
+        state.generalLoading = false;
+        showCustomToast({
+          status: "error",
+          title: (action.payload as string) || "An error occurred",
+        });
       })
       .addCase(deleteMeal.pending, (state) => {
         state.loading = true;

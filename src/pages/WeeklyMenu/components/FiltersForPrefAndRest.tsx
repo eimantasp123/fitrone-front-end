@@ -11,6 +11,7 @@ interface CustomFiltersProps {
   filters: {
     preference: { key: string; title: string } | null;
     restriction: { key: string; title: string } | null;
+    archived: { key: boolean; title: string } | null;
   };
   handleFilterChange: (
     filterType: string,
@@ -24,7 +25,7 @@ const CustomFilters: React.FC<CustomFiltersProps> = ({
   handleFilterChange,
   filters,
 }) => {
-  const { dietaryPreferences, dietaryRestrictions } =
+  const { dietaryPreferences, dietaryRestrictions, menuArchivingOptions } =
     useRestrictionsAndPreferences();
 
   return (
@@ -43,6 +44,12 @@ const CustomFilters: React.FC<CustomFiltersProps> = ({
         defaultOption={t("meals:restrictionsPlaceholder")}
         selectedOption={filters.restriction?.title}
         onChange={(option) => handleFilterChange("restriction", option)}
+      />
+      <CustomSelect
+        options={menuArchivingOptions}
+        defaultOption={t("weeklyMenu:menuStatusOptionsPlaceholder")}
+        selectedOption={filters.archived?.title}
+        onChange={(option) => handleFilterChange("archived", option)}
       />
     </>
   );

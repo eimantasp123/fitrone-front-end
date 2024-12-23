@@ -94,13 +94,14 @@ export interface CreateWeeklyMenuModalForm {
 export interface WeeklyMenuState {
   weeklyMenu: Record<number, WeeklyMenu[]>;
   loading: boolean;
-  mainLoading: boolean;
+  generalLoading: boolean;
   lastFetched: number | null;
   filters: WeeklyMenyFilters;
   totalResults: number;
   currentPage: number;
   limit: number;
   totalPages: number;
+  searchQuery: string | null;
 }
 
 export interface WeeklyMenu {
@@ -110,6 +111,7 @@ export interface WeeklyMenu {
   preferences: string[];
   restrictions: string[];
   days: Day[];
+  nutrition: Nutrition;
   archived: boolean;
   createdAt: string;
   updatedAt: string;
@@ -118,6 +120,7 @@ export interface WeeklyMenu {
 export interface WeeklyMenyFilters {
   preference: { key: string; title: string } | null;
   restriction: { key: string; title: string } | null;
+  archived: { key: boolean; title: string } | null;
 }
 
 export interface Day {

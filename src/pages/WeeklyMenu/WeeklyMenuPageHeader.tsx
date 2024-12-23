@@ -2,21 +2,25 @@ import CustomButton from "@/components/common/CustomButton";
 import CustomSearchInput from "@/components/common/CustomSearchInput";
 import DrawerFromTop from "@/components/common/DrawerFromTop";
 import {
-  cleanFilters,
+  getAllWeeklyMenus,
+  setCurrentPage,
   setFilters,
+  setSearchQuery,
 } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { useBreakpointValue, useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDebounce } from "use-debounce";
 import CustomFilters from "./components/FiltersForPrefAndRest";
 import CreateMenuModal from "./modals/WeeklyMenuAddModal";
+import { useEffect, useState } from "react";
 
 const WeeklyMenuPageHeader: React.FC = () => {
   const { t } = useTranslation(["weeklyMenu", "meals"]);
-  const { filters } = useAppSelector((state) => state.weeklyMenuDetails);
+  const { filters, limit, searchQuery } = useAppSelector(
+    (state) => state.weeklyMenuDetails,
+  );
   const dispatch = useAppDispatch();
-  const [searchQuery, setSearchQuery] = useState("");
   const {
     isOpen: isMenuModalOpen,
     onOpen: onMenuModalOpen,
@@ -28,10 +32,27 @@ const WeeklyMenuPageHeader: React.FC = () => {
     onClose: onFiltersModalClose,
   } = useDisclosure();
   const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
+  const [debouncedQuery] = useDebounce(searchQuery, 300);
 
+  // Clean search query
   const cleanSearch = async () => {
-    setSearchQuery("");
+    dispatch(setFilters({ ...filters }));
   };
+
+  // Fetch meals on search query change
+  useEffect(() => {
+    if (debouncedQuery && debouncedQuery.length > 0) {
+      console.log("fetching weekly menu inside header useefeect");
+      dispatch(
+        getAllWeeklyMenus({
+          page: 1,
+          limit,
+          searchQuery: debouncedQuery,
+          ...filters,
+        }),
+      );
+    }
+  }, [dispatch, filters, limit, debouncedQuery]);
 
   // Handle filter selection
   const handleFilterChange = (
@@ -39,7 +60,10 @@ const WeeklyMenuPageHeader: React.FC = () => {
     option: { key: string; title: string },
   ) => {
     const updatedFilters = { ...filters, [filterType]: option };
+
+    // Update filters
     dispatch(setFilters(updatedFilters));
+
     if (isFiltersModalOpen) {
       onFiltersModalClose();
     }
@@ -47,7 +71,14 @@ const WeeklyMenuPageHeader: React.FC = () => {
 
   // Reset filters
   const resetFilters = () => {
-    dispatch(cleanFilters());
+    const defaultFilters = {
+      preference: null,
+      restriction: null,
+      archived: null,
+    };
+    dispatch(setFilters(defaultFilters));
+    dispatch(setCurrentPage(1));
+
     if (isFiltersModalOpen) {
       onFiltersModalClose();
     }
@@ -56,18 +87,18 @@ const WeeklyMenuPageHeader: React.FC = () => {
   return (
     <>
       <div className="z-20 w-full gap-2 bg-background px-3 py-[10px] dark:bg-backgroundSecondary md:rounded-lg">
-        <div className="grid w-full grid-cols-1 grid-rows-2 gap-2 md:grid-cols-2 md:grid-rows-1 md:gap-4 2xl:grid-cols-8 2xl:grid-rows-1">
+        <div className="grid w-full grid-cols-1 grid-rows-2 gap-2 md:grid-cols-2 md:grid-rows-1 md:gap-x-4 2xl:grid-cols-8 2xl:grid-rows-2">
           {/* Search input */}
-          <div className="flex items-center 2xl:col-span-3">
+          <div className="flex items-center 2xl:col-span-8 2xl:grid-rows-1">
             <CustomSearchInput
               t={t}
-              searchQuery={searchQuery}
-              handleSearch={(e) => setSearchQuery(e.target.value)}
+              searchQuery={searchQuery || ""}
+              handleSearch={(e) => dispatch(setSearchQuery(e.target.value))}
               cleanSearch={cleanSearch}
             />
           </div>
           {/* Filters area */}
-          <div className="hidden items-center gap-4 2xl:col-span-3 2xl:flex">
+          <div className="hidden items-center gap-4 2xl:col-span-6 2xl:flex">
             <CustomFilters
               t={t}
               handleFilterChange={handleFilterChange}
@@ -78,7 +109,7 @@ const WeeklyMenuPageHeader: React.FC = () => {
           <div className="flex items-center justify-between gap-3 2xl:col-span-2">
             <div className="hidden w-full 2xl:block">
               <CustomButton
-                type="lightSecodanry"
+                type="lightSecondary"
                 onClick={resetFilters}
                 text={t("meals:resetFilters")}
                 widthFull={true}
@@ -89,7 +120,7 @@ const WeeklyMenuPageHeader: React.FC = () => {
                 widthFull={true}
                 onClick={onFiltersModalOpen}
                 text={t("meals:filters")}
-                type="lightSecodanry"
+                type="lightSecondary"
               />
             </div>
             <CustomButton

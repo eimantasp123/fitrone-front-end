@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 const useFiltersOptions = () => {
-  const { t } = useTranslation("meals");
+  const { t } = useTranslation(["meals", "weeklyMenu"]);
 
   const dietaryPreferences = t("preferences", {
     returnObjects: true,
@@ -22,7 +22,19 @@ const useFiltersOptions = () => {
     title: string;
   }[];
 
-  return { dietaryPreferences, dietaryRestrictions, categories };
+  const menuArchivingOptions = t("weeklyMenu:menuArchiving", {
+    returnObjects: true,
+  }) as {
+    key: string;
+    title: string;
+  }[];
+
+  return {
+    dietaryPreferences,
+    dietaryRestrictions,
+    categories,
+    menuArchivingOptions,
+  };
 };
 
 export default useFiltersOptions;

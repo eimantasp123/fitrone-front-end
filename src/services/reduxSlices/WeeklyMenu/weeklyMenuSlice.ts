@@ -13,12 +13,13 @@ const initialState: WeeklyMenuState = {
   weeklyMenu: {},
   loading: false,
   lastFetched: null,
-  mainLoading: false,
+  generalLoading: false,
   totalResults: 0,
+  searchQuery: null,
   currentPage: 1,
   limit: 10,
   totalPages: 0,
-  filters: { preference: null, restriction: null },
+  filters: { preference: null, restriction: null, archived: null },
 };
 
 // Get all weekly menus
@@ -28,21 +29,28 @@ export const getAllWeeklyMenus = createAsyncThunk(
     {
       page,
       limit,
+      archived,
+      searchQuery = null,
       preference,
       restriction,
     }: {
       page: number;
       limit: number;
+      searchQuery: string | null;
+      archived: { key: boolean; title: string } | null;
       preference: { key: string; title: string } | null;
       restriction: { key: string; title: string } | null;
     },
     { rejectWithValue },
   ) => {
     try {
+      console.log("fetching weekly menu inside redux");
       const response = await axiosInstance.get("weekly-menu", {
         params: {
           page,
           limit,
+          query: searchQuery || null,
+          archived: archived?.key,
           preference: preference?.key,
           restriction: restriction?.key,
         },
@@ -80,18 +88,35 @@ const weeklyMenuSlice = createSlice({
   name: "weeklyMenu",
   initialState,
   reducers: {
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
+    },
     setFilters: (state, action: PayloadAction<WeeklyMenyFilters>) => {
       state.filters = action.payload;
+      state.searchQuery = null;
+      state.currentPage = 1;
+      state.weeklyMenu = {};
     },
     cleanFilters: (state) => {
-      state.filters = { preference: null, restriction: null };
+      state.filters = {
+        preference: null,
+        restriction: null,
+        archived: null,
+      };
+    },
+    setSearchQuery: (state, action: PayloadAction<string | null>) => {
+      state.searchQuery = action.payload;
     },
     cleanAllWeeklyMenu: () => initialState,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getAllWeeklyMenus.pending, (state) => {
-        state.mainLoading = true;
+      .addCase(getAllWeeklyMenus.pending, (state, action) => {
+        const page = action.meta.arg.page ?? 1;
+        const filtersActive = Object.values(state.filters).some(Boolean);
+        if ((page === 1 && !state.weeklyMenu[1]) || filtersActive) {
+          state.generalLoading = true;
+        }
       })
       .addCase(
         getAllWeeklyMenus.fulfilled,
@@ -106,15 +131,15 @@ const weeklyMenuSlice = createSlice({
         ) => {
           const { data, totalResults, totalPages, currentPage } =
             action.payload;
-          state.mainLoading = false;
           state.weeklyMenu[currentPage] = data;
           state.totalResults = totalResults;
           state.totalPages = totalPages;
           state.lastFetched = new Date().getTime();
+          state.generalLoading = false;
         },
       )
       .addCase(getAllWeeklyMenus.rejected, (state, action) => {
-        state.mainLoading = false;
+        state.generalLoading = false;
         showCustomToast({
           status: "error",
           description: action.payload as string,
@@ -149,7 +174,12 @@ const weeklyMenuSlice = createSlice({
   },
 });
 
-export const { setFilters, cleanFilters, cleanAllWeeklyMenu } =
-  weeklyMenuSlice.actions;
+export const {
+  setFilters,
+  cleanFilters,
+  cleanAllWeeklyMenu,
+  setCurrentPage,
+  setSearchQuery,
+} = weeklyMenuSlice.actions;
 
 export default weeklyMenuSlice.reducer;

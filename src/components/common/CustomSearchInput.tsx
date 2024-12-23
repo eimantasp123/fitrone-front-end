@@ -20,7 +20,7 @@ const CustomSearchInput: React.FC<CustomSearchInputProps> = ({
       <input
         type="text"
         value={searchQuery}
-        className="h-9 w-full rounded-lg bg-backgroundSecondary px-6 placeholder:text-placeholder focus:outline-none dark:bg-background"
+        className="h-9 w-full rounded-lg bg-backgroundSecondary px-6 text-[15px] placeholder:text-placeholder focus:outline-none dark:bg-background"
         placeholder={t("searchPlaceholder")}
         onChange={handleSearch}
       />

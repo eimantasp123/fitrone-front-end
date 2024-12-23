@@ -1,3 +1,4 @@
+import useFiltersOptions from "@/hooks/useFiltersOptions";
 import {
   Popover,
   PopoverBody,
@@ -6,26 +7,23 @@ import {
   PopoverHeader,
   PopoverTrigger,
 } from "@chakra-ui/react";
-import { TFunction } from "i18next";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
-interface MealDetailPopoverProps {
+interface RestAndPrefDetailsPopoverProps {
   preferences: string[];
-  dietaryPreferences: { key: string; title: string }[];
   restrictions: string[];
-  dietaryRestrictions: { key: string; title: string }[];
-  t: TFunction;
 }
 
-const MealDetailPopover: React.FC<MealDetailPopoverProps> = ({
+const RestAndPrefDetailsPopover: React.FC<RestAndPrefDetailsPopoverProps> = ({
   preferences,
-  dietaryPreferences,
   restrictions,
-  dietaryRestrictions,
-  t,
 }) => {
+  const { dietaryPreferences, dietaryRestrictions } = useFiltersOptions();
+  const { t } = useTranslation("common");
+
   return (
-    <div className="flex w-full items-center gap-4 border-b-[1px] px-3 py-2 text-xs">
+    <div className="flex w-full items-center gap-4 text-xs">
       {/* Preferences */}
       <Popover>
         <PopoverTrigger>
@@ -106,4 +104,4 @@ const MealDetailPopover: React.FC<MealDetailPopoverProps> = ({
   );
 };
 
-export default MealDetailPopover;
+export default RestAndPrefDetailsPopover;

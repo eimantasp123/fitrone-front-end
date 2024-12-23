@@ -1,5 +1,4 @@
 import CustomButton from "@/components/common/CustomButton";
-import DeleteConfirmationModal from "@/components/common/DeleteConfirmationModal";
 import {
   deleteIngredient,
   getIngredients,
@@ -14,6 +13,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import AddIngredientManualModal from "../Meals/components/IngredientManualAddModal";
+import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 
 interface IngredientCardProps {
   ingredient: IngredientForOnce;
@@ -149,11 +149,11 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
       </div>
 
       {/* Delete confirm */}
-      <DeleteConfirmationModal
+      <ConfirmActionModal
         isOpen={deleteModalOpen}
         onClose={handleCloseDeleteModal}
         loading={loading}
-        handleDelete={handleDelete}
+        onAction={handleDelete}
         title={t("deleteIngredientTitle")}
         description={t("deleteIngredientDescription")}
         cancelButtonText={t("cancel")}
@@ -161,13 +161,11 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
       />
 
       {/* Edit ingredient */}
-      {isOpenIngredientModal && (
-        <AddIngredientManualModal
-          isOpen={isOpenIngredientModal}
-          onClose={onCloseIngredientModal}
-          editIngredient={ingredient}
-        />
-      )}
+      <AddIngredientManualModal
+        isOpen={isOpenIngredientModal}
+        onClose={onCloseIngredientModal}
+        editIngredient={ingredient}
+      />
     </>
   );
 };

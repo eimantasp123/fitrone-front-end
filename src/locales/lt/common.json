@@ -20,5 +20,28 @@
   "previousPage": "Ankstesnis",
   "nextPage": "Kitas",
   "page": "Puslapis",
-  "of": "iš"
+  "of": "iš",
+
+  "carbs": "Angliavandeniai",
+  "protein": "Baltymai",
+  "fat": "Riebalai",
+  "calories": "Kalorijos",
+
+  "delete": "Ištrinti",
+  "archiveMenu": "Archyvuoti meniu",
+  "unarchiveMenu": "Išarchyvuoti meniu",
+  "manageMenu": "Tvarkyti meniu",
+
+  "menuCreated": "Sukurta",
+  "lastUpdatedAt": "Atnaujinta",
+
+  "selected": "Pasirinkta",
+  "preferencesTitle": "Dietiniai pasirinkimai",
+  "restrictionsTitle": "Dietiniai apribojimai",
+  "noPreferences": "Nėra pasirinkimų",
+  "noRestrictions": "Nėra apribojimų",
+
+  "seeArchivedMenus": "Peržiūrėti archyvuotus meniu",
+  "activeMenu": "Aktyvūs meniu",
+  "archivedMenu": "Archyvuotas meniu"
 }

@@ -63,7 +63,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         />
         {/* Dropdown menu */}
         {isOpen && (
-          <div className="custom-scrollbar-select absolute left-0 top-[40px] z-10 max-h-52 w-full overflow-y-auto rounded-lg border border-borderPrimary bg-background p-2 text-sm text-textSecondary shadow-custom-light md:top-[40px] 3xl:top-[40px]">
+          <div className="custom-scrollbar-select absolute left-0 top-[40px] z-10 max-h-52 w-full overflow-y-auto rounded-lg border border-neutral-200 bg-background p-2 text-sm text-textSecondary shadow-custom-light dark:border-neutral-700/50 md:top-[40px] 3xl:top-[40px]">
             <div className="space-y-1">
               {Object.values(options).map((option, index) => (
                 <div

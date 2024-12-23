@@ -20,5 +20,28 @@
   "previousPage": "Previous",
   "nextPage": "Next",
   "page": "Page",
-  "of": "of"
+  "of": "of",
+
+  "carbs": "Carbs",
+  "protein": "Proteins",
+  "fat": "Fats",
+  "calories": "Calories",
+
+  "delete": "Delete",
+  "archiveMenu": "Archive meniu",
+  "unarchiveMenu": "Unarchive meniu",
+  "manageMenu": "Manage menu",
+
+  "menuCreated": "Created at",
+  "lastUpdatedAt": "Updated at",
+
+  "selected": "Selected",
+  "preferencesTitle": "Dietary Preferences",
+  "restrictionsTitle": "Dietary Restrictions",
+  "noPreferences": "No preferences",
+  "noRestrictions": "No restrictions",
+
+  "seeArchivedMenus": "See archived menus",
+  "activeMenu": "Active menu",
+  "archivedMenu": "Archived menu"
 }
