@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-interface SelectOptionsProps {
+interface OptionsSelectorProps {
   options: { key: string; title: string }[];
   defaultOption: string;
   onClick: (option: { key: string; title: string }) => void;
@@ -9,7 +9,7 @@ interface SelectOptionsProps {
 }
 
 // Customer Select Component
-const SelectOptions: React.FC<SelectOptionsProps> = ({
+const OptionsSelector: React.FC<OptionsSelectorProps> = ({
   options,
   defaultOption,
   onClick,
@@ -60,7 +60,7 @@ const SelectOptions: React.FC<SelectOptionsProps> = ({
         {isOpen && (
           <div className="custom-scrollbar-select border-border absolute bottom-11 left-0 z-10 max-h-52 w-full overflow-y-auto rounded-lg border bg-background p-2 text-sm text-textSecondary shadow-custom-light">
             <div className="space-y-1">
-              {options.map((option) => (
+              {Object.values(options).map((option) => (
                 <div
                   key={option.key}
                   onClick={() => handleOptionSelect(option)}
@@ -77,4 +77,4 @@ const SelectOptions: React.FC<SelectOptionsProps> = ({
   );
 };
 
-export default SelectOptions;
+export default OptionsSelector;

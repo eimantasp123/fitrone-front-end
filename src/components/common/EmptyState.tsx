@@ -20,7 +20,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   secondButtonText,
 }) => {
   return (
-    <div className="mt-2 flex h-[75vh] w-[94%] flex-col items-center justify-center gap-1 rounded-2xl border-[1.5px] border-dashed border-primary bg-background text-center dark:bg-backgroundSecondary md:mt-1 md:w-[98%] 3xl:h-[60vh]">
+    <div className="mt-2 flex h-[78vh] w-[94%] flex-col items-center justify-center gap-1 rounded-2xl border-[1.5px] border-dashed border-primary bg-background text-center dark:bg-backgroundSecondary md:mt-1 md:w-[98%] 3xl:h-[70vh]">
       <VscEmptyWindow className="mb-4 text-4xl" />
       <h1 className="text-md font-medium text-textPrimary">{title}</h1>
       <p className="text-center text-sm text-textSecondary">{description}</p>

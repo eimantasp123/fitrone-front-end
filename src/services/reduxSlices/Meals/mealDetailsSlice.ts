@@ -14,7 +14,7 @@ export interface ApiError {
 
 interface MealsState {
   meals: Record<number, Meal[]>;
-  mainLoading: { [key: string]: boolean };
+  generalLoading: boolean;
   loading: boolean;
   currentPage: number;
   lastFetched: number | null;
@@ -31,11 +31,11 @@ interface MealsState {
 const initialState: MealsState = {
   meals: {},
   loading: false,
-  mainLoading: {},
+  generalLoading: false,
   lastFetched: null,
   totalResults: 0,
   currentPage: 1,
-  limit: 18,
+  limit: 16,
   totalPages: 0,
   filters: { category: null, preference: null, restriction: null },
 };
@@ -62,14 +62,14 @@ export const getMeals = createAsyncThunk(
   "mealsDetails/getMeals",
   async (
     {
-      page = 1,
-      limit = 18,
+      page,
+      limit,
       category,
       preference,
       restriction,
     }: {
-      page?: number;
-      limit?: number;
+      page: number;
+      limit: number;
       category: { key: string; title: string } | null;
       preference: { key: string; title: string } | null;
       restriction: { key: string; title: string } | null;
@@ -151,11 +151,7 @@ const mealDetailsSlice = createSlice({
       state.meals = {};
       state.currentPage = 1;
     },
-    cleanAll: (state) => {
-      state.meals = {};
-      state.currentPage = 1;
-      state.filters = { category: null, preference: null, restriction: null };
-    },
+    cleanAllMeals: () => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -188,7 +184,9 @@ const mealDetailsSlice = createSlice({
       })
       .addCase(getMeals.pending, (state, action) => {
         const page = action.meta.arg.page ?? 1;
-        state.mainLoading[page] = true;
+        if (page === 1 && !state.meals[1]) {
+          state.generalLoading = true;
+        }
       })
       .addCase(
         getMeals.fulfilled,
@@ -207,12 +205,14 @@ const mealDetailsSlice = createSlice({
           state.totalPages = totalPages;
           state.totalResults = totalResults;
           state.lastFetched = new Date().getTime();
-          delete state.mainLoading[currentPage];
+          state.generalLoading = false;
         },
       )
       .addCase(getMeals.rejected, (state, actions) => {
         const page = actions.meta.arg.page ?? 1;
-        delete state.mainLoading[page];
+        if (page === 1 && !state.meals[1]) {
+          state.generalLoading = false;
+        }
       })
       .addCase(deleteMeal.pending, (state) => {
         state.loading = true;
@@ -251,6 +251,6 @@ const mealDetailsSlice = createSlice({
   },
 });
 
-export const { setFilters, setCurrentPage, cleanAll } =
+export const { setFilters, setCurrentPage, cleanAllMeals } =
   mealDetailsSlice.actions;
 export default mealDetailsSlice.reducer;

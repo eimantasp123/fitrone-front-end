@@ -1,4 +1,6 @@
 import CustomButton from "@/components/common/CustomButton";
+import DeleteConfirmationModal from "@/components/common/DeleteConfirmationModal";
+import useFiltersOptions from "@/hooks/useFiltersOptions";
 import {
   deleteMeal,
   getMeals,
@@ -7,34 +9,19 @@ import {
 import { useAppDispatch, useAppSelector } from "@/store";
 import { capitalizeFirstLetter } from "@/utils/helper";
 import { Meal } from "@/utils/types";
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import AddMealModal from "../AddMealModal";
-import MealCardPopover from "./MealCardPopover";
+import MealAddModal from "../MealAddModal";
+import MealCardPopover from "./MealDetailPopover";
 
 // Meal card component props interface
-interface MealCardProps {
+interface MealOverviewCardProps {
   meal: Meal;
-  dietaryPreferences: { key: string; title: string }[];
-  dietaryRestrictions: { key: string; title: string }[];
-  categories: { key: string; title: string }[];
 }
 
 // Meal card component
-const MealCard: React.FC<MealCardProps> = ({
-  meal,
-  dietaryPreferences,
-  dietaryRestrictions,
-  categories,
-}) => {
+const MealOverviewCard: React.FC<MealOverviewCardProps> = ({ meal }) => {
   const { t } = useTranslation("meals");
   const {
     onOpen: onOpenMealModalInCard,
@@ -47,9 +34,11 @@ const MealCard: React.FC<MealCardProps> = ({
     isOpen: deleteModalOpen,
   } = useDisclosure();
   const dispatch = useAppDispatch();
-  const { loading, currentPage, filters, meals } = useAppSelector(
+  const { loading, currentPage, filters, meals, limit } = useAppSelector(
     (state) => state.mealsDetails,
   );
+  const { categories, dietaryPreferences, dietaryRestrictions } =
+    useFiltersOptions();
   const { title, _id: id, nutrition, preferences, restrictions } = meal;
 
   // Delete meal function
@@ -57,6 +46,7 @@ const MealCard: React.FC<MealCardProps> = ({
     try {
       //  Delete the meal
       await dispatch(deleteMeal(id)).unwrap();
+      onCloseDeleteModal();
 
       const updatedPages = { ...meals }; // Clone the current meals object
       updatedPages[currentPage] = meals[currentPage]?.filter(
@@ -73,12 +63,10 @@ const MealCard: React.FC<MealCardProps> = ({
 
       // Fetch all affected pages sequentially
       for (const page of pagesToRefetch) {
-        await dispatch(getMeals({ page, ...filters }));
+        await dispatch(getMeals({ page, limit, ...filters }));
       }
     } catch {
       //
-    } finally {
-      onCloseDeleteModal();
     }
   };
 
@@ -160,52 +148,25 @@ const MealCard: React.FC<MealCardProps> = ({
         </div>
       </div>
       {/* Delete confirm */}
-
-      {deleteModalOpen && (
-        <Modal
-          isOpen={deleteModalOpen}
-          onClose={onCloseDeleteModal}
-          isCentered
-          size={{ base: "xs", md: "lg" }}
-        >
-          <ModalOverlay />
-          <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
-            <h2 className="p-1 font-medium">{t("deleteMealTitle")}</h2>
-            <ModalCloseButton marginTop="2" />
-            <ModalBody sx={{ padding: "4px" }}>
-              <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
-                {t("deleteMealDescription")}
-              </p>
-              <div className="flex w-full items-center justify-between gap-3">
-                <CustomButton
-                  text={t("cancel")}
-                  type="light"
-                  widthFull={true}
-                  onClick={onCloseDeleteModal}
-                />
-                <CustomButton
-                  text={t("deleteMealTitle")}
-                  type="red"
-                  widthFull={true}
-                  loading={loading}
-                  onClick={handleDelete}
-                />
-              </div>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      )}
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        onClose={onCloseDeleteModal}
+        loading={loading}
+        handleDelete={handleDelete}
+        title={t("deleteMealTitle")}
+        description={t("deleteMealDescription")}
+        cancelButtonText={t("cancel")}
+        confirmButtonText={t("deleteMealTitle")}
+      />
 
       {/* Update meal */}
-      {isOpenMealModalInCard && (
-        <AddMealModal
-          isOpenModal={isOpenMealModalInCard}
-          onClose={onCloseMealModalInCard}
-          mealToEdit={meal}
-        />
-      )}
+      <MealAddModal
+        isOpenModal={isOpenMealModalInCard}
+        onClose={onCloseMealModalInCard}
+        mealToEdit={meal}
+      />
     </>
   );
 };
 
-export default MealCard;
+export default MealOverviewCard;

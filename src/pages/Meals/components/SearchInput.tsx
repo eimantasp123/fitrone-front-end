@@ -3,7 +3,7 @@ import React from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdSearch } from "react-icons/md";
 
-interface SearchInputFormProps {
+interface SearchInputProps {
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
   showResults: boolean;
@@ -12,7 +12,7 @@ interface SearchInputFormProps {
   t: TFunction;
 }
 
-const SearchInputForm: React.FC<SearchInputFormProps> = ({
+const SearchInput: React.FC<SearchInputProps> = ({
   searchQuery,
   setSearchQuery,
   showResults,
@@ -56,4 +56,4 @@ const SearchInputForm: React.FC<SearchInputFormProps> = ({
   );
 };
 
-export default SearchInputForm;
+export default SearchInput;

@@ -16,5 +16,9 @@
       "commentRequired": " Atsiliepimas yra privalomas",
       "maxLength": " Atsiliepimas negali būti ilgesnis nei 500 simbolių"
     }
-  }
+  },
+  "previousPage": "Ankstesnis",
+  "nextPage": "Kitas",
+  "page": "Puslapis",
+  "of": "iš"
 }

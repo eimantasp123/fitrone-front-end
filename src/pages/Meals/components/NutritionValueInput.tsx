@@ -8,12 +8,12 @@ interface Nutrients {
   protein: string | number;
 }
 
-interface NutritionalInputProps {
+interface NutritionValueInputProps {
   nutrients: Nutrients;
   setNutrients: React.Dispatch<React.SetStateAction<Nutrients>>;
 }
 
-const NutritionalInput: React.FC<NutritionalInputProps> = ({
+const NutritionValueInput: React.FC<NutritionValueInputProps> = ({
   nutrients,
   setNutrients,
 }) => {
@@ -42,4 +42,4 @@ const NutritionalInput: React.FC<NutritionalInputProps> = ({
   );
 };
 
-export default NutritionalInput;
+export default NutritionValueInput;

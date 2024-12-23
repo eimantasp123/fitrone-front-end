@@ -4,8 +4,8 @@ import { Ingredients } from "@/utils/types";
 import { AxiosError } from "axios";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import SearchInputForm from "./SearchInputForm";
-import ShowSearchResults from "./ShowSearchResults";
+import SearchInput from "./SearchInput";
+import SearchResultsDisplay from "./SearchResultsDisplay";
 
 interface SearchResult {
   ingredientId: string;
@@ -131,7 +131,7 @@ const SearchIngredientFromDatabaseApi: React.FC<
         className={`relative h-auto ${className} mx-auto`}
       >
         {/* Search input for ingredients */}
-        <SearchInputForm
+        <SearchInput
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           showResults={showResults}
@@ -142,7 +142,7 @@ const SearchIngredientFromDatabaseApi: React.FC<
 
         {/* Show search results */}
         {showResults && (
-          <ShowSearchResults
+          <SearchResultsDisplay
             handleAcceptByResultId={true}
             currentAmounts={amounts}
             onAccept={handleAccept}

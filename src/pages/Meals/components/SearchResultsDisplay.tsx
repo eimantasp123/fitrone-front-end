@@ -3,9 +3,9 @@ import { TFunction } from "i18next";
 import React from "react";
 import { MdDelete, MdDownloadDone } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
-import { SearchResults } from "./AiSearchApi";
+import { SearchResults } from "./ArtificialIntelligenceSearchAPI";
 
-interface ShowSearchResultsProps {
+interface SearchResultsDisplayProps {
   loading: boolean;
   t: TFunction;
   searchResults: SearchResults[];
@@ -19,7 +19,7 @@ interface ShowSearchResultsProps {
   onSingleAmountChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const ShowSearchResults: React.FC<ShowSearchResultsProps> = ({
+const SearchResultsDisplay: React.FC<SearchResultsDisplayProps> = ({
   loading,
   t,
   searchResults,
@@ -148,4 +148,4 @@ const ShowSearchResults: React.FC<ShowSearchResultsProps> = ({
   );
 };
 
-export default ShowSearchResults;
+export default SearchResultsDisplay;

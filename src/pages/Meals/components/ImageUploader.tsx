@@ -3,11 +3,11 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FiTrash } from "react-icons/fi";
 
-interface ImageUploadProps {
+interface ImageUploaderProps {
   image?: string | null;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ image = null }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ image = null }) => {
   const { t } = useTranslation(["profileSettings", "meals"]);
   const [previewImage, setPreviewImage] = useState<string | null>(
     image ?? null,
@@ -87,4 +87,4 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ image = null }) => {
   );
 };
 
-export default ImageUpload;
+export default ImageUploader;

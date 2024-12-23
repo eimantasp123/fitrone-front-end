@@ -1,5 +1,5 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
-import { cleanAll } from "@/services/reduxSlices/Meals/mealDetailsSlice";
+import { cleanAllMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useAppDispatch } from "@/store";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -9,6 +9,7 @@ import useAsync from "../hooks/useAsync";
 import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
 import axiosInstance from "../utils/axiosInterceptors";
 import { cleanAllIngredients } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
+import { cleanAllWeeklyMenu } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 
 const AuthContext = createContext();
 const MOCK_API = import.meta.env.VITE_API_URL;
@@ -217,7 +218,8 @@ export const AuthProvider = ({ children }) => {
   const logout = useAsync(async () => {
     await axiosInstance.post("/auth/logout");
     dispatch(setUserDetails(null));
-    dispatch(cleanAll());
+    dispatch(cleanAllMeals());
+    dispatch(cleanAllWeeklyMenu());
     dispatch(cleanAllIngredients());
     localStorage.removeItem("authenticated");
     setAuthChecking(true);

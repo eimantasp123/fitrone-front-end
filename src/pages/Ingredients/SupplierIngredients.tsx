@@ -1,4 +1,4 @@
-import PrimaryButton from "@/components/common/PrimaryButton";
+import EmptyState from "@/components/common/EmptyState";
 import {
   getIngredients,
   setCurrentPage,
@@ -8,10 +8,10 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { VscEmptyWindow } from "react-icons/vsc";
-import AddIngredientManualModal from "../Meals/components/AddIngredientManualModal";
+import AddIngredientManualModal from "../Meals/components/IngredientManualAddModal";
 import IngredientCard from "./IngredientCard";
 import IngredientsHeader from "./IngredientsHeader";
+import PagePagination from "@/components/common/PagePagination";
 
 const SupplierIngredients: React.FC = () => {
   const { t } = useTranslation("meals");
@@ -94,31 +94,22 @@ const SupplierIngredients: React.FC = () => {
           ) : (
             <>
               {noIngredientsAdded && !searchResults && (
-                <div className="flex w-full flex-col items-center justify-center gap-1 p-2 pt-28">
-                  <VscEmptyWindow className="text-4xl" />
-                  <h1 className="text-md font-medium text-textPrimary">
-                    {t("noIngredients")}
-                  </h1>
-                  <p className="text-center text-sm text-textSecondary">
-                    {t("noIngredientsDescription")}
-                  </p>
-                  <PrimaryButton
-                    onClick={onAddIngredientOpen}
-                    className="mt-4 w-[200px]"
-                    text={t("addIngredient")}
+                <div className="flex justify-center">
+                  <EmptyState
+                    title={t("noIngredients")}
+                    description={t("noIngredientsDescription")}
+                    firstButtonText={t("addIngredient")}
+                    onClickFirstButton={onAddIngredientOpen}
                   />
                 </div>
               )}
 
               {noIngredientsAdded && searchResults && (
-                <div className="flex w-full flex-col items-center justify-center gap-1 p-2 pt-28">
-                  <VscEmptyWindow className="text-4xl" />
-                  <h1 className="text-md font-medium text-textPrimary">
-                    {t("errors.noSearchResults")}
-                  </h1>
-                  <p className="text-center text-sm text-textSecondary">
-                    {t("errors.noSearchResultsDescription")}
-                  </p>
+                <div className="flex justify-center">
+                  <EmptyState
+                    title={t("errors.noSearchResults")}
+                    description={t("errors.noSearchResultsDescription")}
+                  />
                 </div>
               )}
 
@@ -139,25 +130,12 @@ const SupplierIngredients: React.FC = () => {
                   </div>
                   {/* Pagination */}
                   {totalPages > 1 && (
-                    <div className="-mt-3 mb-5 flex w-full items-center justify-center gap-4 px-4 sm:justify-end">
-                      <button
-                        disabled={currentPage === 1}
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        className="w-[100px] rounded-md bg-background px-4 py-2 text-xs text-textPrimary transition-colors duration-200 ease-in-out hover:bg-neutral-200 disabled:opacity-50 dark:bg-backgroundLight dark:hover:bg-neutral-800 sm:w-[140px] sm:text-sm"
-                      >
-                        {t("previousPage")}
-                      </button>
-                      <span className="text-center text-xs md:text-sm">
-                        {t("page")} {currentPage} {t("of")} {totalPages}
-                      </span>
-                      <button
-                        disabled={currentPage === totalPages}
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        className="w-[100px] rounded-md bg-primary px-4 py-2 text-xs text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight disabled:opacity-50 dark:hover:bg-primaryDark sm:w-[140px] sm:text-sm"
-                      >
-                        {t("nextPage")}
-                      </button>
-                    </div>
+                    <PagePagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      goPrevious={() => handlePageChange(currentPage - 1)}
+                      goNext={() => handlePageChange(currentPage + 1)}
+                    />
                   )}
                 </>
               )}
@@ -165,12 +143,12 @@ const SupplierIngredients: React.FC = () => {
           )}
         </div>
       </div>
-      {isAddIngredientOpen && (
-        <AddIngredientManualModal
-          isOpen={isAddIngredientOpen}
-          onClose={onAddIngredientClose}
-        />
-      )}
+
+      {/* Add ingredient modal */}
+      <AddIngredientManualModal
+        isOpen={isAddIngredientOpen}
+        onClose={onAddIngredientClose}
+      />
     </>
   );
 };

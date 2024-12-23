@@ -2,9 +2,10 @@ import EmptyState from "@/components/common/EmptyState";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import CreateMenuModal from "../WeeklyMenu/modals/CreateMenuModal";
+import CreateMenuModal from "../WeeklyMenu/modals/WeeklyMenuAddModal";
 import WeekPlanHeader from "./WeekPlanHeader";
 import AssignExistingMenuModal from "../WeeklyMenu/modals/AssignExistingMenuModal";
+import WeeklyMenuAddModal from "../WeeklyMenu/modals/WeeklyMenuAddModal";
 
 const SupplierWeekPlan: React.FC = () => {
   const { t } = useTranslation("weekPlan");
@@ -67,18 +68,14 @@ const SupplierWeekPlan: React.FC = () => {
       </div>
 
       {/* Menu modal */}
-      {isMenuModalOpen && (
-        <CreateMenuModal isOpen={isMenuModalOpen} onClose={onMenuModalClose} />
-      )}
+      <WeeklyMenuAddModal isOpen={isMenuModalOpen} onClose={onMenuModalClose} />
 
       {/* Assign Existing Menu Modal */}
-      {isAssignModalOpen && (
-        <AssignExistingMenuModal
-          isOpen={isAssignModalOpen}
-          onOpenCreateMenuModal={onMenuModalOpen}
-          onClose={onAssignModalClose}
-        />
-      )}
+      <AssignExistingMenuModal
+        isOpen={isAssignModalOpen}
+        onOpenCreateMenuModal={onMenuModalOpen}
+        onClose={onAssignModalClose}
+      />
     </>
   );
 };

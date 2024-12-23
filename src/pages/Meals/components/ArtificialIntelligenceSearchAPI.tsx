@@ -6,11 +6,11 @@ import { Ingredients } from "@/utils/types";
 import axios from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import SearchInputForm from "./SearchInputForm";
-import ShowSearchResults from "./ShowSearchResults";
-import SetUnit from "./SetUnit";
+import SearchInputForm from "./SearchInput";
+import ShowSearchResults from "./SearchResultsDisplay";
+import SetUnit from "./UnitSelector";
 
-interface SearchInputForApiProps {
+interface ArtificialIntelligenceSearchAPIProps {
   className?: string;
   setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
   closeModal: () => void;
@@ -27,11 +27,9 @@ export interface SearchResults {
   ingredientId?: string;
 }
 
-const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
-  className,
-  setIngredients,
-  closeModal,
-}) => {
+const ArtificialIntelligenceSearchAPI: React.FC<
+  ArtificialIntelligenceSearchAPIProps
+> = ({ className, setIngredients, closeModal }) => {
   const { t } = useTranslation("meals");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<SearchResults[]>([]);
@@ -209,4 +207,4 @@ const SearchInputForApi: React.FC<SearchInputForApiProps> = ({
   );
 };
 
-export default SearchInputForApi;
+export default ArtificialIntelligenceSearchAPI;

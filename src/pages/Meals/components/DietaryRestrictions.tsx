@@ -1,21 +1,21 @@
-import { TFunction } from "i18next";
 import React from "react";
 import { IoMdCloseCircle } from "react-icons/io";
-import SelectOptions from "./SelectOptions";
+import SelectOptions from "./OptionsSelector";
+import { useTranslation } from "react-i18next";
+import useFiltersOptions from "@/hooks/useFiltersOptions";
 
 interface DietaryRestrictionsProps {
   restrictions: string[];
-  dietaryRestrictions: { key: string; title: string }[];
   setRestrictions: React.Dispatch<React.SetStateAction<string[]>>;
-  t: TFunction;
 }
 
 const DietaryRestrictions: React.FC<DietaryRestrictionsProps> = ({
   restrictions,
-  dietaryRestrictions,
   setRestrictions,
-  t,
 }) => {
+  const { t } = useTranslation("meals");
+  const { dietaryRestrictions } = useFiltersOptions();
+
   return (
     <div className="flex w-full flex-col gap-2">
       <h4 className="text-sm">{t("restrictionsTitle")}</h4>

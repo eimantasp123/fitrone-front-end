@@ -72,7 +72,7 @@ const GeneralHeader: React.FC = () => {
 
       {/* Side bar mobile menu */}
 
-      {isDrawerVisible && (
+      {isDrawerVisible && isOpen && (
         <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
           <DrawerOverlay />
           <DrawerContent

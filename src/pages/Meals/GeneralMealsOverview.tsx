@@ -2,10 +2,10 @@ import LockPage from "@/components/common/LockPage";
 import { useAppSelector } from "@/store";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import SupplierWeeklyMenu from "./SupplierWeeklyMenu";
+import SupplierMeals from "./SupplierMeals";
 
-const WeeklyMenuGeneral: React.FC = () => {
-  const { t } = useTranslation("sidebar");
+const GeneralMealsOverview: React.FC = () => {
+  const { t } = useTranslation("meals");
   const { details: user } = useAppSelector((state) => state.personalDetails);
 
   if (!user) return null;
@@ -14,15 +14,13 @@ const WeeklyMenuGeneral: React.FC = () => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>{t("menu")}</title>
+          <title>{t("meals")}</title>
         </Helmet>
         {user.plan === "base" && <LockPage userPlan={user.plan} />}
-        {user.role === "supplier" && user.plan !== "base" && (
-          <SupplierWeeklyMenu />
-        )}
+        {user.role === "supplier" && user.plan !== "base" && <SupplierMeals />}
       </HelmetProvider>
     </>
   );
 };
 
-export default WeeklyMenuGeneral;
+export default GeneralMealsOverview;

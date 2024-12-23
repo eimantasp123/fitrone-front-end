@@ -16,5 +16,9 @@
       "commentRequired": "Feedback is required",
       "maxLength": "Feedback must not be longer than 500 characters"
     }
-  }
+  },
+  "previousPage": "Previous",
+  "nextPage": "Next",
+  "page": "Page",
+  "of": "of"
 }

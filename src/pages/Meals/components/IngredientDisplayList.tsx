@@ -5,13 +5,13 @@ import React from "react";
 import { FaRegCircleDot } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 
-interface IngredientListProps {
+interface IngredientDisplayListProps {
   ingredients: Ingredients[];
   setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
   t: TFunction;
 }
 
-const IngredientList: React.FC<IngredientListProps> = ({
+const IngredientDisplayList: React.FC<IngredientDisplayListProps> = ({
   ingredients,
   setIngredients,
   t,
@@ -66,4 +66,4 @@ const IngredientList: React.FC<IngredientListProps> = ({
   );
 };
 
-export default IngredientList;
+export default IngredientDisplayList;

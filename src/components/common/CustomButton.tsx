@@ -3,12 +3,13 @@ import React from "react";
 
 interface CustomButtonProps {
   text?: string;
+  actionType?: "button" | "submit" | "reset";
   onClick?: () => void;
   children?: React.ReactNode;
-  disabled?: boolean;
   widthFull?: boolean;
   paddingY?: string;
   type?: string;
+  disabled?: boolean;
   textLight?: boolean;
   loading?: boolean;
 }
@@ -17,6 +18,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   text,
   onClick,
   children,
+  actionType = "button",
   disabled = false,
   widthFull = false,
   paddingY = "py-2",
@@ -32,6 +34,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         return "hover:bg-neutral-700 bg-neutral-800 text-white dark:bg-neutral-800 dark:hover:bg-neutral-700";
       case "light":
         return "bg-backgroundSecondary hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800";
+      case "lightSecodanry":
+        return "bg-neutral-200 hover:bg-neutral-300 dark:bg-background dark:hover:bg-neutral-800";
       case "white":
         return "bg-white  hover:bg-neutral-200 dark:bg-white dark:text-black dark:hover:bg-neutral-300";
       case "delete":
@@ -47,8 +51,9 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     <button
       onClick={onClick}
       disabled={disabled}
+      type={actionType}
       className={`${className} ${
-        disabled ? "cursor-not-allowed" : ""
+        disabled ? "cursor-not-allowed opacity-70" : ""
       } select-none ${widthFull ? "w-full" : "px-6"} text-nowrap rounded-lg ${paddingY} ${textLight ? "font-normal" : "font-medium"} text-sm transition-colors duration-300 ease-in-out`}
     >
       {loading ? <Spinner size="sm" /> : children || text}

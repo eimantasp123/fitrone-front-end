@@ -27,7 +27,7 @@ const initialState: IngredientsDetailsState = {
   mainLoading: false,
   currentPage: 1,
   searchResults: false,
-  pageSize: 24,
+  pageSize: 28,
   searchQuery: "",
   lastFetched: null,
   totalPages: 1,

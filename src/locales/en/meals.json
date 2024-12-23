@@ -29,10 +29,10 @@
     { "key": "lowCarb", "title": "Low-Carb" },
     { "key": "mediterranean", "title": "Mediterranean" },
     { "key": "highProtein", "title": "High-Protein" },
-    { "key": "organic", "title": "Organic" },
-    { "key": "nonGMO", "title": "Non-GMO" },
     { "key": "plantBased", "title": "Plant-Based" },
-    { "key": "intermittentFasting", "title": "Intermittent Fasting" }
+    { "key": "balanced", "title": "Balanced Diet" },
+    { "key": "spicy", "title": "Spicy" },
+    { "key": "sweet", "title": "Sweet" }
   ],
 
   "restrictions": [
@@ -42,6 +42,8 @@
     { "key": "eggFree", "title": "Egg-Free" },
     { "key": "soyFree", "title": "Soy-Free" },
     { "key": "shellfishFree", "title": "Shellfish-Free" },
+    { "key": "halal", "title": "Halal" },
+    { "key": "kosher", "title": "Kosher" },
     { "key": "lowSodium", "title": "Low-Sodium" },
     { "key": "sugarFree", "title": "Sugar-Free" }
   ],

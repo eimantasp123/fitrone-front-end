@@ -303,7 +303,7 @@ export const useMealInputSchema = () => {
 };
 
 export const useCreateMenuSchema = () => {
-  const { t } = useTranslation("menu");
+  const { t } = useTranslation("weeklyMenu");
   return yup.object().shape({
     title: yup
       .string()

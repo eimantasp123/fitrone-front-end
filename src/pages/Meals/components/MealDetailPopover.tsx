@@ -9,7 +9,7 @@ import {
 import { TFunction } from "i18next";
 import React from "react";
 
-interface MealCardPopoverProps {
+interface MealDetailPopoverProps {
   preferences: string[];
   dietaryPreferences: { key: string; title: string }[];
   restrictions: string[];
@@ -17,7 +17,7 @@ interface MealCardPopoverProps {
   t: TFunction;
 }
 
-const MealCardPopover: React.FC<MealCardPopoverProps> = ({
+const MealDetailPopover: React.FC<MealDetailPopoverProps> = ({
   preferences,
   dietaryPreferences,
   restrictions,
@@ -106,4 +106,4 @@ const MealCardPopover: React.FC<MealCardPopoverProps> = ({
   );
 };
 
-export default MealCardPopover;
+export default MealDetailPopover;

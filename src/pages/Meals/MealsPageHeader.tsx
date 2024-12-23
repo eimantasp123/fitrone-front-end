@@ -7,16 +7,16 @@ import {
 import { useAppDispatch, useAppSelector } from "@/store";
 import { useDisclosure } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import AddMealModal from "./AddMealModal";
+import MealAddModal from "./MealAddModal";
 
-interface MealsHeaderProps {
+interface MealsPageHeaderProps {
   onFiltersClose?: () => void;
   dietaryPreferences: { key: string; title: string }[];
   dietaryRestrictions: { key: string; title: string }[];
   categories: { key: string; title: string }[];
 }
 
-const MealsHeader: React.FC<MealsHeaderProps> = ({
+const MealsPageHeader: React.FC<MealsPageHeaderProps> = ({
   onFiltersClose,
   dietaryPreferences,
   dietaryRestrictions,
@@ -38,7 +38,7 @@ const MealsHeader: React.FC<MealsHeaderProps> = ({
   ) => {
     const updatedFilters = { ...filters, [filterType]: option };
     dispatch(setFilters(updatedFilters));
-    dispatch(getMeals({ page: 1, ...updatedFilters }));
+    dispatch(getMeals({ page: 1, limit, ...updatedFilters }));
     if (onFiltersClose) {
       onFiltersClose();
     }
@@ -68,29 +68,28 @@ const MealsHeader: React.FC<MealsHeaderProps> = ({
 
   return (
     <>
-      <div className="z-20 flex w-full select-none flex-col gap-2 bg-background px-4 pt-5 dark:bg-backgroundSecondary md:rounded-lg md:py-2 lg:flex-row xl:gap-1 xl:py-0">
+      <div className="z-20 flex w-full select-none flex-col gap-2 bg-background px-3 pt-5 dark:bg-backgroundSecondary md:rounded-lg md:py-2 lg:flex-row xl:gap-1 xl:py-0">
         <h4 className="flex h-auto items-center pb-2 pt-4 font-medium md:pt-0 xl:p-2">
           {t("filters")}:
         </h4>
-        <div className="mb-3 grid w-full grid-cols-1 gap-3 md:mb-0 md:grid-cols-2 md:grid-rows-2 xl:py-3 2xl:grid-cols-4 2xl:grid-rows-1 2xl:gap-5 2xl:px-4">
+        <div className="mb-3 grid w-full grid-cols-1 gap-3 md:mb-0 md:grid-cols-2 md:grid-rows-2 xl:py-3 2xl:grid-cols-4 2xl:grid-rows-1 2xl:gap-5">
           <CustomSelect
             options={dietaryPreferences}
             defaultOption={t("preferencesPlaceholder")}
             selectedOption={filters.preference?.title}
-            onChange={(value) => handleFilterChange("preference", value)}
+            onChange={(option) => handleFilterChange("preference", option)}
           />
           <CustomSelect
             options={dietaryRestrictions}
             defaultOption={t("restrictionsPlaceholder")}
             selectedOption={filters.restriction?.title}
-            onChange={(value) => handleFilterChange("restriction", value)}
+            onChange={(option) => handleFilterChange("restriction", option)}
           />
           <CustomSelect
             options={categories}
             defaultOption={t("selectMealCategory")}
             selectedOption={filters.category?.title}
             onChange={(option) => {
-              console.log("value", option);
               handleFilterChange("category", option);
             }}
           />
@@ -111,7 +110,7 @@ const MealsHeader: React.FC<MealsHeaderProps> = ({
       </div>
 
       {isMealOpen && (
-        <AddMealModal
+        <MealAddModal
           isOpenModal={isMealOpen}
           onClose={onMealClose}
           mealToEdit={null}
@@ -121,4 +120,4 @@ const MealsHeader: React.FC<MealsHeaderProps> = ({
   );
 };
 
-export default MealsHeader;
+export default MealsPageHeader;

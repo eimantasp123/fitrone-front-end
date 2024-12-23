@@ -21,7 +21,7 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ["@typescript-eslint", "react", "jest"],
+  plugins: ["@typescript-eslint", "react"],
   rules: {
     "react/jsx-no-target-blank": "off",
     "@typescript-eslint/no-unused-vars": "warn",

@@ -58,7 +58,14 @@ export interface Meal {
   title: string;
   description: string;
   ingredients: Ingredients[];
-  category: string;
+  category:
+    | "breakfast"
+    | "lunch"
+    | "dinner"
+    | "snack"
+    | "drink"
+    | "dessert"
+    | "other";
   nutrition: {
     calories: number;
     protein: number;
@@ -79,4 +86,80 @@ export interface CreateWeeklyMenuModalForm {
   description?: string;
   preferences: string[] | null;
   restrictions: string[] | null;
+}
+
+/**
+ * Weekly menu interface for the weekly menu object
+ */
+export interface WeeklyMenuState {
+  weeklyMenu: Record<number, WeeklyMenu[]>;
+  loading: boolean;
+  mainLoading: boolean;
+  lastFetched: number | null;
+  filters: WeeklyMenyFilters;
+  totalResults: number;
+  currentPage: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface WeeklyMenu {
+  _id: string;
+  title: string;
+  description: string;
+  preferences: string[];
+  restrictions: string[];
+  days: Day[];
+  archived: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface WeeklyMenyFilters {
+  preference: { key: string; title: string } | null;
+  restriction: { key: string; title: string } | null;
+}
+
+export interface Day {
+  _id: string;
+  day: number;
+  meals: MealAssignment[];
+}
+
+export interface MealAssignment {
+  _id: string;
+  category:
+    | "breakfast"
+    | "lunch"
+    | "dinner"
+    | "snack"
+    | "drink"
+    | "dessert"
+    | "other";
+  meal: MealForCurrentDay;
+}
+
+export interface MealForCurrentDay {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+  nutrition: Nutrition;
+  preferences: string[];
+  restrictions: string[];
+  category:
+    | "breakfast"
+    | "lunch"
+    | "dinner"
+    | "snack"
+    | "drink"
+    | "dessert"
+    | "other";
+}
+
+export interface Nutrition {
+  calories: number;
+  protein: number;
+  fat: number;
+  carbs: number;
 }

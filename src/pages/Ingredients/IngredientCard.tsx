@@ -1,5 +1,5 @@
-import RedButton from "@/components/common/RedButton";
-import TextButton from "@/components/common/TextButton";
+import CustomButton from "@/components/common/CustomButton";
+import DeleteConfirmationModal from "@/components/common/DeleteConfirmationModal";
 import {
   deleteIngredient,
   getIngredients,
@@ -10,18 +10,10 @@ import { getMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { capitalizeFirstLetter } from "@/utils/helper";
 import { IngredientForOnce } from "@/utils/types";
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import AddIngredientManualModal from "../Meals/components/AddIngredientManualModal";
-import CustomButton from "@/components/common/CustomButton";
+import AddIngredientManualModal from "../Meals/components/IngredientManualAddModal";
 
 interface IngredientCardProps {
   ingredient: IngredientForOnce;
@@ -47,6 +39,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
     currentPage,
     loading,
   } = useAppSelector((state) => state.ingredientsDetails);
+  const { limit } = useAppSelector((state) => state.mealsDetails);
   const { title, calories, unit, amount, ingredientId } = ingredient;
 
   // Determine the data to display (filtered or all ingredients)
@@ -80,6 +73,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
     await dispatch(
       getMeals({
         page: 1,
+        limit,
         category: null,
         preference: null,
         restriction: null,
@@ -153,41 +147,18 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
           </div>
         </div>
       </div>
-      {/* Delete confirm */}
 
-      {deleteModalOpen && (
-        <Modal
-          isOpen={deleteModalOpen}
-          onClose={handleCloseDeleteModal}
-          isCentered
-          size={{ base: "xs", md: "lg" }}
-        >
-          <ModalOverlay />
-          <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
-            <h2 className="p-1 font-medium">{t("deleteIngredientTitle")}</h2>
-            <ModalCloseButton marginTop="2" />
-            <ModalBody sx={{ padding: "4px" }}>
-              <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
-                {t("deleteIngredientDescription")}
-              </p>
-              <div className="flex w-full items-center justify-between gap-3">
-                <TextButton
-                  onClick={handleCloseDeleteModal}
-                  className="flex-1"
-                  text={t("cancel")}
-                />
-                <RedButton
-                  onClick={handleDelete}
-                  type="button"
-                  updateLoading={loading}
-                  classname="flex-1"
-                  text={t("deleteIngredientTitle")}
-                />
-              </div>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      )}
+      {/* Delete confirm */}
+      <DeleteConfirmationModal
+        isOpen={deleteModalOpen}
+        onClose={handleCloseDeleteModal}
+        loading={loading}
+        handleDelete={handleDelete}
+        title={t("deleteIngredientTitle")}
+        description={t("deleteIngredientDescription")}
+        cancelButtonText={t("cancel")}
+        confirmButtonText={t("deleteIngredientTitle")}
+      />
 
       {/* Edit ingredient */}
       {isOpenIngredientModal && (

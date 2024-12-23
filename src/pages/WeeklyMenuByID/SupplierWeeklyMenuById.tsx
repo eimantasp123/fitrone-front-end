@@ -2,7 +2,7 @@ import EmptyState from "@/components/common/EmptyState";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import CreateMenuModal from "../WeeklyMenu/modals/CreateMenuModal";
+import CreateMenuModal from "../WeeklyMenu/modals/WeeklyMenuAddModal";
 import AssignExistingMenuModal from "../WeeklyMenu/modals/AssignExistingMenuModal";
 import WeekPlanHeader from "../WeekPlan/WeekPlanHeader";
 

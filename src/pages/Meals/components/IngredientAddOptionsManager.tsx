@@ -4,21 +4,19 @@ import { useDisclosure } from "@chakra-ui/react";
 import { TFunction } from "i18next";
 import React from "react";
 import { WiStars } from "react-icons/wi";
-import AddIngredientManualModal from "./AddIngredientManualModal";
-import SearchIngredientFromDatabase from "./SearchIngredientFromDatabase";
-import SearchIngredientModal from "./SearchIngredientModal";
+import IngredientManualAddModal from "./IngredientManualAddModal";
+import IngredientDatabaseSearch from "./IngredientDatabaseSearch";
+import IngredientSearchModal from "./IngredientSearchModal";
 
-interface ManageIngredientAddOptionsProps {
+interface IngredientAddOptionsManagerProps {
   user: Partial<UserDetails>;
   setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
   t: TFunction;
 }
 
-const ManageIngredientAddOptions: React.FC<ManageIngredientAddOptionsProps> = ({
-  user,
-  setIngredients,
-  t,
-}) => {
+const IngredientAddOptionsManager: React.FC<
+  IngredientAddOptionsManagerProps
+> = ({ user, setIngredients, t }) => {
   const {
     isOpen: recipeInputOpen,
     onClose: CloseRecipeInputs,
@@ -64,35 +62,28 @@ const ManageIngredientAddOptions: React.FC<ManageIngredientAddOptionsProps> = ({
 
       {/* Search input for API */}
       {user.plan === "premium" && (
-        <>
-          {searchInputOpen && (
-            <SearchIngredientModal
-              isOpen={searchInputOpen}
-              setIngredients={setIngredients}
-              onClose={closeSearchInput}
-            />
-          )}
-        </>
+        <IngredientSearchModal
+          isOpen={searchInputOpen}
+          setIngredients={setIngredients}
+          onClose={closeSearchInput}
+        />
       )}
 
       {/* Search ingredient from database */}
-      {searchIngredientDatabaseOpen && (
-        <SearchIngredientFromDatabase
-          isOpen={searchIngredientDatabaseOpen}
-          onClose={searchIngredientDatabaseClose}
-          setIngredients={setIngredients}
-        />
-      )}
+      <IngredientDatabaseSearch
+        isOpen={searchIngredientDatabaseOpen}
+        onClose={searchIngredientDatabaseClose}
+        setIngredients={setIngredients}
+      />
+
       {/* Ingredient inputs manual */}
-      {recipeInputOpen && (
-        <AddIngredientManualModal
-          isOpen={recipeInputOpen}
-          onClose={CloseRecipeInputs}
-          setIngredients={setIngredients}
-        />
-      )}
+      <IngredientManualAddModal
+        isOpen={recipeInputOpen}
+        onClose={CloseRecipeInputs}
+        setIngredients={setIngredients}
+      />
     </>
   );
 };
 
-export default ManageIngredientAddOptions;
+export default IngredientAddOptionsManager;

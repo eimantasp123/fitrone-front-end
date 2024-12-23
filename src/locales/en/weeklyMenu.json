@@ -1,13 +1,16 @@
 {
   "createNewMenu": "Create New Menu",
   "createMenu": "Create Menu",
-  "description": "This form allows you to create a new weekly menu that can be assigned to the current week. Enter the menu title (required), a brief description (optional), and, if necessary, select dietary restrictions. Once the menu is created, you can start planning and managing the weekly meal plan.",
+  "cancel": "Cancel",
+  "clean": "Clean",
+  "searchPlaceholder": "Search for a menu by title or description",
   "titleInput": "Enter menu title",
   "descriptionInput": "Briefly describe this menu (optional)",
+  "description": "This form allows you to create a new weekly menu that can be assigned to the current week. Enter the menu title (required), a brief description (optional), and, if necessary, select dietary restrictions. Once the menu is created, you can start planning and managing the weekly meal plan.",
   "assingExistingMenu": "Assign existing menu",
-  "noWeeklyMenu": "You have not created any weekly menus yet",
-  "createFirstMenu": "Create first menu",
-  "cancel": "Cancel",
+  "noWeeklyMenuTitle": "No menus created – add your first weekly menu and start planning!",
+  "noWeeklyMenuDescription": "To start planning your weekly menu, click the “Create First Menu” button, enter a title, description, and select dietary restrictions (optional).",
+  "createFirstMenu": "Create First Menu",
 
   "validation": {
     "titleRequired": "Title is required and must be unique",

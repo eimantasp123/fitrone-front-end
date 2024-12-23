@@ -1,14 +1,14 @@
 import { TFunction } from "i18next";
 import React from "react";
 
-interface SetUnitProps {
+interface UnitSelectorProps {
   t: TFunction;
   setUnit: (unit: string) => void;
   unit: string;
   showLabel?: boolean;
 }
 
-const SetUnit: React.FC<SetUnitProps> = ({
+const UnitSelector: React.FC<UnitSelectorProps> = ({
   t,
   setUnit,
   unit,
@@ -37,4 +37,4 @@ const SetUnit: React.FC<SetUnitProps> = ({
   );
 };
 
-export default SetUnit;
+export default UnitSelector;
