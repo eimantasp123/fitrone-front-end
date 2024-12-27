@@ -4,6 +4,7 @@ import dietPlanDetailsReducer from "./services/reduxSlices/DietPlan/dietPlanDeta
 import mealsPlanDetailsReducer from "./services/reduxSlices/Meals/mealDetailsSlice";
 import ingredientsDetailsReducer from "./services/reduxSlices/Ingredients/ingredientsDetailsSlice";
 import weeklyMenuDetailsReducer from "./services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
+import weeklyMenuByIdDetailsReducer from "./services/reduxSlices/WeeklyMenuById/weeklyMenuByIdSlice";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     mealsDetails: mealsPlanDetailsReducer,
     ingredientsDetails: ingredientsDetailsReducer,
     weeklyMenuDetails: weeklyMenuDetailsReducer,
+    weeklyMenuByIdDetails: weeklyMenuByIdDetailsReducer,
   },
 });
 

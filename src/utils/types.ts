@@ -92,7 +92,7 @@ export interface CreateWeeklyMenuModalForm {
  * Weekly menu interface for the weekly menu object
  */
 export interface WeeklyMenuState {
-  weeklyMenu: Record<number, WeeklyMenu[]>;
+  weeklyMenu: Record<number, WeeklyMenuBio[]>;
   loading: boolean;
   generalLoading: boolean;
   lastFetched: number | null;
@@ -104,14 +104,14 @@ export interface WeeklyMenuState {
   searchQuery: string | null;
 }
 
-export interface WeeklyMenu {
+export interface WeeklyMenuBio {
   _id: string;
   title: string;
   description: string;
   preferences: string[];
   restrictions: string[];
-  days: Day[];
   nutrition: Nutrition;
+  status: string;
   archived: boolean;
   createdAt: string;
   updatedAt: string;
@@ -165,4 +165,28 @@ export interface Nutrition {
   protein: number;
   fat: number;
   carbs: number;
+}
+
+/**
+ * Weekly menu by id interface for the weekly menu by id object
+ */
+export interface WeeklyMenuByIdState {
+  data: Record<string, SingleWeeklyMenuById>;
+  loading: boolean;
+  generalLoading: boolean;
+  lastFetched: number | null;
+}
+
+export interface SingleWeeklyMenuById {
+  _id: string;
+  title: string;
+  description: string;
+  preferences: string[];
+  restrictions: string[];
+  days: Day[];
+  nutrition: Nutrition;
+  status: string;
+  archived: boolean;
+  createdAt: string;
+  updatedAt: string;
 }

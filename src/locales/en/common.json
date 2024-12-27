@@ -43,5 +43,6 @@
 
   "seeArchivedMenus": "See archived menus",
   "activeMenu": "Active menu",
+  "inactiveMenu": "Inactive menu",
   "archivedMenu": "Archived menu"
 }

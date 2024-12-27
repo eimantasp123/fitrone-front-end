@@ -52,6 +52,17 @@ const customTheme = extendTheme({
     },
   },
   components: {
+    // Skeleton: {
+    //   baseStyle: (props) => ({
+    //     baseStyle: {
+    //       startColor:
+    //         props.colorMode === "light"
+    //           ? "light.blackAlpha.100"
+    //           : "dark.whiteAlpha.100",
+    //       endColor: "light.background",
+    //     },
+    //   }),
+    // },
     Popover: {
       baseStyle: (props) => ({
         content: {

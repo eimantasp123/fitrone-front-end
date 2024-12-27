@@ -1,6 +1,6 @@
 import CustomButton from "@/components/common/CustomButton";
 import { capitalizeFirstLetter } from "@/utils/helper";
-import { Day } from "@/utils/types";
+import { WeeklyMenuBio } from "@/utils/types";
 import { useDisclosure } from "@chakra-ui/react";
 import { TFunction } from "i18next";
 import React from "react";
@@ -8,25 +8,19 @@ import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import { format } from "date-fns";
 import RestAndPrefDetailsPopover from "@/pages/Meals/components/RestAndPrefDetailsPopover";
 import ArchivedBadge from "@/components/common/ArchivedBadge";
+import { useAppDispatch } from "@/store";
+import {
+  archiveWeeklyMenu,
+  cleanAllWeeklyMenu,
+  deleteWeeklyMenu,
+  unArchiveWeeklyMenu,
+} from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
+import { showCustomToast } from "@/hooks/showCustomToast";
+import { useNavigate } from "react-router-dom";
+import ActiveBadge from "@/components/common/ActiveBadge";
 
 interface WeeklyMenuItemCardProps {
-  menu: {
-    _id: string;
-    title: string;
-    description: string;
-    preferences: string[];
-    restrictions: string[];
-    days: Day[];
-    nutrition: {
-      calories: number;
-      carbs: number;
-      protein: number;
-      fat: number;
-    };
-    archived: boolean;
-    createdAt: string;
-    updatedAt: string;
-  };
+  menu: WeeklyMenuBio;
   t: TFunction;
   loading: boolean;
 }
@@ -44,12 +38,15 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
     archived,
     createdAt,
     updatedAt,
+    status,
   } = menu;
   const {
     isOpen: deleteModalOpen,
     onOpen: onOpenDeleteModal,
     onClose: onCloseDeleteModal,
   } = useDisclosure();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     isOpen: archiveModalOpen,
@@ -63,18 +60,39 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
     onClose: onCloseUnarchiveModal,
   } = useDisclosure();
 
-  const handleDelete = () => {
-    // dispatch(deleteWeeklyMenu(menu._id));
+  // Handle delete weekly menu
+  const handleDelete = async () => {
+    await dispatch(deleteWeeklyMenu(menu._id)).unwrap();
+    dispatch(cleanAllWeeklyMenu());
+    onCloseDeleteModal();
   };
 
-  const handleArchive = () => {
-    // dispatch(archiveWeeklyMenu(menu._id));
+  // Handle archive weekly menu
+  const handleArchive = async () => {
+    await dispatch(archiveWeeklyMenu(menu._id)).unwrap();
+    dispatch(cleanAllWeeklyMenu());
+    onCloseArchiveModal();
   };
 
-  const handleUnArchive = () => {
-    // dispatch(unArchiveWeeklyMenu(menu._id));
+  // Handle unarchive weekly menu
+  const handleUnArchive = async () => {
+    const response = await dispatch(unArchiveWeeklyMenu(menu._id)).unwrap();
+    if (response.status === "limit_reached") {
+      showCustomToast({
+        status: "info",
+        description: response.message,
+      });
+      return;
+    }
+    dispatch(cleanAllWeeklyMenu());
+    onCloseUnarchiveModal();
   };
 
+  const navigateToWeeklyMenuManagement = () => {
+    navigate(`/weekly-menu/${menu._id}`);
+  };
+
+  // Format dates
   const menuCreated = format(new Date(createdAt), "yyyy-MM-dd");
   const lastUpdatedAt = format(new Date(updatedAt), "yyyy-MM-dd");
 
@@ -87,6 +105,7 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
             <div className="flex items-start justify-between gap-4 border-b-[1px] px-3 py-3">
               <div className="flex w-[85%] flex-1 flex-col items-start gap-2">
                 {archived && <ArchivedBadge archived={archived} />}
+                {status && !archived && <ActiveBadge status={status} />}
                 <h2 className="text-[16px] font-medium text-textPrimary">
                   {capitalizeFirstLetter(title)}
                 </h2>
@@ -134,30 +153,36 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
           </div>
           {/* Call to action buttons */}
           <div
-            className={`mt-auto grid ${archived ? "grid-cols-2 grid-rows-1" : "grid-cols-2 grid-rows-2 sm:grid-cols-3 sm:grid-rows-1"} gap-3 pt-3`}
+            className={`mt-auto grid ${archived ? "grid-cols-2 grid-rows-1" : status === "active" ? "grid-cols-1 grid-rows-1" : "grid-cols-2 grid-rows-2 sm:grid-cols-3 sm:grid-rows-1"} gap-3 pt-3`}
           >
-            <CustomButton
-              text={t("common:delete")}
-              onClick={onOpenDeleteModal}
-              textLight={true}
-              widthFull={true}
-              type="delete"
-            />
-            <CustomButton
-              text={
-                archived ? t("common:unarchiveMenu") : t("common:archiveMenu")
-              }
-              onClick={archived ? onOpenUnarchiveModal : onOpenArchiveModal}
-              textLight={true}
-              widthFull={true}
-              type="lightSecondary"
-            />
+            {status && status === "inactive" && (
+              <>
+                <CustomButton
+                  text={t("common:delete")}
+                  onClick={onOpenDeleteModal}
+                  textLight={true}
+                  widthFull={true}
+                  type="delete"
+                />
+                <CustomButton
+                  text={
+                    archived
+                      ? t("common:unarchiveMenu")
+                      : t("common:archiveMenu")
+                  }
+                  onClick={archived ? onOpenUnarchiveModal : onOpenArchiveModal}
+                  textLight={true}
+                  widthFull={true}
+                  type="lightSecondary"
+                />
+              </>
+            )}
 
             {!archived && (
               <div className="col-span-2 sm:col-span-1">
                 <CustomButton
                   text={t("common:manageMenu")}
-                  // onClick={onOpenMealModalInCard}
+                  onClick={navigateToWeeklyMenuManagement}
                   textLight={true}
                   widthFull={true}
                 />

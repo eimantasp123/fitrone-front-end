@@ -1,9 +1,13 @@
 import CustomButton from "@/components/common/CustomButton";
 import CustomTextarea from "@/components/common/CustomTextarea";
 import CustomInput from "@/components/common/NewCharkaInput";
+import { showCustomToast } from "@/hooks/showCustomToast";
 import DietaryPreferences from "@/pages/Meals/components/DietaryPreferences";
 import DietaryRestrictions from "@/pages/Meals/components/DietaryRestrictions";
-import { createWeeklyMenu } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
+import {
+  cleanAllWeeklyMenu,
+  createWeeklyMenu,
+} from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { CreateWeeklyMenuModalForm } from "@/utils/types";
 import { useCreateMenuSchema } from "@/utils/validationSchema";
@@ -15,7 +19,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -43,6 +47,13 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
   });
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    methods.reset();
+    methods.clearErrors();
+    setPreferences([]);
+    setRestrictions([]);
+  }, [isOpen, methods]);
+
   // Handle form submit
   const handleSubmitForm = async (data: WeeklyMenuAddModalForm) => {
     const dataObject: CreateWeeklyMenuModalForm = {
@@ -50,7 +61,15 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
       preferences,
       restrictions,
     };
-    await dispatch(createWeeklyMenu(dataObject)).unwrap();
+    const response = await dispatch(createWeeklyMenu(dataObject)).unwrap();
+    if (response.status === "limit_reached") {
+      showCustomToast({
+        status: "info",
+        description: response.message,
+      });
+      return;
+    }
+    dispatch(cleanAllWeeklyMenu());
     onClose();
   };
 

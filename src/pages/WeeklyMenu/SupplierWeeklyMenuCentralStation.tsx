@@ -57,11 +57,9 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
     }
   }, [currentPage]);
 
-  // Reset the current page to default whenever the component unmounts
+  // Save current page state when navigating within the weekly-menu route
   useEffect(() => {
-    return () => {
-      dispatch(setCurrentPage(1));
-    };
+    dispatch(setCurrentPage(1));
   }, [dispatch]);
 
   // Handle page change
@@ -74,15 +72,12 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
     // Fetch the page
     try {
       setNextPageLoading(true);
-      const { preference, restriction, archived } = filters;
       await dispatch(
         getAllWeeklyMenus({
           page: newPage,
           limit,
           searchQuery,
-          archived: archived || null,
-          preference: preference || null,
-          restriction: restriction || null,
+          ...filters,
         }),
       ).unwrap();
       dispatch(setCurrentPage(newPage));
