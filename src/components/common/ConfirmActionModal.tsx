@@ -18,6 +18,7 @@ interface ConfirmActionModalProps {
   cancelButtonText: string;
   confirmButtonText: string;
   type?: "warning" | "delete" | "primary";
+  loadingSpinner?: boolean;
 }
 
 const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
@@ -29,6 +30,7 @@ const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
   description,
   cancelButtonText,
   confirmButtonText,
+  loadingSpinner,
   type = "delete",
 }) => {
   return (
@@ -66,6 +68,7 @@ const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
                   }
                   widthFull={true}
                   loading={loading}
+                  loadingSpinner={loadingSpinner}
                   onClick={onAction}
                 />
               </div>

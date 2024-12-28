@@ -20,7 +20,7 @@ const ActiveBadge: React.FC<ActiveBadgeProps> = ({ status }) => {
 
   return (
     <span
-      className={`${className} text-nowrap rounded-full px-3 py-1 text-xs shadow-sm`}
+      className={`${className} text-nowrap rounded-full px-[8px] py-[2px] text-[10px] shadow-sm md:px-3 md:py-1 md:text-xs`}
     >
       {status === "active" ? t("activeMenu") : t("inactiveMenu")}
     </span>

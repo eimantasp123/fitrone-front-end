@@ -9,6 +9,9 @@ import {
 } from "@/utils/types";
 import { showCustomToast } from "@/hooks/showCustomToast";
 
+/**
+ * Initial state for weekly menu slice
+ */
 const initialState: WeeklyMenuState = {
   weeklyMenu: {},
   loading: false,
@@ -22,7 +25,9 @@ const initialState: WeeklyMenuState = {
   filters: { preference: null, restriction: null, archived: null },
 };
 
-// Get all weekly menus
+/**
+ * Get all weekly menus
+ */
 export const getAllWeeklyMenus = createAsyncThunk(
   "weeklyMenu/getAllWeeklyMenus",
   async (
@@ -65,7 +70,9 @@ export const getAllWeeklyMenus = createAsyncThunk(
   },
 );
 
-// Create weekly menu
+/**
+ * Create weekly menu
+ */
 export const createWeeklyMenu = createAsyncThunk(
   "weeklyMenu/createWeeklyMenu",
   async (data: CreateWeeklyMenuModalForm, { rejectWithValue }) => {
@@ -82,7 +89,9 @@ export const createWeeklyMenu = createAsyncThunk(
   },
 );
 
-// Delete weekly menu
+/**
+ * Delete weekly menu
+ */
 export const deleteWeeklyMenu = createAsyncThunk(
   "weeklyMenu/deleteWeeklyMenu",
   async (id: string, { rejectWithValue }) => {
@@ -99,7 +108,9 @@ export const deleteWeeklyMenu = createAsyncThunk(
   },
 );
 
-// Archive weekly menu
+/**
+ * Archive weekly menu
+ */
 export const archiveWeeklyMenu = createAsyncThunk(
   "weeklyMenu/archiveWeeklyMenu",
   async (id: string, { rejectWithValue }) => {
@@ -116,7 +127,9 @@ export const archiveWeeklyMenu = createAsyncThunk(
   },
 );
 
-// Unarchive weekly menu
+/**
+ * Unarchive weekly menu
+ */
 export const unArchiveWeeklyMenu = createAsyncThunk(
   "weeklyMenu/unArchiveWeeklyMenu",
   async (id: string, { rejectWithValue }) => {
@@ -133,13 +146,21 @@ export const unArchiveWeeklyMenu = createAsyncThunk(
   },
 );
 
-// Create weekly menu slice
+/**
+ * Weekly menu slice for redux
+ */
 const weeklyMenuSlice = createSlice({
   name: "weeklyMenu",
   initialState,
   reducers: {
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+    setGeneralLoading: (state, action: PayloadAction<boolean>) => {
+      state.generalLoading = action.payload;
     },
     setFilters: (
       state,
@@ -167,13 +188,13 @@ const weeklyMenuSlice = createSlice({
     cleanAllWeeklyMenu: () => ({
       ...initialState,
     }),
+    // Update weekly menu item in the state
     updateWeeklyMenuItem: (
       state,
       action: PayloadAction<{ id: string; data: Partial<WeeklyMenuBio> }>,
     ) => {
       const { id, data } = action.payload;
       Object.keys(state.weeklyMenu).forEach((_, index) => {
-        console.log("index", index + 1);
         state.weeklyMenu[index + 1] = state.weeklyMenu[index + 1].map((menu) =>
           menu._id === id ? { ...menu, ...data } : menu,
         );
@@ -181,6 +202,9 @@ const weeklyMenuSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    /**
+     * Get all weekly menus
+     */
     builder
       .addCase(getAllWeeklyMenus.pending, (state, action) => {
         const page = action.meta.arg.page ?? 1;
@@ -207,106 +231,73 @@ const weeklyMenuSlice = createSlice({
           state.lastFetched = new Date().getTime();
           state.generalLoading = false;
         },
-      )
-      .addCase(getAllWeeklyMenus.rejected, (state, action) => {
-        state.generalLoading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
-      })
-      .addCase(createWeeklyMenu.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(createWeeklyMenu.fulfilled, (state, action) => {
-        console.log("weekly menu created");
-        console.log(action.payload);
-        state.loading = false;
-        if (action.payload.status === "success" && !action.payload.warning) {
-          showCustomToast({
-            status: "success",
-            title: action.payload.message,
-          });
-        }
+      );
 
-        if (action.payload.warning) {
-          showCustomToast({
-            status: "warning",
-            title: action.payload.warning,
-          });
-        }
-      })
-      .addCase(createWeeklyMenu.rejected, (state, action) => {
-        state.loading = false;
+    /**
+     * Create weekly menu
+     */
+    builder.addCase(createWeeklyMenu.fulfilled, (state, action) => {
+      state.loading = false;
+      if (action.payload.status === "success" && !action.payload.warning) {
         showCustomToast({
-          status: "error",
-          description: action.payload as string,
+          status: "success",
+          title: action.payload.message,
         });
-      })
-      .addCase(deleteWeeklyMenu.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(deleteWeeklyMenu.fulfilled, (state, action) => {
-        state.loading = false;
-        if (action.payload.status === "success") {
-          showCustomToast({
-            status: "success",
-            title: action.payload.message,
-          });
-        }
-      })
-      .addCase(deleteWeeklyMenu.rejected, (state, action) => {
-        state.loading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
-      })
-      .addCase(archiveWeeklyMenu.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(archiveWeeklyMenu.fulfilled, (state, action) => {
-        state.loading = false;
-        if (action.payload.status === "success") {
-          showCustomToast({
-            status: "success",
-            title: action.payload.message,
-          });
-        }
-      })
-      .addCase(archiveWeeklyMenu.rejected, (state, action) => {
-        state.loading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
-      })
-      .addCase(unArchiveWeeklyMenu.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(unArchiveWeeklyMenu.fulfilled, (state, action) => {
-        state.loading = false;
-        if (action.payload.status === "success" && !action.payload.warning) {
-          showCustomToast({
-            status: "success",
-            title: action.payload.message,
-          });
-        }
+      }
 
-        if (action.payload.warning) {
-          showCustomToast({
-            status: "warning",
-            title: action.payload.warning,
-          });
-        }
-      })
-      .addCase(unArchiveWeeklyMenu.rejected, (state, action) => {
-        state.loading = false;
+      if (action.payload.warning) {
         showCustomToast({
-          status: "error",
-          description: action.payload as string,
+          status: "warning",
+          title: action.payload.warning,
         });
-      });
+      }
+    });
+
+    /**
+     * Delete weekly menu
+     */
+    builder.addCase(deleteWeeklyMenu.fulfilled, (state, action) => {
+      state.loading = false;
+      if (action.payload.status === "success") {
+        showCustomToast({
+          status: "success",
+          title: action.payload.message,
+        });
+      }
+    });
+
+    /**
+     * Archive weekly menu
+     */
+    builder.addCase(archiveWeeklyMenu.fulfilled, (state, action) => {
+      state.loading = false;
+      if (action.payload.status === "success") {
+        showCustomToast({
+          status: "success",
+          title: action.payload.message,
+        });
+      }
+    });
+
+    /**
+     * Unarchive weekly menu
+     */
+    builder.addCase(unArchiveWeeklyMenu.fulfilled, (state, action) => {
+      state.loading = false;
+      if (action.payload.status === "success" && !action.payload.warning) {
+        showCustomToast({
+          status: "success",
+          title: action.payload.message,
+        });
+      }
+
+      if (action.payload.warning) {
+        showCustomToast({
+          status: "warning",
+          title: action.payload.warning,
+        });
+      }
+    });
   },
 });
 

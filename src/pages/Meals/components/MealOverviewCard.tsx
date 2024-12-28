@@ -106,12 +106,14 @@ const MealOverviewCard: React.FC<MealOverviewCardProps> = ({ meal }) => {
             </div>
 
             {/* Preferences and restrictions */}
-            <RestAndPrefDetailsPopover
-              {...{
-                preferences,
-                restrictions,
-              }}
-            />
+            <div className="flex w-full gap-2 px-3 py-2 text-xs">
+              <RestAndPrefDetailsPopover
+                {...{
+                  preferences,
+                  restrictions,
+                }}
+              />
+            </div>
 
             {/* Ctegory */}
             <div className="flex w-full flex-wrap items-center gap-2 border-b-[1px] px-3 py-2 text-xs">

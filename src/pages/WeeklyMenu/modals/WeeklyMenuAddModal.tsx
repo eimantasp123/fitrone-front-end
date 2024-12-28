@@ -7,7 +7,6 @@ import DietaryRestrictions from "@/pages/Meals/components/DietaryRestrictions";
 import {
   cleanAllWeeklyMenu,
   createWeeklyMenu,
-  getAllWeeklyMenus,
 } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import { updateWeeklyMenuByIdBio } from "@/services/reduxSlices/WeeklyMenuById/weeklyMenuByIdSlice";
 import { useAppDispatch } from "@/store";
@@ -170,6 +169,7 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
                       text={menuToEdit ? t("saveMenu") : t("createMenu")}
                       actionType="submit"
                       loading={loading}
+                      loadingSpinner={false}
                       widthFull={true}
                       paddingY="py-3"
                     />

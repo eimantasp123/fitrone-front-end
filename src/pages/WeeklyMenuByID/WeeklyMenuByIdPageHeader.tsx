@@ -3,11 +3,10 @@ import ArchivedBadge from "@/components/common/ArchivedBadge";
 import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import CustomButton from "@/components/common/CustomButton";
 import DrawerForFiltersLeftSide from "@/components/common/DrawerForFiltersLeftSide";
-import { showCustomToast } from "@/hooks/showCustomToast";
 import {
-  archiveWeeklyMenu,
   cleanAllWeeklyMenu,
-  unArchiveWeeklyMenu,
+  deleteWeeklyMenu,
+  getAllWeeklyMenus,
 } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import { useAppDispatch } from "@/store";
 import { capitalizeFirstLetter } from "@/utils/helper";
@@ -22,26 +21,17 @@ interface WeeklyMenuByIdPageHeaderProps {
   t: TFunction;
   data: SingleWeeklyMenuById;
   loading: boolean;
+  confirmDeleteLoading: boolean;
 }
 
 const WeeklyMenuByIdPageHeader: React.FC<WeeklyMenuByIdPageHeaderProps> = ({
   t,
   data,
   loading,
+  confirmDeleteLoading,
 }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const {
-    isOpen: archiveModalOpen,
-    onOpen: onOpenArchiveModal,
-    onClose: onCloseArchiveModal,
-  } = useDisclosure();
-
-  const {
-    isOpen: unarchiveModalOpen,
-    onOpen: onOpenUnarchiveModal,
-    onClose: onCloseUnarchiveModal,
-  } = useDisclosure();
 
   const {
     isOpen: sidebarFilterOpen,
@@ -55,25 +45,19 @@ const WeeklyMenuByIdPageHeader: React.FC<WeeklyMenuByIdPageHeaderProps> = ({
     onClose: onCloseWeeklyMenuAddModal,
   } = useDisclosure();
 
-  // Handle archive weekly menu
-  const handleArchive = async () => {
-    await dispatch(archiveWeeklyMenu(data._id)).unwrap();
-    dispatch(cleanAllWeeklyMenu());
-    onCloseArchiveModal();
-  };
+  const {
+    isOpen: deleteModalOpen,
+    onOpen: onOpenDeleteModal,
+    onClose: onCloseDeleteModal,
+  } = useDisclosure();
 
-  // Handle unarchive weekly menu
-  const handleUnArchive = async () => {
-    const response = await dispatch(unArchiveWeeklyMenu(data._id)).unwrap();
-    if (response.status === "limit_reached") {
-      showCustomToast({
-        status: "info",
-        description: response.message,
-      });
-      return;
-    }
+  // Handle delete weekly menu
+  const handleDelete = async () => {
+    await dispatch(deleteWeeklyMenu(data._id)).unwrap();
+    onCloseDeleteModal();
     dispatch(cleanAllWeeklyMenu());
-    onCloseUnarchiveModal();
+    dispatch(getAllWeeklyMenus({}));
+    navigate("/weekly-menu");
   };
 
   return (
@@ -99,7 +83,7 @@ const WeeklyMenuByIdPageHeader: React.FC<WeeklyMenuByIdPageHeaderProps> = ({
 
         {/* Week navigation */}
         <div
-          className={`col-span-2 flex items-center justify-center gap-4 md:flex-row xl:col-auto xl:row-auto xl:justify-start`}
+          className={`col-span-2 flex flex-col-reverse items-center gap-1 md:flex-row md:justify-center md:gap-4 xl:col-auto xl:row-auto xl:justify-start`}
         >
           <h4 className="font-medium text-textPrimary">
             {capitalizeFirstLetter(data.title)}
@@ -110,47 +94,36 @@ const WeeklyMenuByIdPageHeader: React.FC<WeeklyMenuByIdPageHeaderProps> = ({
           </div>
         </div>
 
-        <div className="col-span-1 col-start-2 row-start-1 hidden items-center justify-end gap-4 xl:col-auto xl:row-auto xl:flex">
+        <div className="col-span-1 col-start-2 row-start-1 hidden items-center justify-end gap-2 xl:col-auto xl:row-auto xl:flex">
           <CustomButton
             onClick={onOpenWeeklyMenuAddModal}
             text={t("editMenuBio")}
           />
           {data.status !== "active" && (
             <CustomButton
-              // onClick={}
-              text="Delete"
-              type="red"
+              onClick={onOpenDeleteModal}
+              text={t("common:delete")}
+              type="delete"
             />
           )}
         </div>
       </div>
 
-      {/* Warning modal for archive menu */}
-      <ConfirmActionModal
-        title={t("archiveWeeklyMenuModalTitle")}
-        description={t("archiveWeeklyMenuModalDescription")}
-        confirmButtonText={t("archiveWeeklyMenu")}
-        cancelButtonText={t("cancel")}
-        loading={loading}
-        type="warning"
-        isOpen={archiveModalOpen}
-        onClose={onCloseArchiveModal}
-        onAction={handleArchive}
-      />
-
       {/* Warning modal for unarchive menu */}
       <ConfirmActionModal
-        title={t("unarchiveWeeklyMenuModalTitle")}
-        description={t("unarchiveWeeklyMenuModalDescription")}
-        confirmButtonText={t("unarchiveWeeklyMenu")}
+        title={t("deleteWeeklyMenuTitle")}
+        description={t("deleteWeeklyMenuDescription")}
+        confirmButtonText={t("deleteWeeklyMenu")}
         cancelButtonText={t("cancel")}
-        loading={loading}
-        type="primary"
-        isOpen={unarchiveModalOpen}
-        onClose={onCloseUnarchiveModal}
-        onAction={handleUnArchive}
+        loading={confirmDeleteLoading}
+        loadingSpinner={false}
+        type="delete"
+        isOpen={deleteModalOpen}
+        onClose={onCloseDeleteModal}
+        onAction={handleDelete}
       />
 
+      {/* Drawer for filters on mobile device */}
       <DrawerForFiltersLeftSide
         isOpen={sidebarFilterOpen}
         onClose={onCloseSidebarFilter}
@@ -158,6 +131,7 @@ const WeeklyMenuByIdPageHeader: React.FC<WeeklyMenuByIdPageHeaderProps> = ({
         hello
       </DrawerForFiltersLeftSide>
 
+      {/* Edit weekly menu bio modal */}
       <WeeklyMenuAddModal
         isOpen={weeklyMenuAddModalOpen}
         onClose={onCloseWeeklyMenuAddModal}

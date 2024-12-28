@@ -1,5 +1,6 @@
 import { Spinner } from "@chakra-ui/react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface CustomButtonProps {
   text?: string;
@@ -13,6 +14,7 @@ interface CustomButtonProps {
   disabled?: boolean;
   textLight?: boolean;
   loading?: boolean;
+  loadingSpinner?: boolean;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -27,6 +29,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   textLight = false,
   type,
   loading = false,
+  loadingSpinner = true,
 }) => {
   const className = (() => {
     switch (type) {
@@ -54,13 +57,21 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || loading}
       type={actionType}
       className={`${className} ${
-        disabled ? "opacity-70" : ""
+        disabled || loading ? "opacity-70" : ""
       } select-none ${widthFull ? "w-full" : paddingX} text-nowrap rounded-lg ${paddingY} ${textLight ? "font-normal" : "font-medium"} text-sm transition-colors duration-300 ease-in-out`}
     >
-      {loading ? <Spinner size="sm" /> : children || text}
+      {loading ? (
+        loadingSpinner ? (
+          <Spinner size="sm" />
+        ) : (
+          `${text}...`
+        )
+      ) : (
+        children || text
+      )}
     </button>
   );
 };

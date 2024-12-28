@@ -1,5 +1,5 @@
 import axiosInstance from "@/utils/axiosInterceptors";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ApiError } from "../Meals/mealDetailsSlice";
 import { CreateWeeklyMenuModalForm, WeeklyMenuByIdState } from "@/utils/types";
 import { showCustomToast } from "@/hooks/showCustomToast";
@@ -13,7 +13,7 @@ const initialState: WeeklyMenuByIdState = {
 
 // Get weekly menu by id
 export const fetchWeeklyMenuById = createAsyncThunk(
-  "weeklyMenuById/getWeeklyMenuById",
+  "weeklyMenuById/fetchWeeklyMenuById",
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(`weekly-menu/${id}`);
@@ -30,7 +30,7 @@ export const fetchWeeklyMenuById = createAsyncThunk(
 
 // Updated weekly menu by id
 export const updateWeeklyMenuByIdBio = createAsyncThunk(
-  "weeklyMenuById/updateWeeklyMenuById",
+  "weeklyMenuById/updateWeeklyMenuByIdBio",
   async (
     {
       id,
@@ -62,25 +62,29 @@ const weeklyMenuByIdSlice = createSlice({
       state.data = {};
       state.lastFetched = null;
     },
-    setLoading: (state, action) => {
+    setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    setGeneralLoading: (state, action) => {
+    setGeneralLoading: (state, action: PayloadAction<boolean>) => {
       state.generalLoading = action.payload;
+    },
+    updateWeeklyMenuByIdItem: (
+      state,
+      action: PayloadAction<{ id: string; status: boolean }>,
+    ) => {
+      const { id, status } = action.payload;
+      state.data[id] = {
+        ...state.data[id],
+        archived: status,
+      };
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchWeeklyMenuById.pending, (state) => {
-        state.generalLoading = true;
-      })
       .addCase(fetchWeeklyMenuById.fulfilled, (state, action) => {
         state.data[action.payload.id] = action.payload.data;
         state.lastFetched = Date.now();
         state.generalLoading = false;
-      })
-      .addCase(updateWeeklyMenuByIdBio.pending, (state) => {
-        state.loading = true;
       })
       .addCase(updateWeeklyMenuByIdBio.fulfilled, (state, action) => {
         const { id, data, message } = action.payload;
@@ -98,6 +102,7 @@ const weeklyMenuByIdSlice = createSlice({
   },
 });
 
-export const { resetWeeklyMenuDetails } = weeklyMenuByIdSlice.actions;
+export const { resetWeeklyMenuDetails, updateWeeklyMenuByIdItem } =
+  weeklyMenuByIdSlice.actions;
 
 export default weeklyMenuByIdSlice.reducer;

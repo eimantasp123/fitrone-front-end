@@ -13,11 +13,13 @@ import { useTranslation } from "react-i18next";
 interface RestAndPrefDetailsPopoverProps {
   preferences: string[];
   restrictions: string[];
+  titleTextSettings?: string;
 }
 
 const RestAndPrefDetailsPopover: React.FC<RestAndPrefDetailsPopoverProps> = ({
   preferences,
   restrictions,
+  titleTextSettings = "text-xs font-medium",
 }) => {
   const { dietaryPreferences, dietaryRestrictions } = useFiltersOptions();
   const { t } = useTranslation("common");
@@ -27,7 +29,9 @@ const RestAndPrefDetailsPopover: React.FC<RestAndPrefDetailsPopoverProps> = ({
       {/* Preferences */}
       <Popover>
         <PopoverTrigger>
-          <button className="text-nowrap text-xs font-medium dark:text-neutral-200">
+          <button
+            className={`text-nowrap ${titleTextSettings} dark:text-neutral-200`}
+          >
             {t("preferencesTitle")}
           </button>
         </PopoverTrigger>
@@ -67,7 +71,9 @@ const RestAndPrefDetailsPopover: React.FC<RestAndPrefDetailsPopoverProps> = ({
       {/* Preferences */}
       <Popover>
         <PopoverTrigger>
-          <button className="text-nowrap text-xs font-medium dark:text-neutral-200">
+          <button
+            className={`text-nowrap ${titleTextSettings} dark:text-neutral-200`}
+          >
             {t("restrictionsTitle")}
           </button>
         </PopoverTrigger>

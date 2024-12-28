@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { fetchWeeklyMenuById } from "@/services/reduxSlices/WeeklyMenuById/weeklyMenuByIdSlice";
 import { Helmet } from "react-helmet-async";
 import { capitalizeFirstLetter } from "@/utils/helper";
+import WeeklyMenuByIdPageDaysManagement from "./WeeklyMenuByIdPageDaysManagement";
 
 const SupplierWeeklyMenyById: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,7 +17,11 @@ const SupplierWeeklyMenyById: React.FC = () => {
   const { data, generalLoading, loading } = useAppSelector(
     (state) => state.weeklyMenuByIdDetails,
   );
+  const { loading: confirmDeleteLoading } = useAppSelector(
+    (state) => state.weeklyMenuDetails,
+  );
 
+  // Fetch weekly menu by id
   useEffect(() => {
     if (id && !data[id]) {
       dispatch(fetchWeeklyMenuById(id));
@@ -44,19 +49,20 @@ const SupplierWeeklyMenyById: React.FC = () => {
             </div>
           ) : (
             <>
-              <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
-                {id && (
-                  <WeeklyMenuByIdPageHeader
-                    loading={loading}
-                    t={t}
-                    data={data[id]}
-                  />
-                )}
-              </div>
+              {id && (
+                <>
+                  <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
+                    <WeeklyMenuByIdPageHeader
+                      loading={loading}
+                      t={t}
+                      data={data[id]}
+                      confirmDeleteLoading={confirmDeleteLoading}
+                    />
+                  </div>
 
-              <div>
-                <h1>Weekly Menu</h1>
-              </div>
+                  <WeeklyMenuByIdPageDaysManagement data={data[id]} t={t} />
+                </>
+              )}
             </>
           )}
         </div>
