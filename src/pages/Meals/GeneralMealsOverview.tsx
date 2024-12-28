@@ -1,6 +1,6 @@
 import LockPage from "@/components/common/LockPage";
 import { useAppSelector } from "@/store";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import SupplierMeals from "./SupplierMeals";
 
@@ -12,13 +12,11 @@ const GeneralMealsOverview: React.FC = () => {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>{t("meals")}</title>
-        </Helmet>
-        {user.plan === "base" && <LockPage userPlan={user.plan} />}
-        {user.role === "supplier" && user.plan !== "base" && <SupplierMeals />}
-      </HelmetProvider>
+      <Helmet>
+        <title>{t("meals")}</title>
+      </Helmet>
+      {user.plan === "base" && <LockPage userPlan={user.plan} />}
+      {user.role === "supplier" && user.plan !== "base" && <SupplierMeals />}
     </>
   );
 };

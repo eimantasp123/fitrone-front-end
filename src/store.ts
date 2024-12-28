@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import personalDetailsReducer from "./services/reduxSlices/Profile/personalDetailsSlice";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import dietPlanDetailsReducer from "./services/reduxSlices/DietPlan/dietPlanDetailsSlice";
-import mealsPlanDetailsReducer from "./services/reduxSlices/Meals/mealDetailsSlice";
 import ingredientsDetailsReducer from "./services/reduxSlices/Ingredients/ingredientsDetailsSlice";
+import mealsPlanDetailsReducer from "./services/reduxSlices/Meals/mealDetailsSlice";
+import { middlewareManager } from "./services/reduxSlices/Middlewares/middleware";
+import personalDetailsReducer from "./services/reduxSlices/Profile/personalDetailsSlice";
 import weeklyMenuDetailsReducer from "./services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import weeklyMenuByIdDetailsReducer from "./services/reduxSlices/WeeklyMenuById/weeklyMenuByIdSlice";
-import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,8 @@ export const store = configureStore({
     weeklyMenuDetails: weeklyMenuDetailsReducer,
     weeklyMenuByIdDetails: weeklyMenuByIdDetailsReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(middlewareManager),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

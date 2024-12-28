@@ -18,8 +18,8 @@ export const showCustomToast = ({
   description,
 }: {
   status: "success" | "error" | "warning" | "info";
-  title?: string;
-  description?: string;
+  title?: string | null;
+  description?: string | null;
 }) => {
   // Close the current toast if one is already being shown
   if (currentToastId !== undefined) {

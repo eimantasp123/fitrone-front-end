@@ -10,7 +10,7 @@ const ActiveBadge: React.FC<ActiveBadgeProps> = ({ status }) => {
   const className = (() => {
     switch (status) {
       case "active":
-        return " border border-primary bg-primaryLight text-black";
+        return " border border-primary";
       case "inactive":
         return " border border-gray-500 text-textPrimary opacity-50";
       default:
@@ -19,7 +19,9 @@ const ActiveBadge: React.FC<ActiveBadgeProps> = ({ status }) => {
   })();
 
   return (
-    <span className={`${className} rounded-full px-3 py-1 text-xs shadow-sm`}>
+    <span
+      className={`${className} text-nowrap rounded-full px-3 py-1 text-xs shadow-sm`}
+    >
       {status === "active" ? t("activeMenu") : t("inactiveMenu")}
     </span>
   );

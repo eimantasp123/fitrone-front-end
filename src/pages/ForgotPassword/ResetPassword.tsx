@@ -1,7 +1,8 @@
+import FormButton from "@/components/common/FormButton";
 import PasswordInput from "@/components/common/PasswordInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext } from "react";
-import { HelmetProvider, Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -9,7 +10,6 @@ import PasswordStrengthIndicator from "../../components/common/PasswordStrenghtI
 import SuccessulAlert from "../../components/common/SuccessulAlert";
 import AuthContext from "../../context/AuthContext";
 import { useResetPasswordSchema } from "../../utils/validationSchema";
-import FormButton from "@/components/common/FormButton";
 
 // Define the types for form data
 interface ResetPasswordFormData {
@@ -43,61 +43,59 @@ export default function ResetPasswordForm() {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>{t("forgotPassword.headTitle")}</title>
-        </Helmet>
-        <div className="flex w-full max-w-md flex-col justify-center px-6">
-          <div className="mb-10 text-center">
-            {!successMessage && (
-              <h2 className="text-2xl font-bold lg:text-3xl">
-                {t("forgotPassword.title")}
-              </h2>
-            )}
-          </div>
-          {successMessage ? (
-            <>
-              <SuccessulAlert
-                successMessage={successMessage}
-                description={t("forgotPassword.passwordResetSuccessfuly")}
-              />
-              <div className="mt-10 text-center text-sm">
-                <span
-                  onClick={handleSignIn}
-                  className="cursor-pointer font-semibold text-textSecondary"
-                >
-                  {t("forgotPassword.backToLogin")}
-                </span>
-              </div>
-            </>
-          ) : (
-            <FormProvider {...methods}>
-              <form
-                className="flex flex-col gap-3"
-                onSubmit={methods.handleSubmit(onSubmit)}
-              >
-                <PasswordInput
-                  name="password"
-                  placeholder={t("forgotPassword.newPassword")}
-                />
-                <PasswordInput
-                  name="passwordConfirm"
-                  placeholder={t("forgotPassword.confirmPassword")}
-                />
-                <PasswordStrengthIndicator password={password} />
-                <div className="mt-3">
-                  <FormButton
-                    isFormValid={password && passwordConfirm}
-                    loading={loading}
-                  >
-                    {t("forgotPassword.resetButton")}
-                  </FormButton>
-                </div>
-              </form>
-            </FormProvider>
+      <Helmet>
+        <title>{t("forgotPassword.headTitle")}</title>
+      </Helmet>
+      <div className="flex w-full max-w-md flex-col justify-center px-6">
+        <div className="mb-10 text-center">
+          {!successMessage && (
+            <h2 className="text-2xl font-bold lg:text-3xl">
+              {t("forgotPassword.title")}
+            </h2>
           )}
         </div>
-      </HelmetProvider>
+        {successMessage ? (
+          <>
+            <SuccessulAlert
+              successMessage={successMessage}
+              description={t("forgotPassword.passwordResetSuccessfuly")}
+            />
+            <div className="mt-10 text-center text-sm">
+              <span
+                onClick={handleSignIn}
+                className="cursor-pointer font-semibold text-textSecondary"
+              >
+                {t("forgotPassword.backToLogin")}
+              </span>
+            </div>
+          </>
+        ) : (
+          <FormProvider {...methods}>
+            <form
+              className="flex flex-col gap-3"
+              onSubmit={methods.handleSubmit(onSubmit)}
+            >
+              <PasswordInput
+                name="password"
+                placeholder={t("forgotPassword.newPassword")}
+              />
+              <PasswordInput
+                name="passwordConfirm"
+                placeholder={t("forgotPassword.confirmPassword")}
+              />
+              <PasswordStrengthIndicator password={password} />
+              <div className="mt-3">
+                <FormButton
+                  isFormValid={password && passwordConfirm}
+                  loading={loading}
+                >
+                  {t("forgotPassword.resetButton")}
+                </FormButton>
+              </div>
+            </form>
+          </FormProvider>
+        )}
+      </div>
     </>
   );
 }

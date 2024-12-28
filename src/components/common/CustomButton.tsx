@@ -8,6 +8,7 @@ interface CustomButtonProps {
   children?: React.ReactNode;
   widthFull?: boolean;
   paddingY?: string;
+  paddingX?: string;
   type?: string;
   disabled?: boolean;
   textLight?: boolean;
@@ -22,6 +23,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   disabled = false,
   widthFull = false,
   paddingY = "py-2",
+  paddingX = "px-6",
   textLight = false,
   type,
   loading = false,
@@ -55,8 +57,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       disabled={disabled}
       type={actionType}
       className={`${className} ${
-        disabled ? "cursor-not-allowed opacity-70" : ""
-      } select-none ${widthFull ? "w-full" : "px-6"} text-nowrap rounded-lg ${paddingY} ${textLight ? "font-normal" : "font-medium"} text-sm transition-colors duration-300 ease-in-out`}
+        disabled ? "opacity-70" : ""
+      } select-none ${widthFull ? "w-full" : paddingX} text-nowrap rounded-lg ${paddingY} ${textLight ? "font-normal" : "font-medium"} text-sm transition-colors duration-300 ease-in-out`}
     >
       {loading ? <Spinner size="sm" /> : children || text}
     </button>

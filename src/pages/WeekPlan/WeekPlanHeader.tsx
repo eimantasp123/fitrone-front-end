@@ -81,7 +81,7 @@ const WeekPlanHeader: React.FC = () => {
         <div className="text-center sm:col-start-2 sm:col-end-3 sm:row-start-1 sm:row-end-2 sm:text-end xl:col-span-2 xl:row-auto">
           <CustomButton
             onClick={() => navigate("/weekly-menu")}
-            text={t("seeAllMenys")}
+            text={t("seeAllMenus")}
             type="primary"
           />
         </div>

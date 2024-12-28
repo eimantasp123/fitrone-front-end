@@ -1,7 +1,7 @@
 import { useAppSelector } from "@/store";
-import { Helmet, HelmetProvider } from "react-helmet-async";
-import ManageSubscription from "./ManageSubscription";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
+import ManageSubscription from "./ManageSubscription";
 
 const ManageSubscriptionPlan: React.FC = () => {
   const { t } = useTranslation("subscription");
@@ -11,12 +11,10 @@ const ManageSubscriptionPlan: React.FC = () => {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>{t("subscriptionPlans")}</title>
-        </Helmet>
-        {user.role === "supplier" && <ManageSubscription />}
-      </HelmetProvider>
+      <Helmet>
+        <title>{t("subscriptionPlans")}</title>
+      </Helmet>
+      {user.role === "supplier" && <ManageSubscription />}
     </>
   );
 };

@@ -7,9 +7,11 @@ import DietaryRestrictions from "@/pages/Meals/components/DietaryRestrictions";
 import {
   cleanAllWeeklyMenu,
   createWeeklyMenu,
+  getAllWeeklyMenus,
 } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
-import { useAppDispatch, useAppSelector } from "@/store";
-import { CreateWeeklyMenuModalForm } from "@/utils/types";
+import { updateWeeklyMenuByIdBio } from "@/services/reduxSlices/WeeklyMenuById/weeklyMenuByIdSlice";
+import { useAppDispatch } from "@/store";
+import { CreateWeeklyMenuModalForm, SingleWeeklyMenuById } from "@/utils/types";
 import { useCreateMenuSchema } from "@/utils/validationSchema";
 import {
   Modal,
@@ -26,6 +28,8 @@ import { useTranslation } from "react-i18next";
 interface WeeklyMenuAddModalProps {
   isOpen: boolean;
   onClose: () => void;
+  menuToEdit?: SingleWeeklyMenuById | null;
+  loading: boolean;
 }
 
 interface WeeklyMenuAddModalForm {
@@ -36,9 +40,10 @@ interface WeeklyMenuAddModalForm {
 const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
   isOpen,
   onClose,
+  menuToEdit = null,
+  loading,
 }) => {
   const { t } = useTranslation(["weeklyMenu", "meals"]);
-  const { loading } = useAppSelector((state) => state.weeklyMenuDetails);
   const [preferences, setPreferences] = useState<string[]>([]);
   const [restrictions, setRestrictions] = useState<string[]>([]);
   const schema = useCreateMenuSchema();
@@ -47,12 +52,24 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
   });
   const dispatch = useAppDispatch();
 
+  // Reset form on open and set values if editing
   useEffect(() => {
-    methods.reset();
-    methods.clearErrors();
-    setPreferences([]);
-    setRestrictions([]);
-  }, [isOpen, methods]);
+    if (isOpen) {
+      if (menuToEdit) {
+        methods.reset({
+          title: menuToEdit.title,
+          description: menuToEdit.description,
+        });
+        setPreferences(menuToEdit.preferences || []);
+        setRestrictions(menuToEdit.restrictions || []);
+      } else {
+        methods.reset();
+        methods.clearErrors();
+        setPreferences([]);
+        setRestrictions([]);
+      }
+    }
+  }, [isOpen, methods, menuToEdit]);
 
   // Handle form submit
   const handleSubmitForm = async (data: WeeklyMenuAddModalForm) => {
@@ -61,16 +78,26 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
       preferences,
       restrictions,
     };
-    const response = await dispatch(createWeeklyMenu(dataObject)).unwrap();
-    if (response.status === "limit_reached") {
-      showCustomToast({
-        status: "info",
-        description: response.message,
-      });
-      return;
+    try {
+      if (menuToEdit) {
+        await dispatch(
+          updateWeeklyMenuByIdBio({ id: menuToEdit._id, data: dataObject }),
+        ).unwrap();
+      } else {
+        const response = await dispatch(createWeeklyMenu(dataObject)).unwrap();
+        if (response.status === "limit_reached") {
+          showCustomToast({
+            status: "info",
+            description: response.message,
+          });
+          return;
+        }
+        dispatch(cleanAllWeeklyMenu());
+      }
+      onClose();
+    } catch {
+      //
     }
-    dispatch(cleanAllWeeklyMenu());
-    onClose();
   };
 
   return (
@@ -92,7 +119,7 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
           >
             <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
               <h4 className="text-xl font-semibold md:text-xl">
-                {t("createNewMenu")}
+                {menuToEdit ? t("editMenu") : t("createNewMenu")}
               </h4>
             </div>
             <ModalCloseButton marginTop="3" />
@@ -103,7 +130,9 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
                   onSubmit={methods.handleSubmit(handleSubmitForm)}
                 >
                   {/* Description text */}
-                  <p className="mb-2 text-center text-sm">{t("description")}</p>
+                  <p className="mb-2 text-center text-sm">
+                    {menuToEdit ? t("editFormDescription") : t("description")}
+                  </p>
 
                   {/* Meal title */}
                   <CustomInput name="title" label={t("titleInput")} />
@@ -138,7 +167,7 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
                       paddingY="py-3"
                     />
                     <CustomButton
-                      text={t("createMenu")}
+                      text={menuToEdit ? t("saveMenu") : t("createMenu")}
                       actionType="submit"
                       loading={loading}
                       widthFull={true}

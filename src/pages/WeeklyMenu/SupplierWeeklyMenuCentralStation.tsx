@@ -97,7 +97,9 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
   const noWeeklyMenuAdded =
     Object.values(weeklyMenu).every(
       (weeklyArray) => weeklyArray.length === 0,
-    ) && !Object.values(filters).some(Boolean);
+    ) &&
+    !Object.values(filters).some(Boolean) &&
+    !searchQuery;
 
   // Check if there are no results with the current filters
   const noFilteredResults =
@@ -105,7 +107,7 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
     Object.values(weeklyMenu).every(
       (weeklyArray) => weeklyArray.length === 0,
     ) &&
-    Object.values(filters).some(Boolean);
+    (Object.values(filters).some(Boolean) || searchQuery);
 
   return (
     <>
@@ -179,7 +181,11 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
       </div>
 
       {/* Menu modal */}
-      <WeeklyMenuAddModal isOpen={isMenuModalOpen} onClose={onMenuModalClose} />
+      <WeeklyMenuAddModal
+        loading={loading}
+        isOpen={isMenuModalOpen}
+        onClose={onMenuModalClose}
+      />
     </>
   );
 };

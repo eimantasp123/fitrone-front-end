@@ -1,12 +1,19 @@
 {
   "createNewMenu": "Create New Menu",
-  "createMenu": "Create Menu",
+  "createMenu": "Create menu",
+  "editMenu": "Edit Menu",
+  "saveMenu": "Save menu",
   "cancel": "Cancel",
   "clean": "Clean",
+  "goBack": "Go Back",
+  "seeAllMenus": "See All Menus",
+  "loading": "Loading...",
+  "editMenuBio": "Edit Menu Bio",
   "searchPlaceholder": "Search for a menu by title or description",
   "titleInput": "Enter menu title",
   "descriptionInput": "Briefly describe this menu (optional)",
   "description": "This form allows you to create a new weekly menu that can be assigned to the current week. Enter the menu title (required), a brief description (optional), and, if necessary, select dietary restrictions. Once the menu is created, you can start planning and managing the weekly meal plan.",
+  "editFormDescription": "This form allows you to edit weekly menu data. Enter new data if needed and save changes.",
   "assingExistingMenu": "Assign existing menu",
   "noWeeklyMenuTitle": "No menus created – add your first weekly menu and start planning!",
   "noWeeklyMenuDescription": "To start planning your weekly menu, click the “Create First Menu” button, enter a title, description, and select dietary restrictions (optional).",
@@ -31,6 +38,9 @@
   "unarchiveWeeklyMenuModalTitle": "Unarchive Weekly Menu",
   "unarchiveWeeklyMenuModalDescription": "Are you sure you want to unarchive this weekly menu? This action cannot be undone.",
   "unarchiveWeeklyMenu": "Unarchive Menu",
+
+  "notFoundCurrentWeeklyMenuByIdData": "Weekly menu not found by ID",
+  "notFoundCurrentWeeklyMenuByIdDescription": "The weekly menu you are trying to access does not exist or has been deleted.",
 
   "menuArchiving": [
     { "key": true, "title": "Archived Menus" },

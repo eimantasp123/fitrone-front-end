@@ -19,7 +19,9 @@ const ArchivedBadge: React.FC<ArchivedBadgeProps> = ({ archived }) => {
   })();
 
   return (
-    <span className={`${className} rounded-full px-3 py-1 text-xs shadow-sm`}>
+    <span
+      className={`${className} text-nowrap rounded-full px-3 py-1 text-xs shadow-sm`}
+    >
       {archived ? t("archivedMenu") : t("activeMenu")}
     </span>
   );

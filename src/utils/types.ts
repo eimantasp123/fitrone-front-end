@@ -83,9 +83,9 @@ export interface Meal {
  */
 export interface CreateWeeklyMenuModalForm {
   title: string;
-  description?: string;
-  preferences: string[] | null;
-  restrictions: string[] | null;
+  description?: string | null;
+  preferences?: string[] | null;
+  restrictions?: string[] | null;
 }
 
 /**

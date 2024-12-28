@@ -1,23 +1,24 @@
-import CustomButton from "@/components/common/CustomButton";
-import { capitalizeFirstLetter } from "@/utils/helper";
-import { WeeklyMenuBio } from "@/utils/types";
-import { useDisclosure } from "@chakra-ui/react";
-import { TFunction } from "i18next";
-import React from "react";
-import ConfirmActionModal from "@/components/common/ConfirmActionModal";
-import { format } from "date-fns";
-import RestAndPrefDetailsPopover from "@/pages/Meals/components/RestAndPrefDetailsPopover";
+import ActiveBadge from "@/components/common/ActiveBadge";
 import ArchivedBadge from "@/components/common/ArchivedBadge";
-import { useAppDispatch } from "@/store";
+import ConfirmActionModal from "@/components/common/ConfirmActionModal";
+import CustomButton from "@/components/common/CustomButton";
+import { showCustomToast } from "@/hooks/showCustomToast";
+import RestAndPrefDetailsPopover from "@/pages/Meals/components/RestAndPrefDetailsPopover";
 import {
   archiveWeeklyMenu,
   cleanAllWeeklyMenu,
   deleteWeeklyMenu,
   unArchiveWeeklyMenu,
 } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
-import { showCustomToast } from "@/hooks/showCustomToast";
+import { fetchWeeklyMenuById } from "@/services/reduxSlices/WeeklyMenuById/weeklyMenuByIdSlice";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { capitalizeFirstLetter } from "@/utils/helper";
+import { WeeklyMenuBio } from "@/utils/types";
+import { useDisclosure } from "@chakra-ui/react";
+import { format } from "date-fns";
+import { TFunction } from "i18next";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ActiveBadge from "@/components/common/ActiveBadge";
 
 interface WeeklyMenuItemCardProps {
   menu: WeeklyMenuBio;
@@ -40,6 +41,9 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
     updatedAt,
     status,
   } = menu;
+  const { data } = useAppSelector((state) => state.weeklyMenuByIdDetails);
+  const [fetchCurrentPageLoading, setFetchCurrentPageLoading] =
+    useState<boolean>(false);
   const {
     isOpen: deleteModalOpen,
     onOpen: onOpenDeleteModal,
@@ -88,8 +92,20 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
     onCloseUnarchiveModal();
   };
 
-  const navigateToWeeklyMenuManagement = () => {
-    navigate(`/weekly-menu/${menu._id}`);
+  // Navigate to weekly menu management
+  const navigateToWeeklyMenuManagement = async () => {
+    if (!menu._id) return;
+    if (!data[menu._id]) {
+      setFetchCurrentPageLoading(true);
+      try {
+        await dispatch(fetchWeeklyMenuById(menu._id)).unwrap();
+        navigate(`/weekly-menu/${menu._id}`);
+      } finally {
+        setFetchCurrentPageLoading(false);
+      }
+    } else {
+      navigate(`/weekly-menu/${menu._id}`);
+    }
   };
 
   // Format dates
@@ -153,7 +169,7 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
           </div>
           {/* Call to action buttons */}
           <div
-            className={`mt-auto grid ${archived ? "grid-cols-2 grid-rows-1" : status === "active" ? "grid-cols-1 grid-rows-1" : "grid-cols-2 grid-rows-2 sm:grid-cols-3 sm:grid-rows-1"} gap-3 pt-3`}
+            className={`mt-auto grid ${status === "active" ? "grid-cols-1 grid-rows-1" : "grid-cols-2 grid-rows-2 sm:grid-cols-3 sm:grid-rows-1"} gap-3 pt-3`}
           >
             {status && status === "inactive" && (
               <>
@@ -177,17 +193,19 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
                 />
               </>
             )}
-
-            {!archived && (
-              <div className="col-span-2 sm:col-span-1">
-                <CustomButton
-                  text={t("common:manageMenu")}
-                  onClick={navigateToWeeklyMenuManagement}
-                  textLight={true}
-                  widthFull={true}
-                />
-              </div>
-            )}
+            <div className="col-span-2 sm:col-span-1">
+              <CustomButton
+                text={
+                  fetchCurrentPageLoading
+                    ? `${t("common:manageMenu")}...`
+                    : t("common:manageMenu")
+                }
+                onClick={navigateToWeeklyMenuManagement}
+                textLight={true}
+                disabled={fetchCurrentPageLoading}
+                widthFull={true}
+              />
+            </div>
           </div>
         </div>
       </div>

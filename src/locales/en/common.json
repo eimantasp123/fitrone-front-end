@@ -17,6 +17,7 @@
       "maxLength": "Feedback must not be longer than 500 characters"
     }
   },
+
   "previousPage": "Previous",
   "nextPage": "Next",
   "page": "Page",
@@ -44,5 +45,7 @@
   "seeArchivedMenus": "See archived menus",
   "activeMenu": "Active menu",
   "inactiveMenu": "Inactive menu",
-  "archivedMenu": "Archived menu"
+  "archivedMenu": "Archived menu",
+
+  "filters": "Filters"
 }

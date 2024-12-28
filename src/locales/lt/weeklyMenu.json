@@ -1,12 +1,19 @@
 {
   "createNewMenu": "Sukurti Naują Meniu",
-  "createMenu": "Sukurti Meniu",
+  "createMenu": "Sukurti meniu",
+  "editMenu": "Redaguoti Meniu",
+  "saveMenu": "Išsaugoti meniu",
   "cancel": "Atšaukti",
   "clean": "Išvalyti",
+  "goBack": "Grįžti",
+  "loading": "Kraunama...",
+  "editMenuBio": "Redaguoti Meniu Aprašą",
+  "seeAllMenus": "Peržiūrėti Visus Meniu",
   "searchPlaceholder": "Ieškoti meniu pagal pavadinimą ar aprašymą",
   "titleInput": "Įveskite meniu pavadinimą",
   "descriptionInput": "Trumpai aprašykite šį meniu (nebūtina)",
   "description": "Ši forma leidžia sukurti naują savaitės meniu, kuris gali būti priskirtas dabartinei savaitei. Įveskite meniu pavadinimą (privaloma), trumpą aprašymą (nebūtina) ir, jei reikalinga, pasirinkite dietinius apribojimus. Sukūrus meniu, galėsite pradėti planuoti ir valdyti savaitės valgiaraštį",
+  "editFormDescription": "Ši forma leidžia redaguoti savaitės meniu duomenis. Įveskite naujus duomenis, jei reikia, ir išsaugokite pakeitimus.",
   "assingExistingMenu": "Priskirti turimą meniu",
   "noWeeklyMenuTitle": "Nėra sukurtų meniu – pridėkite pirmąjį savaitės meniu ir pradėkite planuoti!",
   "noWeeklyMenuDescription": "Norėdami pradėti planuoti savaitės meniu, paspauskite mygtuką „Sukurti pirmąjį meniu“, įveskite pavadinimą, aprašymą ir pasirinkite dietinius apribojimus (neprivaloma).",
@@ -31,6 +38,9 @@
   "unarchiveWeeklyMenuModalTitle": "Išarchyvuoti Savaitės Meniu",
   "unarchiveWeeklyMenuModalDescription": "Ar tikrai norite išarchyvuoti šį savaitės meniu? Šis veiksmas negali būti atšauktas.",
   "unarchiveWeeklyMenu": "Išarchyvuoti Meniu",
+
+  "notFoundCurrentWeeklyMenuByIdData": "Savaitės meniu pagal ID nerasta",
+  "notFoundCurrentWeeklyMenuByIdDescription": "Bandomas pasiekti savaitės meniu neegzistuoja arba jis buvo ištrintas.",
 
   "menuArchiving": [
     { "key": true, "title": "Archyvuoti meniu" },

@@ -167,6 +167,18 @@ const weeklyMenuSlice = createSlice({
     cleanAllWeeklyMenu: () => ({
       ...initialState,
     }),
+    updateWeeklyMenuItem: (
+      state,
+      action: PayloadAction<{ id: string; data: Partial<WeeklyMenuBio> }>,
+    ) => {
+      const { id, data } = action.payload;
+      Object.keys(state.weeklyMenu).forEach((_, index) => {
+        console.log("index", index + 1);
+        state.weeklyMenu[index + 1] = state.weeklyMenu[index + 1].map((menu) =>
+          menu._id === id ? { ...menu, ...data } : menu,
+        );
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -304,6 +316,7 @@ export const {
   cleanAllWeeklyMenu,
   setCurrentPage,
   setSearchQuery,
+  updateWeeklyMenuItem,
 } = weeklyMenuSlice.actions;
 
 export default weeklyMenuSlice.reducer;

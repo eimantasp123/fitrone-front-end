@@ -17,6 +17,7 @@
       "maxLength": " Atsiliepimas negali būti ilgesnis nei 500 simbolių"
     }
   },
+
   "previousPage": "Ankstesnis",
   "nextPage": "Kitas",
   "page": "Puslapis",
@@ -44,5 +45,7 @@
   "seeArchivedMenus": "Peržiūrėti archyvuotus meniu",
   "activeMenu": "Aktyvūs meniu",
   "inactiveMenu": "Neaktyvūs meniu",
-  "archivedMenu": "Archyvuotas meniu"
+  "archivedMenu": "Archyvuotas meniu",
+
+  "filters": "Filtrai"
 }
