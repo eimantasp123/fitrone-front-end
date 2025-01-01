@@ -5,11 +5,14 @@
   "saveMenu": "Save menu",
   "cancel": "Cancel",
   "clean": "Clean",
+  "search": "Search",
   "goBack": "Go Back",
   "seeAllMenus": "See All Menus",
+  "assignSelected": "Assign Selected",
   "loading": "Loading...",
-  "editMenuBio": "Edit Menu Bio",
+  "editMenuBio": "Edit Bio",
   "searchPlaceholder": "Search for a menu by title or description",
+  "searchMealsPlaceholder": "Search for meals",
   "titleInput": "Enter menu title",
   "descriptionInput": "Briefly describe this menu (optional)",
   "description": "This form allows you to create a new weekly menu that can be assigned to the current week. Enter the menu title (required), a brief description (optional), and, if necessary, select dietary restrictions. Once the menu is created, you can start planning and managing the weekly meal plan.",
@@ -19,6 +22,12 @@
   "noWeeklyMenuDescription": "To start planning your weekly menu, click the “Create First Menu” button, enter a title, description, and select dietary restrictions (optional).",
   "createFirstMenu": "Create First Menu",
 
+  "weeklyMenuStatus": "Weekly menu status",
+  "status": "Status",
+  "activeMenuStatusExplanation": "This weekly menu is currently active, meaning it is associated with the current week and being used. Meals from this menu are linked to the ongoing week.",
+  "inactiveMenuStatusExplanation": "This weekly menu is not assigned to any current week or was used in a past week, therefore its status is marked as inactive. The status of the weekly menu will automatically update when it is assigned to a specific week's plan.",
+  "archivedMenuStatusExplanation": "This weekly menu is archived and cannot be used for any week. To use it again, you need to unarchive it first.",
+
   "validation": {
     "titleRequired": "Title is required and must be unique",
     "titleLength": "Title must be between 3 and 70 characters",
@@ -26,6 +35,8 @@
   },
 
   "weeklyMenuFound": "Weekly menus found",
+
+  "removeMealFromDay": "Remove meal from this day can be effect your weekly menu. Are you sure you want to remove this meal from this day?",
 
   "deleteWeeklyMenuTitle": "Delete Weekly Menu",
   "deleteWeeklyMenuDescription": "Are you sure you want to delete this weekly menu? This action cannot be undone.",
@@ -47,5 +58,14 @@
     { "key": false, "title": "Unarchived Menus" }
   ],
 
-  "menuStatusOptionsPlaceholder": "Select menu status"
+  "menuStatusOptionsPlaceholder": "Select menu status",
+
+  "noMealsAssignedTitle": "No meals assigned for this day",
+  "noMealsAssignedDescription": "To assign meals to this day, click the “Assign Meal” button and select the meal you want to add to this day.",
+  "assignMeals": "Assign Meal",
+
+  "searchMealsFromDatabaseAndAssign": "Search for a meals in the database and assign them to this day.",
+
+  "noMealsFound": "No meals found",
+  "noMealsFoundDescription": "It seems like you don’t have any meals added yet or the search or filter criteria didn’t match any results. Try adjusting your filters or adding new meals to your collection to assign them to this day."
 }

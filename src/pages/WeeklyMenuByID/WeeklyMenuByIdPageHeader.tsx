@@ -20,31 +20,21 @@ import WeeklyMenuAddModal from "../WeeklyMenu/modals/WeeklyMenuAddModal";
 interface WeeklyMenuByIdPageHeaderProps {
   t: TFunction;
   data: SingleWeeklyMenuById;
-  loading: boolean;
   confirmDeleteLoading: boolean;
 }
 
 const WeeklyMenuByIdPageHeader: React.FC<WeeklyMenuByIdPageHeaderProps> = ({
   t,
   data,
-  loading,
   confirmDeleteLoading,
 }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const {
-    isOpen: sidebarFilterOpen,
-    onOpen: onOpenSidebarFilter,
-    onClose: onCloseSidebarFilter,
-  } = useDisclosure();
-
   const {
     isOpen: weeklyMenuAddModalOpen,
     onOpen: onOpenWeeklyMenuAddModal,
     onClose: onCloseWeeklyMenuAddModal,
   } = useDisclosure();
-
   const {
     isOpen: deleteModalOpen,
     onOpen: onOpenDeleteModal,
@@ -63,38 +53,31 @@ const WeeklyMenuByIdPageHeader: React.FC<WeeklyMenuByIdPageHeaderProps> = ({
   return (
     <>
       <div
-        className={`w-fullgap-2 z-20 grid grid-cols-[1fr_1fr] grid-rows-[auto_auto] gap-3 rounded-lg bg-background px-5 py-3 dark:bg-backgroundSecondary xl:grid-cols-[180px_minmax(400px,_1fr)_300px] xl:grid-rows-1 xl:gap-4`}
+        className={`z-40 grid w-full grid-cols-[1fr_1fr] grid-rows-[auto_auto] gap-3 rounded-lg bg-background px-5 py-3 dark:bg-backgroundSecondary xl:grid-cols-[180px_minmax(400px,_1fr)_300px] xl:grid-rows-1 xl:gap-4`}
       >
         {/* Navigation Section */}
-        <div className="col-span-2 flex items-center gap-3 md:flex xl:col-auto xl:row-auto">
+        <div className="col-span-1 row-start-2 flex items-center md:flex xl:col-auto xl:row-auto">
           <CustomButton
-            paddingX="px-8 md:px-12"
+            paddingX="px-4 md:px-10"
             text={t("goBack")}
             onClick={() => navigate(-1)}
           />
-          <div className="w-full xl:hidden">
-            <CustomButton
-              widthFull={true}
-              text={t("common:filters")}
-              onClick={onOpenSidebarFilter}
-            />
-          </div>
         </div>
 
         {/* Week navigation */}
         <div
-          className={`col-span-2 flex flex-col-reverse items-center gap-1 md:flex-row md:justify-center md:gap-4 xl:col-auto xl:row-auto xl:justify-start`}
+          className={`col-span-2 row-start-1 flex items-center gap-2 md:gap-4 xl:col-auto xl:row-auto xl:justify-start`}
         >
-          <h4 className="font-medium text-textPrimary">
-            {capitalizeFirstLetter(data.title)}
-          </h4>
           <div className="flex items-center">
             {data.archived && <ArchivedBadge archived={data.archived} />}
             {!data.archived && <ActiveBadge status={data.status} />}
           </div>
+          <h4 className="font-medium leading-[18px] text-textPrimary">
+            {capitalizeFirstLetter(data.title)}
+          </h4>
         </div>
 
-        <div className="col-span-1 col-start-2 row-start-1 hidden items-center justify-end gap-2 xl:col-auto xl:row-auto xl:flex">
+        <div className="col-span-1 col-start-2 row-start-2 flex items-center justify-end gap-2 xl:col-auto xl:row-auto">
           <CustomButton
             onClick={onOpenWeeklyMenuAddModal}
             text={t("editMenuBio")}
@@ -104,6 +87,7 @@ const WeeklyMenuByIdPageHeader: React.FC<WeeklyMenuByIdPageHeaderProps> = ({
               onClick={onOpenDeleteModal}
               text={t("common:delete")}
               type="delete"
+              paddingX="px-4 md:px-10"
             />
           )}
         </div>
@@ -123,19 +107,10 @@ const WeeklyMenuByIdPageHeader: React.FC<WeeklyMenuByIdPageHeaderProps> = ({
         onAction={handleDelete}
       />
 
-      {/* Drawer for filters on mobile device */}
-      <DrawerForFiltersLeftSide
-        isOpen={sidebarFilterOpen}
-        onClose={onCloseSidebarFilter}
-      >
-        hello
-      </DrawerForFiltersLeftSide>
-
       {/* Edit weekly menu bio modal */}
       <WeeklyMenuAddModal
         isOpen={weeklyMenuAddModalOpen}
         onClose={onCloseWeeklyMenuAddModal}
-        loading={loading}
         menuToEdit={data}
       />
     </>

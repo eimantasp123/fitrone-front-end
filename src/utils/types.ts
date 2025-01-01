@@ -1,4 +1,51 @@
 /**
+ * ApiError interface for the api error object
+ */
+export interface ApiError {
+  response?: {
+    data?: {
+      message: string;
+    };
+  };
+  message?: string;
+}
+
+/**
+ * User details interface for the user details object
+ */
+export interface UserDetails {
+  _id: string;
+  email: string;
+  phone?: string;
+  firstName: string;
+  lastName?: string;
+  profileImage: string;
+  role: string;
+  plan?: string;
+  googleId?: string;
+  facebookId?: string;
+  is2FAEnabled: boolean;
+  isVerified?: boolean;
+  registrationCompleted?: boolean;
+  createdAt?: string;
+  __v?: number;
+  subscriptionStatus?: string;
+  subscriptionCancelAtPeriodEnd?: boolean;
+  trialEnd?: string;
+  subscriptionId?: string;
+  subscriptionPlan?: string;
+  subscriptionCancelAt?: string;
+  hasUsedFreeTrial: boolean;
+  archivedData?: {
+    messageRead: boolean;
+    ingredients: number | null;
+    meals: number | null;
+    mealWeekTypes: number | null;
+    clients: number | null;
+  };
+}
+
+/**
  * Ingredients interface for the ingredients object
  */
 export interface Ingredients {
@@ -57,6 +104,7 @@ export interface Meal {
   _id: string;
   title: string;
   description: string;
+  archived?: boolean;
   ingredients: Ingredients[];
   category:
     | "breakfast"
@@ -104,31 +152,35 @@ export interface WeeklyMenuState {
   searchQuery: string | null;
 }
 
+// Weekly menu bio interface
 export interface WeeklyMenuBio {
   _id: string;
   title: string;
   description: string;
   preferences: string[];
   restrictions: string[];
-  nutrition: Nutrition;
   status: string;
   archived: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
+// Weekly menu filters interface
 export interface WeeklyMenyFilters {
   preference: { key: string; title: string } | null;
   restriction: { key: string; title: string } | null;
   archived: { key: boolean; title: string } | null;
 }
 
+// Weekly menu by id interface
 export interface Day {
   _id: string;
   day: number;
   meals: MealAssignment[];
+  nutrition: Nutrition;
 }
 
+// Meal assignment interface
 export interface MealAssignment {
   _id: string;
   category:
@@ -142,9 +194,11 @@ export interface MealAssignment {
   meal: MealForCurrentDay;
 }
 
+// Meal for current day interface
 export interface MealForCurrentDay {
   _id: string;
   title: string;
+  archived?: boolean;
   description: string;
   image: string;
   nutrition: Nutrition;
@@ -160,6 +214,7 @@ export interface MealForCurrentDay {
     | "other";
 }
 
+// Nutrition interface
 export interface Nutrition {
   calories: number;
   protein: number;
@@ -177,6 +232,7 @@ export interface WeeklyMenuByIdState {
   lastFetched: number | null;
 }
 
+// Single weekly menu by id interface
 export interface SingleWeeklyMenuById {
   _id: string;
   title: string;
@@ -189,4 +245,36 @@ export interface SingleWeeklyMenuById {
   archived: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+/**
+ * Meals state interface for the meals state object
+ */
+export interface MealsState {
+  meals: Record<number, Meal[]>;
+  generalLoading: boolean;
+  loading: boolean;
+  currentPage: number;
+  lastFetched: number | null;
+  limit: number;
+  totalResults: number;
+  totalPages: number;
+  filters: {
+    category: { key: string; title: string } | null;
+    preference: { key: string; title: string } | null;
+    restriction: { key: string; title: string } | null;
+  };
+}
+
+/**
+ * Meals details state interface for the meals details state object
+ */
+export interface PersonalDetailsState {
+  details: Partial<UserDetails>;
+  updateLoading: boolean;
+  imageLoading: boolean;
+  deleteImageLoading: boolean;
+  updateDetailsLoading: boolean;
+  request2FALoading: boolean;
+  verify2FALoading: boolean;
 }

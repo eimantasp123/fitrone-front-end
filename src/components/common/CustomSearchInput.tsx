@@ -7,21 +7,30 @@ interface CustomSearchInputProps {
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   cleanSearch: () => void;
   t: TFunction;
+  placeholder?: string;
 }
 
 const CustomSearchInput: React.FC<CustomSearchInputProps> = ({
   searchQuery,
   handleSearch,
   cleanSearch,
+  placeholder,
   t,
 }) => {
+  let placeholderText;
+  if (!placeholder) {
+    placeholderText = t("searchPlaceholder");
+  } else {
+    placeholderText = placeholder;
+  }
+
   return (
     <div className="flex w-full items-center gap-3">
       <input
         type="text"
         value={searchQuery}
         className="h-9 w-full rounded-lg bg-backgroundSecondary px-6 text-[15px] placeholder:text-placeholder focus:outline-none dark:bg-background"
-        placeholder={t("searchPlaceholder")}
+        placeholder={placeholderText}
         onChange={handleSearch}
       />
 

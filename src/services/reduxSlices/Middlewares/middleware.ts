@@ -61,6 +61,15 @@ const pendingMiddlewareConfig: PendingMiddlewareConfig = {
   "weeklyMenuById/updateWeeklyMenuByIdBio": (store) => {
     store.dispatch({ type: "weeklyMenuById/setLoading", payload: true });
   },
+  "mealsDetails/addMeal": (store) => {
+    store.dispatch({ type: "mealsDetails/setLoading", payload: true });
+  },
+  "mealsDetails/deleteMeal": (store) => {
+    store.dispatch({ type: "mealsDetails/setLoading", payload: true });
+  },
+  "mealsDetails/updateMeal": (store) => {
+    store.dispatch({ type: "mealsDetails/setLoading", payload: true });
+  },
 };
 
 /**
@@ -145,6 +154,14 @@ const errorHandlerMiddleware: Middleware<unknown, RootState, AppDispatch> =
         store.dispatch({ type: "weeklyMenu/setLoading", payload: false });
         store.dispatch({
           type: "weeklyMenu/setGeneralLoading",
+          payload: false,
+        });
+      }
+
+      if (action.type.startsWith("mealsDetails/")) {
+        store.dispatch({ type: "mealsDetails/setLoading", payload: false });
+        store.dispatch({
+          type: "mealsDetails/setGeneralLoading",
           payload: false,
         });
       }

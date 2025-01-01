@@ -1,7 +1,7 @@
 import axiosInstance from "@/utils/axiosInterceptors";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ApiError } from "../Meals/mealDetailsSlice";
 import {
+  ApiError,
   CreateWeeklyMenuModalForm,
   WeeklyMenuBio,
   WeeklyMenuState,

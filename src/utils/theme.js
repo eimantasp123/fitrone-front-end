@@ -16,6 +16,7 @@ const customTheme = extendTheme({
       /* Text */
       textPrimary: "#0d0d0d",
       textSecondary: "#333333",
+      blackLight: "#1a1a1a",
       /* Border */
       borderPrimary: "#d6d6d6",
       borderDark: "#c0c0c0",
@@ -40,6 +41,7 @@ const customTheme = extendTheme({
       /* Text */
       textPrimary: "#e7e5e4",
       textSecondary: "#c4c4c4",
+      whiteLight: "#f0f0f0",
       /* Border */
       borderPrimary: "#2e2e2ec3",
       borderDark: "#222222",
@@ -219,8 +221,8 @@ const customTheme = extendTheme({
     },
     Tooltip: {
       baseStyle: (props) => ({
-        bg: props.colorMode === "light" ? "blackAlpha.900" : "whiteAlpha.900",
-        color: props.colorMode === "light" ? "white" : "black",
+        bg:
+          props.colorMode === "light" ? "light.blackLight" : "dark.whiteLight",
         borderRadius: "lg",
         boxShadow: "lg",
         fontSize: "13px",

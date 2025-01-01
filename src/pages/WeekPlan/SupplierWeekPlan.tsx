@@ -68,7 +68,11 @@ const SupplierWeekPlan: React.FC = () => {
       </div>
 
       {/* Menu modal */}
-      <WeeklyMenuAddModal isOpen={isMenuModalOpen} onClose={onMenuModalClose} />
+      <WeeklyMenuAddModal
+        loading={false}
+        isOpen={isMenuModalOpen}
+        onClose={onMenuModalClose}
+      />
 
       {/* Assign Existing Menu Modal */}
       <AssignExistingMenuModal

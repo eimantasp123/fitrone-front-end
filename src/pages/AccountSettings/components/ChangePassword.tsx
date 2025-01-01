@@ -30,9 +30,11 @@ const ChangePassword: React.FC = () => {
 
   // Submit form data to update user password
   const onSubmit: SubmitHandler<ChangePasswordProps> = async (data) => {
-    await dispatch(changePassword(data)).unwrap();
-    methods.reset();
-    setEditMode(false);
+    const result = await dispatch(changePassword(data));
+    if (changePassword.fulfilled.match(result)) {
+      methods.reset();
+      setEditMode(false);
+    }
   };
 
   // Toggle edit mode

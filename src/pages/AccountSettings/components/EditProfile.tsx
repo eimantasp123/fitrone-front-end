@@ -52,8 +52,10 @@ const EditProfile: React.FC = () => {
 
   // Submit form data to update user details
   const onSubmit: SubmitHandler<EditProfileProps> = async (data) => {
-    await dispatch(updatePersonalDetails(data)).unwrap();
-    setEditMode(false);
+    const result = await dispatch(updatePersonalDetails(data));
+    if (updatePersonalDetails.fulfilled.match(result)) {
+      setEditMode(false);
+    }
   };
 
   // Toggle edit mode

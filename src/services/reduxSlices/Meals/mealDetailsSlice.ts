@@ -1,33 +1,11 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
-import { Filters, Meal } from "@/utils/types";
+import { ApiError, Filters, Meal, MealsState } from "@/utils/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface ApiError {
-  response?: {
-    data?: {
-      message: string;
-    };
-  };
-  message?: string;
-}
-
-interface MealsState {
-  meals: Record<number, Meal[]>;
-  generalLoading: boolean;
-  loading: boolean;
-  currentPage: number;
-  lastFetched: number | null;
-  limit: number;
-  totalResults: number;
-  totalPages: number;
-  filters: {
-    category: { key: string; title: string } | null;
-    preference: { key: string; title: string } | null;
-    restriction: { key: string; title: string } | null;
-  };
-}
-
+/**
+ * Initial state for meals
+ */
 const initialState: MealsState = {
   meals: {},
   loading: false,
@@ -40,7 +18,10 @@ const initialState: MealsState = {
   filters: { category: null, preference: null, restriction: null },
 };
 
-// This function is used to add a meal
+/**
+ * Add a new meal
+ * @param mealData - FormData containing meal details
+ */
 export const addMeal = createAsyncThunk(
   "mealsDetails/addMeal",
   async (mealData: FormData, { rejectWithValue }) => {
@@ -57,7 +38,9 @@ export const addMeal = createAsyncThunk(
   },
 );
 
-// This function is used to get all meals
+/**
+ * Get all meals with optional filters
+ */
 export const getMeals = createAsyncThunk(
   "mealsDetails/getMeals",
   async (
@@ -102,7 +85,9 @@ export const getMeals = createAsyncThunk(
   },
 );
 
-// Delete meal permanently from the database
+/**
+ * Delete a meal permanently
+ */
 export const deleteMeal = createAsyncThunk(
   "mealsDetails/deleteMeal",
   async (mealId: string, { rejectWithValue }) => {
@@ -119,7 +104,9 @@ export const deleteMeal = createAsyncThunk(
   },
 );
 
-// Update meal details
+/**
+ * Update meal details
+ */
 export const updateMeal = createAsyncThunk(
   "mealsDetails/updateMeal",
   async (
@@ -139,10 +126,19 @@ export const updateMeal = createAsyncThunk(
   },
 );
 
+/**
+ * Slice to manage meals details
+ */
 const mealDetailsSlice = createSlice({
   name: "mealsDetails",
   initialState,
   reducers: {
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+    setGeneralLoading: (state, action: PayloadAction<boolean>) => {
+      state.generalLoading = action.payload;
+    },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
@@ -154,34 +150,29 @@ const mealDetailsSlice = createSlice({
     cleanAllMeals: () => initialState,
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(addMeal.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(addMeal.fulfilled, (state, action) => {
-        state.loading = false;
-
-        if (action.payload.status === "success" && !action.payload.warning) {
-          showCustomToast({
-            status: "success",
-            title: action.payload.message,
-          });
-        }
-
-        if (action.payload.warning) {
-          showCustomToast({
-            status: "warning",
-            title: action.payload.warning,
-          });
-        }
-      })
-      .addCase(addMeal.rejected, (state, action) => {
-        state.loading = false;
+    /**
+     * Add a new meal
+     */
+    builder.addCase(addMeal.fulfilled, (state, action) => {
+      state.loading = false;
+      if (action.payload.status === "success" && !action.payload.warning) {
         showCustomToast({
-          status: "error",
-          title: (action.payload as string) || "An error occurred",
+          status: "success",
+          title: action.payload.message,
         });
-      })
+      }
+      if (action.payload.warning) {
+        showCustomToast({
+          status: "warning",
+          title: action.payload.warning,
+        });
+      }
+    });
+
+    /**
+     * Get all meals with optional filters
+     */
+    builder
       .addCase(getMeals.pending, (state, action) => {
         const page = action.meta.arg.page ?? 1;
         if (page === 1 && !state.meals[1]) {
@@ -207,48 +198,29 @@ const mealDetailsSlice = createSlice({
           state.lastFetched = new Date().getTime();
           state.generalLoading = false;
         },
-      )
-      .addCase(getMeals.rejected, (state, action) => {
-        state.generalLoading = false;
-        showCustomToast({
-          status: "error",
-          title: (action.payload as string) || "An error occurred",
-        });
-      })
-      .addCase(deleteMeal.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(deleteMeal.fulfilled, (state, action) => {
-        state.loading = false;
-        showCustomToast({
-          status: "success",
-          title: action.payload.message,
-        });
-      })
-      .addCase(deleteMeal.rejected, (state, action) => {
-        state.loading = false;
-        showCustomToast({
-          status: "error",
-          title: (action.payload as string) || "An error occurred",
-        });
-      })
-      .addCase(updateMeal.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(updateMeal.fulfilled, (state, action) => {
-        state.loading = false;
-        showCustomToast({
-          status: "success",
-          title: action.payload.message,
-        });
-      })
-      .addCase(updateMeal.rejected, (state, action) => {
-        state.loading = false;
-        showCustomToast({
-          status: "error",
-          title: (action.payload as string) || "An error occurred",
-        });
+      );
+
+    /**
+     * Delete a meal permanently
+     */
+    builder.addCase(deleteMeal.fulfilled, (state, action) => {
+      state.loading = false;
+      showCustomToast({
+        status: "success",
+        title: action.payload.message,
       });
+    });
+
+    /**
+     * Update meal details
+     */
+    builder.addCase(updateMeal.fulfilled, (state, action) => {
+      state.loading = false;
+      showCustomToast({
+        status: "success",
+        title: action.payload.message,
+      });
+    });
   },
 });
 

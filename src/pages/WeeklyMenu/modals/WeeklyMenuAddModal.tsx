@@ -28,7 +28,6 @@ interface WeeklyMenuAddModalProps {
   isOpen: boolean;
   onClose: () => void;
   menuToEdit?: SingleWeeklyMenuById | null;
-  loading: boolean;
 }
 
 interface WeeklyMenuAddModalForm {
@@ -40,11 +39,11 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
   isOpen,
   onClose,
   menuToEdit = null,
-  loading,
 }) => {
   const { t } = useTranslation(["weeklyMenu", "meals"]);
   const [preferences, setPreferences] = useState<string[]>([]);
   const [restrictions, setRestrictions] = useState<string[]>([]);
+  const [loadingModal, setLoadingModal] = useState<boolean>(false);
   const schema = useCreateMenuSchema();
   const methods = useForm<WeeklyMenuAddModalForm>({
     resolver: yupResolver(schema),
@@ -78,10 +77,11 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
       restrictions,
     };
     try {
+      setLoadingModal(true);
       if (menuToEdit) {
         await dispatch(
           updateWeeklyMenuByIdBio({ id: menuToEdit._id, data: dataObject }),
-        ).unwrap();
+        );
       } else {
         const response = await dispatch(createWeeklyMenu(dataObject)).unwrap();
         if (response.status === "limit_reached") {
@@ -96,6 +96,8 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
       onClose();
     } catch {
       //
+    } finally {
+      setLoadingModal(false);
     }
   };
 
@@ -168,7 +170,7 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
                     <CustomButton
                       text={menuToEdit ? t("saveMenu") : t("createMenu")}
                       actionType="submit"
-                      loading={loading}
+                      loading={loadingModal}
                       loadingSpinner={false}
                       widthFull={true}
                       paddingY="py-3"

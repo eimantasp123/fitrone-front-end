@@ -1,8 +1,7 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
-import { IngredientForOnce, IngredientUpdate } from "@/utils/types";
+import { ApiError, IngredientForOnce, IngredientUpdate } from "@/utils/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ApiError } from "../Meals/mealDetailsSlice";
 
 interface IngredientsDetailsState {
   ingredients: Record<number, IngredientForOnce[]>;
@@ -27,7 +26,7 @@ const initialState: IngredientsDetailsState = {
   mainLoading: false,
   currentPage: 1,
   searchResults: false,
-  pageSize: 28,
+  pageSize: 27,
   searchQuery: "",
   lastFetched: null,
   totalPages: 1,

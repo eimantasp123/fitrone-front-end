@@ -1,6 +1,5 @@
 import { Spinner } from "@chakra-ui/react";
 import React from "react";
-import { useTranslation } from "react-i18next";
 
 interface CustomButtonProps {
   text?: string;
@@ -41,6 +40,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         return "bg-backgroundSecondary hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800";
       case "lightSecondary":
         return "bg-neutral-200/50 hover:bg-neutral-200/80 dark:bg-background dark:hover:bg-neutral-800";
+      case "light2":
+        return "bg-neutral-200/50 hover:bg-neutral-300/60 dark:bg-backgroundSecondary dark:hover:bg-neutral-900/70";
       case "white":
         return "bg-white  hover:bg-neutral-200 dark:bg-white dark:text-black dark:hover:bg-neutral-300";
       case "delete":

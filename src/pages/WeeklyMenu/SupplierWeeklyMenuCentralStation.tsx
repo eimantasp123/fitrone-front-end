@@ -6,8 +6,9 @@ import {
 } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import PopoverForStatusDescription from "./components/PopoverForStatusDescription";
 import WeeklyMenuItemCard from "./components/WeeklyMenuItemCard";
 import WeeklyMenuAddModal from "./modals/WeeklyMenuAddModal";
 import WeeklyMenuPageHeader from "./WeeklyMenuPageHeader";
@@ -36,16 +37,20 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
 
   // Fetch meals on component mount
   useEffect(() => {
-    if (!weeklyMenu[1]) {
-      dispatch(
-        getAllWeeklyMenus({
-          page: 1,
-          limit,
-          searchQuery,
-          ...filters,
-        }),
-      );
-    }
+    const fetchWeeklyMenus = async () => {
+      if (!weeklyMenu[1]) {
+        await dispatch(
+          getAllWeeklyMenus({
+            page: 1,
+            limit,
+            searchQuery,
+            ...filters,
+          }),
+        );
+      }
+    };
+
+    fetchWeeklyMenus();
   }, [filters, dispatch, limit, searchQuery, weeklyMenu]);
 
   // Scroll to top whenever the page changes
@@ -69,45 +74,50 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
       dispatch(setCurrentPage(newPage));
       return;
     }
-    // Fetch the page
-    try {
-      setNextPageLoading(true);
-      await dispatch(
-        getAllWeeklyMenus({
-          page: newPage,
-          limit,
-          searchQuery,
-          ...filters,
-        }),
-      ).unwrap();
+    setNextPageLoading(true);
+    const result = await dispatch(
+      getAllWeeklyMenus({
+        page: newPage,
+        limit,
+        searchQuery,
+        ...filters,
+      }),
+    );
+    if (getAllWeeklyMenus.fulfilled.match(result)) {
       dispatch(setCurrentPage(newPage));
-    } catch {
-      //
-    } finally {
-      setNextPageLoading(false);
     }
+    setNextPageLoading(false);
   };
 
   // Check if there are weekly menu to display
-  const hasWeeklyMenu =
-    Object.keys(weeklyMenu).length > 0 &&
-    Object.values(weeklyMenu).some((weekly) => weekly.length > 0);
+  const hasWeeklyMenu = useMemo(
+    () =>
+      Object.keys(weeklyMenu).length > 0 &&
+      Object.values(weeklyMenu).some((weekly) => weekly.length > 0),
+    [weeklyMenu],
+  );
 
   // Check if there are no weekly menu added
-  const noWeeklyMenuAdded =
-    Object.values(weeklyMenu).every(
-      (weeklyArray) => weeklyArray.length === 0,
-    ) &&
-    !Object.values(filters).some(Boolean) &&
-    !searchQuery;
+  const noWeeklyMenuAdded = useMemo(
+    () =>
+      Object.values(weeklyMenu).every(
+        (weeklyArray) => weeklyArray.length === 0,
+      ) &&
+      !Object.values(filters).some(Boolean) &&
+      !searchQuery,
+    [filters, searchQuery, weeklyMenu],
+  );
 
   // Check if there are no results with the current filters
-  const noFilteredResults =
-    Object.keys(weeklyMenu).length > 0 &&
-    Object.values(weeklyMenu).every(
-      (weeklyArray) => weeklyArray.length === 0,
-    ) &&
-    (Object.values(filters).some(Boolean) || searchQuery);
+  const noFilteredResults = useMemo(
+    () =>
+      Object.keys(weeklyMenu).length > 0 &&
+      Object.values(weeklyMenu).every(
+        (weeklyArray) => weeklyArray.length === 0,
+      ) &&
+      (Object.values(filters).some(Boolean) || searchQuery),
+    [filters, searchQuery, weeklyMenu],
+  );
 
   return (
     <>
@@ -149,9 +159,12 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
 
               {hasWeeklyMenu && (
                 <>
-                  <span className="my-1 px-5 text-sm">
-                    {t("weeklyMenuFound")}: {totalResults || 0}
-                  </span>
+                  <div className="my-1 flex items-center justify-between px-5 text-sm">
+                    <span>
+                      {t("weeklyMenuFound")}: {totalResults || 0}
+                    </span>
+                    <PopoverForStatusDescription t={t} />
+                  </div>
 
                   <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-2">
                     {weeklyMenu[currentPage]?.map((menu) => (
@@ -181,11 +194,7 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
       </div>
 
       {/* Menu modal */}
-      <WeeklyMenuAddModal
-        loading={loading}
-        isOpen={isMenuModalOpen}
-        onClose={onMenuModalClose}
-      />
+      <WeeklyMenuAddModal isOpen={isMenuModalOpen} onClose={onMenuModalClose} />
     </>
   );
 };

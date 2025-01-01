@@ -148,9 +148,7 @@ const MealAddModal: React.FC<MealAddModalProps> = ({
 
     const formData = new FormData();
     formData.append("title", data.title);
-    if (data.description) {
-      formData.append("description", data.description);
-    }
+    formData.append("description", data.description || "");
     formData.append("category", category);
     formData.append("ingredients", JSON.stringify(ingredientsData));
     formData.append("preferences", JSON.stringify(preferences));

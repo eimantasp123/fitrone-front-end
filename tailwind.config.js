@@ -20,6 +20,7 @@ export default {
         primary: "var(--color-primary)",
         primaryDark: "var(--color-primary-dark)",
         primaryLight: "var(--color-primary-light)",
+        primaryLighter: "var(--color-primary-lighter)",
         // Secondary Colors
         secondary: "var(--color-secondary)",
         // Background Colors

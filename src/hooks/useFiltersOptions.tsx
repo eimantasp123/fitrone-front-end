@@ -29,11 +29,16 @@ const useFiltersOptions = () => {
     title: string;
   }[];
 
+  const categoriesTranslated = t("common:mealsCategories", {
+    returnObjects: true,
+  }) as Record<string, string>;
+
   return {
     dietaryPreferences,
     dietaryRestrictions,
     categories,
     menuArchivingOptions,
+    categoriesTranslated,
   };
 };
 

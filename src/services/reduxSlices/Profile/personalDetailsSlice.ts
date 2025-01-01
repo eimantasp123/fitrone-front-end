@@ -1,62 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
+import { ApiError, PersonalDetailsState, UserDetails } from "@/utils/types";
 
-// Define the ApiError interface
-interface ApiError {
-  response?: {
-    data?: {
-      message: string;
-    };
-  };
-  message?: string;
-}
-
-// Define the userDetails interface
-export interface UserDetails {
-  _id: string;
-  email: string;
-  phone?: string;
-  firstName: string;
-  lastName?: string;
-  profileImage: string;
-  role: string;
-  plan?: string;
-  googleId?: string;
-  facebookId?: string;
-  is2FAEnabled: boolean;
-  isVerified?: boolean;
-  registrationCompleted?: boolean;
-  createdAt?: string;
-  __v?: number;
-  subscriptionStatus?: string;
-  subscriptionCancelAtPeriodEnd?: boolean;
-  trialEnd?: string;
-  subscriptionId?: string;
-  subscriptionPlan?: string;
-  subscriptionCancelAt?: string;
-  hasUsedFreeTrial: boolean;
-  archivedData?: {
-    messageRead: boolean;
-    ingredients: number | null;
-    meals: number | null;
-    mealWeekTypes: number | null;
-    clients: number | null;
-  };
-}
-
-// Define the initial state interface
-export interface PersonalDetailsState {
-  details: Partial<UserDetails>;
-  updateLoading: boolean;
-  imageLoading: boolean;
-  deleteImageLoading: boolean;
-  updateDetailsLoading: boolean;
-  request2FALoading: boolean;
-  verify2FALoading: boolean;
-}
-
-// Initial state
+/**
+ * Initial state for the personal details slice
+ */
 const initialState: PersonalDetailsState = {
   details: {},
   updateLoading: false,
@@ -67,7 +16,9 @@ const initialState: PersonalDetailsState = {
   verify2FALoading: false,
 };
 
-// Async Thunks for updating user personal details
+/**
+ * Update user personal details
+ */
 export const updatePersonalDetails = createAsyncThunk(
   "personalDetails/updatePerosnalDetails",
   async (details: object, { rejectWithValue }) => {
@@ -84,7 +35,9 @@ export const updatePersonalDetails = createAsyncThunk(
   },
 );
 
-// Async Thunks for updating user image
+/**
+ * Update user image
+ */
 export const updateUserImage = createAsyncThunk(
   "personalDetails/updateUserImage",
   async (imageData: File, { rejectWithValue }) => {
@@ -107,7 +60,9 @@ export const updateUserImage = createAsyncThunk(
   },
 );
 
-// Async Thunks for deleting user image
+/**
+ * Delete user image
+ */
 export const deleteUserImage = createAsyncThunk(
   "personalDetails/deleteProfileImage",
   async (_, { rejectWithValue }) => {
@@ -124,7 +79,9 @@ export const deleteUserImage = createAsyncThunk(
   },
 );
 
-// Async Thunks for changing user password
+/**
+ * Change user password
+ */
 export const changePassword = createAsyncThunk(
   "personalDetails/changePassword",
   async (passwords: object, { rejectWithValue }) => {
@@ -145,7 +102,9 @@ export const changePassword = createAsyncThunk(
   },
 );
 
-// Async Thunks for requesting 2FA
+/**
+ * Request 2FA
+ */
 export const request2FA = createAsyncThunk(
   "personalDetails/request2FA",
   async (_, { rejectWithValue }) => {
@@ -162,7 +121,9 @@ export const request2FA = createAsyncThunk(
   },
 );
 
-// Async Thunks for verifying 2FA
+/**
+ * Verify 2FA
+ */
 export const verify2FA = createAsyncThunk(
   "personalDetails/verify2FA",
   async ({ code }: { code: string }, { rejectWithValue }) => {
@@ -181,7 +142,9 @@ export const verify2FA = createAsyncThunk(
   },
 );
 
-// Async Thunks for deleting user account
+/**
+ * Delete user account
+ */
 export const deleteAccount = createAsyncThunk(
   "personalDetails/deleteAccount",
   async (_, { rejectWithValue }) => {
@@ -198,7 +161,9 @@ export const deleteAccount = createAsyncThunk(
   },
 );
 
-// Mark archived data as read
+/**
+ * Mark archived data as read
+ */
 export const markArchivedDataAsRead = createAsyncThunk(
   "personalDetails/markArchivedDataAsRead",
   async (_, { rejectWithValue }) => {
@@ -217,7 +182,9 @@ export const markArchivedDataAsRead = createAsyncThunk(
   },
 );
 
-// Personal Details Slice
+/**
+ * Personal details slice for the user
+ */
 const personalDetailsSlice = createSlice({
   name: "personalDetails",
   initialState,
@@ -232,6 +199,9 @@ const personalDetailsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    /**
+     * Update personal details
+     */
     builder
       .addCase(updatePersonalDetails.pending, (state) => {
         state.updateDetailsLoading = true;
@@ -244,16 +214,17 @@ const personalDetailsSlice = createSlice({
         };
         showCustomToast({
           status: "success",
-          description: action.payload.message,
+          description: action.payload.message as string,
         });
       })
-      .addCase(updatePersonalDetails.rejected, (state, action) => {
+      .addCase(updatePersonalDetails.rejected, (state) => {
         state.updateDetailsLoading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
-      })
+      });
+
+    /**
+     * Update user image
+     */
+    builder
       .addCase(updateUserImage.pending, (state) => {
         state.imageLoading = true;
       })
@@ -262,16 +233,17 @@ const personalDetailsSlice = createSlice({
         state.details.profileImage = action.payload.profileImage;
         showCustomToast({
           status: "success",
-          description: action.payload.message,
+          description: action.payload.message as string,
         });
       })
-      .addCase(updateUserImage.rejected, (state, action) => {
+      .addCase(updateUserImage.rejected, (state) => {
         state.imageLoading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
-      })
+      });
+
+    /**
+     * Delete user image
+     */
+    builder
       .addCase(deleteUserImage.pending, (state) => {
         state.deleteImageLoading = true;
       })
@@ -280,16 +252,17 @@ const personalDetailsSlice = createSlice({
         state.details.profileImage = action.payload.profileImage;
         showCustomToast({
           status: "success",
-          description: action.payload.message,
+          description: action.payload.message as string,
         });
       })
-      .addCase(deleteUserImage.rejected, (state, action) => {
+      .addCase(deleteUserImage.rejected, (state) => {
         state.deleteImageLoading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
-      })
+      });
+
+    /**
+     * Change user password
+     */
+    builder
       .addCase(changePassword.pending, (state) => {
         state.updateLoading = true;
       })
@@ -297,16 +270,17 @@ const personalDetailsSlice = createSlice({
         state.updateLoading = false;
         showCustomToast({
           status: "success",
-          description: action.payload.message,
+          description: action.payload.message as string,
         });
       })
-      .addCase(changePassword.rejected, (state, action) => {
+      .addCase(changePassword.rejected, (state) => {
         state.updateLoading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
-      })
+      });
+
+    /**
+     * Request 2FA
+     */
+    builder
       .addCase(request2FA.pending, (state) => {
         state.request2FALoading = true;
       })
@@ -314,16 +288,17 @@ const personalDetailsSlice = createSlice({
         state.request2FALoading = false;
         showCustomToast({
           status: "success",
-          description: action.payload.message,
+          description: action.payload.message as string,
         });
       })
-      .addCase(request2FA.rejected, (state, action) => {
+      .addCase(request2FA.rejected, (state) => {
         state.request2FALoading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
-      })
+      });
+
+    /**
+     * Verify 2FA
+     */
+    builder
       .addCase(verify2FA.pending, (state) => {
         state.verify2FALoading = true;
       })
@@ -332,16 +307,17 @@ const personalDetailsSlice = createSlice({
         state.details.is2FAEnabled = action.payload.is2FAEnabled;
         showCustomToast({
           status: "success",
-          description: action.payload.message,
+          description: action.payload.message as string,
         });
       })
-      .addCase(verify2FA.rejected, (state, action) => {
+      .addCase(verify2FA.rejected, (state) => {
         state.verify2FALoading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
-      })
+      });
+
+    /**
+     * Delete user account
+     */
+    builder
       .addCase(deleteAccount.pending, (state) => {
         state.updateLoading = true;
       })
@@ -350,16 +326,17 @@ const personalDetailsSlice = createSlice({
         state.details = {};
         showCustomToast({
           status: "success",
-          description: action.payload.message,
+          description: action.payload.message as string,
         });
       })
-      .addCase(deleteAccount.rejected, (state, action) => {
+      .addCase(deleteAccount.rejected, (state) => {
         state.updateLoading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
-      })
+      });
+
+    /**
+     * Mark archived data as read
+     */
+    builder
       .addCase(markArchivedDataAsRead.pending, (state) => {
         state.updateLoading = true;
       })
@@ -373,12 +350,8 @@ const personalDetailsSlice = createSlice({
           clients: state.details.archivedData?.clients || 0,
         };
       })
-      .addCase(markArchivedDataAsRead.rejected, (state, action) => {
+      .addCase(markArchivedDataAsRead.rejected, (state) => {
         state.updateLoading = false;
-        showCustomToast({
-          status: "error",
-          description: action.payload as string,
-        });
       });
   },
 });

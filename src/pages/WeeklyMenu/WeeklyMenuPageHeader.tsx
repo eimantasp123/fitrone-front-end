@@ -16,10 +16,12 @@ import CreateMenuModal from "./modals/WeeklyMenuAddModal";
 
 const WeeklyMenuPageHeader: React.FC = () => {
   const { t } = useTranslation(["weeklyMenu", "meals"]);
+  const dispatch = useAppDispatch();
+
   const { filters, limit, searchQuery } = useAppSelector(
     (state) => state.weeklyMenuDetails,
   );
-  const dispatch = useAppDispatch();
+
   const {
     isOpen: isMenuModalOpen,
     onOpen: onMenuModalOpen,
@@ -30,6 +32,7 @@ const WeeklyMenuPageHeader: React.FC = () => {
     onOpen: onFiltersModalOpen,
     onClose: onFiltersModalClose,
   } = useDisclosure();
+
   const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
   const [debouncedQuery] = useDebounce(searchQuery, 500);
   const isFilterChangeRef = useRef<boolean>(false);

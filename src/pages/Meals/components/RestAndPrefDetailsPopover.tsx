@@ -14,18 +14,20 @@ interface RestAndPrefDetailsPopoverProps {
   preferences: string[];
   restrictions: string[];
   titleTextSettings?: string;
+  className?: string;
 }
 
 const RestAndPrefDetailsPopover: React.FC<RestAndPrefDetailsPopoverProps> = ({
   preferences,
   restrictions,
   titleTextSettings = "text-xs font-medium",
+  className,
 }) => {
   const { dietaryPreferences, dietaryRestrictions } = useFiltersOptions();
   const { t } = useTranslation("common");
 
   return (
-    <div className="flex w-full items-center gap-4 text-xs">
+    <div className={`flex w-full ${className} items-center gap-4 text-xs`}>
       {/* Preferences */}
       <Popover>
         <PopoverTrigger>

@@ -35,11 +35,13 @@ const DeleteAccount: React.FC = () => {
 
   // Delete user account from the server
   const handleDelete = async () => {
-    await dispatch(deleteAccount()).unwrap();
-    localStorage.removeItem("authenticated");
-    onClose();
-    setIsAuthenticated(false);
-    navigate("/login", { replace: true });
+    const result = await dispatch(deleteAccount());
+    if (deleteAccount.fulfilled.match(result)) {
+      localStorage.removeItem("authenticated");
+      onClose();
+      setIsAuthenticated(false);
+      navigate("/login", { replace: true });
+    }
   };
 
   // Close modal

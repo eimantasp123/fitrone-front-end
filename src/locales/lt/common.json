@@ -27,11 +27,17 @@
   "protein": "Baltymai",
   "fat": "Riebalai",
   "calories": "Kalorijos",
+  "nutrition": "Maistinė vertė",
 
   "delete": "Ištrinti",
   "archiveMenu": "Archyvuoti meniu",
   "unarchiveMenu": "Išarchyvuoti meniu",
   "manageMenu": "Tvarkyti meniu",
+  "removeMeal": "Pašalinti patiekalą",
+  "editMeal": "Redaguoti patiekalą",
+  "cancel": "Atšaukti",
+  "remove": "Pašalinti",
+  "category": "Kategorija",
 
   "menuCreated": "Sukurta",
   "lastUpdatedAt": "Atnaujinta",
@@ -41,11 +47,35 @@
   "restrictionsTitle": "Dietiniai apribojimai",
   "noPreferences": "Nėra pasirinkimų",
   "noRestrictions": "Nėra apribojimų",
+  "selectCategory": "Pasirinkite kategoriją",
 
   "seeArchivedMenus": "Peržiūrėti archyvuotus meniu",
   "activeMenu": "Aktyvūs meniu",
   "inactiveMenu": "Neaktyvūs meniu",
   "archivedMenu": "Archyvuotas meniu",
 
-  "filters": "Filtrai"
+  "description": "Aprašymas",
+  "noDescription": "Nėra aprašymo",
+
+  "filters": "Filtrai",
+
+  "weekDays": [
+    { "index": 0, "name": "Sekmadienis" },
+    { "index": 1, "name": "Pirmadienis" },
+    { "index": 2, "name": "Antradienis" },
+    { "index": 3, "name": "Trečiadienis" },
+    { "index": 4, "name": "Ketvirtadienis" },
+    { "index": 5, "name": "Penktadienis" },
+    { "index": 6, "name": "Šeštadienis" }
+  ],
+
+  "mealsCategories": {
+    "breakfast": "Pusryčiai",
+    "lunch": "Pietūs",
+    "dinner": "Vakarienė",
+    "snack": "Užkandis",
+    "dessert": "Desertas",
+    "drink": "Gėrimas",
+    "other": "Kita"
+  }
 }

@@ -5,9 +5,17 @@ interface ArrowProps {
   onClick?: () => void;
   direction?: "left" | "right";
   type?: string;
+  size?: "small" | "medium" | "large";
+  disabled?: boolean;
 }
 
-const Arrow: React.FC<ArrowProps> = ({ onClick, type, direction = "left" }) => {
+const Arrow: React.FC<ArrowProps> = ({
+  onClick,
+  type,
+  direction = "left",
+  disabled = false,
+  size,
+}) => {
   const classname = (() => {
     switch (type) {
       case "dark":
@@ -18,6 +26,19 @@ const Arrow: React.FC<ArrowProps> = ({ onClick, type, direction = "left" }) => {
         return "bg-primary hover:bg-primaryLight  dark:hover:bg-primaryDark";
       default:
         return "bg-neutral-800 hover:bg-neutral-600 dark:bg-neutral-100 dark:hover:bg-neutral-300";
+    }
+  })();
+
+  const sizeClassname = (() => {
+    switch (size) {
+      case "small":
+        return "w-5 h-5";
+      case "medium":
+        return "w-7 h-7";
+      case "large":
+        return "w-8 h-8";
+      default:
+        return "w-6 h-6";
     }
   })();
 
@@ -35,16 +56,17 @@ const Arrow: React.FC<ArrowProps> = ({ onClick, type, direction = "left" }) => {
   })();
 
   return (
-    <span
+    <button
       onClick={onClick}
-      className={`flex size-6 cursor-pointer items-center justify-center rounded-full transition-colors duration-100 ease-in ${classname}`}
+      disabled={disabled}
+      className={`flex ${sizeClassname} ${disabled ? "cursor-default opacity-60" : "cursor-pointer"} items-center justify-center rounded-full transition-colors duration-100 ease-in ${classname}`}
     >
       {direction && direction === "left" ? (
         <IoIosArrowBack className={`${arrowClassname} text-sm`} />
       ) : (
         <IoIosArrowBack className={`${arrowClassname} rotate-180 text-sm`} />
       )}
-    </span>
+    </button>
   );
 };
 

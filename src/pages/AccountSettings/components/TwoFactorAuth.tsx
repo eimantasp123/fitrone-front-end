@@ -67,28 +67,32 @@ const TwoFactorAuth: React.FC = () => {
       });
       return;
     } else {
-      await dispatch(request2FA()).unwrap();
-      setShowModal(true);
+      const result = await dispatch(request2FA());
+      if (request2FA.fulfilled.match(result)) {
+        setShowModal(true);
+      }
     }
   };
 
   // Verify 2FA code and enable/disable 2FA
   const handleVerificationSubmit = async () => {
-    await dispatch(verify2FA({ code: verificationCode })).unwrap();
-    setShowModal(false);
-    setVerificationCode("");
+    const result = await dispatch(verify2FA({ code: verificationCode }));
+    if (verify2FA.fulfilled.match(result)) {
+      setShowModal(false);
+      setVerificationCode("");
+    }
   };
 
   // Update phone number
   const onSubmit: SubmitHandler<TwoFactorAuthProps> = async (data) => {
-    await dispatch(updatePersonalDetails({ phone: data.phone })).unwrap();
-    setEditMode(false);
+    const result = await dispatch(updatePersonalDetails({ phone: data.phone }));
+    if (updatePersonalDetails.fulfilled.match(result)) setEditMode(false);
   };
 
   // Resend verification code
   const handleResendCode = async () => {
     setResendLoading(true);
-    await dispatch(request2FA()).unwrap();
+    await dispatch(request2FA());
     setResendLoading(false);
   };
 

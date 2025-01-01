@@ -35,7 +35,6 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
     title,
     preferences,
     restrictions,
-    nutrition,
     archived,
     createdAt,
     updatedAt,
@@ -66,30 +65,36 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
 
   // Handle delete weekly menu
   const handleDelete = async () => {
-    await dispatch(deleteWeeklyMenu(menu._id)).unwrap();
-    dispatch(cleanAllWeeklyMenu());
-    onCloseDeleteModal();
+    const result = await dispatch(deleteWeeklyMenu(menu._id));
+    if (deleteWeeklyMenu.fulfilled.match(result)) {
+      dispatch(cleanAllWeeklyMenu());
+      onCloseDeleteModal();
+    }
   };
 
   // Handle archive weekly menu
   const handleArchive = async () => {
-    await dispatch(archiveWeeklyMenu(menu._id)).unwrap();
-    dispatch(cleanAllWeeklyMenu());
-    onCloseArchiveModal();
+    const result = await dispatch(archiveWeeklyMenu(menu._id));
+    if (archiveWeeklyMenu.fulfilled.match(result)) {
+      dispatch(cleanAllWeeklyMenu());
+      onCloseArchiveModal();
+    }
   };
 
   // Handle unarchive weekly menu
   const handleUnArchive = async () => {
-    const response = await dispatch(unArchiveWeeklyMenu(menu._id)).unwrap();
-    if (response.status === "limit_reached") {
+    const result = await dispatch(unArchiveWeeklyMenu(menu._id));
+    if (result.payload.status === "limit_reached") {
       showCustomToast({
         status: "info",
-        description: response.message,
+        description: result.payload.message,
       });
       return;
     }
-    dispatch(cleanAllWeeklyMenu());
-    onCloseUnarchiveModal();
+    if (unArchiveWeeklyMenu.fulfilled.match(result)) {
+      dispatch(cleanAllWeeklyMenu());
+      onCloseUnarchiveModal();
+    }
   };
 
   // Navigate to weekly menu management
@@ -97,10 +102,9 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
     if (!menu._id) return;
     if (!data[menu._id]) {
       setFetchCurrentPageLoading(true);
-      try {
-        await dispatch(fetchWeeklyMenuById(menu._id)).unwrap();
+      const result = await dispatch(fetchWeeklyMenuById(menu._id));
+      if (fetchWeeklyMenuById.fulfilled.match(result)) {
         navigate(`/weekly-menu/${menu._id}`);
-      } finally {
         setFetchCurrentPageLoading(false);
       }
     } else {
@@ -118,22 +122,18 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
         {/* Right side  */}
         <div className="flex w-full flex-col p-1">
           <div className="flex flex-col gap-1">
-            <div className="flex items-start justify-between gap-4 border-b-[1px] px-3 py-3">
-              <div className="flex w-[85%] flex-1 flex-col items-start gap-2">
+            <div className="flex flex-col-reverse gap-2 border-b-[1px] px-3 py-3 md:flex-row">
+              <h2 className="flex-1 text-[16px] font-medium text-textPrimary">
+                {capitalizeFirstLetter(title)}
+              </h2>
+
+              <div className="h-auto w-[140px] md:text-end">
                 {archived && <ArchivedBadge archived={archived} />}
                 {status && !archived && <ActiveBadge status={status} />}
-                <h2 className="text-[16px] font-medium text-textPrimary">
-                  {capitalizeFirstLetter(title)}
-                </h2>
-              </div>
-              <div className="flex w-[15%] justify-end">
-                <p className="text-nowrap rounded-full text-sm font-semibold text-textPrimary">
-                  {nutrition.calories} Kcal
-                </p>
               </div>
             </div>
             {/* Created and updated date */}
-            <div className="flex w-full flex-col justify-between gap-3 border-b-[1px] px-3 py-2 text-xs sm:flex-row md:gap-5">
+            <div className="flex w-full flex-col justify-between gap-3 border-b-[1px] px-3 py-2 text-xs sm:flex-row md:gap-5 xl:flex-col xl:gap-3 2xl:flex-row 2xl:gap-5">
               <div className="flex items-center gap-3">
                 <div className="flex gap-2">
                   <p className="font-medium">{t("common:menuCreated")}:</p>
@@ -144,19 +144,6 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
                   <p className="text-textPrimary">{lastUpdatedAt}</p>
                 </div>
               </div>
-            </div>
-
-            {/* Nutrition details */}
-            <div className="flex w-full flex-col justify-between gap-3 border-b-[1px] px-3 py-2 text-xs sm:flex-row md:gap-5 xl:flex-col 2xl:flex-row">
-              <div className="flex items-center gap-4">
-                {(["carbs", "protein", "fat"] as const).map((key) => (
-                  <div key={key} className="flex justify-center gap-2">
-                    <p className="font-medium">{t(`common:${key}`)}:</p>
-                    <p className="text-textPrimary">{nutrition[key]}g</p>
-                  </div>
-                ))}
-              </div>
-              {/* Preferences and restrictions */}
               <div>
                 <RestAndPrefDetailsPopover
                   {...{

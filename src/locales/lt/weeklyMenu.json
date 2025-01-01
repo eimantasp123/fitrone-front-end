@@ -5,11 +5,14 @@
   "saveMenu": "Išsaugoti meniu",
   "cancel": "Atšaukti",
   "clean": "Išvalyti",
+  "search": "Ieškoti",
   "goBack": "Grįžti",
   "loading": "Kraunama...",
-  "editMenuBio": "Redaguoti Meniu Aprašą",
+  "editMenuBio": "Redaguoti aprašą",
   "seeAllMenus": "Peržiūrėti Visus Meniu",
+  "assignSelected": "Priskirti Pasirinktą",
   "searchPlaceholder": "Ieškoti meniu pagal pavadinimą ar aprašymą",
+  "searchMealsPlaceholder": "Ieškoti patiekalų",
   "titleInput": "Įveskite meniu pavadinimą",
   "descriptionInput": "Trumpai aprašykite šį meniu (nebūtina)",
   "description": "Ši forma leidžia sukurti naują savaitės meniu, kuris gali būti priskirtas dabartinei savaitei. Įveskite meniu pavadinimą (privaloma), trumpą aprašymą (nebūtina) ir, jei reikalinga, pasirinkite dietinius apribojimus. Sukūrus meniu, galėsite pradėti planuoti ir valdyti savaitės valgiaraštį",
@@ -19,6 +22,12 @@
   "noWeeklyMenuDescription": "Norėdami pradėti planuoti savaitės meniu, paspauskite mygtuką „Sukurti pirmąjį meniu“, įveskite pavadinimą, aprašymą ir pasirinkite dietinius apribojimus (neprivaloma).",
   "createFirstMenu": "Sukurti pirmąjį meniu",
 
+  "weeklyMenuStatus": "Savaitės meniu būsena",
+  "status": "Būsena",
+  "activeMenuStatusExplanation": "Šis savaitinis meniu šiuo metu yra aktyvus, tai reiškia, kad jis priskirtas einamajai savaitei ir yra naudojamas. Patiekalai iš šio meniu yra susieti su dabartine savaite.",
+  "inactiveMenuStatusExplanation": "Šis savaitinis meniu nėra priskirtas jokiai einamajai savaitei arba buvo naudotas savaitėje, kuri jau praėjo, todėl jo būsena pažymėta kaip neaktyvi. Savaitinio meniu būsena automatiškai pasikeičia, kai meniu priskiriamas prie atitinkamos savaitės plano.",
+  "archivedMenuStatusExplanation": "Šis savaitinis meniu yra archyvuotas ir negali būti naudojamas jokiai savaitei. Norėdami jį naudoti, pirmiausia turite jį išarchyvuoti.",
+
   "validation": {
     "titleRequired": "Pavadinimas yra privalomas ir turi būti unikalus",
     "titleLength": "Pavadinimas turi būti nuo 3 iki 70 simbolių",
@@ -26,6 +35,7 @@
   },
 
   "weeklyMenuFound": "Rasti savaitės meniu",
+  "removeMealFromDay": "Patiekalo pašalinimas iš šios dienos gali paveikti jūsų savaitės meniu. Ar tikrai norite pašalinti šį patiekalą iš šios dienos?",
 
   "deleteWeeklyMenuTitle": "Ištrinti Savaitės Meniu",
   "deleteWeeklyMenuDescription": "Ar tikrai norite ištrinti šį savaitės meniu? Šis veiksmas negali būti atšauktas.",
@@ -47,5 +57,14 @@
     { "key": false, "title": "Nearchyvuoti meniu" }
   ],
 
-  "menuStatusOptionsPlaceholder": "Pasirinkite meniu būseną"
+  "menuStatusOptionsPlaceholder": "Pasirinkite meniu būseną",
+
+  "noMealsAssignedTitle": "Šią dieną patiekalų nepriskirta",
+  "noMealsAssignedDescription": "Norėdami priskirti patiekalus šiai dienai, spustelėkite mygtuką „Priskirti Patiekalą“ ir pasirinkite patiekalą, kurį norite pridėti šiai dienai.",
+  "assignMeals": "Priskirti Patiekalą",
+
+  "searchMealsFromDatabaseAndAssign": "Ieškokite patiekalų duomenų bazėje ir priskirkite juos pasirinktai dienai.",
+
+  "noMealsFound": "Nerasta jokių patiekalų",
+  "noMealsFoundDescription": "Panašu, kad dar neturite pridėtų patiekalų arba paieškos ar filtrų kriterijai neatitiko jokių rezultatų. Pabandykite pakeisti filtrus arba pridėti naujų patiekalų, kad galėtumėte juos priskirti šiai dienai."
 }

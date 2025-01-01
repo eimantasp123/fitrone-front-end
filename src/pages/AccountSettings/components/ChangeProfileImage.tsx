@@ -30,11 +30,6 @@ const ChangeProfileImage: React.FC = () => {
     }
   };
 
-  // Delete user profile image
-  const handleImageDelete = async () => {
-    await dispatch(deleteUserImage());
-  };
-
   return (
     <div className="flex select-none items-center gap-3 px-2 py-5 md:gap-8">
       <img
@@ -69,7 +64,7 @@ const ChangeProfileImage: React.FC = () => {
         {/* Remove button */}
         <button
           type="button"
-          onClick={handleImageDelete}
+          onClick={() => dispatch(deleteUserImage())}
           className="flex w-[110px] items-center justify-center gap-2 rounded-lg border border-borderPrimary bg-transparent px-4 py-2 text-sm transition-all duration-300 ease-in-out hover:bg-backgroundSecondary hover:shadow-custom-light2 dark:hover:bg-white/5 md:w-[120px] md:px-6"
         >
           {deleteImageLoading ? (

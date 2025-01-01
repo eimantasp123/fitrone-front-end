@@ -14,7 +14,7 @@ const SupplierWeeklyMenyById: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const { t } = useTranslation(["weeklyMenu", "common"]);
-  const { data, generalLoading, loading } = useAppSelector(
+  const { data, generalLoading } = useAppSelector(
     (state) => state.weeklyMenuByIdDetails,
   );
   const { loading: confirmDeleteLoading } = useAppSelector(
@@ -40,7 +40,7 @@ const SupplierWeeklyMenyById: React.FC = () => {
               <Spinner size="lg" />
             </div>
           ) : !generalLoading && id && !data[id] ? (
-            <div className="mt-6 h-full w-full">
+            <div className="mt-6 flex h-full w-full justify-center">
               <EmptyState
                 title={t("notFoundCurrentWeeklyMenuByIdData")}
                 status="error"
@@ -51,16 +51,15 @@ const SupplierWeeklyMenyById: React.FC = () => {
             <>
               {id && (
                 <>
-                  <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
+                  <div className="sticky top-0 z-30 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
                     <WeeklyMenuByIdPageHeader
-                      loading={loading}
                       t={t}
                       data={data[id]}
                       confirmDeleteLoading={confirmDeleteLoading}
                     />
                   </div>
 
-                  <WeeklyMenuByIdPageDaysManagement data={data[id]} t={t} />
+                  <WeeklyMenuByIdPageDaysManagement data={data[id]} />
                 </>
               )}
             </>

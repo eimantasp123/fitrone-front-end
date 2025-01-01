@@ -27,11 +27,17 @@
   "protein": "Proteins",
   "fat": "Fats",
   "calories": "Calories",
+  "nutrition": "Nutrition",
 
   "delete": "Delete",
   "archiveMenu": "Archive meniu",
   "unarchiveMenu": "Unarchive meniu",
   "manageMenu": "Manage menu",
+  "removeMeal": "Remove meal",
+  "editMeal": "Edit meal",
+  "cancel": "Cancel",
+  "remove": "Remove",
+  "category": "Category",
 
   "menuCreated": "Created at",
   "lastUpdatedAt": "Updated at",
@@ -41,11 +47,35 @@
   "restrictionsTitle": "Dietary Restrictions",
   "noPreferences": "No preferences",
   "noRestrictions": "No restrictions",
+  "selectCategory": "Select category",
 
   "seeArchivedMenus": "See archived menus",
   "activeMenu": "Active menu",
   "inactiveMenu": "Inactive menu",
   "archivedMenu": "Archived menu",
 
-  "filters": "Filters"
+  "description": "Description",
+  "noDescription": "No description",
+
+  "filters": "Filters",
+
+  "weekDays": [
+    { "index": 0, "name": "Sunday" },
+    { "index": 1, "name": "Monday" },
+    { "index": 2, "name": "Tuesday" },
+    { "index": 3, "name": "Wednesday" },
+    { "index": 4, "name": "Thursday" },
+    { "index": 5, "name": "Friday" },
+    { "index": 6, "name": "Saturday" }
+  ],
+
+  "mealsCategories": {
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "snack": "Snack",
+    "dessert": "Dessert",
+    "drink": "Drink",
+    "other": "Other"
+  }
 }
