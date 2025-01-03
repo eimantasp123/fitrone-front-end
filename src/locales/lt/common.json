@@ -77,5 +77,10 @@
     "dessert": "Desertas",
     "drink": "Gėrimas",
     "other": "Kita"
+  },
+
+  "error": "Klaida",
+  "errorsMessage": {
+    "errorFetchingData": "Įvyko klaida gaunant duomenis. Bandykite dar kartą vėliau."
   }
 }

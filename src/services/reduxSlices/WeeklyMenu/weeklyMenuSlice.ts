@@ -208,6 +208,11 @@ const weeklyMenuSlice = createSlice({
     builder
       .addCase(getAllWeeklyMenus.pending, (state, action) => {
         const page = action.meta.arg.page ?? 1;
+        // const noFilters =
+        //   action.meta.arg.preference === null &&
+        //   action.meta.arg.restriction === null &&
+        //   action.meta.arg.archived === null &&
+        //   action.meta.arg.searchQuery === null;
         if (page === 1 && !state.weeklyMenu[1]) {
           state.generalLoading = true;
         }
@@ -225,6 +230,7 @@ const weeklyMenuSlice = createSlice({
         ) => {
           const { data, totalResults, totalPages, currentPage } =
             action.payload;
+          console.log("fetching weekly menus");
           state.weeklyMenu[currentPage] = data;
           state.totalResults = totalResults;
           state.totalPages = totalPages;

@@ -49,7 +49,7 @@ const SupplierWeeklyMenyById: React.FC = () => {
             </div>
           ) : (
             <>
-              {id && (
+              {id && data[id] && (
                 <>
                   <div className="sticky top-0 z-30 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
                     <WeeklyMenuByIdPageHeader
@@ -58,7 +58,6 @@ const SupplierWeeklyMenyById: React.FC = () => {
                       confirmDeleteLoading={confirmDeleteLoading}
                     />
                   </div>
-
                   <WeeklyMenuByIdPageDaysManagement data={data[id]} />
                 </>
               )}

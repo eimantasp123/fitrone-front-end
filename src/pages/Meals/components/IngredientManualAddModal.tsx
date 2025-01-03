@@ -28,6 +28,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import UnitSelector from "./UnitSelector";
 import CustomButton from "@/components/common/CustomButton";
+import { IngredientForOnce } from "@/utils/types";
 
 interface Ingredient {
   title: string;
@@ -51,22 +52,11 @@ interface setIngredients {
   title: string;
 }
 
-interface editIngredient {
-  ingredientId: string;
-  title: string;
-  unit: string;
-  amount: number;
-  calories: number;
-  carbs: number;
-  fat: number;
-  protein: number;
-}
-
 interface IngredientManualAddModalProps {
   isOpen: boolean;
   onClose: () => void;
   setIngredients?: React.Dispatch<React.SetStateAction<setIngredients[]>>;
-  editIngredient?: editIngredient;
+  editIngredient?: IngredientForOnce | null;
 }
 
 // IngredientManualAddModal component
@@ -110,6 +100,10 @@ const IngredientManualAddModal: React.FC<IngredientManualAddModalProps> = ({
       });
       setUnit(editIngredient.unit);
     }
+
+    return () => {
+      methods.reset();
+    };
   }, [editIngredient, methods]);
 
   // Handle form submission
@@ -171,10 +165,8 @@ const IngredientManualAddModal: React.FC<IngredientManualAddModalProps> = ({
         ).unwrap();
         closeModal();
       } else {
-        console.log("backendData", backendData);
         // Add the ingredient to database
         const response = await axiosInstance.post("/ingredients", backendData);
-        console.log("response", response);
         const { status, message, warning, data } = response.data;
 
         // Handle based on the response status

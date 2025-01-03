@@ -1,20 +1,11 @@
 import ActiveBadge from "@/components/common/ActiveBadge";
 import ArchivedBadge from "@/components/common/ArchivedBadge";
-import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import CustomButton from "@/components/common/CustomButton";
-import { showCustomToast } from "@/hooks/showCustomToast";
 import RestAndPrefDetailsPopover from "@/pages/Meals/components/RestAndPrefDetailsPopover";
-import {
-  archiveWeeklyMenu,
-  cleanAllWeeklyMenu,
-  deleteWeeklyMenu,
-  unArchiveWeeklyMenu,
-} from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import { fetchWeeklyMenuById } from "@/services/reduxSlices/WeeklyMenuById/weeklyMenuByIdSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { capitalizeFirstLetter } from "@/utils/helper";
 import { WeeklyMenuBio } from "@/utils/types";
-import { useDisclosure } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { TFunction } from "i18next";
 import React, { useState } from "react";
@@ -23,13 +14,13 @@ import { useNavigate } from "react-router-dom";
 interface WeeklyMenuItemCardProps {
   menu: WeeklyMenuBio;
   t: TFunction;
-  loading: boolean;
+  openModal: (type: "delete" | "archive" | "unarchive", id: string) => void;
 }
 
 const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
   menu,
   t,
-  loading,
+  openModal,
 }) => {
   const {
     title,
@@ -43,70 +34,25 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
   const { data } = useAppSelector((state) => state.weeklyMenuByIdDetails);
   const [fetchCurrentPageLoading, setFetchCurrentPageLoading] =
     useState<boolean>(false);
-  const {
-    isOpen: deleteModalOpen,
-    onOpen: onOpenDeleteModal,
-    onClose: onCloseDeleteModal,
-  } = useDisclosure();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const {
-    isOpen: archiveModalOpen,
-    onOpen: onOpenArchiveModal,
-    onClose: onCloseArchiveModal,
-  } = useDisclosure();
-
-  const {
-    isOpen: unarchiveModalOpen,
-    onOpen: onOpenUnarchiveModal,
-    onClose: onCloseUnarchiveModal,
-  } = useDisclosure();
-
-  // Handle delete weekly menu
-  const handleDelete = async () => {
-    const result = await dispatch(deleteWeeklyMenu(menu._id));
-    if (deleteWeeklyMenu.fulfilled.match(result)) {
-      dispatch(cleanAllWeeklyMenu());
-      onCloseDeleteModal();
-    }
-  };
-
-  // Handle archive weekly menu
-  const handleArchive = async () => {
-    const result = await dispatch(archiveWeeklyMenu(menu._id));
-    if (archiveWeeklyMenu.fulfilled.match(result)) {
-      dispatch(cleanAllWeeklyMenu());
-      onCloseArchiveModal();
-    }
-  };
-
-  // Handle unarchive weekly menu
-  const handleUnArchive = async () => {
-    const result = await dispatch(unArchiveWeeklyMenu(menu._id));
-    if (result.payload.status === "limit_reached") {
-      showCustomToast({
-        status: "info",
-        description: result.payload.message,
-      });
-      return;
-    }
-    if (unArchiveWeeklyMenu.fulfilled.match(result)) {
-      dispatch(cleanAllWeeklyMenu());
-      onCloseUnarchiveModal();
-    }
-  };
-
   // Navigate to weekly menu management
   const navigateToWeeklyMenuManagement = async () => {
-    if (!menu._id) return;
+    if (!menu._id) return; // Return if no menu id
+
+    // Fetch weekly menu by id if not already fetched
     if (!data[menu._id]) {
       setFetchCurrentPageLoading(true);
       const result = await dispatch(fetchWeeklyMenuById(menu._id));
+
+      // If fetch successful, navigate to weekly menu management page
       if (fetchWeeklyMenuById.fulfilled.match(result)) {
         navigate(`/weekly-menu/${menu._id}`);
         setFetchCurrentPageLoading(false);
       }
+
+      // If data already fetched, navigate to weekly menu management page
     } else {
       navigate(`/weekly-menu/${menu._id}`);
     }
@@ -162,7 +108,7 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
               <>
                 <CustomButton
                   text={t("common:delete")}
-                  onClick={onOpenDeleteModal}
+                  onClick={() => openModal("delete", menu._id)}
                   textLight={true}
                   widthFull={true}
                   type="delete"
@@ -173,7 +119,9 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
                       ? t("common:unarchiveMenu")
                       : t("common:archiveMenu")
                   }
-                  onClick={archived ? onOpenUnarchiveModal : onOpenArchiveModal}
+                  onClick={() =>
+                    openModal(archived ? "unarchive" : "archive", menu._id)
+                  }
                   textLight={true}
                   widthFull={true}
                   type="lightSecondary"
@@ -196,46 +144,6 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
           </div>
         </div>
       </div>
-
-      {/* Delete confirm */}
-      <ConfirmActionModal
-        isOpen={deleteModalOpen}
-        onClose={onCloseDeleteModal}
-        loading={loading}
-        loadingSpinner={false}
-        onAction={handleDelete}
-        title={t("deleteWeeklyMenuTitle")}
-        description={t("deleteWeeklyMenuDescription")}
-        cancelButtonText={t("cancel")}
-        confirmButtonText={t("deleteWeeklyMenu")}
-      />
-
-      {/* Warning modal for archive menu */}
-      <ConfirmActionModal
-        title={t("archiveWeeklyMenuModalTitle")}
-        description={t("archiveWeeklyMenuModalDescription")}
-        confirmButtonText={t("archiveWeeklyMenu")}
-        cancelButtonText={t("cancel")}
-        loading={loading}
-        type="warning"
-        isOpen={archiveModalOpen}
-        onClose={onCloseArchiveModal}
-        onAction={handleArchive}
-      />
-
-      {/* Warning modal for unarchive menu */}
-      <ConfirmActionModal
-        title={t("unarchiveWeeklyMenuModalTitle")}
-        description={t("unarchiveWeeklyMenuModalDescription")}
-        confirmButtonText={t("unarchiveWeeklyMenu")}
-        cancelButtonText={t("cancel")}
-        loading={loading}
-        loadingSpinner={false}
-        type="primary"
-        isOpen={unarchiveModalOpen}
-        onClose={onCloseUnarchiveModal}
-        onAction={handleUnArchive}
-      />
     </>
   );
 };

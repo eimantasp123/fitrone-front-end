@@ -77,5 +77,10 @@
     "dessert": "Dessert",
     "drink": "Drink",
     "other": "Other"
+  },
+
+  "error": "Error",
+  "errorsMessage": {
+    "errorFetchingData": "Error fetching data. Please try again later."
   }
 }

@@ -278,3 +278,15 @@ export interface PersonalDetailsState {
   request2FALoading: boolean;
   verify2FALoading: boolean;
 }
+
+/**
+ * Interface for the paginated response of the ingredients
+ */
+export interface PaginatedIngredientsResponse {
+  status: string;
+  results: number;
+  total: number;
+  currentPage: number;
+  totalPages: number;
+  data: IngredientForOnce[] | [];
+}

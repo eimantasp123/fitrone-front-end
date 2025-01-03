@@ -18,9 +18,14 @@ const WeeklyMenuPageHeader: React.FC = () => {
   const { t } = useTranslation(["weeklyMenu", "meals"]);
   const dispatch = useAppDispatch();
 
+  const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
+  const isFilterChangeRef = useRef<boolean>(false);
+  const hadInteractedRef = useRef<boolean>(false);
+
   const { filters, limit, searchQuery } = useAppSelector(
     (state) => state.weeklyMenuDetails,
   );
+  const [debouncedQuery] = useDebounce(searchQuery, 500);
 
   const {
     isOpen: isMenuModalOpen,
@@ -32,11 +37,6 @@ const WeeklyMenuPageHeader: React.FC = () => {
     onOpen: onFiltersModalOpen,
     onClose: onFiltersModalClose,
   } = useDisclosure();
-
-  const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
-  const [debouncedQuery] = useDebounce(searchQuery, 500);
-  const isFilterChangeRef = useRef<boolean>(false);
-  const hadInteractedRef = useRef<boolean>(false);
 
   // Clean search query
   const cleanSearch = async () => {
@@ -96,9 +96,7 @@ const WeeklyMenuPageHeader: React.FC = () => {
       isFilterChangeRef.current = false;
     }, 300);
 
-    if (isFiltersModalOpen) {
-      onFiltersModalClose();
-    }
+    if (isFiltersModalOpen) onFiltersModalClose();
   };
 
   return (

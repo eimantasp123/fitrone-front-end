@@ -1,50 +1,42 @@
 import CustomButton from "@/components/common/CustomButton";
-import { setSearchQuery } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
-import { useAppDispatch, useAppSelector } from "@/store";
-import { useDisclosure } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
-import AddIngredientManualModal from "../Meals/components/IngredientManualAddModal";
 import CustomSearchInput from "@/components/common/CustomSearchInput";
+import { IngredientForOnce } from "@/utils/types";
+import { TFunction } from "i18next";
 
-const IngredientsHeader: React.FC = () => {
-  const { t } = useTranslation("meals");
-  const {
-    isOpen: isIngredientHeader,
-    onClose: onIngredientHeaderClose,
-    onOpen: onIngredientHeaderOpen,
-  } = useDisclosure();
-  const dispatch = useAppDispatch();
-  const { searchQuery } = useAppSelector((state) => state.ingredientsDetails);
+// Props for IngredientsHeader component
+interface IngredientsHeaderProps {
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  searchQuery: string;
+  t: TFunction;
+  openModal: (
+    type: "create" | "edit",
+    ingredient: IngredientForOnce | null,
+  ) => void;
+}
 
-  const cleanSearch = async () => {
-    dispatch(setSearchQuery(""));
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchQuery(e.target.value));
-  };
-
+/**
+ * IngredientsHeader component
+ */
+const IngredientsHeader: React.FC<IngredientsHeaderProps> = ({
+  setSearchQuery,
+  searchQuery,
+  openModal,
+  t,
+}) => {
   return (
     <>
       <div className="z-20 flex w-full flex-col gap-2 bg-background px-3 py-3 dark:bg-backgroundSecondary sm:flex-row md:rounded-lg lg:items-center xl:gap-4">
         <CustomSearchInput
           searchQuery={searchQuery}
-          handleSearch={handleSearch}
-          cleanSearch={cleanSearch}
+          handleSearch={(e) => setSearchQuery(e.target.value || "")}
+          cleanSearch={() => setSearchQuery("")}
           t={t}
         />
         <CustomButton
-          onClick={onIngredientHeaderOpen}
+          onClick={() => openModal("create", null)}
           text={`+ ${t("addIngredient")}`}
         />
       </div>
-      {/* Ingredient inputs manual */}
-      {isIngredientHeader && (
-        <AddIngredientManualModal
-          isOpen={isIngredientHeader}
-          onClose={onIngredientHeaderClose}
-        />
-      )}
     </>
   );
 };

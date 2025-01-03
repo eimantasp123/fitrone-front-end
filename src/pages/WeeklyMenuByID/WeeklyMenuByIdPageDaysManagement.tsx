@@ -1,5 +1,5 @@
 import { Day, SingleWeeklyMenuById } from "@/utils/types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import DaysManagementTopBar from "./components/DaysManagementTopBar";
 import Arrow from "@/components/common/Arrow";
 import { useTranslation } from "react-i18next";
@@ -34,7 +34,9 @@ const WeeklyMenuByIdPageDaysManagement: React.FC<
     }
     return 3; // Desktop: 3 columns
   });
-  const daysInOrder = reorderedDays(data.days);
+
+  // Reorder days array
+  const daysInOrder = useMemo(() => reorderedDays(data.days), [data.days]);
 
   // Adjust number of columns based on screen size
   useEffect(() => {
