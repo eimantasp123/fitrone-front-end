@@ -1,66 +1,38 @@
+import { fetchPaginatedIngredients } from "@/api/ingredientsApi";
+import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import EmptyState from "@/components/common/EmptyState";
-import axiosInstance from "@/utils/axiosInterceptors";
-import { IngredientForOnce, PaginatedIngredientsResponse } from "@/utils/types";
+import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
+import { useDeleteIngredient } from "@/hooks/Ingredients/useDeleteIngredient";
+import { IngredientFromServer } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AddIngredientManualModal from "../Meals/components/IngredientManualAddModal";
+import { ThreeDots } from "react-loader-spinner";
+import { useDebounce } from "use-debounce";
+import IngredientAddModal from "./IngredientAddModal";
 import IngredientCard from "./IngredientCard";
 import IngredientsHeader from "./IngredientsHeader";
-import { ThreeDots } from "react-loader-spinner";
-import ConfirmActionModal from "@/components/common/ConfirmActionModal";
-import { showCustomToast } from "@/hooks/showCustomToast";
-import axios from "axios";
-import {
-  InfiniteData,
-  QueryFunctionContext,
-  QueryKey,
-  useInfiniteQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
-
-/**
- * Fetch paginated ingredients handler
- */
-const fetchPaginatedIngredients = async ({
-  pageParam = 1,
-  queryKey,
-}: QueryFunctionContext<QueryKey>) => {
-  const [, searchQuery] = queryKey;
-  const response = await axiosInstance.get<PaginatedIngredientsResponse>(
-    "ingredients",
-    {
-      params: { query: searchQuery, page: pageParam, limit: 51 },
-    },
-  );
-  return response.data;
-};
+import { useIngredientStates } from "./useIngredientStates";
 
 /**
  *  Supplier Ingredients Component
  */
 const SupplierIngredients: React.FC = () => {
   const { t } = useTranslation("meals");
-  const queryClient = useQueryClient();
-  const {
-    isOpen: deleteModalOpen,
-    onOpen: handleOpenDeleteModal,
-    onClose: handleCloseDeleteModal,
-  } = useDisclosure();
-
-  // const dispatch = useAppDispatch();
-  const observerRef = useRef<HTMLDivElement | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string | null>(null);
+  const [searchValue] = useDebounce(searchQuery, 500);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [ingredientId, setIngredientId] = useState<string>("");
+  const { mutate: deleteIngredient } = useDeleteIngredient();
 
   // Modal state for adding and editing ingredients
   const [modalState, setModalState] = useState<{
     type: "create" | "edit" | null;
-    ingredient: IngredientForOnce | null;
+    ingredient: IngredientFromServer | null;
   }>({ type: null, ingredient: null });
 
-  // Fetch ingredients with useInfiniteQuery
+  // Fetch ingredients from the server using infinite query
   const {
     data,
     fetchNextPage,
@@ -69,9 +41,10 @@ const SupplierIngredients: React.FC = () => {
     isLoading,
     isError,
   } = useInfiniteQuery({
-    queryKey: ["ingredients", searchQuery],
+    queryKey: ["ingredients", searchValue],
     queryFn: fetchPaginatedIngredients,
     initialPageParam: 1,
+    placeholderData: (prev) => prev,
     getNextPageParam: (lastPage) => {
       if (lastPage?.currentPage < lastPage?.totalPages) {
         return lastPage.currentPage + 1;
@@ -82,156 +55,26 @@ const SupplierIngredients: React.FC = () => {
     retry: 3,
   });
 
-  // Scroll to top when search query changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [searchQuery]);
-
-  // Intersection Observer to fetch next page when scrolled to the bottom
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1 },
-    );
-
-    const currentRef = observerRef.current;
-    // Observe the target element
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [hasNextPage, fetchNextPage]);
-
-  // Delete mutation handler
-  const mutation = useMutation({
-    mutationFn: async (id: string) => {
-      const response = await axiosInstance.delete(`ingredients/${id}`);
-      return response.data;
-    },
-    onMutate: async (id) => {
-      // Cancel any outgoing queries
-      await queryClient.cancelQueries({ queryKey: ["ingredients"] });
-
-      // Take a snapshot of the current list
-      const queryKeys = queryClient
-        .getQueriesData<
-          InfiniteData<PaginatedIngredientsResponse>
-        >({ queryKey: ["ingredients"] })
-        .map(([queryKey]) => queryKey);
-
-      // Store the previous data
-      const previousDataMap: Record<
-        string,
-        InfiniteData<PaginatedIngredientsResponse>
-      > = {};
-
-      // Update the cache to remove the ingredient
-      queryKeys.forEach((key) => {
-        const previousData =
-          queryClient.getQueryData<InfiniteData<PaginatedIngredientsResponse>>(
-            key,
-          );
-
-        if (previousData) {
-          previousDataMap[JSON.stringify(key)] = previousData; // Store the previous data
-          queryClient.setQueryData(key, {
-            ...previousData,
-            pages: previousData.pages.map((page) => ({
-              ...page,
-              data: page.data.filter((item) => item.ingredientId !== id),
-            })),
-          });
-        }
-      });
-
-      onCloseDeleteModal();
-      // Return the previous data
-      return { previousDataMap };
-    },
-    onError: (err, _, context) => {
-      if (axios.isAxiosError(err)) {
-        const errorMessage = err.response?.data?.message || "An error occurred";
-        showCustomToast({
-          status: "error",
-          description: errorMessage,
-        });
-      }
-      Object.entries(context?.previousDataMap || {}).forEach(
-        ([key, previousData]) => {
-          queryClient.setQueryData(JSON.parse(key), previousData);
-        },
-      );
-    },
-    onSuccess: (data) => {
-      showCustomToast({
-        status: "success",
-        description: data.message || "Ingredient deleted successfully",
-      });
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["ingredients"] });
-    },
-  });
-
   // Handle delete mutation
   const openDeleteModal = (ingredientId: string) => {
     setIngredientId(ingredientId);
-    handleOpenDeleteModal();
-  };
-
-  // Close delete modal
-  const onCloseDeleteModal = () => {
-    setIngredientId("");
-    handleCloseDeleteModal();
+    onOpen();
   };
 
   // Handle delete action
   const handleDelete = async () => {
     if (!ingredientId) return;
-    mutation.mutate(ingredientId);
+    deleteIngredient({ id: ingredientId, onCloseModal: onClose });
   };
 
-  // Open modal with the type and id
-  const openModal = (
-    type: "create" | "edit",
-    ingredient: IngredientForOnce | null,
-  ) => {
-    setModalState({ type, ingredient });
-  };
-
-  // Close the modal
-  const closeModal = () => {
-    setModalState({ type: null, ingredient: null });
-  };
-
-  // Aggregate all ingredients across pages
+  // Aggregate all ingredients into a single array
   const ingredients = useMemo(() => {
     return data?.pages.flatMap((page) => page.data) || [];
   }, [data]);
 
-  // Get the total number of ingredients
-  const totalIngredients = data?.pages[0]?.total || 0;
-
-  // Determine the UI state when no ingredients are added
-  const noIngredientsAdded = useMemo(
-    () => ingredients.length === 0 && !searchQuery,
-    [ingredients, searchQuery],
-  );
-
-  // Determine the UI state when no search results are found
-  const searchResults = useMemo(
-    () => ingredients.length === 0 && searchQuery,
-    [ingredients, searchQuery],
-  );
+  // Custom hook to check the state of the ingredients
+  const { noIngredientsAdded, noSearchResults, hasIngredients } =
+    useIngredientStates({ ingredients, isLoading, isError, searchQuery });
 
   return (
     <>
@@ -242,7 +85,7 @@ const SupplierIngredients: React.FC = () => {
               setSearchQuery={setSearchQuery}
               searchQuery={searchQuery}
               t={t}
-              openModal={openModal}
+              setModalState={setModalState}
             />
           </div>
 
@@ -254,19 +97,21 @@ const SupplierIngredients: React.FC = () => {
           )}
 
           {/* Empty State */}
-          {!isLoading && noIngredientsAdded && (
+          {noIngredientsAdded && (
             <div className="flex justify-center">
               <EmptyState
                 title={t("noIngredients")}
                 description={t("noIngredientsDescription")}
                 firstButtonText={t("addIngredient")}
-                onClickFirstButton={() => openModal("create", null)}
+                onClickFirstButton={() =>
+                  setModalState({ type: "create", ingredient: null })
+                }
               />
             </div>
           )}
 
           {/* No search results */}
-          {!isLoading && searchResults && (
+          {noSearchResults && (
             <div className="flex justify-center">
               <EmptyState
                 title={t("errors.noSearchResults")}
@@ -287,20 +132,20 @@ const SupplierIngredients: React.FC = () => {
           )}
 
           {/* Display Ingredients */}
-          {!isLoading && !isError && ingredients.length > 0 && (
+          {hasIngredients && (
             <>
               <span className="pl-5 text-sm">
-                {t("ingredientsFound")}: {totalIngredients}
+                {t("ingredientsFound")}: {data?.pages[0]?.total || 0}
               </span>
               <div className="grid grid-cols-1 gap-4 px-4 pb-6 pt-2 md:grid-cols-2 2xl:grid-cols-3">
                 {ingredients.map(
-                  (ingredient: IngredientForOnce, index: number) => (
+                  (ingredient: IngredientFromServer, index: number) => (
                     <IngredientCard
                       t={t}
                       openDeleteModal={openDeleteModal}
                       key={index}
                       ingredient={ingredient}
-                      openModal={openModal}
+                      setModalState={setModalState}
                     />
                   ),
                 )}
@@ -313,31 +158,40 @@ const SupplierIngredients: React.FC = () => {
                 </div>
               )}
 
-              {/* Intersection Observer Target */}
-              <div ref={observerRef} className="h-1"></div>
+              <IntersectionObserverForFetchPage
+                onIntersect={fetchNextPage}
+                hasNextPage={!!hasNextPage}
+              />
             </>
           )}
         </div>
       </div>
 
       {/* Add ingredient modal */}
-      <AddIngredientManualModal
-        isOpen={!!modalState.type}
-        onClose={closeModal}
-        editIngredient={modalState.ingredient}
-      />
+      {modalState.type && (
+        <IngredientAddModal
+          isOpen={!!modalState.type}
+          onClose={() => setModalState({ type: null, ingredient: null })}
+          editIngredient={modalState.ingredient}
+        />
+      )}
 
       {/* Delete confirm */}
-      <ConfirmActionModal
-        isOpen={deleteModalOpen}
-        onClose={onCloseDeleteModal}
-        loading={false}
-        onAction={handleDelete}
-        title={t("deleteIngredientTitle")}
-        description={t("deleteIngredientDescription")}
-        cancelButtonText={t("cancel")}
-        confirmButtonText={t("deleteIngredientTitle")}
-      />
+      {isOpen && (
+        <ConfirmActionModal
+          isOpen={isOpen}
+          onClose={() => {
+            setIngredientId("");
+            onClose();
+          }}
+          loading={false}
+          onAction={handleDelete}
+          title={t("deleteIngredientTitle")}
+          description={t("deleteIngredientDescription")}
+          cancelButtonText={t("cancel")}
+          confirmButtonText={t("deleteIngredientTitle")}
+        />
+      )}
     </>
   );
 };

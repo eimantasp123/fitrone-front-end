@@ -1,11 +1,11 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
 import axiosInstance from "@/utils/axiosInterceptors";
-import { Ingredients } from "@/utils/types";
 import { AxiosError } from "axios";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchInput from "./SearchInput";
 import SearchResultsDisplay from "./SearchResultsDisplay";
+import { IngredientsForMealModal } from "@/utils/types";
 
 interface SearchResult {
   ingredientId: string;
@@ -20,7 +20,9 @@ interface SearchResult {
 
 interface SearchIngredientFromDatabaseApiProps {
   className?: string;
-  setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
+  setIngredients: React.Dispatch<
+    React.SetStateAction<IngredientsForMealModal[]>
+  >;
   closeModal: () => void;
 }
 

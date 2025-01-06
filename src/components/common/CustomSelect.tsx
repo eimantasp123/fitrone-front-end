@@ -10,6 +10,9 @@ interface CustomSelectProps {
   background?: string;
 }
 
+/**
+ * Custom select component with dropdown
+ */
 const CustomSelect: React.FC<CustomSelectProps> = ({
   options,
   defaultOption = "",
@@ -40,6 +43,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     };
   }, [isOpen]);
 
+  // Handler for selecting an option
   const handleOptionSelect = (option: { key: string; title: string }) => {
     onChange(option);
     setIsOpen(false);

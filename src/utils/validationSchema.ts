@@ -182,7 +182,11 @@ export const useIngredientInputSchema = () => {
   ) => (originalValue === "" ? undefined : value);
 
   return yup.object().shape({
-    title: yup.string().trim().required(requiredMessage),
+    title: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .required(requiredMessage),
     amount: yup
       .number()
       .transform(numberTransform)
@@ -227,7 +231,11 @@ export const useIngredientInputSchemaWithoutCurrentAmount = () => {
   ) => (originalValue === "" ? undefined : value);
 
   return yup.object().shape({
-    title: yup.string().trim().required(requiredMessage),
+    title: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .required(requiredMessage),
     amount: yup
       .number()
       .transform(numberTransform)

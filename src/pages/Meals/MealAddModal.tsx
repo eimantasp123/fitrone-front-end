@@ -12,7 +12,7 @@ import {
 } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { formatNumber } from "@/utils/helper";
-import { Ingredients, Meal } from "@/utils/types";
+import { IngredientsForMealModal, Meal } from "@/utils/types";
 import { useMealInputSchema } from "@/utils/validationSchema";
 import {
   Modal,
@@ -72,7 +72,7 @@ const MealAddModal: React.FC<MealAddModalProps> = ({
   const [preferences, setPreferences] = useState<string[]>([]);
   const [restrictions, setRestrictions] = useState<string[]>([]);
   const [category, setCategory] = useState<string | null>(null);
-  const [ingredients, setIngredients] = useState<Ingredients[]>([]);
+  const [ingredients, setIngredients] = useState<IngredientsForMealModal[]>([]);
   const { categories } = useFiltersOptions();
   const schema = useMealInputSchema();
   const methods = useForm<FormData>({
@@ -212,141 +212,135 @@ const MealAddModal: React.FC<MealAddModalProps> = ({
 
   return (
     <>
-      {isOpenModal && (
-        <Modal
-          isOpen={isOpenModal}
-          onClose={handleClose}
-          closeOnOverlayClick={false}
-          blockScrollOnMount={false}
-          size={{ base: "sm", md: "3xl" }}
+      <Modal
+        isOpen={isOpenModal}
+        onClose={handleClose}
+        closeOnOverlayClick={false}
+        blockScrollOnMount={false}
+        size={{ base: "sm", md: "3xl" }}
+      >
+        <ModalOverlay />
+        <ModalContent
+          p={6}
+          sx={{
+            borderRadius: "0.75rem",
+          }}
         >
-          <ModalOverlay />
-          <ModalContent
-            p={6}
-            sx={{
-              borderRadius: "0.75rem",
-            }}
-          >
-            <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
-              <div className="flex items-center gap-4">
-                <span className="flex size-9 items-center justify-center rounded-full bg-textPrimary">
-                  <GiMeal className="text-lg text-background" />
-                </span>
-                <h4 className="text-xl font-semibold md:text-2xl">
-                  {mealToEdit ? `${t("updateMeal")}` : `${t("addNewDish")}`}
-                </h4>
-              </div>
+          <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
+            <div className="flex items-center gap-4">
+              <span className="flex size-9 items-center justify-center rounded-full bg-textPrimary">
+                <GiMeal className="text-lg text-background" />
+              </span>
+              <h4 className="text-xl font-semibold md:text-2xl">
+                {mealToEdit ? `${t("updateMeal")}` : `${t("addNewDish")}`}
+              </h4>
             </div>
-            <ModalCloseButton marginTop="3" />
-            <ModalBody style={{ padding: "0px 0px" }}>
-              <FormProvider {...methods}>
-                <form
-                  className="mt-6 flex select-none flex-col gap-3"
-                  onSubmit={methods.handleSubmit(handleSubmitForm)}
-                >
-                  <p className="text-center text-sm leading-tight text-textPrimary">
-                    {t("description")}
-                  </p>
+          </div>
+          <ModalCloseButton marginTop="3" />
+          <ModalBody style={{ padding: "0px 0px" }}>
+            <FormProvider {...methods}>
+              <form
+                className="mt-6 flex select-none flex-col gap-3"
+                onSubmit={methods.handleSubmit(handleSubmitForm)}
+              >
+                <p className="text-center text-sm leading-tight text-textPrimary">
+                  {t("description")}
+                </p>
 
-                  {/* Calculate meal nutritions */}
-                  <div className="my-4 h-fit w-full">
-                    <div className="grid grid-cols-1 gap-2 md:grid-cols-4">
-                      {/* Calories */}
-                      <InfoCard
-                        value={calories}
-                        title={t("calories")}
-                        unit="kcal"
-                      />
-
-                      {/* Protein */}
-                      <InfoCard
-                        value={protein}
-                        title={t("protein")}
-                        unit="g."
-                      />
-
-                      {/* Carbs */}
-                      <InfoCard value={carbs} title={t("carbs")} unit="g." />
-
-                      {/* Fats */}
-                      <InfoCard value={fat} title={t("fat")} unit="g." />
-                    </div>
-                  </div>
-
-                  {/* Meal title */}
-                  <CustomInput name="title" label={t("mealTitle")} />
-
-                  {/* Meal description */}
-                  <CustomTextarea
-                    name="description"
-                    label={t("descriptionTile")}
-                  />
-
-                  <ImageUploader image={mealToEdit?.image} />
-
-                  {/* Write ingredients */}
-                  <h4 className="-mb-2 text-[13px]">{t("ingredients")}</h4>
-
-                  <IngredientDisplayList
-                    ingredients={ingredients}
-                    setIngredients={setIngredients}
-                    t={t}
-                  />
-
-                  {/* Button for open search input or recipe inputs */}
-                  <IngredientAddOptionsManager
-                    user={user}
-                    setIngredients={setIngredients}
-                    t={t}
-                  />
-
-                  {/* Section for preferences and  restrictions  */}
-                  <div className="mt-2 grid grid-cols-1 items-center gap-3 md:grid-cols-2">
-                    {/* Preferences */}
-                    <DietaryPreferences
-                      preferences={preferences}
-                      setPreferences={setPreferences}
+                {/* Calculate meal nutritions */}
+                <div className="my-4 h-fit w-full">
+                  <div className="grid grid-cols-1 gap-2 md:grid-cols-4">
+                    {/* Calories */}
+                    <InfoCard
+                      value={calories}
+                      title={t("calories")}
+                      unit="kcal"
                     />
 
-                    {/* Restrictions */}
-                    <DietaryRestrictions
-                      restrictions={restrictions}
-                      setRestrictions={setRestrictions}
-                    />
-                  </div>
+                    {/* Protein */}
+                    <InfoCard value={protein} title={t("protein")} unit="g." />
 
-                  {/* Categories */}
-                  <div className="mb-4 flex w-full flex-col gap-2">
-                    <h4 className="text-sm">{t("mealCategory")}</h4>
-                    <CustomSelect
-                      options={categories}
-                      defaultOption={t("selectMealCategory")}
-                      background="bg-backgroundSecondary dark:bg-backgroundSecondary"
-                      selectedOption={
-                        Object.values(categories).find(
-                          (item) => item.key === category,
-                        )?.title
-                      }
-                      onChange={(option) => setCategory(option.key)}
-                    />
-                  </div>
+                    {/* Carbs */}
+                    <InfoCard value={carbs} title={t("carbs")} unit="g." />
 
-                  {/* Submit form */}
-                  <CustomButton
-                    loading={loading}
-                    paddingY="py-3"
-                    disabled={ingredients.length === 0 || loading}
-                    text={
-                      mealToEdit ? `${t("updateDish")}` : `${t("addNewDish")}`
+                    {/* Fats */}
+                    <InfoCard value={fat} title={t("fat")} unit="g." />
+                  </div>
+                </div>
+
+                {/* Meal title */}
+                <CustomInput name="title" label={t("mealTitle")} />
+
+                {/* Meal description */}
+                <CustomTextarea
+                  name="description"
+                  label={t("descriptionTile")}
+                />
+
+                <ImageUploader image={mealToEdit?.image} />
+
+                {/* Write ingredients */}
+                <h4 className="-mb-2 text-[13px]">{t("ingredients")}</h4>
+
+                <IngredientDisplayList
+                  ingredients={ingredients}
+                  setIngredients={setIngredients}
+                  t={t}
+                />
+
+                {/* Button for open search input or recipe inputs */}
+                <IngredientAddOptionsManager
+                  user={user}
+                  setIngredients={setIngredients}
+                  t={t}
+                />
+
+                {/* Section for preferences and  restrictions  */}
+                <div className="mt-2 grid grid-cols-1 items-center gap-3 md:grid-cols-2">
+                  {/* Preferences */}
+                  <DietaryPreferences
+                    preferences={preferences}
+                    setPreferences={setPreferences}
+                  />
+
+                  {/* Restrictions */}
+                  <DietaryRestrictions
+                    restrictions={restrictions}
+                    setRestrictions={setRestrictions}
+                  />
+                </div>
+
+                {/* Categories */}
+                <div className="mb-4 flex w-full flex-col gap-2">
+                  <h4 className="text-sm">{t("mealCategory")}</h4>
+                  <CustomSelect
+                    options={categories}
+                    defaultOption={t("selectMealCategory")}
+                    background="bg-backgroundSecondary dark:bg-backgroundSecondary"
+                    selectedOption={
+                      Object.values(categories).find(
+                        (item) => item.key === category,
+                      )?.title
                     }
-                    actionType="submit"
+                    onChange={(option) => setCategory(option.key)}
                   />
-                </form>
-              </FormProvider>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      )}
+                </div>
+
+                {/* Submit form */}
+                <CustomButton
+                  loading={loading}
+                  paddingY="py-3"
+                  disabled={ingredients.length === 0 || loading}
+                  text={
+                    mealToEdit ? `${t("updateDish")}` : `${t("addNewDish")}`
+                  }
+                  actionType="submit"
+                />
+              </form>
+            </FormProvider>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

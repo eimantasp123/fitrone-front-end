@@ -46,9 +46,9 @@ export interface UserDetails {
 }
 
 /**
- * Ingredients interface for the ingredients object
+ * Ingredients interface used for the ingredients object
  */
-export interface Ingredients {
+export interface IngredientsForMealModal {
   _id?: string;
   title: string;
   currentAmount?: number;
@@ -64,7 +64,7 @@ export interface Ingredients {
 /**
  * Ingredient interface for the ingredient object
  */
-export interface IngredientForOnce {
+export interface IngredientFromServer {
   ingredientId: string;
   title: string;
   unit: string;
@@ -76,16 +76,18 @@ export interface IngredientForOnce {
 }
 
 /**
- * Ingredient interface for the ingredient object update
+ * Ingredient to create or update interface
  */
-export interface IngredientUpdate {
+export interface IngredientToCreateOrUpdate {
   title: string;
-  unit: string;
   amount: number;
+  unit?: string;
   calories: number;
-  protein: number;
   carbs: number;
   fat: number;
+  protein: number;
+  currentAmount?: number;
+  ingredientId?: string;
 }
 
 /**
@@ -105,7 +107,7 @@ export interface Meal {
   title: string;
   description: string;
   archived?: boolean;
-  ingredients: Ingredients[];
+  ingredients: IngredientsForMealModal[];
   category:
     | "breakfast"
     | "lunch"
@@ -288,5 +290,5 @@ export interface PaginatedIngredientsResponse {
   total: number;
   currentPage: number;
   totalPages: number;
-  data: IngredientForOnce[] | [];
+  data: IngredientFromServer[] | [];
 }

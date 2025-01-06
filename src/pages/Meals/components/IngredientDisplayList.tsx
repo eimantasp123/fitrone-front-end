@@ -1,13 +1,15 @@
 import { capitalizeFirstLetter, formatNumber } from "@/utils/helper";
-import { Ingredients } from "@/utils/types";
+import { IngredientsForMealModal } from "@/utils/types";
 import { TFunction } from "i18next";
 import React from "react";
 import { FaRegCircleDot } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 
 interface IngredientDisplayListProps {
-  ingredients: Ingredients[];
-  setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
+  ingredients: IngredientsForMealModal[];
+  setIngredients: React.Dispatch<
+    React.SetStateAction<IngredientsForMealModal[]>
+  >;
   t: TFunction;
 }
 

@@ -12,7 +12,6 @@ import { FieldError, useFormContext } from "react-hook-form";
 interface NumberInputsProps extends InputProps {
   name: string;
   label?: string;
-  type?: "number";
   icon?: React.ElementType;
   required?: boolean;
   placeholder?: string;
@@ -24,7 +23,6 @@ const NumberInputs: FC<NumberInputsProps> = ({
   name,
   label,
   value,
-  type = "text",
   icon: Icon = null,
   required = false,
   placeholder,

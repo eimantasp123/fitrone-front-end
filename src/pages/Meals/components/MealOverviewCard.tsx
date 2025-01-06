@@ -1,73 +1,29 @@
-import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import CustomButton from "@/components/common/CustomButton";
 import useFiltersOptions from "@/hooks/useFiltersOptions";
-import {
-  deleteMeal,
-  getMeals,
-  setCurrentPage,
-} from "@/services/reduxSlices/Meals/mealDetailsSlice";
-import { useAppDispatch, useAppSelector } from "@/store";
 import { capitalizeFirstLetter } from "@/utils/helper";
 import { Meal } from "@/utils/types";
-import { useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import MealAddModal from "../MealAddModal";
 import RestAndPrefDetailsPopover from "./RestAndPrefDetailsPopover";
 
 // Meal card component props interface
 interface MealOverviewCardProps {
   meal: Meal;
+  setModalState: React.Dispatch<
+    React.SetStateAction<{ type: "create" | "edit" | null; meal: Meal | null }>
+  >;
+  openDeleteModal: (mealId: string) => void;
 }
 
 // Meal card component
-const MealOverviewCard: React.FC<MealOverviewCardProps> = ({ meal }) => {
+const MealOverviewCard: React.FC<MealOverviewCardProps> = ({
+  meal,
+  setModalState,
+  openDeleteModal,
+}) => {
   const { t } = useTranslation("meals");
-  const {
-    onOpen: onOpenMealModalInCard,
-    onClose: onCloseMealModalInCard,
-    isOpen: isOpenMealModalInCard,
-  } = useDisclosure();
-  const {
-    onOpen: onOpenDeleteModal,
-    onClose: onCloseDeleteModal,
-    isOpen: deleteModalOpen,
-  } = useDisclosure();
-  const dispatch = useAppDispatch();
-  const { loading, currentPage, filters, meals, limit } = useAppSelector(
-    (state) => state.mealsDetails,
-  );
   const { categories } = useFiltersOptions();
   const { title, _id: id, nutrition, preferences, restrictions } = meal;
-
-  // Delete meal function
-  const handleDelete = async () => {
-    try {
-      //  Delete the meal
-      await dispatch(deleteMeal(id)).unwrap();
-      onCloseDeleteModal();
-
-      const updatedPages = { ...meals }; // Clone the current meals object
-      updatedPages[currentPage] = meals[currentPage]?.filter(
-        (meal) => meal._id !== id,
-      );
-
-      // If the current page becomes empty and not the first page, move back a page
-      if (updatedPages[currentPage]?.length === 0 && currentPage > 1) {
-        dispatch(setCurrentPage(currentPage - 1));
-      }
-
-      // Determine which pages need fetching
-      const pagesToRefetch = Object.keys(updatedPages).map(Number);
-
-      // Fetch all affected pages sequentially
-      for (const page of pagesToRefetch) {
-        await dispatch(getMeals({ page, limit, ...filters }));
-      }
-    } catch {
-      //
-    }
-  };
 
   return (
     <>
@@ -131,38 +87,20 @@ const MealOverviewCard: React.FC<MealOverviewCardProps> = ({ meal }) => {
           <div className="mt-auto flex items-start gap-2 py-2">
             <CustomButton
               text={t("delete")}
-              onClick={() => onOpenDeleteModal()}
+              onClick={() => openDeleteModal(id)}
               textLight={true}
               widthFull={true}
               type="delete"
             />
             <CustomButton
               text={t("editAndView")}
-              onClick={onOpenMealModalInCard}
+              onClick={() => setModalState({ type: "edit", meal })}
               textLight={true}
               widthFull={true}
             />
           </div>
         </div>
       </div>
-      {/* Delete confirm */}
-      <ConfirmActionModal
-        isOpen={deleteModalOpen}
-        onClose={onCloseDeleteModal}
-        loading={loading}
-        onAction={handleDelete}
-        title={t("deleteMealTitle")}
-        description={t("deleteMealDescription")}
-        cancelButtonText={t("cancel")}
-        confirmButtonText={t("deleteMealTitle")}
-      />
-
-      {/* Update meal */}
-      <MealAddModal
-        isOpenModal={isOpenMealModalInCard}
-        onClose={onCloseMealModalInCard}
-        mealToEdit={meal}
-      />
     </>
   );
 };

@@ -1,225 +1,226 @@
-import DrawerFromTop from "@/components/common/DrawerFromTop";
+import { fetchPaginatedMeals } from "@/api/mealsApi";
+import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import EmptyState from "@/components/common/EmptyState";
-import PagePagination from "@/components/common/PagePagination";
-import TextButton from "@/components/common/TextButton";
-import useFiltersOptions from "@/hooks/useFiltersOptions";
-import {
-  getMeals,
-  setCurrentPage,
-} from "@/services/reduxSlices/Meals/mealDetailsSlice";
-import { useAppDispatch, useAppSelector } from "@/store";
-import { Spinner, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
+import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
+import { Filters, Meal } from "@/utils/types";
+import { Spinner, useDisclosure } from "@chakra-ui/react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ThreeDots } from "react-loader-spinner";
+import { useDebounce } from "use-debounce";
 import MealOverviewCard from "./components/MealOverviewCard";
 import MealAddModal from "./MealAddModal";
 import MealsPageHeader from "./MealsPageHeader";
+import { useMealStates } from "./useMealStates";
 
+/**
+ * Supplier Meals Component to display the meals added by the supplier
+ */
 const SupplierMeals: React.FC = () => {
   const { t } = useTranslation("meals");
+  const [searchQuery, setSearchQuery] = useState<string | null>(null);
+  const [searchValue] = useDebounce(searchQuery, 500);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [mealId, setMeal] = useState<string | null>(null);
+  const [modalState, setModalState] = useState<{
+    type: "create" | "edit" | null;
+    meal: Meal | null;
+  }>({ type: null, meal: null });
+  const [filters, setFilters] = useState<Filters>({
+    category: null,
+    preference: null,
+    restriction: null,
+  });
+
+  // Fetch ingredients from the server using infinite query
   const {
-    isOpen: isSupplierMealModalOpen,
-    onOpen: onSupplierMealModalOpen,
-    onClose: onSupplierMealModalClose,
-  } = useDisclosure();
-  const {
-    isOpen: isFiltersOpen,
-    onOpen: onFiltersOpen,
-    onClose: onFiltersClose,
-  } = useDisclosure();
-  const dispatch = useAppDispatch();
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const isDrawerVisible = useBreakpointValue({ base: true, md: false });
-  const { categories, dietaryPreferences, dietaryRestrictions } =
-    useFiltersOptions();
-  const [nextPageLoading, setNextPageLoading] = useState(false);
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: [
+      "meals",
+      searchValue,
+      filters.category?.key,
+      filters.preference?.key,
+      filters.restriction?.key,
+    ],
+    queryFn: fetchPaginatedMeals,
+    initialPageParam: 1,
+    placeholderData: (prev) => prev,
+    getNextPageParam: (lastPage) => {
+      if (lastPage?.currentPage < lastPage?.totalPages) {
+        return lastPage.currentPage + 1;
+      }
+      return undefined;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes stale time
+    retry: 3,
+  });
 
-  // Select meals from the store
-  const {
-    meals,
-    generalLoading,
-    totalResults,
-    currentPage,
-    totalPages,
-    filters,
-    limit,
-  } = useAppSelector((state) => state.mealsDetails);
+  // Memoized meals data
+  const meals = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data) || [];
+  }, [data]);
 
-  // Fetch meals on component mount
-  useEffect(() => {
-    if (!meals[1]) {
-      const { category, preference, restriction } = filters;
-      dispatch(
-        getMeals({
-          page: 1,
-          limit,
-          category: category || null,
-          preference: preference || null,
-          restriction: restriction || null,
-        }),
-      );
-    }
-  }, [filters, dispatch, meals, limit]);
+  // Custom hook to check the state of the meals
+  const { noMealsAdded, noResultsForSearchAndFilters, hasMeals } =
+    useMealStates({
+      meals,
+      isLoading,
+      isError,
+      searchQuery,
+      filters,
+    });
 
-  useEffect(() => {
-    return () => {
-      dispatch(setCurrentPage(1));
-    };
-  }, [dispatch]);
+  // Handle Delete meal mutation
+  const handleDelete = () => {
+    console.log("Deleting meal with id: ", mealId);
+  };
 
-  // Scroll to top whenever the page changes
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  // Open delete modal
+  const openDeleteModal = (mealId: string) => {
+    setMeal(mealId);
+    onOpen();
+  };
+
+  // Handler for filter change
+  const handleFilterChange = (
+    filterType: "preference" | "restriction" | "category" | "all",
+    selectedOption: { key: string; title: string } | null = null,
+  ) => {
+    if (filterType === "all") {
+      // Reset all filters
+      setFilters({
+        category: null,
+        preference: null,
+        restriction: null,
+      });
     } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [currentPage]);
-
-  // Handle page change
-  const handlePageChange = async (newPage: number) => {
-    // Check if the page already exists in the store
-    if (meals[newPage] && meals[newPage].length > 0) {
-      dispatch(setCurrentPage(newPage));
-      return;
-    }
-    // Fetch the page
-    try {
-      setNextPageLoading(true);
-      const { category, preference, restriction } = filters;
-      await dispatch(
-        getMeals({
-          page: newPage,
-          limit,
-          category: category || null,
-          preference: preference || null,
-          restriction: restriction || null,
-        }),
-      ).unwrap();
-      dispatch(setCurrentPage(newPage));
-    } catch {
-      //
-    } finally {
-      setNextPageLoading(false);
+      // Update the selected filter
+      setFilters((prev) => ({
+        ...prev,
+        [filterType]: selectedOption,
+      }));
     }
   };
 
-  // Check if there are no meals added
-  const noMealsAdded =
-    Object.values(meals).every((mealArray) => mealArray.length === 0) &&
-    !Object.values(filters).some(Boolean);
-
-  // Check if there are no results with the current filters
-  const noFilteredResults =
-    Object.keys(meals).length > 0 &&
-    Object.values(meals).every((mealArray) => mealArray.length === 0) &&
-    Object.values(filters).some(Boolean);
-
-  // Check if there are meals to display
-  const hasMeals =
-    Object.keys(meals).length > 0 &&
-    Object.values(meals).some((mealArray) => mealArray.length > 0);
-
   return (
     <>
-      <div ref={containerRef} className="w-full overflow-y-auto scrollbar-thin">
+      <div className="w-full overflow-y-auto scrollbar-thin">
         <div className="container mx-auto flex max-w-[1550px] flex-col">
-          <div className="sticky top-0 z-10 hidden w-full bg-backgroundSecondary pb-2 dark:bg-background md:flex md:p-3">
+          <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             {/* Filters */}
             <MealsPageHeader
-              dietaryPreferences={dietaryPreferences}
-              dietaryRestrictions={dietaryRestrictions}
-              categories={categories}
+              setSearchQuery={setSearchQuery}
+              searchQuery={searchQuery}
+              setModalState={setModalState}
+              filters={filters}
+              handleFilterChange={handleFilterChange}
             />
           </div>
-          <div className="sticky top-0 z-10 mb-2 w-full bg-backgroundSecondary pb-2 dark:bg-background md:hidden">
-            <div className="flex justify-between gap-3 bg-background px-4 py-3">
-              <TextButton
-                onClick={onFiltersOpen}
-                className="w-1/2"
-                text="Filters"
-              />
-              <TextButton
-                className="w-1/2"
-                onClick={onSupplierMealModalOpen}
-                text={t("addMeal")}
-                primary={true}
-              />
-            </div>
-          </div>
-          {generalLoading ? (
+
+          {/* Loading State */}
+          {isLoading && (
             <div className="mt-56 flex w-full justify-center overflow-hidden">
               <Spinner size="lg" />
             </div>
-          ) : (
+          )}
+
+          {/* Error State */}
+          {isError && (
+            <div className="flex w-full justify-center">
+              <EmptyState
+                title={t("common:error")}
+                status="error"
+                description={t("common:errorsMessage.errorFetchingData")}
+              />
+            </div>
+          )}
+
+          {noMealsAdded && (
+            <div className="flex justify-center">
+              <EmptyState
+                title={t("noMealsAdded")}
+                description={t("noMealsDescription")}
+                firstButtonText={t("addMeal")}
+                onClickFirstButton={() =>
+                  setModalState({ type: "create", meal: null })
+                }
+              />
+            </div>
+          )}
+
+          {noResultsForSearchAndFilters && (
+            <div className="flex justify-center">
+              <EmptyState
+                title={t("noResults")}
+                description={t("noResultsDescription")}
+              />
+            </div>
+          )}
+
+          {hasMeals && (
             <>
-              {noMealsAdded && (
-                <div className="flex justify-center">
-                  <EmptyState
-                    title={t("noMealsAdded")}
-                    description={t("noMealsDescription")}
-                    firstButtonText={t("addMeal")}
-                    onClickFirstButton={onSupplierMealModalOpen}
+              <span className="pl-5 text-sm">
+                {t("mealsFound")}: {data?.pages[0]?.total || 0}
+              </span>
+              <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-2">
+                {meals.map((meal, index) => (
+                  <MealOverviewCard
+                    setModalState={setModalState}
+                    openDeleteModal={openDeleteModal}
+                    key={index}
+                    meal={meal}
                   />
+                ))}
+              </div>
+
+              {/* Bottom Spinner for Loading Next Page */}
+              {isFetchingNextPage && (
+                <div className="flex w-full justify-center pb-4">
+                  <ThreeDots color="#AFDF3F" height={30} width={40} />
                 </div>
               )}
 
-              {noFilteredResults && (
-                <div className="flex justify-center">
-                  <EmptyState
-                    title={t("noFiltersResultsFound")}
-                    description={t("tryAdjustingFilters")}
-                  />
-                </div>
-              )}
-
-              {hasMeals && (
-                <>
-                  <span className="pl-5 text-sm">
-                    {t("mealsFound")}: {totalResults || 0}
-                  </span>
-                  <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-2">
-                    {meals[currentPage]?.map((meal, index) => (
-                      <MealOverviewCard key={index} meal={meal} />
-                    ))}
-                  </div>
-                  {/* Pagination */}
-                  {totalPages > 1 && (
-                    <PagePagination
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      nextPageLoading={nextPageLoading}
-                      goPrevious={() => handlePageChange(currentPage - 1)}
-                      goNext={() => handlePageChange(currentPage + 1)}
-                    />
-                  )}
-                </>
-              )}
+              <IntersectionObserverForFetchPage
+                onIntersect={fetchNextPage}
+                hasNextPage={!!hasNextPage}
+              />
             </>
           )}
         </div>
       </div>
 
       {/* Add meal modal */}
-      <MealAddModal
-        isOpenModal={isSupplierMealModalOpen}
-        onClose={onSupplierMealModalClose}
-        mealToEdit={null}
-      />
-
-      {/* Menu drawer for small screen */}
-      <DrawerFromTop
-        isOpen={isFiltersOpen}
-        isDrawerVisible={isDrawerVisible}
-        onClose={onFiltersClose}
-      >
-        <MealsPageHeader
-          dietaryPreferences={dietaryPreferences}
-          dietaryRestrictions={dietaryRestrictions}
-          categories={categories}
-          onFiltersClose={onFiltersClose}
+      {modalState.type && (
+        <MealAddModal
+          isOpenModal={!!modalState.type}
+          onClose={() => setModalState({ type: null, meal: null })}
+          mealToEdit={modalState.meal}
         />
-      </DrawerFromTop>
+      )}
+
+      {/* Delete confirm */}
+      {isOpen && (
+        <ConfirmActionModal
+          isOpen={isOpen}
+          onClose={() => {
+            setMeal(null);
+            onClose();
+          }}
+          loading={false}
+          onAction={handleDelete}
+          title={t("deleteMealTitle")}
+          description={t("deleteMealDescription")}
+          cancelButtonText={t("cancel")}
+          confirmButtonText={t("deleteMealTitle")}
+        />
+      )}
     </>
   );
 };

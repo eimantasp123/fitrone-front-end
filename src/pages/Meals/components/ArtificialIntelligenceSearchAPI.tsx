@@ -1,30 +1,23 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
-import { getIngredients } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
-import { useAppDispatch } from "@/store";
-import axiosInstance from "@/utils/axiosInterceptors";
-import { Ingredients } from "@/utils/types";
-import axios from "axios";
+// import { getIngredients } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
+import { searchIngredientsApi } from "@/api/ingredientsApi";
+import {
+  IngredientsForMealModal,
+  IngredientToCreateOrUpdate,
+} from "@/utils/types";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchInputForm from "./SearchInput";
 import ShowSearchResults from "./SearchResultsDisplay";
 import SetUnit from "./UnitSelector";
+import { useAddOrEditIngredient } from "@/hooks/Ingredients/useAddOrEditIngredient";
 
 interface ArtificialIntelligenceSearchAPIProps {
   className?: string;
-  setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
+  setIngredients: React.Dispatch<
+    React.SetStateAction<IngredientsForMealModal[]>
+  >;
   closeModal: () => void;
-}
-
-export interface SearchResults {
-  title: string;
-  amount: number;
-  calories: number;
-  protein: number;
-  fat: number;
-  carbs: number;
-  unit: string;
-  ingredientId?: string;
 }
 
 const ArtificialIntelligenceSearchAPI: React.FC<
@@ -32,13 +25,20 @@ const ArtificialIntelligenceSearchAPI: React.FC<
 > = ({ className, setIngredients, closeModal }) => {
   const { t } = useTranslation("meals");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [searchResults, setSearchResults] = useState<SearchResults[]>([]);
+  const [searchResults, setSearchResults] = useState<
+    IngredientToCreateOrUpdate[]
+  >([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [showResults, setShowResults] = useState<boolean>(false);
-  const [amount] = useState<number>(100);
   const [currentAmount, setCurrentAmount] = useState<number | string>("");
   const [unit, setUnit] = useState<string>("g");
-  const dispatch = useAppDispatch();
+  const { mutate: createIngredient } = useAddOrEditIngredient({
+    setIngredients,
+    closeModal,
+    setShowResults,
+    setSearchQuery,
+    setSearchResults,
+  });
 
   // Search for ingredients
   const handleSearch = async (
@@ -46,21 +46,23 @@ const ArtificialIntelligenceSearchAPI: React.FC<
   ) => {
     e.preventDefault();
     setCurrentAmount("");
+
     if (searchQuery.length < 1) return;
+
     setLoading(true);
     setShowResults(true);
     setSearchResults([]);
+
     try {
-      const response = await axiosInstance.post("/ingredients/search-ai", {
+      const response = await searchIngredientsApi({
         query: searchQuery,
         unit,
-        amount,
       });
-      if (response.data.data.calories === 0) {
+      if (response.data.calories === 0) {
         setSearchResults([]);
         return;
       }
-      setSearchResults((prevResults) => [...prevResults, response.data.data]);
+      setSearchResults((prevResults) => [...prevResults, response.data]);
     } catch (error) {
       console.error(error);
     } finally {
@@ -84,70 +86,21 @@ const ArtificialIntelligenceSearchAPI: React.FC<
       return;
     }
 
-    try {
-      // Prepare data for backend
-      const backendData = {
-        title: searchResults[0].title.toLocaleLowerCase(),
-        amount: 100,
-        unit: searchResults[0].unit,
-        calories: searchResults[0].calories,
-        protein: searchResults[0].protein,
-        fat: searchResults[0].fat,
-        carbs: searchResults[0].carbs,
-        currentAmount: currentAmount,
-        withCurrentAmount: true,
-      };
+    // Prepare data for backend
+    const backendData = {
+      title: searchResults[0].title.toLocaleLowerCase(),
+      amount: 100,
+      unit: searchResults[0].unit,
+      calories: searchResults[0].calories,
+      protein: searchResults[0].protein,
+      fat: searchResults[0].fat,
+      carbs: searchResults[0].carbs,
+      currentAmount: Number(currentAmount),
+      withCurrentAmount: true,
+    };
 
-      // Add the ingredient to database
-      const response = await axiosInstance.post("/ingredients", backendData);
-      const { status, message, warning, data } = response.data;
-
-      // Handle based on the response status
-      if (status === "success") {
-        // Update the ingredients lists
-        if (setIngredients) {
-          setIngredients((prev) => [...prev, data]);
-        }
-
-        // Get fresh ingredients from the backend
-        await dispatch(getIngredients()).unwrap();
-
-        // Show success message if no warning
-        if (!warning) {
-          showCustomToast({
-            status: "success",
-            title: message,
-          });
-        }
-
-        // Show info message if the limit is reached
-      } else if (status === "limit_reached") {
-        showCustomToast({
-          status: "info",
-          title: message,
-        });
-      }
-
-      // Show warning message if there is a warning
-      if (warning) {
-        showCustomToast({
-          status: "warning",
-          title: warning,
-        });
-      }
-
-      setShowResults(false);
-      setSearchQuery("");
-      setSearchResults([]);
-      closeModal();
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        showCustomToast({
-          status: "error",
-          description: error.response.data.message,
-        });
-      }
-    }
+    // Call the mutation
+    createIngredient(backendData);
   };
 
   // Delete search results

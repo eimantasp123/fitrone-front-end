@@ -1,16 +1,17 @@
-import { UserDetails } from "@/services/reduxSlices/Profile/personalDetailsSlice";
-import { Ingredients } from "@/utils/types";
+import { IngredientsForMealModal, UserDetails } from "@/utils/types";
 import { useDisclosure } from "@chakra-ui/react";
 import { TFunction } from "i18next";
 import React from "react";
 import { WiStars } from "react-icons/wi";
-import IngredientManualAddModal from "./IngredientManualAddModal";
+import IngredientAddModal from "../../Ingredients/IngredientAddModal";
 import IngredientDatabaseSearch from "./IngredientDatabaseSearch";
 import IngredientSearchModal from "./IngredientSearchModal";
 
 interface IngredientAddOptionsManagerProps {
   user: Partial<UserDetails>;
-  setIngredients: React.Dispatch<React.SetStateAction<Ingredients[]>>;
+  setIngredients: React.Dispatch<
+    React.SetStateAction<IngredientsForMealModal[]>
+  >;
   t: TFunction;
 }
 
@@ -18,9 +19,9 @@ const IngredientAddOptionsManager: React.FC<
   IngredientAddOptionsManagerProps
 > = ({ user, setIngredients, t }) => {
   const {
-    isOpen: recipeInputOpen,
-    onClose: CloseRecipeInputs,
-    onOpen: openRecipeInput,
+    isOpen: addIngredientOpen,
+    onClose: onCloseAddIngredient,
+    onOpen: openAddIngredient,
   } = useDisclosure();
   const {
     isOpen: searchInputOpen,
@@ -53,7 +54,7 @@ const IngredientAddOptionsManager: React.FC<
           {t("findIngredientFromDatabase")}
         </span>
         <span
-          onClick={openRecipeInput}
+          onClick={openAddIngredient}
           className="cursor-pointer rounded-lg bg-backgroundSecondary py-3 text-center transition-colors duration-200 ease-in-out hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800"
         >
           {t("enterIngredientManually")}
@@ -61,7 +62,7 @@ const IngredientAddOptionsManager: React.FC<
       </div>
 
       {/* Search input for API */}
-      {user.plan === "premium" && (
+      {user.plan === "premium" && searchInputOpen && (
         <IngredientSearchModal
           isOpen={searchInputOpen}
           setIngredients={setIngredients}
@@ -70,18 +71,23 @@ const IngredientAddOptionsManager: React.FC<
       )}
 
       {/* Search ingredient from database */}
-      <IngredientDatabaseSearch
-        isOpen={searchIngredientDatabaseOpen}
-        onClose={searchIngredientDatabaseClose}
-        setIngredients={setIngredients}
-      />
+      {searchIngredientDatabaseOpen && (
+        <IngredientDatabaseSearch
+          isOpen={searchIngredientDatabaseOpen}
+          onClose={searchIngredientDatabaseClose}
+          setIngredients={setIngredients}
+        />
+      )}
 
       {/* Ingredient inputs manual */}
-      <IngredientManualAddModal
-        isOpen={recipeInputOpen}
-        onClose={CloseRecipeInputs}
-        setIngredients={setIngredients}
-      />
+      {addIngredientOpen && (
+        <IngredientAddModal
+          isOpen={addIngredientOpen}
+          onClose={onCloseAddIngredient}
+          editIngredient={null}
+          setIngredients={setIngredients}
+        />
+      )}
     </>
   );
 };

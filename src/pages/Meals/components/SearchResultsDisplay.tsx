@@ -1,14 +1,14 @@
 import { capitalizeFirstLetter } from "@/utils/helper";
+import { IngredientToCreateOrUpdate } from "@/utils/types";
 import { TFunction } from "i18next";
 import React from "react";
 import { MdDelete, MdDownloadDone } from "react-icons/md";
 import { ThreeDots } from "react-loader-spinner";
-import { SearchResults } from "./ArtificialIntelligenceSearchAPI";
 
 interface SearchResultsDisplayProps {
   loading: boolean;
   t: TFunction;
-  searchResults: SearchResults[];
+  searchResults: IngredientToCreateOrUpdate[];
   currentSingleAmount?: number | string;
   currentAmounts?: Record<string, string>;
   onAmountChange?: (value: string, id: string) => void;

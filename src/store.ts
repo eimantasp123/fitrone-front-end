@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import dietPlanDetailsReducer from "./services/reduxSlices/DietPlan/dietPlanDetailsSlice";
-import ingredientsDetailsReducer from "./services/reduxSlices/Ingredients/ingredientsDetailsSlice";
 import mealsPlanDetailsReducer from "./services/reduxSlices/Meals/mealDetailsSlice";
 import { middlewareManager } from "./services/reduxSlices/Middlewares/middleware";
 import personalDetailsReducer from "./services/reduxSlices/Profile/personalDetailsSlice";
@@ -13,7 +12,6 @@ export const store = configureStore({
     personalDetails: personalDetailsReducer,
     dietPlanDetails: dietPlanDetailsReducer,
     mealsDetails: mealsPlanDetailsReducer,
-    ingredientsDetails: ingredientsDetailsReducer,
     weeklyMenuDetails: weeklyMenuDetailsReducer,
     weeklyMenuByIdDetails: weeklyMenuByIdDetailsReducer,
   },

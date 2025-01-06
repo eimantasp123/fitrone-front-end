@@ -77,6 +77,8 @@
   "searchPlaceholder": "Ieškoti ingrediento",
   "noIngredientsFound": "Ingredientų nerasta",
   "noIngredietnsFoundDescription": "Pabandykite pataisyti užklausą ir bandykite dar kartą",
+  "noResults": "Rezultatų nėra",
+  "noResultsDescription": "Jūsų paieškai ir filtrams atitinkančių patiekalų nerasta. Pabandykite pakeisti paiešką ar filtrus.",
 
   "firstInfoForSearchIngredient": "Prieš ieškodami ingredientų, pasirinkite matavimo vienetą (pvz., gramus arba mililitrus), kuris geriausiai atitinka jūsų poreikius.",
   "secondInfoForSearchIngredient": "Užklausoje nurodykite tik vieną ingredientą ir rašykite tiksliai, pavyzdžiui, 'Pienas 2.5%' arba 'Agurkas'. Rašykite gramatiškai taisyklingai, naudodami visas lietuviškas raides, tokias kaip ž, š, č ir kt., kad sistema galėtų tiksliai suprasti užklausą.",

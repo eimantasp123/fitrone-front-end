@@ -1,24 +1,30 @@
 import CustomButton from "@/components/common/CustomButton";
 import { capitalizeFirstLetter } from "@/utils/helper";
-import { IngredientForOnce } from "@/utils/types";
+import { IngredientFromServer } from "@/utils/types";
 import { TFunction } from "i18next";
 import React from "react";
 
+// Ingredient card component props interface
 interface IngredientCardProps {
-  ingredient: IngredientForOnce;
+  ingredient: IngredientFromServer;
   openDeleteModal: (ingredientId: string) => void;
   t: TFunction;
-  openModal: (
-    type: "create" | "edit",
-    ingredient: IngredientForOnce | null,
-  ) => void;
+  setModalState: React.Dispatch<
+    React.SetStateAction<{
+      type: "create" | "edit" | null;
+      ingredient: IngredientFromServer | null;
+    }>
+  >;
 }
 
+/**
+ * Ingredient card component
+ */
 const IngredientCard: React.FC<IngredientCardProps> = ({
   ingredient,
   openDeleteModal,
   t,
-  openModal,
+  setModalState,
 }) => {
   const { title, calories, unit, amount, ingredientId } = ingredient;
 
@@ -76,7 +82,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
             />
             <CustomButton
               text={t("editAndView")}
-              onClick={() => openModal("edit", ingredient)}
+              onClick={() => setModalState({ type: "edit", ingredient })}
               textLight={true}
               widthFull={true}
             />
