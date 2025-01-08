@@ -1,103 +1,36 @@
 import CustomButton from "@/components/common/CustomButton";
 import CustomSearchInput from "@/components/common/CustomSearchInput";
 import DrawerFromTop from "@/components/common/DrawerFromTop";
-import {
-  setCurrentPage,
-  setFilters,
-  setSearchQuery,
-} from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
-import { useAppDispatch, useAppSelector } from "@/store";
+import { WeeklyMenyFilters } from "@/utils/types";
 import { useBreakpointValue, useDisclosure } from "@chakra-ui/react";
-import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useDebounce } from "use-debounce";
 import CustomFilters from "./components/FiltersForPrefAndRest";
-import CreateMenuModal from "./modals/WeeklyMenuAddModal";
 
-const WeeklyMenuPageHeader: React.FC = () => {
+interface WeeklyMenuPageHeaderProps {
+  onFiltersClose?: () => void;
+  searchQuery: string | null;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string | null>>;
+  openModal: () => void;
+  filters: WeeklyMenyFilters;
+  handleFilterChange: (
+    filterType: "preference" | "restriction" | "archived" | "all",
+    selectedOption?: { key: string; title: string } | null,
+  ) => void;
+}
+
+/**
+ * WeeklyMenuPageHeader component to display the header of the weekly menu page
+ */
+const WeeklyMenuPageHeader: React.FC<WeeklyMenuPageHeaderProps> = ({
+  searchQuery,
+  setSearchQuery,
+  openModal,
+  filters,
+  handleFilterChange,
+}) => {
   const { t } = useTranslation(["weeklyMenu", "meals"]);
-  const dispatch = useAppDispatch();
-
   const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
-  const isFilterChangeRef = useRef<boolean>(false);
-  const hadInteractedRef = useRef<boolean>(false);
-
-  const { filters, limit, searchQuery } = useAppSelector(
-    (state) => state.weeklyMenuDetails,
-  );
-  const [debouncedQuery] = useDebounce(searchQuery, 500);
-
-  const {
-    isOpen: isMenuModalOpen,
-    onOpen: onMenuModalOpen,
-    onClose: onMenuModalClose,
-  } = useDisclosure();
-  const {
-    isOpen: isFiltersModalOpen,
-    onOpen: onFiltersModalOpen,
-    onClose: onFiltersModalClose,
-  } = useDisclosure();
-
-  // Clean search query
-  const cleanSearch = async () => {
-    dispatch(setFilters({ filters }));
-  };
-
-  // Fetch meals on search query change
-  useEffect(() => {
-    if (
-      isFilterChangeRef.current === false &&
-      debouncedQuery &&
-      debouncedQuery.length > 0
-    ) {
-      dispatch(setFilters({ filters, searchQuery: debouncedQuery }));
-      hadInteractedRef.current = true;
-    }
-
-    // Reset filters and fetch data when search query is empty
-    if (hadInteractedRef.current && debouncedQuery === "") {
-      dispatch(setFilters({ filters }));
-      hadInteractedRef.current = false;
-    }
-  }, [dispatch, filters, limit, debouncedQuery]);
-
-  // Handle filter selection
-  const handleFilterChange = (
-    filterType: string,
-    option: { key: string; title: string },
-  ) => {
-    const updatedFilters = { ...filters, [filterType]: option };
-
-    // Update filters
-    isFilterChangeRef.current = true;
-    dispatch(setFilters({ filters: updatedFilters }));
-
-    setTimeout(() => {
-      isFilterChangeRef.current = false;
-    }, 300);
-
-    if (isFiltersModalOpen) {
-      onFiltersModalClose();
-    }
-  };
-
-  // Reset filters
-  const resetFilters = () => {
-    const defaultFilters = {
-      preference: null,
-      restriction: null,
-      archived: null,
-    };
-    isFilterChangeRef.current = true;
-    dispatch(setFilters({ filters: defaultFilters }));
-    dispatch(setCurrentPage(1));
-
-    setTimeout(() => {
-      isFilterChangeRef.current = false;
-    }, 300);
-
-    if (isFiltersModalOpen) onFiltersModalClose();
-  };
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <>
@@ -108,8 +41,8 @@ const WeeklyMenuPageHeader: React.FC = () => {
             <CustomSearchInput
               t={t}
               searchQuery={searchQuery || ""}
-              handleSearch={(e) => dispatch(setSearchQuery(e.target.value))}
-              cleanSearch={cleanSearch}
+              handleSearch={(e) => setSearchQuery(e.target.value)}
+              cleanSearch={() => setSearchQuery("")}
             />
           </div>
           {/* Filters area */}
@@ -125,7 +58,7 @@ const WeeklyMenuPageHeader: React.FC = () => {
             <div className="hidden w-full 2xl:block">
               <CustomButton
                 type="lightSecondary"
-                onClick={resetFilters}
+                onClick={() => handleFilterChange("all")}
                 text={t("meals:resetFilters")}
                 widthFull={true}
               />
@@ -133,42 +66,42 @@ const WeeklyMenuPageHeader: React.FC = () => {
             <div className="w-full 2xl:hidden">
               <CustomButton
                 widthFull={true}
-                onClick={onFiltersModalOpen}
+                onClick={onOpen}
                 text={t("meals:filters")}
                 type="lightSecondary"
               />
             </div>
             <CustomButton
               widthFull={true}
-              onClick={onMenuModalOpen}
+              onClick={openModal}
               text={t("createMenu")}
             />
           </div>
         </div>
       </div>
 
-      {/* Menu modal */}
-      <CreateMenuModal isOpen={isMenuModalOpen} onClose={onMenuModalClose} />
-
       {/* Filters drawer */}
-      <DrawerFromTop
-        isOpen={isFiltersModalOpen}
-        isDrawerVisible={isDrawerVisible}
-        onClose={onFiltersModalClose}
-      >
-        <div className="flex flex-col gap-3 p-3">
-          <CustomFilters
-            t={t}
-            handleFilterChange={handleFilterChange}
-            filters={filters}
-          />
-          <CustomButton
-            onClick={resetFilters}
-            text={t("meals:resetFilters")}
-            widthFull={true}
-          />
-        </div>
-      </DrawerFromTop>
+      {isOpen && (
+        <DrawerFromTop
+          isOpen={isOpen}
+          isDrawerVisible={isDrawerVisible}
+          onClose={onClose}
+        >
+          <div className="flex flex-col gap-3 p-3">
+            <CustomFilters
+              t={t}
+              handleFilterChange={handleFilterChange}
+              filters={filters}
+              onClose={onClose}
+            />
+            <CustomButton
+              onClick={() => handleFilterChange("all")}
+              text={t("meals:resetFilters")}
+              widthFull={true}
+            />
+          </div>
+        </DrawerFromTop>
+      )}
     </>
   );
 };

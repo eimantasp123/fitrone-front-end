@@ -65,6 +65,6 @@
 
   "searchMealsFromDatabaseAndAssign": "Ieškokite patiekalų duomenų bazėje ir priskirkite juos pasirinktai dienai.",
 
-  "noMealsFound": "Nerasta jokių patiekalų",
-  "noMealsFoundDescription": "Panašu, kad dar neturite pridėtų patiekalų arba paieškos ar filtrų kriterijai neatitiko jokių rezultatų. Pabandykite pakeisti filtrus arba pridėti naujų patiekalų, kad galėtumėte juos priskirti šiai dienai."
+  "noResults": "Rezultatų nėra",
+  "noResultsDescription": "Jūsų paieškai ir filtrams atitinkančių savaitės meniu nerasta. Pabandykite pakeisti paiešką ar filtrus."
 }

@@ -59,6 +59,9 @@
 
   "filters": "Filtrai",
 
+  "noMealsFound": "Patiekalų nerasta",
+  "noMealsFoundDescription": "Nerasta jokių patiekalų. Panašu, kad dar nepridėjote jokio patiekalo. Pradėkite pridėdami naują patiekalą arba pakeiskite paieškos kriterijus, kad peržiūrėtumėte esamas galimybes.",
+
   "weekDays": [
     { "index": 0, "name": "Sekmadienis" },
     { "index": 1, "name": "Pirmadienis" },

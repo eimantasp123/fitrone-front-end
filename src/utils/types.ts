@@ -292,3 +292,57 @@ export interface PaginatedIngredientsResponse {
   totalPages: number;
   data: IngredientFromServer[] | [];
 }
+/**
+ * Interface for the paginated response of the meals
+ */
+export interface PaginatedMealsResponse {
+  status: string;
+  results: number;
+  total: number;
+  currentPage: number;
+  totalPages: number;
+  data: Meal[] | [];
+}
+
+/**
+ * Weekly menu by id interface for the weekly menu by id object
+ */
+
+export interface WeeklyMenuByIdResponse {
+  status: string;
+  data: SingleWeeklyMenuById;
+}
+
+/**
+ * Format data for meal modal
+ */
+export interface FormMealData {
+  title: string;
+  description?: string;
+  ingredients?:
+    | {
+        title: string;
+        amount: number;
+        calories: number;
+        protein: number;
+        carbs: number;
+        fat: number;
+        currentAmount: number;
+      }[]
+    | null;
+  image?: File | "delete" | null;
+}
+
+/**
+ * Search result interface for the meal modal
+ */
+export interface SearchResultFromDatabase {
+  ingredientId: string;
+  title: string;
+  amount: number;
+  unit: string;
+  calories: number;
+  protein: number;
+  fat: number;
+  carbs: number;
+}

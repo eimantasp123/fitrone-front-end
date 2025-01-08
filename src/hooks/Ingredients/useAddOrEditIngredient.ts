@@ -18,7 +18,6 @@ interface UseAddOrEditIngredientProps {
     React.SetStateAction<IngredientToCreateOrUpdate[]>
   >;
   closeModal?: () => void;
-  setLoading?: (loading: boolean) => void;
 }
 
 /**
@@ -28,7 +27,6 @@ export const useAddOrEditIngredient = ({
   editIngredientId = null,
   setIngredients,
   closeModal,
-  setLoading,
   setShowResults,
   setSearchQuery,
   setSearchResults,
@@ -82,9 +80,6 @@ export const useAddOrEditIngredient = ({
         });
       }
 
-      // Hide loading spinner
-      if (setLoading) setLoading(false);
-
       // Clear search results
       if (setShowResults) setShowResults(false);
 
@@ -101,9 +96,6 @@ export const useAddOrEditIngredient = ({
           description: error.response.data.message,
         });
       }
-
-      // Hide loading spinner
-      if (setLoading) setLoading(false);
     },
   });
 };

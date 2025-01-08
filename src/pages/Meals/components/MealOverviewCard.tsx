@@ -4,7 +4,7 @@ import { capitalizeFirstLetter } from "@/utils/helper";
 import { Meal } from "@/utils/types";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import RestAndPrefDetailsPopover from "./RestAndPrefDetailsPopover";
+import RestAndPrefDetailsPopover from "../../../components/common/RestAndPrefDetailsPopover";
 
 // Meal card component props interface
 interface MealOverviewCardProps {
@@ -15,7 +15,9 @@ interface MealOverviewCardProps {
   openDeleteModal: (mealId: string) => void;
 }
 
-// Meal card component
+/**
+ * Meal Overview Card Component to display the meal details
+ */
 const MealOverviewCard: React.FC<MealOverviewCardProps> = ({
   meal,
   setModalState,

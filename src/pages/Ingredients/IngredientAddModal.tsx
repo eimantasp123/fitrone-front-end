@@ -21,7 +21,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import UnitSelector from "../Meals/components/UnitSelector";
+import UnitSelector from "../../components/common/UnitSelector";
 import { useAddOrEditIngredient } from "@/hooks/Ingredients/useAddOrEditIngredient";
 
 interface IngredientAddModalProps {
@@ -42,7 +42,6 @@ const IngredientAddModal: React.FC<IngredientAddModalProps> = ({
 }) => {
   const { t } = useTranslation("meals");
   const [unit, setUnit] = useState<string>("g");
-  const [loading, setLoading] = useState<boolean>(false);
 
   // Close modal
   const closeModal = () => {
@@ -52,12 +51,12 @@ const IngredientAddModal: React.FC<IngredientAddModalProps> = ({
   };
 
   // Hooks for adding or editing ingredient
-  const { mutate: IngredientToCreateOrUpdate } = useAddOrEditIngredient({
-    editIngredientId: editIngredient?.ingredientId,
-    setIngredients,
-    setLoading,
-    closeModal: closeModal,
-  });
+  const { mutate: IngredientToCreateOrUpdate, isPending } =
+    useAddOrEditIngredient({
+      editIngredientId: editIngredient?.ingredientId,
+      setIngredients,
+      closeModal: closeModal,
+    });
 
   // Hooks for form validation
   const schemaWithCurrentAmount = useIngredientInputSchema();
@@ -94,7 +93,6 @@ const IngredientAddModal: React.FC<IngredientAddModalProps> = ({
   const handleSubmitForm: SubmitHandler<IngredientToCreateOrUpdate> = (
     data,
   ) => {
-    setLoading(true);
     // Prepare ingredient data
     const ingredientData = {
       ...data,
@@ -213,8 +211,8 @@ const IngredientAddModal: React.FC<IngredientAddModalProps> = ({
                       editIngredient ? `${t("editIngredient")}` : `${t("add")}`
                     }
                     actionType="submit"
-                    loading={loading}
-                    disabled={loading}
+                    loading={isPending}
+                    disabled={isPending}
                     widthFull={true}
                     paddingY="py-3"
                   />

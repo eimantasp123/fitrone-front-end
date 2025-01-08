@@ -1,105 +1,126 @@
+import { fetchPaginatedWeeklyMenus } from "@/api/weeklyMenusApi";
 import EmptyState from "@/components/common/EmptyState";
-import PagePagination from "@/components/common/PagePagination";
-import { showCustomToast } from "@/hooks/showCustomToast";
-import {
-  archiveWeeklyMenu,
-  cleanAllWeeklyMenu,
-  deleteWeeklyMenu,
-  getAllWeeklyMenus,
-  setCurrentPage,
-  unArchiveWeeklyMenu,
-} from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
-import { useAppDispatch, useAppSelector } from "@/store";
+import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
+import useCustomDebounced from "@/hooks/useCustomDebounced";
+import { usePageStates } from "@/hooks/usePageStatus";
+import { useAction } from "@/hooks/WeeklyMenu/useAction";
+import { WeeklyMenyFilters } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ThreeDots } from "react-loader-spinner";
 import PopoverForStatusDescription from "./components/PopoverForStatusDescription";
 import WeeklyMenuItemCard from "./components/WeeklyMenuItemCard";
 import PerformActionModal from "./modals/PerformActionModal";
 import WeeklyMenuAddModal from "./modals/WeeklyMenuAddModal";
 import WeeklyMenuPageHeader from "./WeeklyMenuPageHeader";
+import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 
 /**
  *  Supplier weekly menu central station
  */
 const SupplierWeeklyMenuCentralStation: React.FC = () => {
   const { t } = useTranslation(["weeklyMenu", "meals", "common"]);
-  const dispatch = useAppDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [nextPageLoading, setNextPageLoading] = useState<boolean>(false);
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
+  // Modal state for delete, archive, unarchive actions
   const [modalState, setModalState] = useState<{
     type: "delete" | "archive" | "unarchive" | null;
     id: string | null;
   }>({ type: null, id: null });
-  const {
-    generalLoading,
-    weeklyMenu,
-    currentPage,
+
+  // Filters state
+  const [filters, setFilters] = useState<WeeklyMenyFilters>({
+    archived: null,
+    preference: null,
+    restriction: null,
+  });
+
+  // Search query state and debounced value
+  const [searchQuery, setSearchQuery] = useState<string | null>(null);
+  const { debouncedValue } = useCustomDebounced(
     searchQuery,
-    filters,
-    totalPages,
-    totalResults,
-    limit,
-    loading,
-  } = useAppSelector((state) => state.weeklyMenuDetails);
+    500,
+    (value) => !value || value.length < 1,
+  );
 
-  // Fetch meals on component mount and when filters change
-  useEffect(() => {
-    const fetchWeeklyMenus = async () => {
-      if (!weeklyMenu[1]) {
-        await dispatch(
-          getAllWeeklyMenus({
-            page: 1,
-            limit,
-            searchQuery,
-            ...filters,
-          }),
-        );
+  // Custom hook to perform action
+  const { mutate: performAction, isPending } = useAction(() =>
+    setModalState({ type: null, id: null }),
+  );
+
+  // Fetch ingredients from the server using infinite query
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: [
+      "weeklyMenus",
+      debouncedValue,
+      filters.archived?.key,
+      filters.preference?.key,
+      filters.restriction?.key,
+    ],
+    queryFn: fetchPaginatedWeeklyMenus,
+    initialPageParam: 1,
+    placeholderData: (prev) => prev,
+    getNextPageParam: (lastPage) => {
+      if (lastPage?.currentPage < lastPage?.totalPages) {
+        return lastPage.currentPage + 1;
       }
-    };
+      return undefined;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes stale time
+    retry: 3,
+  });
 
-    fetchWeeklyMenus();
-  }, [filters, dispatch, limit, searchQuery, weeklyMenu]);
+  // Memoized meals data
+  const weeklyMenus = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data) || [];
+  }, [data]);
 
-  // Scroll to top whenever the page changes
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  // Custom hook to check the state of the weekly menus
+  const { noItemsAdded, noResultsForSearchAndFilters, hasItems } =
+    usePageStates({
+      currentResults: data?.pages[0]?.results || 0,
+      isLoading,
+      isError,
+      totalResults: data?.pages[0]?.total || 0,
+    });
+
+  // Ref to track the scroll container
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Use custom hook to scroll to top on filter/search change
+  useScrollToTopOnDependencyChange(
+    [filters, debouncedValue],
+    scrollContainerRef,
+  );
+
+  // Handler for filter change
+  const handleFilterChange = (
+    filterType: "preference" | "restriction" | "archived" | "all",
+    selectedOption: { key: string; title: string } | null = null,
+  ) => {
+    if (filterType === "all") {
+      // Reset all filters
+      setFilters({
+        archived: null,
+        preference: null,
+        restriction: null,
+      });
     } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      // Update the selected filter
+      setFilters((prev) => ({
+        ...prev,
+        [filterType]: selectedOption,
+      }));
     }
-  }, [currentPage]);
-
-  // Change the current page to 1 whenever user navigates to the page
-  useEffect(() => {
-    dispatch(setCurrentPage(1));
-  }, [dispatch]);
-
-  // Handle page change handler
-  const handlePageChange = async (newPage: number) => {
-    // Check if the page already exists in the store
-    if (weeklyMenu[newPage] && weeklyMenu[newPage].length > 0) {
-      dispatch(setCurrentPage(newPage));
-      return;
-    }
-
-    // Fetch the next page
-    setNextPageLoading(true);
-    const result = await dispatch(
-      getAllWeeklyMenus({
-        page: newPage,
-        limit,
-        searchQuery,
-        ...filters,
-      }),
-    );
-
-    // If the fetch is successful, update the current page
-    if (getAllWeeklyMenus.fulfilled.match(result)) {
-      dispatch(setCurrentPage(newPage));
-    }
-    setNextPageLoading(false);
   };
 
   // Open modal with the type and id
@@ -107,101 +128,47 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
     setModalState({ type, id });
   };
 
-  // Close modal
-  const closeModal = () => {
-    setModalState({ type: null, id: null });
-  };
-
   // Handle action based on the modal state
   const handleAction = async () => {
     if (!modalState.id || !modalState.type) return;
-
-    // Determine the action based on the modal state
-    let action;
-    switch (modalState.type) {
-      case "delete":
-        action = deleteWeeklyMenu;
-        break;
-      case "archive":
-        action = archiveWeeklyMenu;
-        break;
-      case "unarchive":
-        action = unArchiveWeeklyMenu;
-        break;
-      default:
-        return;
-    }
-
-    // Dispatch unarchive weekly menu action
-    const result = await dispatch(action(modalState.id));
-
-    // Handle specific cased like limit reached for unarchive
-    if (
-      modalState.type === "unarchive" &&
-      result.payload?.status === "limit_reached"
-    ) {
-      showCustomToast({
-        status: "info",
-        description: result.payload.message,
-      });
-      return;
-    }
-
-    // If the action is successful, clean all weekly menus and close the modal
-    if (action.fulfilled.match(result)) {
-      dispatch(cleanAllWeeklyMenu());
-      setModalState({ type: null, id: null });
-    }
+    performAction({ id: modalState.id, type: modalState.type });
   };
-
-  // Check if there are weekly menu to display
-  const hasWeeklyMenu = useMemo(
-    () =>
-      Object.keys(weeklyMenu).length > 0 &&
-      Object.values(weeklyMenu).some((weekly) => weekly.length > 0),
-    [weeklyMenu],
-  );
-
-  // Check if there are no weekly menu added
-  const noWeeklyMenuAdded = useMemo(
-    () =>
-      Object.values(weeklyMenu).every(
-        (weeklyArray) => weeklyArray.length === 0,
-      ) &&
-      !Object.values(filters).some(Boolean) &&
-      !searchQuery,
-    [filters, searchQuery, weeklyMenu],
-  );
-
-  // Check if there are no results with the current filters
-  const noFilteredResults = useMemo(
-    () =>
-      Object.keys(weeklyMenu).length > 0 &&
-      Object.values(weeklyMenu).every(
-        (weeklyArray) => weeklyArray.length === 0,
-      ) &&
-      (Object.values(filters).some(Boolean) || searchQuery),
-    [filters, searchQuery, weeklyMenu],
-  );
 
   return (
     <>
       <div
-        ref={containerRef}
+        ref={scrollContainerRef}
         className="w-full select-none overflow-y-auto scrollbar-thin"
       >
         <div className="container mx-auto flex max-w-[1550px] flex-col">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
-            <WeeklyMenuPageHeader />
+            <WeeklyMenuPageHeader
+              setSearchQuery={setSearchQuery}
+              searchQuery={searchQuery}
+              openModal={onOpen}
+              filters={filters}
+              handleFilterChange={handleFilterChange}
+            />
           </div>
 
-          {generalLoading && (
+          {isLoading && (
             <div className="mt-56 flex w-full justify-center overflow-hidden">
               <Spinner size="lg" />
             </div>
           )}
 
-          {!generalLoading && noWeeklyMenuAdded && (
+          {/* Error State */}
+          {isError && (
+            <div className="flex w-full justify-center">
+              <EmptyState
+                title={t("common:error")}
+                status="error"
+                description={t("common:errorsMessage.errorFetchingData")}
+              />
+            </div>
+          )}
+
+          {noItemsAdded && (
             <div className="flex justify-center">
               <EmptyState
                 title={t("noWeeklyMenuTitle")}
@@ -213,27 +180,26 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
             </div>
           )}
 
-          {!generalLoading && noFilteredResults && (
+          {noResultsForSearchAndFilters && (
             <div className="flex justify-center">
               <EmptyState
-                title={t("meals:noFiltersResultsFound")}
-                description={t("meals:tryAdjustingFilters")}
-                height="h-[73vh]"
+                title={t("noResults")}
+                description={t("noResultsDescription")}
               />
             </div>
           )}
 
-          {!generalLoading && hasWeeklyMenu && (
+          {hasItems && (
             <>
               <div className="my-1 flex items-center justify-between px-5 text-sm">
                 <span>
-                  {t("weeklyMenuFound")}: {totalResults || 0}
+                  {t("weeklyMenuFound")}: {data?.pages[0]?.total || 0}
                 </span>
                 <PopoverForStatusDescription t={t} />
               </div>
 
               <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-2">
-                {weeklyMenu[currentPage]?.map((menu) => (
+                {weeklyMenus.map((menu) => (
                   <WeeklyMenuItemCard
                     key={menu._id}
                     openModal={openModal}
@@ -242,32 +208,36 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
                   />
                 ))}
               </div>
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <PagePagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  nextPageLoading={nextPageLoading}
-                  goPrevious={() => handlePageChange(currentPage - 1)}
-                  goNext={() => handlePageChange(currentPage + 1)}
-                />
+
+              {/* Bottom Spinner for Loading Next Page */}
+              {isFetchingNextPage && (
+                <div className="flex w-full justify-center pb-4">
+                  <ThreeDots color="#AFDF3F" height={30} width={40} />
+                </div>
               )}
+
+              <IntersectionObserverForFetchPage
+                onIntersect={fetchNextPage}
+                hasNextPage={!!hasNextPage}
+              />
             </>
           )}
         </div>
       </div>
 
       {/* Menu modal */}
-      <WeeklyMenuAddModal isOpen={isOpen} onClose={onClose} />
+      {isOpen && <WeeklyMenuAddModal isOpen={isOpen} onClose={onClose} />}
 
       {/* Perform action modal */}
-      <PerformActionModal
-        loading={loading}
-        t={t}
-        modalState={modalState}
-        closeModal={closeModal}
-        onAction={handleAction}
-      />
+      {modalState.type && (
+        <PerformActionModal
+          loading={isPending}
+          t={t}
+          modalState={modalState}
+          closeModal={() => setModalState({ type: null, id: null })}
+          onAction={handleAction}
+        />
+      )}
     </>
   );
 };

@@ -72,6 +72,7 @@
   "findIngredientAi": "Rasti ingredientą",
   "findIngredientFromDatabase": "Mano asmeniniai ingredientai",
   "enterIngredientManually": "Pridėti ingredientą savarankiškai",
+  "searchForMeals": "Ieškoti patiekalų",
 
   "search": "Ieškoti",
   "searchPlaceholder": "Ieškoti ingrediento",
@@ -129,6 +130,7 @@
 
   "errors": {
     "fieldIsRequired": "Laukas yra privalomas",
+    "nonNegative": "Reikšmė turi būti teigiamas skaičius",
     "AmountValid": "Kiekis turi būti skaičius",
     "caloriesValid": "Kalorijos turi būti skaičius",
     "proteinValid": "Baltymai turi būti skaičius",

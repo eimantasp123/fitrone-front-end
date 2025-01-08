@@ -46,6 +46,7 @@ const MealsPageHeader: React.FC<MealsPageHeaderProps> = ({
               searchQuery={searchQuery || ""}
               handleSearch={(e) => setSearchQuery(e.target.value)}
               cleanSearch={() => setSearchQuery("")}
+              placeholder={t("searchForMeals")}
             />
           </div>
           {/* Filters area */}

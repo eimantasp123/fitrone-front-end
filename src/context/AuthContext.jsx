@@ -1,5 +1,4 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
-import { cleanAllMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useAppDispatch } from "@/store";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -8,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import useAsync from "../hooks/useAsync";
 import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
 import axiosInstance from "../utils/axiosInterceptors";
-import { cleanAllWeeklyMenu } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
 import { useQueryClient } from "@tanstack/react-query";
 
 const AuthContext = createContext();
@@ -220,10 +218,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await axiosInstance.post("/auth/logout");
       dispatch(setUserDetails(null));
-      dispatch(cleanAllMeals());
-      dispatch(cleanAllWeeklyMenu());
       queryClient.clear();
-      // dispatch(cleanAllIngredients());
       localStorage.removeItem("authenticated");
       setAuthChecking(true);
     } catch {

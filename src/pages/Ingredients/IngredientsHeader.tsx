@@ -28,8 +28,8 @@ const IngredientsHeader: React.FC<IngredientsHeaderProps> = ({
       <div className="z-20 flex w-full flex-col gap-2 bg-background px-3 py-3 dark:bg-backgroundSecondary sm:flex-row md:rounded-lg lg:items-center xl:gap-4">
         <CustomSearchInput
           searchQuery={searchQuery || ""}
-          handleSearch={(e) => setSearchQuery(e.target.value || "")}
-          cleanSearch={() => setSearchQuery("")}
+          handleSearch={(e) => setSearchQuery(e.target.value || null)}
+          cleanSearch={() => setSearchQuery(null)}
           t={t}
         />
         <CustomButton

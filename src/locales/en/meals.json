@@ -72,6 +72,7 @@
   "findIngredientAi": "Find Ingredient",
   "findIngredientFromDatabase": "My Personal Ingredients",
   "enterIngredientManually": "Enter Ingredient Manually",
+  "searchForMeals": "Search for meals",
 
   "search": "Search",
   "searchPlaceholder": "Search for ingredient",
@@ -129,6 +130,7 @@
 
   "errors": {
     "fieldIsRequired": "Field is required",
+    "nonNegative": "Value must be positive number",
     "AmountValid": "Amount must be a number",
     "caloriesValid": "Calories must be a number",
     "proteinValid": "Protein must be a number",

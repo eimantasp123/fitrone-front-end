@@ -65,3 +65,32 @@ export const searchIngredientsApi = async ({
   });
   return response.data;
 };
+
+/**
+ * Search ingredient from the database
+ */
+export const searchIngredientFromDatabaseApi = async (query: string) => {
+  const response = await axiosInstance.get("ingredients/search", {
+    params: { query },
+  });
+  return response.data;
+};
+
+/**
+ * Get ingredient nutrition from the server
+ */
+export const getIngredientNutritionApi = async ({
+  ingredientId,
+  currentAmount,
+}: {
+  ingredientId: string;
+  currentAmount: string;
+}) => {
+  const response = await axiosInstance.get(
+    `ingredients/nutrition/${ingredientId}`,
+    {
+      params: { currentAmount },
+    },
+  );
+  return response.data;
+};

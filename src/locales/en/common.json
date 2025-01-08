@@ -58,6 +58,8 @@
   "noDescription": "No description",
 
   "filters": "Filters",
+  "noMealsFound": "No meals found",
+  "noMealsFoundDescription": "No meals have been found. It seems like you haven't added any meals yet. Start by adding a new meal or adjusting your search criteria to explore existing options.",
 
   "weekDays": [
     { "index": 0, "name": "Sunday" },

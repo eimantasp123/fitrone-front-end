@@ -1,16 +1,9 @@
 import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import CustomButton from "@/components/common/CustomButton";
-import { showCustomToast } from "@/hooks/showCustomToast";
-import RestAndPrefDetailsPopover from "@/pages/Meals/components/RestAndPrefDetailsPopover";
-import {
-  archiveWeeklyMenu,
-  cleanAllWeeklyMenu,
-  getAllWeeklyMenus,
-  unArchiveWeeklyMenu,
-} from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
-import { useAppDispatch, useAppSelector } from "@/store";
+import RestAndPrefDetailsPopover from "@/components/common/RestAndPrefDetailsPopover";
+import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
+import { useAction } from "@/hooks/WeeklyMenu/useAction";
 import { SingleWeeklyMenuById } from "@/utils/types";
-import { useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -18,48 +11,23 @@ interface DaysManagementTopBarProps {
   data: SingleWeeklyMenuById;
 }
 
+/**
+ * Days management top bar component for weekly menu by id page
+ */
 const DaysManagementTopBar: React.FC<DaysManagementTopBarProps> = ({
   data,
 }) => {
   const { t } = useTranslation(["weeklyMenu", "common"]);
-  const {
-    isOpen: archiveModalOpen,
-    onOpen: onOpenArchiveModal,
-    onClose: onCloseArchiveModal,
-  } = useDisclosure();
-  const {
-    isOpen: unarchiveModalOpen,
-    onOpen: onOpenUnarchiveModal,
-    onClose: onCloseUnarchiveModal,
-  } = useDisclosure();
-  const { loading } = useAppSelector((state) => state.weeklyMenuDetails);
-  const dispatch = useAppDispatch();
+  const { isOpen, openModal, closeModal } = useDynamicDisclosure();
+  const { mutate: manageWeeklyMenuAction, isPending } = useAction(() =>
+    closeModal("actionModal"),
+  );
 
   // Handle archive weekly menu
-  const handleArchive = async () => {
-    const result = await dispatch(archiveWeeklyMenu(data._id));
-    if (archiveWeeklyMenu.fulfilled.match(result)) {
-      dispatch(cleanAllWeeklyMenu());
-      dispatch(getAllWeeklyMenus({}));
-      onCloseArchiveModal();
-    }
-  };
-
-  // Handle unarchive weekly menu
-  const handleUnArchive = async () => {
-    const result = await dispatch(unArchiveWeeklyMenu(data._id));
-    if (result.payload.status === "limit_reached") {
-      showCustomToast({
-        status: "info",
-        description: result.payload.message,
-      });
-      return;
-    }
-    if (unArchiveWeeklyMenu.fulfilled.match(result)) {
-      dispatch(cleanAllWeeklyMenu());
-      dispatch(getAllWeeklyMenus({}));
-      onCloseUnarchiveModal();
-    }
+  const handleAction = async () => {
+    if (!data._id) return;
+    const actionType = data.archived ? "unarchive" : "archive";
+    manageWeeklyMenuAction({ type: actionType, id: data._id });
   };
 
   return (
@@ -78,38 +46,37 @@ const DaysManagementTopBar: React.FC<DaysManagementTopBarProps> = ({
           text={
             data.archived ? t("common:unarchiveMenu") : t("common:archiveMenu")
           }
-          onClick={data.archived ? onOpenUnarchiveModal : onOpenArchiveModal}
+          onClick={() => openModal("actionModal")}
           textLight={true}
           type="light2"
         />
       </div>
 
-      {/* Warning modal for archive menu */}
-      <ConfirmActionModal
-        title={t("archiveWeeklyMenuModalTitle")}
-        description={t("archiveWeeklyMenuModalDescription")}
-        confirmButtonText={t("archiveWeeklyMenu")}
-        cancelButtonText={t("cancel")}
-        loading={loading}
-        type="warning"
-        isOpen={archiveModalOpen}
-        onClose={onCloseArchiveModal}
-        onAction={handleArchive}
-      />
-
-      {/* Warning modal for unarchive menu */}
-      <ConfirmActionModal
-        title={t("unarchiveWeeklyMenuModalTitle")}
-        description={t("unarchiveWeeklyMenuModalDescription")}
-        confirmButtonText={t("unarchiveWeeklyMenu")}
-        cancelButtonText={t("cancel")}
-        loading={loading}
-        loadingSpinner={false}
-        type="primary"
-        isOpen={unarchiveModalOpen}
-        onClose={onCloseUnarchiveModal}
-        onAction={handleUnArchive}
-      />
+      {/* Warning modal for archive/unarchive menu */}
+      {isOpen("actionModal") && (
+        <ConfirmActionModal
+          title={
+            data.archived
+              ? t("unarchiveWeeklyMenuModalTitle")
+              : t("archiveWeeklyMenuModalTitle")
+          }
+          description={
+            data.archived
+              ? t("unarchiveWeeklyMenuModalDescription")
+              : t("archiveWeeklyMenuModalDescription")
+          }
+          confirmButtonText={
+            data.archived ? t("unarchiveWeeklyMenu") : t("archiveWeeklyMenu")
+          }
+          cancelButtonText={t("cancel")}
+          loading={isPending}
+          loadingSpinner={false}
+          type={data.archived ? "primary" : "warning"}
+          isOpen={isOpen("actionModal")}
+          onClose={() => closeModal("actionModal")}
+          onAction={handleAction}
+        />
+      )}
     </>
   );
 };

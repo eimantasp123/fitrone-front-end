@@ -10,6 +10,9 @@ interface CustomSearchInputProps {
   placeholder?: string;
 }
 
+/**
+ *  Custom search input component.
+ */
 const CustomSearchInput: React.FC<CustomSearchInputProps> = ({
   searchQuery,
   handleSearch,

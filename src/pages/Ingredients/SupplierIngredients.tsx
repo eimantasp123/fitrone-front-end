@@ -3,28 +3,37 @@ import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import EmptyState from "@/components/common/EmptyState";
 import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
 import { useDeleteIngredient } from "@/hooks/Ingredients/useDeleteIngredient";
+import useCustomDebounced from "@/hooks/useCustomDebounced";
+import { usePageStates } from "@/hooks/usePageStatus";
 import { IngredientFromServer } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ThreeDots } from "react-loader-spinner";
-import { useDebounce } from "use-debounce";
 import IngredientAddModal from "./IngredientAddModal";
 import IngredientCard from "./IngredientCard";
 import IngredientsHeader from "./IngredientsHeader";
-import { useIngredientStates } from "./useIngredientStates";
+import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 
 /**
  *  Supplier Ingredients Component
  */
 const SupplierIngredients: React.FC = () => {
   const { t } = useTranslation("meals");
-  const [searchQuery, setSearchQuery] = useState<string | null>(null);
-  const [searchValue] = useDebounce(searchQuery, 500);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ingredientId, setIngredientId] = useState<string>("");
+
+  // Delete ingredient mutation hook
   const { mutate: deleteIngredient } = useDeleteIngredient();
+
+  // Search query state and debounced value
+  const [searchQuery, setSearchQuery] = useState<string | null>(null);
+  const { debouncedValue } = useCustomDebounced(
+    searchQuery,
+    500,
+    (value) => !value || value.length < 1,
+  );
 
   // Modal state for adding and editing ingredients
   const [modalState, setModalState] = useState<{
@@ -41,7 +50,7 @@ const SupplierIngredients: React.FC = () => {
     isLoading,
     isError,
   } = useInfiniteQuery({
-    queryKey: ["ingredients", searchValue],
+    queryKey: ["ingredients", debouncedValue],
     queryFn: fetchPaginatedIngredients,
     initialPageParam: 1,
     placeholderData: (prev) => prev,
@@ -55,6 +64,26 @@ const SupplierIngredients: React.FC = () => {
     retry: 3,
   });
 
+  // Aggregate all ingredients into a single array
+  const ingredients = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data) || [];
+  }, [data]);
+
+  // Custom hook to check the state of the weekly menus
+  const { noItemsAdded, noResultsForSearchAndFilters, hasItems } =
+    usePageStates({
+      currentResults: data?.pages[0]?.results || 0,
+      isLoading,
+      isError,
+      totalResults: data?.pages[0]?.total || 0,
+    });
+
+  // Ref to track the scroll container
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Use custom hook to scroll to top on filter/search change
+  useScrollToTopOnDependencyChange([debouncedValue], scrollContainerRef);
+
   // Handle delete mutation
   const openDeleteModal = (ingredientId: string) => {
     setIngredientId(ingredientId);
@@ -66,19 +95,12 @@ const SupplierIngredients: React.FC = () => {
     if (!ingredientId) return;
     deleteIngredient({ id: ingredientId, onCloseModal: onClose });
   };
-
-  // Aggregate all ingredients into a single array
-  const ingredients = useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) || [];
-  }, [data]);
-
-  // Custom hook to check the state of the ingredients
-  const { noIngredientsAdded, noSearchResults, hasIngredients } =
-    useIngredientStates({ ingredients, isLoading, isError, searchQuery });
-
   return (
     <>
-      <div className="w-full overflow-y-auto scrollbar-thin">
+      <div
+        ref={scrollContainerRef}
+        className="w-full overflow-y-auto scrollbar-thin"
+      >
         <div className="container mx-auto flex max-w-[1550px] flex-col">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <IngredientsHeader
@@ -96,22 +118,8 @@ const SupplierIngredients: React.FC = () => {
             </div>
           )}
 
-          {/* Empty State */}
-          {noIngredientsAdded && (
-            <div className="flex justify-center">
-              <EmptyState
-                title={t("noIngredients")}
-                description={t("noIngredientsDescription")}
-                firstButtonText={t("addIngredient")}
-                onClickFirstButton={() =>
-                  setModalState({ type: "create", ingredient: null })
-                }
-              />
-            </div>
-          )}
-
           {/* No search results */}
-          {noSearchResults && (
+          {noResultsForSearchAndFilters && (
             <div className="flex justify-center">
               <EmptyState
                 title={t("errors.noSearchResults")}
@@ -131,8 +139,22 @@ const SupplierIngredients: React.FC = () => {
             </div>
           )}
 
+          {/* Empty State */}
+          {noItemsAdded && (
+            <div className="flex justify-center">
+              <EmptyState
+                title={t("noIngredients")}
+                description={t("noIngredientsDescription")}
+                firstButtonText={t("addIngredient")}
+                onClickFirstButton={() =>
+                  setModalState({ type: "create", ingredient: null })
+                }
+              />
+            </div>
+          )}
+
           {/* Display Ingredients */}
-          {hasIngredients && (
+          {hasItems && (
             <>
               <span className="pl-5 text-sm">
                 {t("ingredientsFound")}: {data?.pages[0]?.total || 0}

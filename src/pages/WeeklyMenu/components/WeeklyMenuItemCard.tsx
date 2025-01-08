@@ -1,11 +1,12 @@
+import { fetchWeeklyMenuById } from "@/api/weeklyMenuById";
 import ActiveBadge from "@/components/common/ActiveBadge";
 import ArchivedBadge from "@/components/common/ArchivedBadge";
 import CustomButton from "@/components/common/CustomButton";
-import RestAndPrefDetailsPopover from "@/pages/Meals/components/RestAndPrefDetailsPopover";
-import { fetchWeeklyMenuById } from "@/services/reduxSlices/WeeklyMenuById/weeklyMenuByIdSlice";
-import { useAppDispatch, useAppSelector } from "@/store";
+import RestAndPrefDetailsPopover from "@/components/common/RestAndPrefDetailsPopover";
+// import { fetchWeeklyMenuById } from "@/services/reduxSlices/WeeklyMenuById/weeklyMenuByIdSlice";
 import { capitalizeFirstLetter } from "@/utils/helper";
-import { WeeklyMenuBio } from "@/utils/types";
+import { WeeklyMenuBio, WeeklyMenuByIdResponse } from "@/utils/types";
+import { useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { TFunction } from "i18next";
 import React, { useState } from "react";
@@ -30,32 +31,28 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
     createdAt,
     updatedAt,
     status,
+    _id,
   } = menu;
-  const { data } = useAppSelector((state) => state.weeklyMenuByIdDetails);
-  const [fetchCurrentPageLoading, setFetchCurrentPageLoading] =
-    useState<boolean>(false);
-  const dispatch = useAppDispatch();
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   // Navigate to weekly menu management
   const navigateToWeeklyMenuManagement = async () => {
-    if (!menu._id) return; // Return if no menu id
-
-    // Fetch weekly menu by id if not already fetched
-    if (!data[menu._id]) {
-      setFetchCurrentPageLoading(true);
-      const result = await dispatch(fetchWeeklyMenuById(menu._id));
-
-      // If fetch successful, navigate to weekly menu management page
-      if (fetchWeeklyMenuById.fulfilled.match(result)) {
-        navigate(`/weekly-menu/${menu._id}`);
-        setFetchCurrentPageLoading(false);
-      }
-
-      // If data already fetched, navigate to weekly menu management page
-    } else {
-      navigate(`/weekly-menu/${menu._id}`);
+    if (!_id) return; // Return if no menu id
+    setIsFetching(true);
+    const menu = queryClient.getQueryData([
+      "weeklyMenuById",
+      _id,
+    ]) as WeeklyMenuByIdResponse;
+    if (!menu) {
+      await queryClient.prefetchQuery({
+        queryKey: ["weeklyMenuById", _id],
+        queryFn: () => fetchWeeklyMenuById(_id),
+      });
     }
+    setIsFetching(false);
+    navigate(`/weekly-menu/${_id}`);
   };
 
   // Format dates
@@ -131,13 +128,13 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
             <div className="col-span-2 sm:col-span-1">
               <CustomButton
                 text={
-                  fetchCurrentPageLoading
+                  isFetching
                     ? `${t("common:manageMenu")}...`
                     : t("common:manageMenu")
                 }
                 onClick={navigateToWeeklyMenuManagement}
                 textLight={true}
-                disabled={fetchCurrentPageLoading}
+                disabled={isFetching}
                 widthFull={true}
               />
             </div>

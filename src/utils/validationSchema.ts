@@ -179,7 +179,7 @@ export const useIngredientInputSchema = () => {
   const numberTransform = (
     value: string | number,
     originalValue: string | number,
-  ) => (originalValue === "" ? undefined : value);
+  ) => (originalValue === "" ? undefined : Number(value));
 
   return yup.object().shape({
     title: yup

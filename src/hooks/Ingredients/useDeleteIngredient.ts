@@ -61,11 +61,22 @@ export const useDeleteIngredient = () => {
         }
       });
 
+      // Close modal
       if (onCloseModal) onCloseModal();
 
       // Return the previous data
       return { previousDataMap };
     },
+    onSuccess: (data) => {
+      // Invalidate the cache to refetch the data
+      queryClient.invalidateQueries({ queryKey: ["ingredients"] });
+      // Show success toast
+      showCustomToast({
+        status: "success",
+        description: data.message || "Ingredient deleted successfully",
+      });
+    },
+
     onError: (err, _, context) => {
       if (axios.isAxiosError(err)) {
         const errorMessage = err.response?.data?.message || "An error occurred";
@@ -81,14 +92,6 @@ export const useDeleteIngredient = () => {
           queryClient.setQueryData(JSON.parse(key), previousData);
         },
       );
-    },
-    onSuccess: (data) => {
-      // Invalidate the cache to refetch the data
-      queryClient.invalidateQueries({ queryKey: ["ingredients"] });
-      showCustomToast({
-        status: "success",
-        description: data.message || "Ingredient deleted successfully",
-      });
     },
   });
 };

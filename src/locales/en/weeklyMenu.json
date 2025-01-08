@@ -66,6 +66,6 @@
 
   "searchMealsFromDatabaseAndAssign": "Search for a meals in the database and assign them to this day.",
 
-  "noMealsFound": "No meals found",
-  "noMealsFoundDescription": "It seems like you don’t have any meals added yet or the search or filter criteria didn’t match any results. Try adjusting your filters or adding new meals to your collection to assign them to this day."
+  "noResults": "No results",
+  "noResultsDescription": "No weekly menu match your search and filters. Try adjusting your search or filters."
 }

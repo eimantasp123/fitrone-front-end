@@ -1,39 +1,49 @@
-import { fetchPaginatedMeals } from "@/api/mealsApi";
 import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import EmptyState from "@/components/common/EmptyState";
 import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
+import { useDeleteMeal } from "@/hooks/Meals/useDeleteMeal";
+import { useMeals } from "@/hooks/Meals/useMeals";
+import useCustomDebounced from "@/hooks/useCustomDebounced";
+import { usePageStates } from "@/hooks/usePageStatus";
 import { Filters, Meal } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ThreeDots } from "react-loader-spinner";
-import { useDebounce } from "use-debounce";
 import MealOverviewCard from "./components/MealOverviewCard";
 import MealAddModal from "./MealAddModal";
 import MealsPageHeader from "./MealsPageHeader";
-import { useMealStates } from "./useMealStates";
+import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 
 /**
  * Supplier Meals Component to display the meals added by the supplier
  */
 const SupplierMeals: React.FC = () => {
   const { t } = useTranslation("meals");
-  const [searchQuery, setSearchQuery] = useState<string | null>(null);
-  const [searchValue] = useDebounce(searchQuery, 500);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [mealId, setMeal] = useState<string | null>(null);
+  const { mutate: deleteMeal } = useDeleteMeal();
   const [modalState, setModalState] = useState<{
     type: "create" | "edit" | null;
     meal: Meal | null;
   }>({ type: null, meal: null });
+
+  // Filters for meals
   const [filters, setFilters] = useState<Filters>({
     category: null,
     preference: null,
     restriction: null,
   });
 
-  // Fetch ingredients from the server using infinite query
+  // Search query state and debounced value
+  const [searchQuery, setSearchQuery] = useState<string | null>(null);
+  const { debouncedValue } = useCustomDebounced(
+    searchQuery,
+    500,
+    (value) => !value || value.length < 1,
+  );
+
+  // Fetch meals
   const {
     data,
     fetchNextPage,
@@ -41,25 +51,11 @@ const SupplierMeals: React.FC = () => {
     isFetchingNextPage,
     isLoading,
     isError,
-  } = useInfiniteQuery({
-    queryKey: [
-      "meals",
-      searchValue,
-      filters.category?.key,
-      filters.preference?.key,
-      filters.restriction?.key,
-    ],
-    queryFn: fetchPaginatedMeals,
-    initialPageParam: 1,
-    placeholderData: (prev) => prev,
-    getNextPageParam: (lastPage) => {
-      if (lastPage?.currentPage < lastPage?.totalPages) {
-        return lastPage.currentPage + 1;
-      }
-      return undefined;
-    },
-    staleTime: 1000 * 60 * 5, // 5 minutes stale time
-    retry: 3,
+  } = useMeals({
+    searchValue: debouncedValue || null,
+    category: filters.category?.key || null,
+    preference: filters.preference?.key || null,
+    restriction: filters.restriction?.key || null,
   });
 
   // Memoized meals data
@@ -68,18 +64,33 @@ const SupplierMeals: React.FC = () => {
   }, [data]);
 
   // Custom hook to check the state of the meals
-  const { noMealsAdded, noResultsForSearchAndFilters, hasMeals } =
-    useMealStates({
-      meals,
+  const { noItemsAdded, noResultsForSearchAndFilters, hasItems } =
+    usePageStates({
+      currentResults: data?.pages[0]?.results || 0,
       isLoading,
       isError,
-      searchQuery,
-      filters,
+      totalResults: data?.pages[0]?.total || 0,
     });
+
+  // Ref to track the scroll container
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Use custom hook to scroll to top on filter/search change
+  useScrollToTopOnDependencyChange(
+    [filters, debouncedValue],
+    scrollContainerRef,
+  );
 
   // Handle Delete meal mutation
   const handleDelete = () => {
-    console.log("Deleting meal with id: ", mealId);
+    if (!mealId) return;
+    deleteMeal({
+      mealId,
+      onCloseModal: () => {
+        setMeal(null);
+        onClose();
+      },
+    });
   };
 
   // Open delete modal
@@ -111,7 +122,10 @@ const SupplierMeals: React.FC = () => {
 
   return (
     <>
-      <div className="w-full overflow-y-auto scrollbar-thin">
+      <div
+        ref={scrollContainerRef}
+        className="w-full overflow-y-auto scrollbar-thin"
+      >
         <div className="container mx-auto flex max-w-[1550px] flex-col">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             {/* Filters */}
@@ -142,7 +156,7 @@ const SupplierMeals: React.FC = () => {
             </div>
           )}
 
-          {noMealsAdded && (
+          {noItemsAdded && (
             <div className="flex justify-center">
               <EmptyState
                 title={t("noMealsAdded")}
@@ -164,12 +178,12 @@ const SupplierMeals: React.FC = () => {
             </div>
           )}
 
-          {hasMeals && (
+          {hasItems && (
             <>
               <span className="pl-5 text-sm">
                 {t("mealsFound")}: {data?.pages[0]?.total || 0}
               </span>
-              <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 xl:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 2xl:grid-cols-2">
                 {meals.map((meal, index) => (
                   <MealOverviewCard
                     setModalState={setModalState}
@@ -183,7 +197,7 @@ const SupplierMeals: React.FC = () => {
               {/* Bottom Spinner for Loading Next Page */}
               {isFetchingNextPage && (
                 <div className="flex w-full justify-center pb-4">
-                  <ThreeDots color="#AFDF3F" height={30} width={40} />
+                  {<ThreeDots color="#AFDF3F" height={30} width={40} />}
                 </div>
               )}
 

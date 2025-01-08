@@ -25,6 +25,7 @@ const PerformActionModal: React.FC<IPerformActionModalProps> = ({
       isOpen={!!modalState.type}
       onClose={closeModal}
       loading={loading}
+      loadingSpinner={false}
       type={
         modalState.type === "delete"
           ? "delete"
