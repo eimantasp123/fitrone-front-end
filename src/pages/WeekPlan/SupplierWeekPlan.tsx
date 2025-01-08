@@ -2,37 +2,15 @@ import EmptyState from "@/components/common/EmptyState";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import CreateMenuModal from "../WeeklyMenu/modals/WeeklyMenuAddModal";
-import WeekPlanHeader from "./WeekPlanHeader";
 import AssignExistingMenuModal from "../WeeklyMenu/modals/AssignExistingMenuModal";
-import WeeklyMenuAddModal from "../WeeklyMenu/modals/WeeklyMenuAddModal";
+import WeekPlanHeader from "./WeekPlanHeader";
 
+/**
+ *  Supplier Week Plan Page Component for attaching a weekly menu to a current week
+ */
 const SupplierWeekPlan: React.FC = () => {
   const { t } = useTranslation("weekPlan");
-  const {
-    isOpen: isAssignModalOpen,
-    onOpen: onAssignModalOpen,
-    onClose: onAssignModalClose,
-  } = useDisclosure();
-  const {
-    isOpen: isMenuModalOpen,
-    onOpen: onMenuModalOpen,
-    onClose: onMenuModalClose,
-  } = useDisclosure();
-
-  // const currentWeekPlans = [
-  //   "Keto Meal Plan",
-  //   "Vegetarian Meal Plan",
-  //   "Balanced Meal Plan",
-  //   "Vegan Meal Plan",
-  //   "Vegetarian Meal Plan",
-  //   "Balanced Meal Plan",
-  //   "Vegan Meal Plan",
-  //   "Vegan Meal Plan",
-  //   "Vegetarian Meal Plan",
-  //   "Balanced Meal Plan",
-  //   "Vegan Meal Plan",
-  // ];
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     // fetch current week plan
@@ -58,28 +36,15 @@ const SupplierWeekPlan: React.FC = () => {
                 title={t("noMenuForCurrentWeek")}
                 description={t("noMenuForCurrentWeekDescription")}
                 firstButtonText={t("addMenu")}
-                secondButtonText={t("addNewMenu")}
-                onClickSecondButton={onMenuModalOpen}
-                onClickFirstButton={onAssignModalOpen}
+                onClickFirstButton={onOpen}
               />
             )
           )}
         </div>
       </div>
 
-      {/* Menu modal */}
-      <WeeklyMenuAddModal
-        loading={false}
-        isOpen={isMenuModalOpen}
-        onClose={onMenuModalClose}
-      />
-
       {/* Assign Existing Menu Modal */}
-      <AssignExistingMenuModal
-        isOpen={isAssignModalOpen}
-        onOpenCreateMenuModal={onMenuModalOpen}
-        onClose={onAssignModalClose}
-      />
+      {isOpen && <AssignExistingMenuModal isOpen={isOpen} onClose={onClose} />}
     </>
   );
 };

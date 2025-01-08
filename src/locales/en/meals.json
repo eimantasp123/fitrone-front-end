@@ -58,8 +58,8 @@
     { "key": "other", "title": "Other" }
   ],
 
-  "mealCategory": "Meal Category",
-  "selectMealCategory": "Select Meal Category",
+  "mealCategory": "Meal category",
+  "selectMealCategory": "Select meal category",
   "noFiltersResultsFound": "No results found for the selected filters",
   "tryAdjustingFilters": "Try adjusting your filters and try again",
 
@@ -72,11 +72,14 @@
   "findIngredientAi": "Find Ingredient",
   "findIngredientFromDatabase": "My Personal Ingredients",
   "enterIngredientManually": "Enter Ingredient Manually",
+  "searchForMeals": "Search for meals",
 
   "search": "Search",
   "searchPlaceholder": "Search for ingredient",
   "noIngredientsFound": "No ingredients found",
   "noIngredietnsFoundDescription": "Try adjusting your query and try again",
+  "noResults": "No results",
+  "noResultsDescription": "No meals match your search and filters. Try adjusting your search or filters.",
 
   "firstInfoForSearchIngredient": "Before searching for ingredients, select the unit of measurement (e.g., grams or milliliters) that best suits your needs.",
   "secondInfoForSearchIngredient": "To search for an ingredient, include one specific item in your query, such as 'Milk 2.5%' or 'Cucumber'. Use clear and proper English, and avoid including multiple ingredients in a single search for accurate results.",
@@ -127,6 +130,7 @@
 
   "errors": {
     "fieldIsRequired": "Field is required",
+    "nonNegative": "Value must be positive number",
     "AmountValid": "Amount must be a number",
     "caloriesValid": "Calories must be a number",
     "proteinValid": "Protein must be a number",

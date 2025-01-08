@@ -179,10 +179,14 @@ export const useIngredientInputSchema = () => {
   const numberTransform = (
     value: string | number,
     originalValue: string | number,
-  ) => (originalValue === "" ? undefined : value);
+  ) => (originalValue === "" ? undefined : Number(value));
 
   return yup.object().shape({
-    title: yup.string().trim().required(requiredMessage),
+    title: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .required(requiredMessage),
     amount: yup
       .number()
       .transform(numberTransform)
@@ -227,7 +231,11 @@ export const useIngredientInputSchemaWithoutCurrentAmount = () => {
   ) => (originalValue === "" ? undefined : value);
 
   return yup.object().shape({
-    title: yup.string().trim().required(requiredMessage),
+    title: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .required(requiredMessage),
     amount: yup
       .number()
       .transform(numberTransform)

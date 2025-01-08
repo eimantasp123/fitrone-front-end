@@ -1,5 +1,4 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
-import { cleanAllMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
 import { useAppDispatch } from "@/store";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -8,8 +7,7 @@ import { useNavigate } from "react-router-dom";
 import useAsync from "../hooks/useAsync";
 import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
 import axiosInstance from "../utils/axiosInterceptors";
-import { cleanAllIngredients } from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
-import { cleanAllWeeklyMenu } from "@/services/reduxSlices/WeeklyMenu/weeklyMenuSlice";
+import { useQueryClient } from "@tanstack/react-query";
 
 const AuthContext = createContext();
 const MOCK_API = import.meta.env.VITE_API_URL;
@@ -27,6 +25,7 @@ export const AuthProvider = ({ children }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -215,15 +214,19 @@ export const AuthProvider = ({ children }) => {
   });
 
   // Logout function
-  const logout = useAsync(async () => {
-    await axiosInstance.post("/auth/logout");
-    dispatch(setUserDetails(null));
-    dispatch(cleanAllMeals());
-    dispatch(cleanAllWeeklyMenu());
-    dispatch(cleanAllIngredients());
-    localStorage.removeItem("authenticated");
-    setAuthChecking(true);
-  });
+  const logout = async () => {
+    try {
+      await axiosInstance.post("/auth/logout");
+      dispatch(setUserDetails(null));
+      queryClient.clear();
+      localStorage.removeItem("authenticated");
+      setAuthChecking(true);
+    } catch {
+      localStorage.removeItem("authenticated");
+      setAuthChecking(true);
+      navigate("/login");
+    }
+  };
 
   return (
     <AuthContext.Provider

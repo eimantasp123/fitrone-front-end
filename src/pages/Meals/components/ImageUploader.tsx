@@ -7,6 +7,9 @@ interface ImageUploaderProps {
   image?: string | null;
 }
 
+/**
+ * ImageUploader component to upload and preview images
+ */
 const ImageUploader: React.FC<ImageUploaderProps> = ({ image = null }) => {
   const { t } = useTranslation(["profileSettings", "meals"]);
   const [previewImage, setPreviewImage] = useState<string | null>(
@@ -18,6 +21,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ image = null }) => {
     formState: { errors },
   } = useFormContext();
 
+  // Handle the image upload and set the preview
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -27,6 +31,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ image = null }) => {
     }
   };
 
+  // Remove the image from the form and the preview
   const handleImageDelete = () => {
     setPreviewImage(null);
     setValue("image", "delete", { shouldValidate: true });

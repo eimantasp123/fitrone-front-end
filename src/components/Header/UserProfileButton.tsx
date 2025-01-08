@@ -23,18 +23,6 @@ const UserProfileButton: React.FC = () => {
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Logout execute function
-  const { execute: executeLogout } = logout;
-
-  // Logout Function
-  const handleLogout = async () => {
-    try {
-      await executeLogout();
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
-
   return (
     <>
       <Menu isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
@@ -82,7 +70,7 @@ const UserProfileButton: React.FC = () => {
             >
               {t("accountSettings")}
             </MenuItem>
-            <MenuItem icon={<IoLogOutOutline />} onClick={handleLogout}>
+            <MenuItem icon={<IoLogOutOutline />} onClick={logout}>
               {t("logout")}
             </MenuItem>
           </MenuGroup>

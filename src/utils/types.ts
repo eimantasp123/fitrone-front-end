@@ -46,9 +46,9 @@ export interface UserDetails {
 }
 
 /**
- * Ingredients interface for the ingredients object
+ * Ingredients interface used for the ingredients object
  */
-export interface Ingredients {
+export interface IngredientsForMealModal {
   _id?: string;
   title: string;
   currentAmount?: number;
@@ -64,7 +64,7 @@ export interface Ingredients {
 /**
  * Ingredient interface for the ingredient object
  */
-export interface IngredientForOnce {
+export interface IngredientFromServer {
   ingredientId: string;
   title: string;
   unit: string;
@@ -76,16 +76,18 @@ export interface IngredientForOnce {
 }
 
 /**
- * Ingredient interface for the ingredient object update
+ * Ingredient to create or update interface
  */
-export interface IngredientUpdate {
+export interface IngredientToCreateOrUpdate {
   title: string;
-  unit: string;
   amount: number;
+  unit?: string;
   calories: number;
-  protein: number;
   carbs: number;
   fat: number;
+  protein: number;
+  currentAmount?: number;
+  ingredientId?: string;
 }
 
 /**
@@ -105,7 +107,7 @@ export interface Meal {
   title: string;
   description: string;
   archived?: boolean;
-  ingredients: Ingredients[];
+  ingredients: IngredientsForMealModal[];
   category:
     | "breakfast"
     | "lunch"
@@ -277,4 +279,70 @@ export interface PersonalDetailsState {
   updateDetailsLoading: boolean;
   request2FALoading: boolean;
   verify2FALoading: boolean;
+}
+
+/**
+ * Interface for the paginated response of the ingredients
+ */
+export interface PaginatedIngredientsResponse {
+  status: string;
+  results: number;
+  total: number;
+  currentPage: number;
+  totalPages: number;
+  data: IngredientFromServer[] | [];
+}
+/**
+ * Interface for the paginated response of the meals
+ */
+export interface PaginatedMealsResponse {
+  status: string;
+  results: number;
+  total: number;
+  currentPage: number;
+  totalPages: number;
+  data: Meal[] | [];
+}
+
+/**
+ * Weekly menu by id interface for the weekly menu by id object
+ */
+
+export interface WeeklyMenuByIdResponse {
+  status: string;
+  data: SingleWeeklyMenuById;
+}
+
+/**
+ * Format data for meal modal
+ */
+export interface FormMealData {
+  title: string;
+  description?: string;
+  ingredients?:
+    | {
+        title: string;
+        amount: number;
+        calories: number;
+        protein: number;
+        carbs: number;
+        fat: number;
+        currentAmount: number;
+      }[]
+    | null;
+  image?: File | "delete" | null;
+}
+
+/**
+ * Search result interface for the meal modal
+ */
+export interface SearchResultFromDatabase {
+  ingredientId: string;
+  title: string;
+  amount: number;
+  unit: string;
+  calories: number;
+  protein: number;
+  fat: number;
+  carbs: number;
 }

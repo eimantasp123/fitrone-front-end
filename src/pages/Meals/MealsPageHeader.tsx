@@ -1,120 +1,114 @@
-import CustomSelect from "@/components/common/CustomSelect";
-import TextButton from "@/components/common/TextButton";
-import {
-  getMeals,
-  setFilters,
-} from "@/services/reduxSlices/Meals/mealDetailsSlice";
-import { useAppDispatch, useAppSelector } from "@/store";
-import { useDisclosure } from "@chakra-ui/react";
+import CustomButton from "@/components/common/CustomButton";
+import CustomSearchInput from "@/components/common/CustomSearchInput";
+import DrawerFromTop from "@/components/common/DrawerFromTop";
+import { Filters, Meal } from "@/utils/types";
+import { useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import MealAddModal from "./MealAddModal";
+import FiltersComponent from "./components/FiltersComponent";
 
+// MealsPageHeaderProps interface
 interface MealsPageHeaderProps {
   onFiltersClose?: () => void;
-  dietaryPreferences: { key: string; title: string }[];
-  dietaryRestrictions: { key: string; title: string }[];
-  categories: { key: string; title: string }[];
+  searchQuery: string | null;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string | null>>;
+  setModalState: React.Dispatch<
+    React.SetStateAction<{ type: "create" | "edit" | null; meal: Meal | null }>
+  >;
+  filters: Filters;
+  handleFilterChange: (
+    filterType: "preference" | "restriction" | "category" | "all",
+    selectedOption?: { key: string; title: string } | null,
+  ) => void;
 }
 
+/**
+ * MealsPageHeader component to display the header of the meals page
+ */
 const MealsPageHeader: React.FC<MealsPageHeaderProps> = ({
-  onFiltersClose,
-  dietaryPreferences,
-  dietaryRestrictions,
-  categories,
+  searchQuery,
+  setSearchQuery,
+  setModalState,
+  filters,
+  handleFilterChange,
 }) => {
   const { t } = useTranslation("meals");
-  const {
-    isOpen: isMealOpen,
-    onClose: onMealClose,
-    onOpen: onMealOpen,
-  } = useDisclosure();
-  const dispatch = useAppDispatch();
-  const { filters, limit } = useAppSelector((state) => state.mealsDetails);
-
-  // Handle filter selection
-  const handleFilterChange = (
-    filterType: string,
-    option: { key: string; title: string },
-  ) => {
-    const updatedFilters = { ...filters, [filterType]: option };
-    dispatch(setFilters(updatedFilters));
-    dispatch(getMeals({ page: 1, limit, ...updatedFilters }));
-    if (onFiltersClose) {
-      onFiltersClose();
-    }
-  };
-
-  // Handle reset filters
-  const resetFilters = () => {
-    const defaultFilters = {
-      category: null,
-      preference: null,
-      restriction: null,
-    };
-    dispatch(setFilters(defaultFilters));
-    dispatch(
-      getMeals({
-        page: 1,
-        limit,
-        category: null,
-        preference: null,
-        restriction: null,
-      }),
-    ); // Fetch meals without filters
-    if (onFiltersClose) {
-      onFiltersClose();
-    }
-  };
+  const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <>
-      <div className="z-20 flex w-full select-none flex-col gap-2 bg-background px-3 pt-5 dark:bg-backgroundSecondary md:rounded-lg md:py-2 lg:flex-row xl:gap-1 xl:py-0">
-        <h4 className="flex h-auto items-center pb-2 pt-4 font-medium md:pt-0 xl:p-2">
-          {t("filters")}:
-        </h4>
-        <div className="mb-3 grid w-full grid-cols-1 gap-3 md:mb-0 md:grid-cols-2 md:grid-rows-2 xl:py-3 2xl:grid-cols-4 2xl:grid-rows-1 2xl:gap-5">
-          <CustomSelect
-            options={dietaryPreferences}
-            defaultOption={t("preferencesPlaceholder")}
-            selectedOption={filters.preference?.title}
-            onChange={(option) => handleFilterChange("preference", option)}
-          />
-          <CustomSelect
-            options={dietaryRestrictions}
-            defaultOption={t("restrictionsPlaceholder")}
-            selectedOption={filters.restriction?.title}
-            onChange={(option) => handleFilterChange("restriction", option)}
-          />
-          <CustomSelect
-            options={categories}
-            defaultOption={t("selectMealCategory")}
-            selectedOption={filters.category?.title}
-            onChange={(option) => {
-              handleFilterChange("category", option);
-            }}
-          />
-          <div className="flex justify-between gap-2">
-            <TextButton
-              className="w-1/2"
-              onClick={resetFilters}
-              text={t("resetFilters")}
+      <div className="z-20 w-full gap-2 bg-background px-3 py-[10px] dark:bg-backgroundSecondary md:rounded-lg">
+        <div className="grid w-full grid-cols-1 grid-rows-2 gap-2 md:grid-cols-2 md:grid-rows-1 md:gap-x-4 2xl:grid-cols-8 2xl:grid-rows-2">
+          {/* Search input */}
+          <div className="flex items-center 2xl:col-span-8 2xl:grid-rows-1">
+            <CustomSearchInput
+              t={t}
+              searchQuery={searchQuery || ""}
+              handleSearch={(e) => setSearchQuery(e.target.value)}
+              cleanSearch={() => setSearchQuery("")}
+              placeholder={t("searchForMeals")}
             />
-            <TextButton
-              onClick={onMealOpen}
-              className="w-1/2"
-              text={`${t("addMeal")}`}
-              primary={true}
+          </div>
+          {/* Filters area */}
+          <div className="hidden items-center gap-4 2xl:col-span-6 2xl:flex">
+            <FiltersComponent
+              t={t}
+              handleFilterChange={handleFilterChange}
+              filters={filters}
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className="flex items-center justify-between gap-3 2xl:col-span-2">
+            <div className="hidden w-full 2xl:block">
+              <CustomButton
+                type="lightSecondary"
+                onClick={() => handleFilterChange("all")}
+                text={t("resetFilters")}
+                widthFull={true}
+              />
+            </div>
+            <div className="w-full 2xl:hidden">
+              <CustomButton
+                widthFull={true}
+                onClick={onOpen}
+                text={t("filters")}
+                type="lightSecondary"
+              />
+            </div>
+            <CustomButton
+              widthFull={true}
+              onClick={() => setModalState({ type: "create", meal: null })}
+              text={t("addMeal")}
             />
           </div>
         </div>
       </div>
 
-      {isMealOpen && (
-        <MealAddModal
-          isOpenModal={isMealOpen}
-          onClose={onMealClose}
-          mealToEdit={null}
-        />
+      {/* Filters drawer */}
+      {isOpen && (
+        <DrawerFromTop
+          isOpen={isOpen}
+          isDrawerVisible={isDrawerVisible}
+          onClose={onClose}
+        >
+          <div className="flex flex-col gap-3 p-3">
+            <FiltersComponent
+              t={t}
+              handleFilterChange={handleFilterChange}
+              filters={filters}
+              onClose={onClose}
+            />
+            <CustomButton
+              onClick={() => {
+                handleFilterChange("all");
+                if (onClose) onClose();
+              }}
+              text={t("meals:resetFilters")}
+              widthFull={true}
+            />
+          </div>
+        </DrawerFromTop>
       )}
     </>
   );

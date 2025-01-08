@@ -94,7 +94,6 @@ export const changePassword = createAsyncThunk(
     } catch (error: unknown) {
       const typedError = error as ApiError;
       if (typedError.response?.data?.message) {
-        console.log(typedError.response.data.message);
         return rejectWithValue(typedError.response.data.message);
       }
       return rejectWithValue("Failed to change password");

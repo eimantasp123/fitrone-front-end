@@ -1,90 +1,32 @@
 import CustomButton from "@/components/common/CustomButton";
-import {
-  deleteIngredient,
-  getIngredients,
-  setCurrentPage,
-  setSearchQuery,
-} from "@/services/reduxSlices/Ingredients/ingredientsDetailsSlice";
-import { getMeals } from "@/services/reduxSlices/Meals/mealDetailsSlice";
-import { useAppDispatch, useAppSelector } from "@/store";
 import { capitalizeFirstLetter } from "@/utils/helper";
-import { IngredientForOnce } from "@/utils/types";
-import { useDisclosure } from "@chakra-ui/react";
+import { IngredientFromServer } from "@/utils/types";
+import { TFunction } from "i18next";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import AddIngredientManualModal from "../Meals/components/IngredientManualAddModal";
-import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 
+// Ingredient card component props interface
 interface IngredientCardProps {
-  ingredient: IngredientForOnce;
+  ingredient: IngredientFromServer;
+  openDeleteModal: (ingredientId: string) => void;
+  t: TFunction;
+  setModalState: React.Dispatch<
+    React.SetStateAction<{
+      type: "create" | "edit" | null;
+      ingredient: IngredientFromServer | null;
+    }>
+  >;
 }
 
-const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
-  const { t } = useTranslation("meals");
-  const {
-    onOpen: onOpenIngredientModal,
-    onClose: onCloseIngredientModal,
-    isOpen: isOpenIngredientModal,
-  } = useDisclosure();
-  const {
-    onOpen: onOpenDeleteModal,
-    onClose: onCloseDeleteModal,
-    isOpen: deleteModalOpen,
-  } = useDisclosure();
-  const dispatch = useAppDispatch();
-  const {
-    ingredients,
-    filteredIngredients,
-    searchQuery,
-    currentPage,
-    loading,
-  } = useAppSelector((state) => state.ingredientsDetails);
-  const { limit } = useAppSelector((state) => state.mealsDetails);
+/**
+ * Ingredient card component
+ */
+const IngredientCard: React.FC<IngredientCardProps> = ({
+  ingredient,
+  openDeleteModal,
+  t,
+  setModalState,
+}) => {
   const { title, calories, unit, amount, ingredientId } = ingredient;
-
-  // Determine the data to display (filtered or all ingredients)
-  const displayedIngredients =
-    filteredIngredients && searchQuery ? filteredIngredients : ingredients;
-
-  // Delete ingredient function
-  const handleDelete = async () => {
-    await dispatch(deleteIngredient({ ingredientId })).unwrap();
-
-    // If the ingredient is the only one on the page and no search query, go back one page
-    if (displayedIngredients[currentPage].length === 1 && !searchQuery) {
-      const pages = currentPage !== 1 ? currentPage - 1 : currentPage;
-      await dispatch(getIngredients()).unwrap();
-      dispatch(setCurrentPage(pages));
-
-      // If there are more ingredients on the page, just fetch the current page
-    } else if (displayedIngredients[currentPage].length === 1 && searchQuery) {
-      await dispatch(getIngredients()).unwrap();
-      dispatch(setSearchQuery(""));
-    } else {
-      // If there are more ingredients on the page, just fetch the current page
-      await dispatch(getIngredients()).unwrap();
-      dispatch(setSearchQuery(searchQuery));
-    }
-
-    // Close the modal
-    onCloseDeleteModal();
-
-    // Refetch meals to update the ingredients
-    await dispatch(
-      getMeals({
-        page: 1,
-        limit,
-        category: null,
-        preference: null,
-        restriction: null,
-      }),
-    );
-  };
-
-  // Add logging to confirm state changes
-  const handleCloseDeleteModal = () => {
-    onCloseDeleteModal();
-  };
 
   return (
     <>
@@ -133,39 +75,20 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
           <div className="mt-auto flex items-start gap-2 pt-2">
             <CustomButton
               text={t("delete")}
-              onClick={onOpenDeleteModal}
+              onClick={() => openDeleteModal(ingredientId)}
               type="delete"
               textLight={true}
               widthFull={true}
             />
             <CustomButton
               text={t("editAndView")}
-              onClick={onOpenIngredientModal}
+              onClick={() => setModalState({ type: "edit", ingredient })}
               textLight={true}
               widthFull={true}
             />
           </div>
         </div>
       </div>
-
-      {/* Delete confirm */}
-      <ConfirmActionModal
-        isOpen={deleteModalOpen}
-        onClose={handleCloseDeleteModal}
-        loading={loading}
-        onAction={handleDelete}
-        title={t("deleteIngredientTitle")}
-        description={t("deleteIngredientDescription")}
-        cancelButtonText={t("cancel")}
-        confirmButtonText={t("deleteIngredientTitle")}
-      />
-
-      {/* Edit ingredient */}
-      <AddIngredientManualModal
-        isOpen={isOpenIngredientModal}
-        onClose={onCloseIngredientModal}
-        editIngredient={ingredient}
-      />
     </>
   );
 };

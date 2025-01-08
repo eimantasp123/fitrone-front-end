@@ -1,5 +1,5 @@
 import { Day, SingleWeeklyMenuById } from "@/utils/types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import DaysManagementTopBar from "./components/DaysManagementTopBar";
 import Arrow from "@/components/common/Arrow";
 import { useTranslation } from "react-i18next";
@@ -34,7 +34,9 @@ const WeeklyMenuByIdPageDaysManagement: React.FC<
     }
     return 3; // Desktop: 3 columns
   });
-  const daysInOrder = reorderedDays(data.days);
+
+  // Reorder days array
+  const daysInOrder = useMemo(() => reorderedDays(data.days), [data.days]);
 
   // Adjust number of columns based on screen size
   useEffect(() => {
@@ -77,12 +79,20 @@ const WeeklyMenuByIdPageDaysManagement: React.FC<
     name: string;
   }[];
 
+  // Transform style
+  const transformStyle = useMemo(
+    () => ({
+      transform: `translateX(-${(currentIndex * 100) / columnsToShow}%)`,
+    }),
+    [currentIndex, columnsToShow],
+  );
+
   return (
     <>
       <div className="w-full px-4 py-2">
         <DaysManagementTopBar data={data} />
       </div>
-      <div className="mt-4 h-[660px] w-full px-4 3xl:h-[1000px]">
+      <div className="mt-4 min-h-[660px] w-full px-4 3xl:min-h-[1000px]">
         <div className="relative overflow-hidden">
           <span className="absolute left-0 top-0 z-10">
             <Arrow
@@ -102,9 +112,7 @@ const WeeklyMenuByIdPageDaysManagement: React.FC<
           </span>
           <div
             className="flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${(currentIndex * 100) / columnsToShow}%)`,
-            }}
+            style={transformStyle}
           >
             {daysInOrder.map((day, index) => (
               <div
@@ -120,7 +128,7 @@ const WeeklyMenuByIdPageDaysManagement: React.FC<
                   {translatedDays[day.day].name}
                 </div>
                 {/* Column Content */}
-                <div className="mb-10 flex h-full min-h-[600px] w-full items-stretch justify-center rounded-xl bg-background p-4 shadow-custom-light4 dark:bg-backgroundSecondary 3xl:min-h-[800px]">
+                <div className="mb-10 flex h-full min-h-[700px] w-full items-stretch justify-center rounded-xl bg-background p-4 shadow-custom-light4 dark:bg-backgroundSecondary 3xl:min-h-[800px]">
                   <DayManagement data={day} t={t} />
                 </div>
               </div>
