@@ -16,7 +16,6 @@ const API = axios.create({
   withCredentials: true,
 });
 
-// voment
 
 export const AuthProvider = ({ children }) => {
   const [is2FAStep, setIs2FAStep] = useState(false);
