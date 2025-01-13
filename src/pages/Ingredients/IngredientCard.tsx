@@ -28,8 +28,6 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 }) => {
   const { title, calories, unit, amount, ingredientId } = ingredient;
 
-  console.log("ingredient", ingredient);
-
   return (
     <>
       <div className="flex h-full w-full flex-col gap-2 overflow-hidden rounded-lg bg-background p-2 shadow-custom-light2 dark:bg-backgroundSecondary sm:flex-row">

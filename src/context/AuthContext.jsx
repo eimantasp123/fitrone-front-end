@@ -16,8 +16,9 @@ const API = axios.create({
   withCredentials: true,
 });
 
-/// update
-
+/**
+ *  AuthProvider component
+ */
 export const AuthProvider = ({ children }) => {
   const [is2FAStep, setIs2FAStep] = useState(false);
   const [userId, setUserId] = useState("");

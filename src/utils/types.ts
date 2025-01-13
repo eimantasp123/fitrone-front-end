@@ -25,6 +25,7 @@ export interface UserDetails {
   googleId?: string;
   facebookId?: string;
   is2FAEnabled: boolean;
+  timezone?: string;
   isVerified?: boolean;
   registrationCompleted?: boolean;
   createdAt?: string;
