@@ -38,6 +38,8 @@
   "cancel": "Atšaukti",
   "remove": "Pašalinti",
   "category": "Kategorija",
+  "update": "Atnaujinti",
+  "search": "Ieškoti",
 
   "menuCreated": "Sukurta",
   "lastUpdatedAt": "Atnaujinta",
@@ -58,6 +60,8 @@
   "noDescription": "Nėra aprašymo",
 
   "filters": "Filtrai",
+  "noSearchResults": "Paieškos rezultatų nerasta",
+  "noSearchResultsDescription": "Pagal jūsų pateiktus paieškos kriterijus rezultatų nerasta. Pabandykite pakeisti paieškos kriterijus ir bandykite dar kartą.",
 
   "noMealsFound": "Patiekalų nerasta",
   "noMealsFoundDescription": "Nerasta jokių patiekalų. Panašu, kad dar nepridėjote jokio patiekalo. Pradėkite pridėdami naują patiekalą arba pakeiskite paieškos kriterijus, kad peržiūrėtumėte esamas galimybes.",

@@ -1,10 +1,22 @@
 {
-  "addMenu": "Assign Existing Menu",
-  "addNewMenu": "Create New Menu",
-  "seeAllMenys": "See All Menus",
+  "addMenu": "Assign Menu",
+  "seeAllMenus": "All Menus",
+  "notSet": "Not Set",
+  "timezone": "Timezone",
+  "setTimezone": "Set Timezone",
+  "updateTimezone": "Update Timezone",
+  "searchPlaceholder": "Search for a menu",
+  "searchMenuDescription": "Search for a menu by title or description to assign it to this week's plan.",
+  "set": "Set",
   "week": "Week",
-  "goBack": "Go Back",
   "cancel": "Cancel",
   "noMenuForCurrentWeek": "You have not assigned any menus for this week yet.",
-  "noMenuForCurrentWeekDescription": "Assign an existing menu or create a new one to start planning."
+  "noMenuForCurrentWeekDescription": "Assign an existing menu or create a new one to start planning.",
+  "selectTimezone": "Select Timezone",
+  "selectTimezoneDescription": "Choose a timezone to manage your weekly menu plan and other features that depend on time, ensuring accuracy across all schedules and reports.",
+  "updateTimezoneDescription": "Updating your timezone will adjust all background operations such as reports, weekly menu plans, and other time-sensitive features to align with your selected timezone.",
+  "noTimezoneSelected": "Nepasirinkta laiko juosta. Pasirinkite laiko juostą, kad galėtumėte tvarkyti savaitės meniu planą ir kitas funkcijas, kurios priklauso nuo laiko, užtikrinant tikslumą visose tvarkaraščiuose ir ataskaitose.",
+
+  "noWeeklyMenuFound": "No Weekly Menu Found",
+  "noWeeklyMenuFoundDescription": "No weekly menus found. You probably don't have any created weekly menus yet. Go to the menu page and start creating weekly menus."
 }

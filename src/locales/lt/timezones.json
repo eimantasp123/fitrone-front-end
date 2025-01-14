@@ -1,0 +1,14 @@
+{
+  "timezones": [
+    { "key": "Europe/London", "title": "Londonas (UTC+0)" },
+    { "key": "Europe/Paris", "title": "Paryžius (UTC+1)" },
+    { "key": "Europe/Vilnius", "title": "Vilnius (UTC+2)" },
+    { "key": "Europe/Athens", "title": "Atėnai (UTC+2)" },
+    { "key": "America/New_York", "title": "Niujorkas (UTC-5)" },
+    { "key": "America/Chicago", "title": "Čikaga (UTC-6)" },
+    { "key": "America/Denver", "title": "Denveris (UTC-7)" },
+    { "key": "America/Los_Angeles", "title": "Los Andželas (UTC-8)" },
+    { "key": "America/Anchorage", "title": "Ankoridžas (UTC-9)" },
+    { "key": "America/Honolulu", "title": "Honolulė (UTC-10)" }
+  ]
+}

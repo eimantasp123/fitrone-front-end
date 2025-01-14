@@ -35,47 +35,45 @@ const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
 }) => {
   return (
     <>
-      {isOpen && (
-        <Modal
-          isOpen={isOpen}
-          onClose={onClose}
-          isCentered
-          size={{ base: "xs", md: "lg" }}
-        >
-          <ModalOverlay />
-          <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
-            <h2 className="p-1 font-medium">{title}</h2>
-            <ModalCloseButton marginTop="2" />
-            <ModalBody sx={{ padding: "4px" }}>
-              <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
-                {description}
-              </p>
-              <div className="flex w-full items-center justify-between gap-3">
-                <CustomButton
-                  text={cancelButtonText}
-                  type="light"
-                  widthFull={true}
-                  onClick={onClose}
-                />
-                <CustomButton
-                  text={confirmButtonText}
-                  type={
-                    type === "delete"
-                      ? "red"
-                      : type === "primary"
-                        ? "primary"
-                        : "warning"
-                  }
-                  widthFull={true}
-                  loading={loading}
-                  loadingSpinner={loadingSpinner}
-                  onClick={onAction}
-                />
-              </div>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      )}
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        size={{ base: "xs", md: "lg" }}
+      >
+        <ModalOverlay />
+        <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>
+          <h2 className="p-1 font-medium">{title}</h2>
+          <ModalCloseButton marginTop="2" />
+          <ModalBody sx={{ padding: "4px" }}>
+            <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
+              {description}
+            </p>
+            <div className="flex w-full items-center justify-between gap-3">
+              <CustomButton
+                text={cancelButtonText}
+                type="light"
+                widthFull={true}
+                onClick={onClose}
+              />
+              <CustomButton
+                text={confirmButtonText}
+                type={
+                  type === "delete"
+                    ? "red"
+                    : type === "primary"
+                      ? "primary"
+                      : "warning"
+                }
+                widthFull={true}
+                loading={loading}
+                loadingSpinner={loadingSpinner}
+                onClick={onAction}
+              />
+            </div>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

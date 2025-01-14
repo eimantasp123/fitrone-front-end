@@ -5,8 +5,11 @@ import { fromZonedTime, toZonedTime } from "date-fns-tz";
 import { formatDate } from "@/utils/helper";
 
 // Validate the timezone
-const validateTimeZone = (timezone: string): string => {
+const validateTimeZone = (timezone: string | null): string => {
   try {
+    if (!timezone) {
+      return "UTC"; // Fallback to UTC
+    }
     Intl.DateTimeFormat(undefined, { timeZone: timezone }).resolvedOptions();
     return timezone;
   } catch {
@@ -17,7 +20,7 @@ const validateTimeZone = (timezone: string): string => {
 /**
  * Hook for managing the time and week navigation
  */
-const useTime = (timezone: string) => {
+const useTime = (timezone: string | null) => {
   // Validate the timezone
   const validatedTimezone = validateTimeZone(timezone);
 
@@ -33,9 +36,8 @@ const useTime = (timezone: string) => {
 
   // Get the locale
   const lng = localStorage.getItem("i18nextLng");
-  const locale = lng === "lt" ? lt : enUS;
+  const locale = lng === "lt-LT" ? lt : enUS;
 
-  console.log("currenrDate:", currentDate);
   // Derived state for week start
   const weekStart = useMemo(
     () => startOfWeek(currentDate, { weekStartsOn: 1 }),

@@ -13,6 +13,7 @@ interface EmptyStateProps {
   className?: string;
   height?: string;
   status?: "default" | "error" | "warning" | "success";
+  marginButton?: string;
 }
 
 // Coments for update
@@ -25,8 +26,9 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   firstButtonText,
   secondButtonText,
   className = "",
-  height = "h-[78vh]",
+  height = "h-[78vh] 3xl:h-[70vh]",
   status = "default",
+  marginButton = "mb-8",
 }) => {
   const getIcon = () => {
     switch (status) {
@@ -42,7 +44,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   };
   return (
     <div
-      className={`mt-2 flex ${height} ${className} mb-8 w-[94%] flex-col items-center justify-center gap-1 rounded-2xl border-[1.5px] border-dashed border-primary bg-background text-center dark:bg-backgroundSecondary md:mt-1 md:w-[98%] 3xl:h-[70vh]`}
+      className={`mt-2 flex ${height} ${className} ${marginButton} w-[94%] flex-col items-center justify-center gap-1 rounded-2xl border-[1.5px] border-dashed border-primary bg-background px-6 text-center dark:bg-backgroundSecondary md:mt-1 md:w-[98%]`}
     >
       {getIcon()}
       <h1 className="text-md font-medium text-textPrimary">{title}</h1>

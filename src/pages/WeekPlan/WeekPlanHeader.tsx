@@ -1,24 +1,67 @@
 import Arrow from "@/components/common/Arrow";
 import CustomButton from "@/components/common/CustomButton";
-import { useAppSelector } from "@/store";
-import { useTranslation } from "react-i18next";
+import { useSetTimezone } from "@/hooks/WeekPlan/useSetTimezone";
+import { TFunction } from "i18next";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useTime from "./useTime";
+import SetTimezoneModal from "./SetTimezoneModal";
 
-const WeekPlanHeader: React.FC = () => {
-  const { t } = useTranslation("weekPlan");
-  const { details: user } = useAppSelector((state) => state.personalDetails);
-  const { weekNumber, formattedWeekRange, backendDateRange, navigateWeeks } =
-    useTime(user.timezone || "UTC");
+interface WeekPlanHeaderProps {
+  timezone: string | null;
+  t: TFunction;
+  isOpen: (key: string) => boolean;
+  closeModal: (key: string) => void;
+  openModal: (key: string) => void;
+  closeAllModals: () => void;
+  navigateWeeks: (weeks: number) => void;
+  weekNumber: number;
+  formattedWeekRange: string;
+}
+
+/**
+ *  Week Plan Header Component
+ */
+const WeekPlanHeader: React.FC<WeekPlanHeaderProps> = ({
+  timezone,
+  t,
+  isOpen,
+  closeModal,
+  closeAllModals,
+  openModal,
+  navigateWeeks,
+  weekNumber,
+  formattedWeekRange,
+}) => {
+  const { mutate: setTimeZone, isPending } = useSetTimezone(() => cleanUp());
+  const [timezoneSelected, setTimezoneSelected] = useState<{
+    key: string | null;
+    title: string | null;
+  }>({ key: null, title: null });
   const navigate = useNavigate();
+
+  // Set the timezone for the user
+  const handleSetTimezone = () => {
+    if (!timezoneSelected.key) return;
+    setTimeZone(timezoneSelected.key);
+  };
+
+  // Cleanup function
+  const cleanUp = () => {
+    setTimezoneSelected({ key: null, title: null });
+    closeAllModals();
+  };
+
+  // Translate the timezones
+  const timezones = t("timezone:timezones", { returnObjects: true }) as {
+    key: string;
+    title: string;
+  }[];
 
   return (
     <>
-      <div className="z-20 grid w-full grid-cols-1 grid-rows-3 gap-2 bg-background px-5 py-3 dark:bg-backgroundSecondary sm:grid-cols-2 sm:grid-rows-2 md:rounded-lg xl:grid-cols-6 xl:grid-rows-1">
+      <div className="z-20 flex w-full flex-col-reverse justify-between gap-4 bg-background px-5 py-3 dark:bg-backgroundSecondary md:flex-row md:rounded-lg">
         {/* Week navigation */}
-        <div
-          className={`flex items-center justify-center sm:col-span-2 xl:col-span-2`}
-        >
+        <div className={`flex items-center justify-center`}>
           <span>
             <Arrow
               onClick={() => navigateWeeks(-1)}
@@ -38,7 +81,20 @@ const WeekPlanHeader: React.FC = () => {
           </span>
         </div>
 
-        <div className="text-center sm:col-start-2 sm:col-end-3 sm:row-start-1 sm:row-end-2 sm:text-end xl:col-span-2 xl:row-auto">
+        {/* Time zone */}
+        <div className="flex flex-col justify-center gap-3 text-center sm:flex-row">
+          <div className="space-x-2">
+            <span className="text-sm">{t("timezone")}:</span>
+            <CustomButton
+              onClick={() => openModal("timezone")}
+              text={
+                timezone !== null
+                  ? timezones.find((item) => item.key === timezone)?.title
+                  : t("notSet")
+              }
+              type="lightSecondary"
+            />
+          </div>
           <CustomButton
             onClick={() => navigate("/weekly-menu")}
             text={t("seeAllMenus")}
@@ -46,6 +102,24 @@ const WeekPlanHeader: React.FC = () => {
           />
         </div>
       </div>
+
+      {/* Set timezone */}
+      {isOpen("timezone") && (
+        <SetTimezoneModal
+          t={t}
+          timezones={timezones}
+          loading={isPending}
+          timezone={timezone ?? null}
+          setTimezoneSelected={setTimezoneSelected}
+          timezoneSelected={timezoneSelected}
+          handleSetTimezone={handleSetTimezone}
+          isOpen={isOpen("timezone")}
+          onClose={() => {
+            closeModal("timezone");
+            setTimezoneSelected({ key: null, title: null });
+          }}
+        />
+      )}
     </>
   );
 };

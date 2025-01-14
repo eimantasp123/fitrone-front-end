@@ -1,10 +1,22 @@
 {
-  "addMenu": "Priskirti Esamą Meniu",
-  "addNewMenu": "Sukurti Naują Meniu",
-  "seeAllMenys": "Peržiūrėti Visus Meniu",
+  "addMenu": "Priskirti Meniu",
+  "seeAllMenus": "Visi Meniu",
+  "notSet": "Nenustatyta",
+  "timezone": "Laiko juosta",
+  "setTimezone": "Nustatyti laiko juostą",
+  "updateTimezone": "Atnaujinti laiko juostą",
+  "searchPlaceholder": "Ieškoti meniu",
+  "searchMenuDescription": "Ieškokite meniu pagal pavadinimą ar aprašymą, kad galėtumėte jį priskirti šios savaitės planui.",
+  "set": "Nustatyti",
   "week": "Savaitė",
-  "goBack": "Grįžti Atgal",
   "cancel": "Atšaukti",
   "noMenuForCurrentWeek": "Šiai savaitei dar nepriskyrėte jokių meniu.",
-  "noMenuForCurrentWeekDescription": "Priskirkite esamą meniu arba sukurkite naują, kad pradėtumėte planavimą."
+  "noMenuForCurrentWeekDescription": "Priskirkite esamą meniu arba sukurkite naują, kad pradėtumėte planavimą.",
+  "selectTimezone": "Pasirinkite laiko juostą",
+  "selectTimezoneDescription": "Pasirinkite laiko juostą, kad galėtumėte tvarkyti savaitės meniu planą ir kitas funkcijas, kurios priklauso nuo laiko, užtikrinant tikslumą visose tvarkaraščiuose ir ataskaitose.",
+  "updateTimezoneDescription": "Atnaujinus laiko juostą, visos fono operacijos, tokios kaip ataskaitos, savaitės meniu planai ir kitos su laiku susijusios funkcijos, bus pritaikytos pagal pasirinktą laiko juostą.",
+  "noTimezoneSelected": "Nepasirinkta laiko juosta. Pasirinkite laiko juostą, kad galėtumėte tvarkyti savaitės meniu planą ir kitas funkcijas, kurios priklauso nuo laiko, užtikrinant tikslumą visose tvarkaraščiuose ir ataskaitose.",
+
+  "noWeeklyMenuFound": "Nerasta savaitės meniu",
+  "noWeeklyMenuFoundDescription": "Nerasta jokių savaitės meniu. Tikriausiai jūs dar neturite jokių sukurtų savaitės meniu. Eikite į meniu puslapį ir pradėkite kurti savaitės meniu."
 }

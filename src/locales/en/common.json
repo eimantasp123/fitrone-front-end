@@ -38,6 +38,8 @@
   "cancel": "Cancel",
   "remove": "Remove",
   "category": "Category",
+  "update": "Update",
+  "search": "Search",
 
   "menuCreated": "Created at",
   "lastUpdatedAt": "Updated at",
@@ -58,6 +60,9 @@
   "noDescription": "No description",
 
   "filters": "Filters",
+  "noSearchResults": "No results",
+  "noSearchResultsDescription": "No results found based on your search criteria. Try adjusting your search or filters and try again.",
+
   "noMealsFound": "No meals found",
   "noMealsFoundDescription": "No meals have been found. It seems like you haven't added any meals yet. Start by adding a new meal or adjusting your search criteria to explore existing options.",
 

@@ -27,6 +27,8 @@ import enWeekPlan from "./locales/en/weekPlan.json";
 import ltWeekPlan from "./locales/lt/weekPlan.json";
 import enMenu from "./locales/en/weeklyMenu.json";
 import ltMenu from "./locales/lt/weeklyMenu.json";
+import enTimezones from "./locales/en/timezones.json";
+import ltTimezones from "./locales/lt/timezones.json";
 
 // Initialize i18n
 i18n
@@ -47,6 +49,7 @@ i18n
         dashboard: enDashboard,
         weekPlan: enWeekPlan,
         weeklyMenu: enMenu,
+        timezone: enTimezones,
       },
       lt: {
         common: ltCommon,
@@ -61,6 +64,7 @@ i18n
         dashboard: ltDashboard,
         weekPlan: ltWeekPlan,
         weeklyMenu: ltMenu,
+        timezone: ltTimezones,
       },
     },
     fallbackLng: "en", // Fallback language if the current language is not available

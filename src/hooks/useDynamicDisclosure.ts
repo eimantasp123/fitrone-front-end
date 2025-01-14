@@ -15,5 +15,9 @@ export const useDynamicDisclosure = () => {
 
   const isOpen = (key: string) => !!modalState[key];
 
-  return { openModal, closeModal, isOpen };
+  const closeAllModals = () => {
+    setModalState({});
+  };
+
+  return { openModal, closeModal, isOpen, closeAllModals };
 };

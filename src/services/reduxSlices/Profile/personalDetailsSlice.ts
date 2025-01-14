@@ -196,6 +196,11 @@ const personalDetailsSlice = createSlice({
         state.details = { ...state.details, plan: action.payload.plan };
       }
     },
+    setTimezone: (state, action: PayloadAction<string>) => {
+      if (state.details) {
+        state.details = { ...state.details, timezone: action.payload };
+      }
+    },
   },
   extraReducers: (builder) => {
     /**
@@ -354,6 +359,6 @@ const personalDetailsSlice = createSlice({
       });
   },
 });
-export const { setUserDetails, updatePersonalPlan } =
+export const { setUserDetails, updatePersonalPlan, setTimezone } =
   personalDetailsSlice.actions;
 export default personalDetailsSlice.reducer;

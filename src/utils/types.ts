@@ -25,7 +25,7 @@ export interface UserDetails {
   googleId?: string;
   facebookId?: string;
   is2FAEnabled: boolean;
-  timezone?: string;
+  timezone?: string | null;
   isVerified?: boolean;
   registrationCompleted?: boolean;
   createdAt?: string;
@@ -96,6 +96,14 @@ export interface IngredientToCreateOrUpdate {
  */
 export interface Filters {
   category: { key: string; title: string } | null;
+  preference: { key: string; title: string } | null;
+  restriction: { key: string; title: string } | null;
+}
+
+/**
+ * Week plan modal assign filters interface for the week plan modal assign filters object
+ */
+export interface WeekPlanModalAssignFilters {
   preference: { key: string; title: string } | null;
   restriction: { key: string; title: string } | null;
 }

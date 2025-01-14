@@ -1,13 +1,13 @@
+import { fetchPaginatedWeeklyMenus } from "@/api/weeklyMenusApi";
 import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
+import ActiveBadge from "@/components/common/ActiveBadge";
 import CustomButton from "@/components/common/CustomButton";
 import EmptyState from "@/components/common/EmptyState";
 import EmptyStateForSmallComponents from "@/components/common/EmptyStateForSmallComponents";
-import { useMeals } from "@/hooks/Meals/useMeals";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
-import useFiltersOptions from "@/hooks/useFiltersOptions";
 import { usePageStates } from "@/hooks/usePageStatus";
 import { capitalizeFirstLetter } from "@/utils/helper";
-import { Filters } from "@/utils/types";
+import { WeekPlanModalAssignFilters } from "@/utils/types";
 import {
   Modal,
   ModalBody,
@@ -17,29 +17,29 @@ import {
   Spinner,
   useColorMode,
 } from "@chakra-ui/react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ThreeDots } from "react-loader-spinner";
-import AssignMealForCurrentDayModalHeader from "./AssignMealForCurrentDayModalHeader";
-import { useAddMealsForCurrentDay } from "@/hooks/WeeklyMenuById/useAddMealsForCurrentDay";
+import AssignExistingMenuModalHeader from "./AssignExistingMenuModalHeader";
 
-interface AssignMealForCurrentDayModalProps {
+interface AssignExistingMenuModalProps {
   isOpen: boolean;
   onClose: () => void;
-  dayId: string;
-  weeklyMenuId: string;
+  backendDateRange: { startDate: string; endDate: string } | null;
 }
 
 /**
- * Modal to assign meals for the current day in the weekly menu
+ * Modal to assign weekly menu for the current week
  */
-const AssignMealForCurrentDayModal: React.FC<
-  AssignMealForCurrentDayModalProps
-> = ({ isOpen, onClose, dayId, weeklyMenuId }) => {
-  const { t } = useTranslation(["weeklyMenu", "meals"]);
+const AssignExistingMenuModal: React.FC<AssignExistingMenuModalProps> = ({
+  isOpen,
+  onClose,
+  backendDateRange,
+}) => {
+  const { t } = useTranslation(["weekPlan"]);
   const { colorMode } = useColorMode();
-  const { categoriesTranslated } = useFiltersOptions();
-  const [selectedMeals, setSelectedMeals] = useState<string[] | null>([]);
+  const [selectedMenu, setSelectedMenu] = useState<string[] | null>([]);
 
   // Search Query State and Debounce Value
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
@@ -50,18 +50,12 @@ const AssignMealForCurrentDayModal: React.FC<
   );
 
   // Filters State
-  const [filters, setFilters] = useState<Filters>({
-    category: null,
+  const [filters, setFilters] = useState<WeekPlanModalAssignFilters>({
     preference: null,
     restriction: null,
   });
 
-  // Assign meals for current day mutation
-  const { mutate: assignMeals, isPending } = useAddMealsForCurrentDay(() =>
-    onClose(),
-  );
-
-  // Fetch meals
+  // Fetch ingredients from the server using infinite query
   const {
     data,
     fetchNextPage,
@@ -69,15 +63,29 @@ const AssignMealForCurrentDayModal: React.FC<
     isFetchingNextPage,
     isLoading,
     isError,
-  } = useMeals({
-    searchValue: debouncedValue || null,
-    category: filters.category?.key || null,
-    preference: filters.preference?.key || null,
-    restriction: filters.restriction?.key || null,
+  } = useInfiniteQuery({
+    queryKey: [
+      "weeklyMenus",
+      debouncedValue,
+      false,
+      filters.preference?.key,
+      filters.restriction?.key,
+    ],
+    queryFn: fetchPaginatedWeeklyMenus,
+    initialPageParam: 1,
+    placeholderData: (prev) => prev,
+    getNextPageParam: (lastPage) => {
+      if (lastPage?.currentPage < lastPage?.totalPages) {
+        return lastPage.currentPage + 1;
+      }
+      return undefined;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes stale time
+    retry: 3,
   });
 
   // Memoized meals data
-  const meals = useMemo(() => {
+  const menu = useMemo(() => {
     return data?.pages.flatMap((page) => page.data) || [];
   }, [data]);
 
@@ -91,21 +99,20 @@ const AssignMealForCurrentDayModal: React.FC<
 
   // Handle accept meal and add to selected meals array
   const handleAccept = async (id: string) => {
-    setSelectedMeals((prev) =>
+    setSelectedMenu((prev) =>
       prev && prev.includes(id)
         ? prev.filter((meal) => meal !== id)
         : [...(prev || []), id],
     );
   };
 
-  // Assign selected meals
-  const assingSelectedMeals = async () => {
-    if (selectedMeals) {
-      assignMeals({
-        meals: selectedMeals,
-        dayId,
-        weeklyMenuId,
-      });
+  // Assign selected menu
+  const assingSelectedMenu = async () => {
+    if (selectedMenu && backendDateRange) {
+      // Add meals to the current day
+
+      console.log("Selected Menu:", selectedMenu);
+      console.log("backednDAta:", backendDateRange);
     }
   };
 
@@ -126,17 +133,17 @@ const AssignMealForCurrentDayModal: React.FC<
         >
           <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
             <div className="flex items-center gap-4">
-              <h4 className="font-semibold md:text-lg">{t("assignMeals")}</h4>
+              <h4 className="font-semibold md:text-lg">{t("addMenu")}</h4>
             </div>
           </div>
           <ModalCloseButton marginTop="3" />
           <ModalBody style={{ padding: "0px 0px" }}>
             <p className="flex items-center gap-1 border-t-[1px] border-borderPrimary py-2 text-sm text-textPrimary">
-              {t("searchMealsFromDatabaseAndAssign")}
+              {t("searchMenuDescription")}
             </p>
 
             {/* Header for modal */}
-            <AssignMealForCurrentDayModalHeader
+            <AssignExistingMenuModalHeader
               t={t}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -152,15 +159,15 @@ const AssignMealForCurrentDayModal: React.FC<
 
             {noItemsAdded && (
               <EmptyStateForSmallComponents
-                title={t("common:noMealsFound")}
-                description={t("common:noMealsFoundDescription")}
+                title={t("noWeeklyMenuFound")}
+                description={t("noWeeklyMenuFoundDescription")}
               />
             )}
 
             {noResultsForSearchAndFilters && (
               <EmptyStateForSmallComponents
-                title={t("meals:noResults")}
-                description={t("meals:noResultsDescription")}
+                title={t("common:noSearchResults")}
+                description={t("common:noSearchResultsDescription")}
               />
             )}
 
@@ -180,25 +187,24 @@ const AssignMealForCurrentDayModal: React.FC<
             {hasItems && (
               <div className="mt-3 h-full w-full">
                 <span className="px-6 text-sm">
-                  {t("common:selected")}: {selectedMeals?.length || 0}
+                  {t("common:selected")}: {selectedMenu?.length || 0}
                 </span>
 
                 <div className="mt-2 grid max-h-[400px] grid-cols-1 gap-2 overflow-y-auto px-3 scrollbar-thin md:grid-cols-2 xl:grid-cols-3">
-                  {meals.map((meal) => (
+                  {menu.map((item) => (
                     <div
-                      key={meal._id}
-                      onClick={() => handleAccept(meal._id)}
-                      className={`flex cursor-pointer items-center border-2 transition-colors duration-200 ease-in-out ${selectedMeals?.includes(meal._id) ? "border-primary" : "border-transparent"} justify-between gap-2 rounded-lg bg-backgroundSecondary p-2 shadow-sm dark:bg-background md:p-3`}
+                      key={item._id}
+                      onClick={() => handleAccept(item._id)}
+                      className={`flex cursor-pointer items-center border-2 transition-colors duration-200 ease-in-out ${selectedMenu?.includes(item._id) ? "border-primary" : "border-transparent"} justify-between gap-2 rounded-lg bg-backgroundSecondary p-2 shadow-sm dark:bg-background md:p-3`}
                     >
-                      <div className="flex flex-col text-sm sm:text-sm">
-                        <p>{capitalizeFirstLetter(meal.title)}</p>
-                        <p className="text-[12px] text-textSecondary">
-                          {t("common:category")}:{" "}
-                          {categoriesTranslated[meal.category]}
+                      <div className="flex flex-col gap-2 text-sm sm:text-sm">
+                        <ActiveBadge status={item.status} />
+                        <p className="font-medium">
+                          {capitalizeFirstLetter(item.title)}
                         </p>
                       </div>
                       <span
-                        className={`size-[14px] rounded-full border-[2px] transition-colors duration-200 ease-in-out ${selectedMeals?.includes(meal._id) ? "border-primary dark:bg-backgroundSecondary" : "border-neutral-300 bg-backgroundSecondary dark:border-neutral-700 dark:bg-background"} `}
+                        className={`size-[14px] rounded-full border-[2px] transition-colors duration-200 ease-in-out ${selectedMenu?.includes(item._id) ? "border-primary dark:bg-backgroundSecondary" : "border-neutral-300 bg-backgroundSecondary dark:border-neutral-700 dark:bg-background"} `}
                       ></span>
                     </div>
                   ))}
@@ -218,12 +224,12 @@ const AssignMealForCurrentDayModal: React.FC<
 
                 <div className="mt-4 px-4">
                   <CustomButton
-                    text={`${t("assignSelected")} (${selectedMeals?.length})`}
-                    onClick={assingSelectedMeals}
+                    text={`${t("addMenu")} (${selectedMenu?.length})`}
+                    onClick={assingSelectedMenu}
                     widthFull={true}
-                    loading={isPending}
+                    loading={false}
                     loadingSpinner={false}
-                    disabled={selectedMeals?.length === 0}
+                    disabled={selectedMenu?.length === 0}
                     paddingY="py-3"
                   />
                 </div>
@@ -236,4 +242,4 @@ const AssignMealForCurrentDayModal: React.FC<
   );
 };
 
-export default AssignMealForCurrentDayModal;
+export default AssignExistingMenuModal;
