@@ -1,6 +1,7 @@
 {
   "addMenu": "Priskirti Meniu",
   "seeAllMenus": "Visi Meniu",
+  "weekPlan": "Savaitės Planas",
   "notSet": "Nenustatyta",
   "timezone": "Laiko juosta",
   "setTimezone": "Nustatyti laiko juostą",
@@ -18,5 +19,18 @@
   "noTimezoneSelected": "Nepasirinkta laiko juosta. Pasirinkite laiko juostą, kad galėtumėte tvarkyti savaitės meniu planą ir kitas funkcijas, kurios priklauso nuo laiko, užtikrinant tikslumą visose tvarkaraščiuose ir ataskaitose.",
 
   "noWeeklyMenuFound": "Nerasta savaitės meniu",
-  "noWeeklyMenuFoundDescription": "Nerasta jokių savaitės meniu. Tikriausiai jūs dar neturite jokių sukurtų savaitės meniu. Eikite į meniu puslapį ir pradėkite kurti savaitės meniu."
+  "noWeeklyMenuFoundDescription": "Nerasta jokių savaitės meniu. Tikriausiai jūs dar neturite jokių sukurtų savaitės meniu. Eikite į meniu puslapį ir pradėkite kurti savaitės meniu.",
+
+  "weeklyMenuDescription": "Savaitės meniu aprašymas",
+  "assignedGroups": "Priskirtos grupės",
+  "assignedClients": "Priskirti klientai",
+
+  "deleteWeekPlanMenu": "Ištrinti savaitės meniu planą",
+  "deleteWeekPlanMenuDescription": "Ar tikrai norite ištrinti šį savaitės meniu planą? Šis veiksmas negali būti atšauktas.",
+
+  "publishWeekPlanMenu": "Paskelbti savaitės meniu planą",
+  "publishWeekPlanMenuDescription": "Ar tikrai norite paskelbti šį savaitės meniu planą? Šis veiksmas negali būti atšauktas.",
+
+  "unpublishWeekPlanMenu": "Atšaukti savaitės meniu planą",
+  "unpublishWeekPlanMenuDescription": "Ar tikrai norite atšaukti šį savaitės meniu planą? Šis veiksmas negali būti atšauktas."
 }

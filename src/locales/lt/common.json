@@ -40,6 +40,9 @@
   "category": "Kategorija",
   "update": "Atnaujinti",
   "search": "Ieškoti",
+  "publish": "Paskelbti",
+  "published": "Paskelbta",
+  "unpublish": "Nebeskelbti",
 
   "menuCreated": "Sukurta",
   "lastUpdatedAt": "Atnaujinta",

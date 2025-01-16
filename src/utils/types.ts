@@ -355,3 +355,20 @@ export interface SearchResultFromDatabase {
   fat: number;
   carbs: number;
 }
+
+/**
+ * Week plan item card props interface
+ */
+export interface WeekPlanItemCardProps {
+  _id: string;
+  menu: {
+    _id: string;
+    title: string;
+    description: string | null;
+    preferences: string[] | null;
+    restrictions: string[] | null;
+  };
+  published: boolean;
+  assignedClients?: string[] | null;
+  assignedGroups?: string[] | null;
+}

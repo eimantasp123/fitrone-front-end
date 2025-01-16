@@ -22,11 +22,14 @@ import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ThreeDots } from "react-loader-spinner";
 import AssignExistingMenuModalHeader from "./AssignExistingMenuModalHeader";
+import { useAssignMenuForWeek } from "@/hooks/WeekPlan/useAssignMenuForWeek";
 
 interface AssignExistingMenuModalProps {
   isOpen: boolean;
   onClose: () => void;
-  backendDateRange: { startDate: string; endDate: string } | null;
+  year: number | null;
+  weekNumber: number | null;
+  weekPlanId: string | null;
 }
 
 /**
@@ -35,7 +38,9 @@ interface AssignExistingMenuModalProps {
 const AssignExistingMenuModal: React.FC<AssignExistingMenuModalProps> = ({
   isOpen,
   onClose,
-  backendDateRange,
+  year,
+  weekNumber,
+  weekPlanId,
 }) => {
   const { t } = useTranslation(["weekPlan"]);
   const { colorMode } = useColorMode();
@@ -54,6 +59,11 @@ const AssignExistingMenuModal: React.FC<AssignExistingMenuModalProps> = ({
     preference: null,
     restriction: null,
   });
+
+  // Update week plan menu
+  const { mutate: assignMenuForWeek, isPending } = useAssignMenuForWeek(() =>
+    onClose(),
+  );
 
   // Fetch ingredients from the server using infinite query
   const {
@@ -89,6 +99,7 @@ const AssignExistingMenuModal: React.FC<AssignExistingMenuModalProps> = ({
     return data?.pages.flatMap((page) => page.data) || [];
   }, [data]);
 
+  // Page States for the data
   const { noItemsAdded, noResultsForSearchAndFilters, hasItems } =
     usePageStates({
       currentResults: data?.pages[0]?.results || 0,
@@ -108,12 +119,8 @@ const AssignExistingMenuModal: React.FC<AssignExistingMenuModalProps> = ({
 
   // Assign selected menu
   const assingSelectedMenu = async () => {
-    if (selectedMenu && backendDateRange) {
-      // Add meals to the current day
-
-      console.log("Selected Menu:", selectedMenu);
-      console.log("backednDAta:", backendDateRange);
-    }
+    if (!selectedMenu || !year || !weekNumber || !weekPlanId) return;
+    assignMenuForWeek({ selectedMenu, weekPlanId, year, weekNumber });
   };
 
   return (
@@ -152,7 +159,7 @@ const AssignExistingMenuModal: React.FC<AssignExistingMenuModalProps> = ({
             />
 
             {isLoading && (
-              <div className="my-20 flex h-full w-full items-center justify-center">
+              <div className="my-32 flex h-full w-full items-center justify-center">
                 <Spinner />
               </div>
             )}
@@ -195,9 +202,9 @@ const AssignExistingMenuModal: React.FC<AssignExistingMenuModalProps> = ({
                     <div
                       key={item._id}
                       onClick={() => handleAccept(item._id)}
-                      className={`flex cursor-pointer items-center border-2 transition-colors duration-200 ease-in-out ${selectedMenu?.includes(item._id) ? "border-primary" : "border-transparent"} justify-between gap-2 rounded-lg bg-backgroundSecondary p-2 shadow-sm dark:bg-background md:p-3`}
+                      className={`flex w-full cursor-pointer items-center border-2 transition-colors duration-200 ease-in-out ${selectedMenu?.includes(item._id) ? "border-primary" : "border-transparent"} justify-between gap-2 rounded-lg bg-backgroundSecondary p-2 shadow-sm dark:bg-background md:p-3`}
                     >
-                      <div className="flex flex-col gap-2 text-sm sm:text-sm">
+                      <div className="flex w-[90%] flex-col items-start gap-2 text-sm sm:text-sm">
                         <ActiveBadge status={item.status} />
                         <p className="font-medium">
                           {capitalizeFirstLetter(item.title)}
@@ -227,7 +234,7 @@ const AssignExistingMenuModal: React.FC<AssignExistingMenuModalProps> = ({
                     text={`${t("addMenu")} (${selectedMenu?.length})`}
                     onClick={assingSelectedMenu}
                     widthFull={true}
-                    loading={false}
+                    loading={isPending}
                     loadingSpinner={false}
                     disabled={selectedMenu?.length === 0}
                     paddingY="py-3"

@@ -40,6 +40,9 @@
   "category": "Category",
   "update": "Update",
   "search": "Search",
+  "publish": "Publish",
+  "published": "Published",
+  "unpublish": "Unpublish",
 
   "menuCreated": "Created at",
   "lastUpdatedAt": "Updated at",

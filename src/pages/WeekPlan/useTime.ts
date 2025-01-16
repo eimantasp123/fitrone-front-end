@@ -1,8 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
-import { enUS, lt } from "date-fns/locale";
-import { addWeeks, endOfWeek, format, getISOWeek, startOfWeek } from "date-fns";
-import { fromZonedTime, toZonedTime } from "date-fns-tz";
 import { formatDate } from "@/utils/helper";
+import {
+  addWeeks,
+  endOfWeek,
+  format,
+  getISOWeek,
+  getYear,
+  startOfWeek,
+} from "date-fns";
+import { toZonedTime } from "date-fns-tz";
+import { enUS, lt } from "date-fns/locale";
+import { useEffect, useMemo, useState } from "react";
 
 // Validate the timezone
 const validateTimeZone = (timezone: string | null): string => {
@@ -24,15 +31,13 @@ const useTime = (timezone: string | null) => {
   // Validate the timezone
   const validatedTimezone = validateTimeZone(timezone);
 
+  // Formatted week range
+  const [formattedWeekRange, setFormattedWeekRange] = useState<string>("");
+
   // Initialize with the current date in the user's timezone
   const [currentDate, setCurrentDate] = useState<Date>(
     toZonedTime(new Date(), validatedTimezone),
   );
-  const [formattedWeekRange, setFormattedWeekRange] = useState<string>("");
-  const [backendDateRange, setBackendDateRange] = useState<{
-    startDate: string;
-    endDate: string;
-  } | null>(null);
 
   // Get the locale
   const lng = localStorage.getItem("i18nextLng");
@@ -50,14 +55,20 @@ const useTime = (timezone: string | null) => {
     [currentDate],
   );
 
-  // Get the week number
+  // Get the week number and year
   const weekNumber = useMemo(() => getISOWeek(currentDate), [currentDate]);
+  const year = useMemo(() => getYear(currentDate), [currentDate]);
 
   // Navigate weeks based on the offset
   const navigateWeeks = (offset: number) => {
     const newDate = addWeeks(currentDate, offset);
     setCurrentDate(newDate);
   };
+
+  // Update current date whenever the timezone changes
+  useEffect(() => {
+    setCurrentDate(toZonedTime(new Date(), validatedTimezone));
+  }, [validatedTimezone]);
 
   // Update formatted week range
   useEffect(() => {
@@ -68,17 +79,7 @@ const useTime = (timezone: string | null) => {
     );
   }, [weekStart, weekEnd, locale]);
 
-  // Update backend-friendly date range
-  useEffect(() => {
-    const startFormatted = fromZonedTime(weekStart, validatedTimezone);
-    const endFormatted = fromZonedTime(weekEnd, validatedTimezone);
-    setBackendDateRange({
-      startDate: startFormatted.toISOString(),
-      endDate: endFormatted.toISOString(),
-    });
-  }, [weekStart, weekEnd, validatedTimezone]);
-
-  return { weekNumber, formattedWeekRange, backendDateRange, navigateWeeks };
+  return { weekNumber, formattedWeekRange, year, navigateWeeks };
 };
 
 export default useTime;

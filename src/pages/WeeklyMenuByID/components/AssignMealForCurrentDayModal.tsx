@@ -188,9 +188,9 @@ const AssignMealForCurrentDayModal: React.FC<
                     <div
                       key={meal._id}
                       onClick={() => handleAccept(meal._id)}
-                      className={`flex cursor-pointer items-center border-2 transition-colors duration-200 ease-in-out ${selectedMeals?.includes(meal._id) ? "border-primary" : "border-transparent"} justify-between gap-2 rounded-lg bg-backgroundSecondary p-2 shadow-sm dark:bg-background md:p-3`}
+                      className={`flex w-full cursor-pointer items-center border-2 transition-colors duration-200 ease-in-out ${selectedMeals?.includes(meal._id) ? "border-primary" : "border-transparent"} justify-between gap-2 rounded-lg bg-backgroundSecondary p-2 shadow-sm dark:bg-background md:p-3`}
                     >
-                      <div className="flex flex-col text-sm sm:text-sm">
+                      <div className="flex w-[90%] flex-col items-start text-sm sm:text-sm">
                         <p>{capitalizeFirstLetter(meal.title)}</p>
                         <p className="text-[12px] text-textSecondary">
                           {t("common:category")}:{" "}

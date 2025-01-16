@@ -14,6 +14,8 @@ interface CustomButtonProps {
   textLight?: boolean;
   loading?: boolean;
   loadingSpinner?: boolean;
+  icon?: React.ReactNode;
+  width?: string;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -26,18 +28,24 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   paddingY = "py-2",
   paddingX = "px-6",
   textLight = false,
+  width,
   type,
   loading = false,
   loadingSpinner = true,
+  icon: Icon = null,
 }) => {
   const className = (() => {
     switch (type) {
       case "primary":
         return "bg-primary hover:bg-primaryLight text-black dark:hover:bg-primaryDark";
+      case "primary_outline":
+        return "border border-primary hover:bg-primaryLight dark:border-primary dark:hover:bg-primaryDark dark:hover:text-black";
       case "dark":
         return "hover:bg-neutral-700 bg-neutral-800 text-white dark:bg-neutral-800 dark:hover:bg-neutral-700";
       case "light":
         return "bg-backgroundSecondary hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800";
+      case "light_outline":
+        return "border border-neutral-200 hover:bg-neutral-200/80 dark:border-neutral-800 dark:hover:bg-neutral-800";
       case "lightSecondary":
         return "bg-neutral-200/50 hover:bg-neutral-200/80 dark:bg-background dark:hover:bg-neutral-800";
       case "light2":
@@ -62,17 +70,24 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       type={actionType}
       className={`${className} ${
         disabled || loading ? "opacity-70" : ""
-      } select-none ${widthFull ? "w-full" : paddingX} text-nowrap rounded-lg ${paddingY} ${textLight ? "font-normal" : "font-medium"} text-sm transition-colors duration-300 ease-in-out`}
+      } select-none ${widthFull ? "w-full" : paddingX} ${width} text-nowrap rounded-lg ${paddingY} ${textLight ? "font-normal" : "font-medium"} text-sm transition-colors duration-300 ease-in-out`}
     >
-      {loading ? (
-        loadingSpinner ? (
-          <Spinner size="sm" />
-        ) : (
-          `${text}...`
-        )
-      ) : (
-        children || text
-      )}
+      <span className="flex w-full items-center justify-center gap-3">
+        {Icon && <span className="max-w-[15%]">{Icon}</span>}
+        <span
+          className={`flex ${!Icon ? "w-full" : "max-w-[85%]"} items-center justify-center`}
+        >
+          {loading ? (
+            loadingSpinner ? (
+              <Spinner size="sm" />
+            ) : (
+              `${text}...`
+            )
+          ) : (
+            children || text
+          )}
+        </span>
+      </span>
     </button>
   );
 };
