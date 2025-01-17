@@ -11,6 +11,7 @@ import { MdOutlinePostAdd } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import AssignMealForCurrentDayModal from "./AssignMealForCurrentDayModal";
 import SingleDay from "./SingleDay";
+import { roundTo } from "@/utils/roundeNumber";
 
 // Category order
 const categoryOrder = [
@@ -34,7 +35,7 @@ interface DayManagementProps {
 const DayManagement: React.FC<DayManagementProps> = React.memo(
   ({ data, t }) => {
     const { id } = useParams<{ id: string }>();
-    const { meals, _id: dayId, nutrition } = data;
+    const { meals, _id: dayId } = data;
     const [mealToDelete, setMealToDelete] = useState<string>("");
     const { categoriesTranslated } = useFiltersOptions();
     const { isOpen, openModal, closeModal } = useDynamicDisclosure();
@@ -86,6 +87,27 @@ const DayManagement: React.FC<DayManagementProps> = React.memo(
         );
     }, [groupedMeals]);
 
+    // Calculate nutrition for all meals
+    const nutrition = useMemo(() => {
+      return meals.reduce(
+        (acc, meal) => {
+          acc.calories = roundTo(
+            acc.calories + meal.meal?.nutrition.calories || 0,
+            1,
+          );
+          acc.fat = roundTo(acc.fat + meal.meal?.nutrition.fat || 0, 1);
+          acc.carbs = roundTo(acc.carbs + meal.meal?.nutrition.carbs || 0, 1);
+          acc.protein = roundTo(
+            acc.protein + meal.meal?.nutrition.protein || 0,
+            1,
+          );
+
+          return acc;
+        },
+        { calories: 0, protein: 0, fat: 0, carbs: 0 },
+      );
+    }, [meals]);
+
     return (
       <>
         <div className="h-full w-full">
@@ -102,9 +124,9 @@ const DayManagement: React.FC<DayManagementProps> = React.memo(
           ) : (
             <div className="grid grid-cols-1 gap-4">
               <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
-                {["calories", "protein", "fat", "carbs"].map((key) => (
+                {Object.keys(nutrition).map((key, index) => (
                   <InfoCard
-                    key={key}
+                    key={index}
                     className="bg-backgroundSecondary px-5 py-2 dark:bg-background"
                     value={nutrition[key as keyof typeof nutrition]}
                     title={t(`common:${key}`)}

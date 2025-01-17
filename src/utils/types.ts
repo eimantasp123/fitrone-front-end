@@ -188,7 +188,6 @@ export interface Day {
   _id: string;
   day: number;
   meals: MealAssignment[];
-  nutrition: Nutrition;
 }
 
 // Meal assignment interface
@@ -251,7 +250,6 @@ export interface SingleWeeklyMenuById {
   preferences: string[];
   restrictions: string[];
   days: Day[];
-  nutrition: Nutrition;
   status: string;
   archived: boolean;
   createdAt: string;

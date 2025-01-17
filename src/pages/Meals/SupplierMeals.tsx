@@ -5,15 +5,15 @@ import { useDeleteMeal } from "@/hooks/Meals/useDeleteMeal";
 import { useMeals } from "@/hooks/Meals/useMeals";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
 import { usePageStates } from "@/hooks/usePageStatus";
+import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 import { Filters, Meal } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ThreeDots } from "react-loader-spinner";
 import MealOverviewCard from "./components/MealOverviewCard";
 import MealAddModal from "./MealAddModal";
 import MealsPageHeader from "./MealsPageHeader";
-import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 
 /**
  * Supplier Meals Component to display the meals added by the supplier

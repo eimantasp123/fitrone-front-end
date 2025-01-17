@@ -24,12 +24,26 @@ const WebSocketListener: React.FC = () => {
 
     // Add event listener for WebSocket messages
     webSocketInstance.addEventListener("ingredient_deleted_from_meals", () => {
+      console.log("ingredient_deleted_from_meals");
       queryClient.invalidateQueries({ queryKey: ["meals"] });
     });
 
     // Add event listener for WebSocket messages
     webSocketInstance.addEventListener("ingredient_updated_in_meals", () => {
+      console.log("ingredient_updated_in_meals");
       queryClient.invalidateQueries({ queryKey: ["meals"] });
+    });
+
+    // Add event listener for WebSocket messages
+    webSocketInstance.addEventListener("meals_updated_in_week_plans", () => {
+      console.log("meals_updated_in_week_plans");
+      queryClient.invalidateQueries({ queryKey: ["weeklyMenuById"] });
+    });
+
+    // Add event listener for WebSocket messages
+    webSocketInstance.addEventListener("meal_deleted_from_week_plans", () => {
+      console.log("meal_deleted_from_week_plans");
+      queryClient.invalidateQueries({ queryKey: ["weeklyMenuById"] });
     });
 
     return () => {
