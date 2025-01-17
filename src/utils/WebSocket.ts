@@ -35,16 +35,22 @@ const WebSocketListener: React.FC = () => {
     });
 
     // Add event listener for WebSocket messages
-    webSocketInstance.addEventListener("meals_updated_in_week_plans", () => {
-      console.log("meals_updated_in_week_plans");
-      queryClient.invalidateQueries({ queryKey: ["weeklyMenuById"] });
-    });
+    webSocketInstance.addEventListener(
+      "meals_updated_in_weekly_menu_by_id",
+      () => {
+        console.log("meals_updated_in_week_plans");
+        queryClient.invalidateQueries({ queryKey: ["weeklyMenuById"] });
+      },
+    );
 
     // Add event listener for WebSocket messages
-    webSocketInstance.addEventListener("meal_deleted_from_week_plans", () => {
-      console.log("meal_deleted_from_week_plans");
-      queryClient.invalidateQueries({ queryKey: ["weeklyMenuById"] });
-    });
+    webSocketInstance.addEventListener(
+      "meal_deleted_from_weekly_menu_by_id",
+      () => {
+        console.log("meal_deleted_from_weekly_menu");
+        queryClient.invalidateQueries({ queryKey: ["weeklyMenuById"] });
+      },
+    );
 
     return () => {
       webSocketInstance.disconnect();
