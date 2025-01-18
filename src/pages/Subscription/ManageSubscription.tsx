@@ -84,13 +84,13 @@ const ManageSubscription = () => {
             user={user}
             onClick={handleManageSubscription}
           />
-          <div className="mt-0 grid grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:mt-2 lg:grid-cols-3">
+          <div className="mt-0 grid grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:mt-2 xl:grid-cols-3">
             {plans.map((plan, index) => (
               <div
                 key={plan.key}
                 className={` ${
                   index === 2 &&
-                  "md:col-span-2 md:block md:w-full lg:col-span-1 lg:flex"
+                  "md:col-span-2 md:block md:w-full xl:col-span-1 xl:flex"
                 }`}
               >
                 <PlanCard

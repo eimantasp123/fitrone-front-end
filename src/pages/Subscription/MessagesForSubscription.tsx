@@ -1,9 +1,7 @@
 import RedButton from "@/components/common/RedButton";
-import {
-  markArchivedDataAsRead,
-  UserDetails,
-} from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { markArchivedDataAsRead } from "@/services/reduxSlices/Profile/personalDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
+import { UserDetails } from "@/utils/types";
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 

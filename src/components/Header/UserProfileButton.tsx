@@ -62,7 +62,7 @@ const UserProfileButton: React.FC = () => {
 
         {/* Modal content */}
 
-        <MenuList zIndex={50}>
+        <MenuList overflowY="auto" maxH="300px" zIndex={50}>
           <MenuGroup title={t("profile")}>
             <MenuItem
               icon={<IoSettingsOutline />}

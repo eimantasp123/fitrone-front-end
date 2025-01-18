@@ -10,7 +10,7 @@ const DashboardLayout: React.FC = () => {
   if (!user) return null;
 
   return (
-    <div className="flex h-svh bg-backgroundSecondary dark:bg-background">
+    <div className="flex h-dvh bg-backgroundSecondary dark:bg-background">
       <WebSocketListener />
       <Sidebar />
 

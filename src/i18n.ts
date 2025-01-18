@@ -2,7 +2,9 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-// Import  translation files
+/**
+ * Importing all the translation files
+ */
 import enAuth from "./locales/en/authentication.json";
 import ltAuth from "./locales/lt/authentication.json";
 import enLanguage from "./locales/en/languageSwitcher.json";
@@ -29,8 +31,12 @@ import enMenu from "./locales/en/weeklyMenu.json";
 import ltMenu from "./locales/lt/weeklyMenu.json";
 import enTimezones from "./locales/en/timezones.json";
 import ltTimezones from "./locales/lt/timezones.json";
+import enCustomers from "./locales/en/customers.json";
+import ltCustomers from "./locales/lt/customers.json";
 
-// Initialize i18n
+/**
+ *  Instance of i18n
+ */
 i18n
   .use(LanguageDetector)
   .use(initReactI18next) // Pass i18n instance to react-i18next.
@@ -50,6 +56,7 @@ i18n
         weekPlan: enWeekPlan,
         weeklyMenu: enMenu,
         timezone: enTimezones,
+        customers: enCustomers,
       },
       lt: {
         common: ltCommon,
@@ -65,6 +72,7 @@ i18n
         weekPlan: ltWeekPlan,
         weeklyMenu: ltMenu,
         timezone: ltTimezones,
+        customers: ltCustomers,
       },
     },
     fallbackLng: "en", // Fallback language if the current language is not available

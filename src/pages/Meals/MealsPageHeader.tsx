@@ -31,7 +31,7 @@ const MealsPageHeader: React.FC<MealsPageHeaderProps> = ({
   filters,
   handleFilterChange,
 }) => {
-  const { t } = useTranslation("meals");
+  const { t } = useTranslation(["meals", "common"]);
   const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -104,7 +104,7 @@ const MealsPageHeader: React.FC<MealsPageHeaderProps> = ({
                 handleFilterChange("all");
                 if (onClose) onClose();
               }}
-              text={t("meals:resetFilters")}
+              text={t("resetFilters")}
               widthFull={true}
             />
           </div>

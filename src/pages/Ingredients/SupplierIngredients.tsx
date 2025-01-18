@@ -20,7 +20,7 @@ import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependency
  *  Supplier Ingredients Component
  */
 const SupplierIngredients: React.FC = () => {
-  const { t } = useTranslation("meals");
+  const { t } = useTranslation(["meals", "common"]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ingredientId, setIngredientId] = useState<string>("");
 

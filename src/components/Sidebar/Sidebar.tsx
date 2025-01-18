@@ -25,7 +25,7 @@ const Sidebar = () => {
         <div className="my-2 flex h-16 items-center pl-6">
           <img src="/logo-white.png" alt="Logo" className="w-[95px]" />
         </div>
-        <nav className="custom-scrollbar mt-2 flex h-fit flex-col overflow-y-auto">
+        <nav className="custom-scrollbar mt-2 flex flex-col overflow-y-auto">
           {renderMenu()}
         </nav>
         {/* Render information modal */}

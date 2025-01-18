@@ -19,9 +19,7 @@ const ActiveBadge: React.FC<ActiveBadgeProps> = ({ status }) => {
   })();
 
   return (
-    <span
-      className={`${className} text-nowrap rounded-full px-3 py-1 text-xs shadow-sm`}
-    >
+    <span className={`${className} text-nowrap rounded-full px-3 py-1 text-xs`}>
       {status === "active" ? t("activeMenu") : t("inactiveMenu")}
     </span>
   );

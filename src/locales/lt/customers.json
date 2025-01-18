@@ -1,0 +1,40 @@
+{
+  "customers": "Klientai",
+  "searchPlaceholder": "Ieškoti klientų",
+  "addCustomer": "Pridėti klientą",
+  "clientsFound": "Rasti klientai",
+  "statusTitle": "Būsena",
+  "active": "Aktyvus",
+  "inactive": "Neaktyvus",
+  "pending": "Laukiama",
+  "archived": "Archyvuotas",
+  "fullName": "Pilnas vardas",
+  "email": "El. paštas",
+  "phoneNumber": "Telefono numeris",
+  "genderTitle": "Lytis",
+
+  "resendForm": "Persiųsti formą",
+  "moreDetails": "Daugiau informacijos",
+  "manageGroups": "Tvarkyti grupes",
+
+  "gender": [
+    { "key": "male", "title": "Vyras" },
+    { "key": "female", "title": "Moteris" },
+    { "key": "transgender", "title": "Translytis" },
+    { "key": "other", "title": "Kita" }
+  ],
+
+  "status": [
+    { "key": "active", "title": "Aktyvus" },
+    { "key": "inactive", "title": "Neaktyvus" },
+    { "key": "pending", "title": "Laukiama" }
+  ],
+
+  "selectGender": "Lytis",
+  "clientStatus": "Kliento būsena",
+  "clientStatusExplanation": "Kliento būsenos paaiškinimas",
+
+  "activeCustomerStatusExplanation": "Aktyvūs klientai yra visiškai įtraukti į sistemos veiklą ir su jais gali būti atliekamos bet kokios operacijos, susijusios su klientais.",
+  "inactiveCustomerStatusExplanation": "Neaktyvūs klientai yra laikinai nepasiekiami sistemoje, ir su jais negali būti atliekamos jokios operacijos.",
+  "pendingCustomerStatusExplanation": "Laukiantys klientai yra pereinamojoje būsenoje, kai jiems buvo išsiųsta informacijos užpildymo forma, tačiau ji dar nėra užpildyta ar patvirtinta."
+}

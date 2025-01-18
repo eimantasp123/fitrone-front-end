@@ -3,9 +3,9 @@ import {
   DrawerBody,
   DrawerContent,
   DrawerOverlay,
-  useBreakpointValue,
   useColorMode,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
@@ -20,10 +20,12 @@ import UserProfileButton from "./UserProfileButton";
 // Client Header
 const GeneralHeader: React.FC = () => {
   const { colorMode } = useColorMode();
-  const isDrawerVisible = useBreakpointValue({ base: true, lg: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
   const { t } = useTranslation(["sidebar", "header"]);
+
+  // Custom breakpoints for Tailwind compatibility
+  const [isDrawerVisible] = useMediaQuery("(max-width: 1024px)");
 
   const pathArray = location.pathname
     .split("/")
@@ -42,7 +44,7 @@ const GeneralHeader: React.FC = () => {
 
   return (
     <>
-      <header className="border-border sticky top-0 z-50 flex max-h-16 min-h-16 select-none items-center justify-between gap-10 overflow-visible border-b-[1px] px-2 text-textPrimary dark:border-borderLight md:px-4">
+      <header className="border-border sticky top-0 z-50 flex max-h-16 min-h-16 select-none items-center justify-between gap-10 overflow-visible border-b-[1px] bg-backgroundSecondary px-2 text-textPrimary dark:border-borderLight dark:bg-background md:px-4">
         {/*  */}
         <div className="flex items-center gap-2 lg:gap-4">
           <HiMenuAlt2

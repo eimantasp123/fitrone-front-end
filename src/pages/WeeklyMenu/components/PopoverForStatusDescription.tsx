@@ -31,13 +31,13 @@ const PopoverForStatusDescription: React.FC<
           <PopoverCloseButton />
           <PopoverBody>
             <div className="flex flex-col gap-1">
-              <div className="border-border flex flex-col items-start gap-1 border-b-[1px] py-2">
+              <div className="flex flex-col items-start gap-1 border-b-[1px] py-2">
                 <ActiveBadge status="active" />
                 <p className="pt-1 text-[13px]">
                   {t("activeMenuStatusExplanation")}
                 </p>
               </div>
-              <div className="border-border flex flex-col items-start gap-1 border-b-[1px] py-2">
+              <div className="flex flex-col items-start gap-1 border-b-[1px] py-2">
                 <ActiveBadge status="inactive" />
                 <p className="pt-1 text-[13px]">
                   {t("inactiveMenuStatusExplanation")}

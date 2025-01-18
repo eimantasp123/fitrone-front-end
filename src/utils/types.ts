@@ -370,3 +370,12 @@ export interface WeekPlanItemCardProps {
   assignedClients?: string[] | null;
   assignedGroups?: string[] | null;
 }
+
+/**
+ * Filter interface for customers header
+ */
+export interface CustomersFilters {
+  preference: { key: string; title: string } | null;
+  status: { key: boolean; title: string } | null;
+  gender: { key: string; title: string } | null;
+}
