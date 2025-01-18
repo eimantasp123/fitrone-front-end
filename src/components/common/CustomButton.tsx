@@ -3,7 +3,7 @@ import React from "react";
 
 interface CustomButtonProps {
   text?: string;
-  actionType?: "button" | "submit" | "reset";
+  actionType?: "button" | "submit" | "reset" | undefined;
   onClick?: () => void;
   children?: React.ReactNode;
   widthFull?: boolean;

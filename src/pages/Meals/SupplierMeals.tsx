@@ -19,7 +19,7 @@ import MealsPageHeader from "./MealsPageHeader";
  * Supplier Meals Component to display the meals added by the supplier
  */
 const SupplierMeals: React.FC = () => {
-  const { t } = useTranslation("meals");
+  const { t } = useTranslation(["meals", "common"]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [mealId, setMeal] = useState<string | null>(null);
   const { mutate: deleteMeal } = useDeleteMeal();

@@ -58,7 +58,7 @@ const SupplierWeekPlan: React.FC = () => {
     placeholderData: (prev) => prev,
   });
 
-  const weekData = useMemo(() => data?.data.assignMenu, [data]);
+  const weekData = useMemo(() => data?.data?.assignMenu, [data]);
 
   // Handle Add Menu Click
   const handleAddMenuClick = () => {
@@ -159,7 +159,7 @@ const SupplierWeekPlan: React.FC = () => {
           )}
 
           {/* Menu for the current week */}
-          {weekData?.length > 0 && (
+          {weekData && weekData?.length !== 0 && (
             <div className="mb-12 mt-3 flex w-full flex-col-reverse gap-3 px-4">
               {weekData.map((item: WeekPlanItemCardProps) => (
                 <WeekPlanItemCard

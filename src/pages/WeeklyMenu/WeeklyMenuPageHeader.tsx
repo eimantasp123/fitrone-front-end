@@ -28,7 +28,7 @@ const WeeklyMenuPageHeader: React.FC<WeeklyMenuPageHeaderProps> = ({
   filters,
   handleFilterChange,
 }) => {
-  const { t } = useTranslation(["weeklyMenu", "meals"]);
+  const { t } = useTranslation(["weeklyMenu", "meals", "common"]);
   const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
   const { isOpen, onClose, onOpen } = useDisclosure();
 

@@ -1,0 +1,40 @@
+{
+  "customers": "Customers",
+  "searchPlaceholder": "Search customers",
+  "addCustomer": "Add Customer",
+  "clientsFound": "Clients found",
+  "statusTitle": "Status",
+  "active": "Active",
+  "inactive": "Inactive",
+  "pending": "Pending",
+  "archived": "Archived",
+  "fullName": "Full name",
+  "email": "Email",
+  "phoneNumber": "Phone number",
+  "genderTitle": "Gender",
+
+  "resendForm": "Resend form",
+  "moreDetails": "More details",
+  "manageGroups": "Manage groups",
+
+  "gender": [
+    { "key": "male", "title": "Male" },
+    { "key": "female", "title": "Female" },
+    { "key": "transgender", "title": "Transgender" },
+    { "key": "other", "title": "Other" }
+  ],
+
+  "status": [
+    { "key": "active", "title": "Active" },
+    { "key": "inactive", "title": "Inactive" },
+    { "key": "pending", "title": "Pending" }
+  ],
+
+  "selectGender": "Gender",
+  "clientStatus": "Client status",
+  "clientStatusExplanation": "Client status explanation",
+
+  "activeCustomerStatusExplanation": "Active customers are fully engaged in the system and any operations related to them can be performed.",
+  "inactiveCustomerStatusExplanation": "Inactive customers are temporarily unavailable in the system, and no operations can be performed with them.",
+  "pendingCustomerStatusExplanation": "Pending customers are in a transitional state where an information form has been sent to them but has not yet been completed or approved."
+}

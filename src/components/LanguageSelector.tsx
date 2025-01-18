@@ -45,7 +45,7 @@ const LanguageSelector = () => {
         </div>
       </MenuButton>
       {/*  */}
-      <MenuList minWidth="120px" fontWeight={400}>
+      <MenuList zIndex={100} minWidth="120px" fontWeight={400}>
         <MenuItem onClick={() => changeLanguage("en-US")}>{t("en")}</MenuItem>
         <MenuItem onClick={() => changeLanguage("lt-LT")}>{t("lt")}</MenuItem>
       </MenuList>

@@ -38,7 +38,11 @@ const CustomSearchInput: React.FC<CustomSearchInputProps> = ({
       />
 
       {searchQuery && (
-        <CustomButton type="light" onClick={cleanSearch} text={t("clean")} />
+        <CustomButton
+          type="light"
+          onClick={cleanSearch}
+          text={t("common:clean")}
+        />
       )}
     </div>
   );

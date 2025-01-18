@@ -24,7 +24,6 @@ interface WeekPlanProps extends WeekPlanItemCardProps {
   assignClient: () => void;
   assignGroup: () => void;
 }
-
 /**
  *  Week Plan Item Card Component for displaying the weekly menu item card
  */
@@ -47,10 +46,10 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
     <div className="grid w-full grid-cols-1 grid-rows-[auto_auto_auto] gap-4 rounded-lg bg-background p-4 shadow-custom-dark2 dark:bg-backgroundSecondary md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1 2xl:grid-cols-[minmax(400px,_450px)__1fr_minmax(400px,_450px)]">
       <div className="col-span-1 flex flex-col items-start justify-center gap-1 md:col-start-1 md:col-end-2 md:row-start-1 md:row-end-3 2xl:row-span-1">
         <h4 className="text-[15px] font-medium">
-          {capitalizeFirstLetter(menu.title)}
+          {capitalizeFirstLetter(menu?.title)}
         </h4>
         <div className="flex w-full flex-col gap-3 sm:flex-row md:flex-col md:items-start 2xl:flex-row 2xl:items-center">
-          {menu.description && (
+          {menu?.description && (
             <Popover placement="bottom-start">
               <PopoverTrigger>
                 <button className="cursor-pointer rounded-full bg-backgroundSecondary px-6 py-1 text-[13px] dark:bg-background md:py-[3px]">
@@ -61,7 +60,7 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
                 <PopoverHeader>{t("weeklyMenuDescription")}</PopoverHeader>
                 <PopoverCloseButton />
                 <PopoverBody>
-                  <p className="text-xs">{menu.description}</p>
+                  <p className="text-[13px]">{menu?.description}</p>
                 </PopoverBody>
               </PopoverContent>
             </Popover>
@@ -69,8 +68,8 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
 
           <div className="flex justify-center">
             <RestAndPrefDetailsPopover
-              preferences={menu.preferences ?? []}
-              restrictions={menu.restrictions ?? []}
+              preferences={menu?.preferences ?? []}
+              restrictions={menu?.restrictions ?? []}
               className="flex w-full justify-center"
             />
           </div>
@@ -99,10 +98,10 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
           text={t("common:manageMenu")}
           type="primary_outline"
           paddingY="py-1 md:py-2"
-          onClick={() => navigate(`/weekly-menu/${menu._id}`)}
+          onClick={() => navigate(`/weekly-menu/${menu?._id}`)}
         />
 
-        <div className="flex items-center gap-3">
+        <div className="flex w-24 items-center gap-3">
           <h6>{published ? t("common:published") : t("common:publish")}</h6>
           <Switch
             isChecked={published}

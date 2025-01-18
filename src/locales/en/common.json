@@ -43,6 +43,7 @@
   "publish": "Publish",
   "published": "Published",
   "unpublish": "Unpublish",
+  "clean": "Clean",
 
   "menuCreated": "Created at",
   "lastUpdatedAt": "Updated at",

@@ -195,7 +195,7 @@ const customTheme = extendTheme({
           bg: props.colorMode === "light" ? "white" : "dark.background",
           borderColor:
             props.colorMode === "light"
-              ? "light.borderPrimary"
+              ? "light.borderLight"
               : "dark.borderPrimary",
         },
         item: {
@@ -205,7 +205,7 @@ const customTheme = extendTheme({
             bg:
               props.colorMode === "light"
                 ? "light.hoverPrimary"
-                : "dark.hoverPrimary",
+                : "dark.borderPrimary",
           },
         },
         button: {
