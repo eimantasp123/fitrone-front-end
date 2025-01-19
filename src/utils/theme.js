@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, NumberInput } from "@chakra-ui/react";
 
 const customTheme = extendTheme({
   colors: {
@@ -152,6 +152,43 @@ const customTheme = extendTheme({
     },
 
     Input: {
+      variants: {
+        outline: (props) => ({
+          field: {
+            bg: "transparent",
+            fontSize: "15px",
+            padding: "21px 16px",
+            rounded: "8px",
+            _placeholder: {
+              color:
+                props.colorMode === "light"
+                  ? "light.placeholder"
+                  : "dark.placeholder",
+            },
+            borderColor:
+              props.colorMode === "light"
+                ? "light.borderDark"
+                : "dark.borderLight",
+            _focus: {
+              borderColor:
+                props.colorMode === "light"
+                  ? "light.borderDark"
+                  : "dark.primaryLight",
+              boxShadow: `0 0 0 1px ${
+                props.colorMode === "light"
+                  ? "var(--chakra-colors-light-borderDark)"
+                  : "var(--chakra-colors-dark-primaryLight)"
+              }`,
+            },
+          },
+        }),
+      },
+      defaultProps: {
+        variant: "outline",
+      },
+    },
+
+    NumberInput: {
       variants: {
         outline: (props) => ({
           field: {

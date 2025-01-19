@@ -105,8 +105,8 @@ export const useEditProfileSchema = () => {
     firstName: yup
       .string()
       .required(t("validation.firstNameRequired"))
-      .min(3, t("validation.firstNameMin")),
-    lastName: yup.string().max(50, t("validation.lastNameMax")),
+      .min(3, t("validation.firstNameMin", { count: 3 })),
+    lastName: yup.string().max(50, t("validation.lastNameMax", { count: 50 })),
     email: yup
       .string()
       .email(t("validation.invalidEmail"))
@@ -310,6 +310,9 @@ export const useMealInputSchema = () => {
   });
 };
 
+/**
+ *  Meal input schema for meal input form validation
+ */
 export const useCreateMenuSchema = () => {
   const { t } = useTranslation("weeklyMenu");
   return yup.object().shape({
@@ -319,5 +322,82 @@ export const useCreateMenuSchema = () => {
       .min(3, t("validation.titleLength"))
       .max(70, t("validation.titleLength")),
     description: yup.string().max(500, t("validation.descriptionLength")),
+  });
+};
+
+/**
+ *  Customer schema for send form to customer form validation
+ */
+export const useCustomerSendForm = () => {
+  const { t } = useTranslation("profileSettings");
+  return yup.object().shape({
+    firstName: yup
+      .string()
+      .required(t("validation.firstNameRequired"))
+      .min(2, t("validation.firstNameMin", { count: 2 }))
+      .max(100, t("validation.firstNameMax", { count: 100 })),
+    email: yup
+      .string()
+      .required(t("validation.requiredEmail"))
+      .email(t("validation.invalidEmail"))
+      .max(100, t("validation.maxEmail", { count: 100 })),
+  });
+};
+
+/**
+ * Customer schema for send form to customer form validation
+ */
+export const useCustomerDetails = () => {
+  const { t } = useTranslation("common");
+
+  const requiredMessage = t("validationErrors.fieldIsRequired");
+  const numberTransform = (
+    value: string | number,
+    originalValue: string | number,
+  ) => (originalValue === "" ? undefined : Number(value));
+
+  return yup.object().shape({
+    firstName: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .required(requiredMessage),
+    lastName: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .required(requiredMessage),
+    phone: yup
+      .string()
+      .required(requiredMessage)
+      .matches(phoneRegex, {
+        message: t("validationErrors.invalidPhoneNumber"),
+        excludeEmptyString: false,
+      }),
+    age: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("validationErrors.invalidAge"))
+      .required(requiredMessage),
+    height: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("validationErrors.invalidHeight"))
+      .required(requiredMessage),
+    weight: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("validationErrors.invalidWeight"))
+      .required(requiredMessage),
+    weightGoals: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("validationErrors.invalidWeightGoal"))
+      .required(requiredMessage),
+    foodAllergies: yup.string().trim(),
+    physicalActivityLevel: yup.string().trim().required(requiredMessage),
+    fitnessGoal: yup.string().trim().required(requiredMessage),
+    dietaryPreferences: yup.string().trim(),
+    dietaryRestrictions: yup.string().trim(),
   });
 };

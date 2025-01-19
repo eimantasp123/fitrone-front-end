@@ -1,41 +1,4 @@
 export const PersonalizedDietFormRequirements = [
-  {
-    title: "Personal Information",
-    data: [
-      {
-        label: "What is your age?",
-        name: "age",
-        type: "number",
-        placeholder: "Enter your age",
-        required: true,
-      },
-      {
-        label: "What is your gender?",
-        name: "gender",
-        placeholder: "Select your gender",
-        required: true,
-        options: [
-          { value: "male", label: "Male" },
-          { value: "female", label: "Female" },
-        ],
-      },
-      {
-        label: "What is your height? (cm)",
-        name: "height",
-        type: "number",
-        placeholder: "Enter your height",
-        required: true,
-      },
-      {
-        label: "What is your current weight? (kg)",
-        name: "weight",
-        type: "number",
-        placeholder: "Enter your weight",
-        required: true,
-      },
-    ],
-  },
-
   // Health Goals & Lifestyle
   {
     title: "Health Goals & Lifestyle",

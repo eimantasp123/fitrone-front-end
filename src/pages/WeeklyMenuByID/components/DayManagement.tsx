@@ -3,7 +3,7 @@ import CustomButton from "@/components/common/CustomButton";
 import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
 import useFiltersOptions from "@/hooks/useFiltersOptions";
 import { useDeleteMealFromCurrentDay } from "@/hooks/WeeklyMenuById/useDeleteMealFromCurrentDay";
-import InfoCard from "@/pages/MealPlan/components/client/InfoCard";
+import InfoCard from "@/components/common/InfoCard";
 import { Day, MealAssignment } from "@/utils/types";
 import { TFunction } from "i18next";
 import React, { useCallback, useMemo, useState } from "react";

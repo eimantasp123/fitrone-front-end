@@ -1,7 +1,7 @@
 {
   "customers": "Klientai",
   "searchPlaceholder": "Ieškoti klientų",
-  "addCustomer": "Pridėti klientą",
+  "addCustomer": "Pridėti naują klientą",
   "clientsFound": "Rasti klientai",
   "statusTitle": "Būsena",
   "active": "Aktyvus",
@@ -12,10 +12,23 @@
   "email": "El. paštas",
   "phoneNumber": "Telefono numeris",
   "genderTitle": "Lytis",
+  "sendForm": "Siųsti formą",
+  "notProvided": "Nepateikta",
 
   "resendForm": "Persiųsti formą",
   "moreDetails": "Daugiau informacijos",
   "manageGroups": "Tvarkyti grupes",
+  "addCustomerManually": "Pridėti klientą savarankiškai",
+  "sendFormToCustomer": "Išsiųsti formą klientui",
+  "previewForm": "Peržiūrėti formą",
+
+  "noClientsYet": "Jūs dar neturite pridėtų klientų",
+  "noClientsYetExplanation": "Norėdami pridėti klientą, spustelėkite mygtuką esantį apačioje.",
+
+  "sendFormToCustomerDescription": "Išsiųskite informacijos formą klientui, kad jis galėtų užpildyti jums reikalingą informaciją. Formos pavyzdžio nuoroda pateikta žemiau.",
+
+  "noResults": "Nerasta klientų",
+  "noResultsDescription": "Nepavyko rasti klientų, atitinkančių jūsų paieškos arba filtravimo kriterijus. Pabandykite pakeisti filtrus arba pakoreguoti paieškos užklausą, kad rastumėte norimus rezultatus.",
 
   "gender": [
     { "key": "male", "title": "Vyras" },
@@ -30,6 +43,32 @@
     { "key": "pending", "title": "Laukiama" }
   ],
 
+  "fitnessGoalOptions": [
+    { "key": "weightLoss", "title": "Svorio mažinimas" },
+    { "key": "weightGain", "title": "Raumenų auginimas" },
+    { "key": "weightMaintenance", "title": "Svorio palaikymas" },
+    { "key": "improveHealth", "title": "Sveikatos gerinimas" },
+    {
+      "key": "weightLossAndMuscleGain",
+      "title": "Svorio mažinimas ir raumenų auginimas"
+    },
+    { "key": "other", "title": "Kita" }
+  ],
+  "physicalActivityLevelOptions": [
+    {
+      "key": "sedentary",
+      "title": "Sėdimas (mažai arba visai nėra fizinio aktyvumo)"
+    },
+    {
+      "key": "lightlyActive",
+      "title": "Nedaug aktyvus (1-3 dienos per savaitę)"
+    },
+    {
+      "key": "moderatelyActive",
+      "title": "Vidutiniškai aktyvus (3-5 dienos per savaitę)"
+    },
+    { "key": "veryActive", "title": "Labai aktyvus (6-7 dienos per savaitę)" }
+  ],
   "selectGender": "Lytis",
   "clientStatus": "Kliento būsena",
   "clientStatusExplanation": "Kliento būsenos paaiškinimas",

@@ -1,11 +1,8 @@
 export const clientMock = [
   {
     firstName: "Eimantas",
-    // lastName: "Petrikas",
     email: "eimiuxxx09@gmail.com",
-    phone: "+4591929387",
     status: "pending",
-    gender: "male",
   },
   {
     firstName: "John",
@@ -33,11 +30,8 @@ export const clientMock = [
   },
   {
     firstName: "Emily",
-    lastName: "Johnson",
     email: "emilyjohnson@gmail.com",
-    phone: "+4598765432",
     status: "pending",
-    gender: "female",
   },
   {
     firstName: "David",
@@ -67,9 +61,7 @@ export const clientMock = [
     firstName: "Isabella",
     lastName: "Martin",
     email: "isabellamartin@gmail.com",
-    phone: "+3214567890",
     status: "pending",
-    gender: "female",
   },
   {
     firstName: "Oliver",
@@ -89,19 +81,13 @@ export const clientMock = [
   },
   {
     firstName: "Benjamin",
-    lastName: "White",
     email: "benjaminwhite@gmail.com",
-    phone: "+6789012345",
     status: "pending",
-    gender: "male",
   },
   {
     firstName: "Ava",
-    lastName: "Harris",
     email: "avaharris@gmail.com",
-    phone: "+8901234567",
     status: "pending",
-    gender: "female",
   },
   {
     firstName: "Lucas",

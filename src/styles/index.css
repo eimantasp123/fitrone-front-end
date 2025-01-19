@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
 /* Default (light) theme */
 :root {
   --color-primary: #aadb34;
@@ -102,10 +110,6 @@
   background-color: var(--color-border);
   border-radius: 10px;
   background-clip: padding-box;
-}
-
-body {
-  background-color: var(--color-background);
 }
 
 @media (max-width: 768px) {

@@ -93,5 +93,14 @@
   "error": "Error",
   "errorsMessage": {
     "errorFetchingData": "Error fetching data. Please try again later."
+  },
+
+  "validationErrors": {
+    "fieldIsRequired": "Field is required",
+    "invalidPhoneNumber": "Invalid phone number",
+    "invalidHeight": "Invalid height",
+    "invalidWeight": "Invalid weight",
+    "invalidAge": "Invalid age",
+    "invalidWeightGoal": "Invalid weight goal"
   }
 }

@@ -1,7 +1,7 @@
 {
   "customers": "Customers",
   "searchPlaceholder": "Search customers",
-  "addCustomer": "Add Customer",
+  "addCustomer": "Add New Customer",
   "clientsFound": "Clients found",
   "statusTitle": "Status",
   "active": "Active",
@@ -12,10 +12,23 @@
   "email": "Email",
   "phoneNumber": "Phone number",
   "genderTitle": "Gender",
+  "sendForm": "Send form",
+  "notProvided": "Not provided",
 
   "resendForm": "Resend form",
   "moreDetails": "More details",
   "manageGroups": "Manage groups",
+  "addCustomerManually": "Add customer manually",
+  "sendFormToCustomer": "Send form to customer",
+  "previewForm": "Preview form",
+
+  "noClientsYet": "You don't have any clients added yet",
+  "noClientsYetExplanation": "To add a client, click the button at the bottom.",
+
+  "sendFormToCustomerDescription": "Send an information form to the customer so they can fill out the information you need. A sample form link is provided below.",
+
+  "noResults": "No clients found",
+  "noResultsDescription": "We couldn't find any clients matching your search or filter criteria. Try adjusting the filters or modifying the search query to find the desired results.",
 
   "gender": [
     { "key": "male", "title": "Male" },
@@ -28,6 +41,31 @@
     { "key": "active", "title": "Active" },
     { "key": "inactive", "title": "Inactive" },
     { "key": "pending", "title": "Pending" }
+  ],
+
+  "fitnessGoalOptions": [
+    { "key": "weightLoss", "title": "Weight Loss" },
+    { "key": "weightGain", "title": "Muscle Gain" },
+    { "key": "weightMaintenance", "title": "Weight Maintenance" },
+    { "key": "improveHealth", "title": "Improve health" },
+    {
+      "key": "weightLossAndMuscleGain",
+      "title": "Weight Loss and Muscle Gain"
+    },
+    { "key": "other", "title": "Other" }
+  ],
+
+  "physicalActivityLevelOptions": [
+    {
+      "key": "sedentary",
+      "title": "Sedentary (little to no physical activity)"
+    },
+    { "key": "lightlyActive", "title": "Lightly Active (1-3 days per week)" },
+    {
+      "key": "moderatelyActive",
+      "title": "Moderately Active (3-5 days per week)"
+    },
+    { "key": "veryActive", "title": "Very Active (6-7 days per week)" }
   ],
 
   "selectGender": "Gender",

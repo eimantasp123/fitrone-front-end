@@ -75,16 +75,8 @@ const SupplierGeneralHeader: React.FC<SupplierGeneralHeaderProps> = ({
             <CustomButton
               widthFull={true}
               onClick={openModal}
-              text={t("addCustomer")}
+              text={t("manageGroups")}
             />
-            <div className="w-full">
-              <CustomButton
-                widthFull={true}
-                onClick={onOpen}
-                text={t("manageGroups")}
-                type="primary"
-              />
-            </div>
           </div>
         </div>
       </div>

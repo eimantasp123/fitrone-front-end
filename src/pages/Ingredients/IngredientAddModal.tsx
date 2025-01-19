@@ -77,10 +77,10 @@ const IngredientAddModal: React.FC<IngredientAddModalProps> = ({
   useEffect(() => {
     methods.reset({
       title: editIngredient?.title ?? undefined,
-      calories: editIngredient?.calories ?? undefined,
-      carbs: editIngredient?.carbs ?? undefined,
-      fat: editIngredient?.fat ?? undefined,
-      protein: editIngredient?.protein ?? undefined,
+      calories: editIngredient?.calories ?? 0,
+      carbs: editIngredient?.carbs ?? 0,
+      fat: editIngredient?.fat ?? 0,
+      protein: editIngredient?.protein ?? 0,
       amount: editIngredient?.amount ?? 100,
     });
     setUnit(editIngredient?.unit ?? "g");

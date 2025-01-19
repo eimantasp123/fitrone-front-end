@@ -93,5 +93,14 @@
   "error": "Klaida",
   "errorsMessage": {
     "errorFetchingData": "Įvyko klaida gaunant duomenis. Bandykite dar kartą vėliau."
+  },
+
+  "validationErrors": {
+    "fieldIsRequired": "Laukas yra privalomas",
+    "invalidPhoneNumber": "Neteisingas telefono numeris",
+    "invalidHeight": "Neteisingas ūgis",
+    "invalidWeight": "Neteisingas svoris",
+    "invalidAge": "Neteisingas amžius",
+    "invalidWeightGoal": "Neteisingas svorio tikslas"
   }
 }

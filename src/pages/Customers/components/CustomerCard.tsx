@@ -21,9 +21,9 @@ interface CustomerCardProps {
     firstName: string;
     lastName?: string;
     email: string;
-    phone: string;
+    phone?: string | null;
     status: string;
-    gender: string;
+    gender?: string | null;
   };
   t: TFunction;
 }
@@ -61,14 +61,17 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ client, t }) => {
       {/* Phone Number */}
       <div className="col-span-6 flex items-center sm:col-span-3 xl:col-auto">
         <h6 className="pr-2 font-semibold xl:hidden">{t("phoneNumber")}:</h6>
-        <h6>{client.phone}</h6>
+        <h6>{client?.phone ?? t("notProvided")}</h6>
       </div>
 
       {/* Gender */}
       <div className="col-span-6 flex items-center sm:col-span-3 xl:col-auto">
         <h6 className="pr-2 font-semibold xl:hidden">{t("genderTitle")}:</h6>
         <h6>
-          {genderOptions.find((option) => option.key === client.gender)?.title}
+          {client.gender
+            ? genderOptions.find((option) => option.key === client.gender)
+                ?.title
+            : t("notProvided")}
         </h6>
       </div>
 
@@ -91,9 +94,11 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ client, t }) => {
             <MenuItem icon={<HiOutlineUserCircle className="text-[15px]" />}>
               {t("moreDetails")}
             </MenuItem>
-            <MenuItem icon={<HiOutlineReply className="text-[15px]" />}>
-              {t("resendForm")}
-            </MenuItem>
+            {client.status === "pending" && (
+              <MenuItem icon={<HiOutlineReply className="text-[15px]" />}>
+                {t("resendForm")}
+              </MenuItem>
+            )}
             <MenuItem
               color="red.500"
               icon={<HiOutlineTrash className="text-[15px]" />}

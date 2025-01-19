@@ -7,7 +7,6 @@ import ErrorPage from "../pages/Error/ErrorPage";
 import ForgotPasswordForm from "../pages/ForgotPassword/ForgotPasswordForm";
 import ResetPasswordForm from "../pages/ForgotPassword/ResetPassword";
 import Faq from "../pages/Help/Faq";
-// import MealPlans from "../pages/MealPlan/MealPlans";
 // import Conversation from "../pages/Messages/Conversation";
 // import Messages from "../pages/Messages/Messages";
 // import Notifications from "../pages/Notifications/Notifications";
@@ -16,8 +15,6 @@ import RegisterForm from "../pages/Register/RegisterForm";
 import ManageSubscriptionPlan from "../pages/Subscription/ManageSubscriptionPlan";
 import VerifyEmaiil from "../pages/VerifyEmail/VerifyEmail";
 import { PrivateRoute, PublicRoute } from "./RouteWrappers";
-// import MealPlanFormForBalance from "../pages/MealPlan/components/client/MealPlanFormForBalance";
-// import MealPlanDetails from "../pages/MealPlan/id/MealPlanDetails";
 import LoginForm from "@/pages/Login/LoginForm";
 import Orders from "@/pages/Orders/Orders";
 import WeekPlan from "@/pages/WeekPlan/WeekPlan";
@@ -27,7 +24,11 @@ import IngredientsGeneral from "@/pages/Ingredients/IngredientsGeneral";
 import GeneralMealsOverview from "@/pages/Meals/GeneralMealsOverview";
 import WeeklyMenuOverview from "@/pages/WeeklyMenu/WeeklyMenuOverview";
 import WeeklyMenuByIdGeneral from "@/pages/WeeklyMenuByID/WeeklyMenuByIdGeneral";
+import SendCustomerAddForm from "@/pages/MealPlan/components/SendCustomerAddForm";
 
+/**
+ * App routes component
+ */
 const AppRoutes: React.FC = () => (
   <Routes>
     <Route element={<PublicRoute />}>
@@ -45,19 +46,15 @@ const AppRoutes: React.FC = () => (
         <Route index path="/" element={<Dashboard />} />
         <Route path="/dashboard" element={<Navigate replace to="/" />} />
         <Route path="subscription" element={<ManageSubscriptionPlan />} />
-        {/* <Route path="meal-plan" element={<MealPlans />} />
-        <Route path="meal-plan/:id" element={<MealPlanDetails />} /> */}
         <Route path="week-plan" element={<WeekPlan />} />
-
         <Route path="weekly-menu" element={<WeeklyMenuOverview />} />
         <Route path="weekly-menu/:id" element={<WeeklyMenuByIdGeneral />} />
-
         <Route path="meals" element={<GeneralMealsOverview />} />
         <Route path="ingredients" element={<IngredientsGeneral />} />
         <Route path="customers" element={<Customers />} />
         <Route path="orders" element={<Orders />} />
+        <Route path="customer-form" element={<SendCustomerAddForm />} />
         {/* <Route path="business-page" element={<BusinessPage />} /> */}
-        {/* <Route path="meal-plan-balance" element={<MealPlanFormForBalance />} /> */}
         {/* <Route path="notifications" element={<Notifications />} /> */}
         {/* <Route path="messages" element={<Messages />}>
           <Route path=":conversationId" element={<Conversation />} />

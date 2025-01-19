@@ -10,12 +10,19 @@ import PopoverClientStatusExplain from "./components/PopoverClientStatusExplain"
 import CustomerCard from "./components/CustomerCard";
 import ClientListLabels from "./components/ClientListLabels";
 import { clientMock } from "./mock/clientdata";
+import CustomButton from "@/components/common/CustomButton";
+import ConfirmActionModal from "@/components/common/ConfirmActionModal";
+import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
+import AddNewCustomerModal from "./components/AddNewCustomerModal";
+import SendFormToCustomerModal from "./components/SendFormToCustomerModal";
 
 /**
  *  Supplier weekly menu central station
  */
 const SupplierCustomers: React.FC = () => {
-  const { t } = useTranslation(["customers", "meals", "common"]);
+  const { t } = useTranslation(["customers", "meals", "common", "auth"]);
+  const { isOpen, openModal, closeModal, closeAllModals } =
+    useDynamicDisclosure();
 
   // Filters state
   const [filters, setFilters] = useState<CustomersFilters>({
@@ -72,7 +79,7 @@ const SupplierCustomers: React.FC = () => {
     <>
       <div
         ref={scrollContainerRef}
-        className="w-full select-none overflow-y-auto scrollbar-thin"
+        className="w-full overflow-y-auto scrollbar-thin"
       >
         <div className="mx-auto flex max-w-[1550px] flex-col">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
@@ -106,9 +113,9 @@ const SupplierCustomers: React.FC = () => {
           {noItemsAdded && (
             <div className="flex justify-center">
               <EmptyState
-                title={t("noWeeklyMenuTitle")}
-                description={t("noWeeklyMenuDescription")}
-                secondButtonText={t("createFirstMenu")}
+                title={t("noClientsYet")}
+                description={t("noClientsYetExplanation")}
+                secondButtonText={t("addCustomer")}
                 onClickSecondButton={() => {}}
                 height="h-[73vh]"
               />
@@ -133,6 +140,22 @@ const SupplierCustomers: React.FC = () => {
                 <PopoverClientStatusExplain t={t} />
               </div>
 
+              <div className="flex w-full flex-col gap-2 px-3 pb-2 pt-4 sm:flex-row sm:gap-3">
+                <CustomButton
+                  paddingY="py-2 md:py-3"
+                  widthFull={true}
+                  text={t("addCustomerManually")}
+                  onClick={() => openModal("addNewCustomer")}
+                />
+                <CustomButton
+                  paddingY="py-2 md:py-3"
+                  widthFull={true}
+                  text={t("sendFormToCustomer")}
+                  type="light2"
+                  onClick={() => openModal("sendFormToCustomer")}
+                />
+              </div>
+
               <div className="grid grid-cols-1 gap-2 px-3 pb-10 pt-2">
                 <ClientListLabels t={t} />
                 {clientMock.map((client, index) => (
@@ -155,6 +178,24 @@ const SupplierCustomers: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Add new customer manually modal */}
+      {isOpen("addNewCustomer") && (
+        <AddNewCustomerModal
+          isOpen={isOpen("addNewCustomer")}
+          onClose={closeAllModals}
+          t={t}
+        />
+      )}
+
+      {/* Send form to customer */}
+      {isOpen("sendFormToCustomer") && (
+        <SendFormToCustomerModal
+          isOpen={isOpen("sendFormToCustomer")}
+          onClose={closeAllModals}
+          t={t}
+        />
+      )}
     </>
   );
 };

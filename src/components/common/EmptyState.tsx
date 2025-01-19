@@ -48,7 +48,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     >
       {getIcon()}
       <h1 className="text-md font-medium text-textPrimary">{title}</h1>
-      <p className="px-6 text-center text-sm text-textSecondary">
+      <p className="max-w-[900px] px-6 text-center text-sm text-textSecondary">
         {description}
       </p>
       <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
