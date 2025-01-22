@@ -1,26 +1,30 @@
+import CustomButton from "@/components/common/CustomButton";
 import EmptyState from "@/components/common/EmptyState";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
+import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
 import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 import { CustomersFilters } from "@/utils/types";
 import { Spinner } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import DrawerForCustomerAddAndEdit from "./components/DrawerForCustomerAddAndEdit";
 import SupplierGeneralHeader from "./SupplierGeneralHeader";
-import PopoverClientStatusExplain from "./components/PopoverClientStatusExplain";
-import CustomerCard from "./components/CustomerCard";
 import ClientListLabels from "./components/ClientListLabels";
-import { clientMock } from "./mock/clientdata";
-import CustomButton from "@/components/common/CustomButton";
-import ConfirmActionModal from "@/components/common/ConfirmActionModal";
-import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
-import AddNewCustomerModal from "./components/AddNewCustomerModal";
+import CustomerCard from "./components/CustomerCard";
+import PopoverClientStatusExplain from "./components/PopoverClientStatusExplain";
 import SendFormToCustomerModal from "./components/SendFormToCustomerModal";
+import { clientMock } from "./mock/clientdata";
+import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 
 /**
  *  Supplier weekly menu central station
  */
 const SupplierCustomers: React.FC = () => {
   const { t } = useTranslation(["customers", "meals", "common", "auth"]);
+  const [actionModal, setActionModal] = useState<{
+    type: "delete" | "resend";
+    customerId: string;
+  } | null>(null);
   const { isOpen, openModal, closeModal, closeAllModals } =
     useDynamicDisclosure();
 
@@ -74,6 +78,11 @@ const SupplierCustomers: React.FC = () => {
   const noItemsAdded = false;
   const noResultsForSearchAndFilters = false;
   const hasItems = true;
+
+  const handlePeroformAction = () => {
+    console.log("Performing action");
+    console.log("Action modal", actionModal);
+  };
 
   return (
     <>
@@ -145,7 +154,7 @@ const SupplierCustomers: React.FC = () => {
                   paddingY="py-2 md:py-3"
                   widthFull={true}
                   text={t("addCustomerManually")}
-                  onClick={() => openModal("addNewCustomer")}
+                  onClick={() => openModal("clientInfoDrawer")}
                 />
                 <CustomButton
                   paddingY="py-2 md:py-3"
@@ -159,7 +168,12 @@ const SupplierCustomers: React.FC = () => {
               <div className="grid grid-cols-1 gap-2 px-3 pb-10 pt-2">
                 <ClientListLabels t={t} />
                 {clientMock.map((client, index) => (
-                  <CustomerCard key={index} client={client} t={t} />
+                  <CustomerCard
+                    setActionModal={setActionModal}
+                    key={index}
+                    client={client}
+                    t={t}
+                  />
                 ))}
               </div>
 
@@ -179,21 +193,52 @@ const SupplierCustomers: React.FC = () => {
         </div>
       </div>
 
-      {/* Add new customer manually modal */}
-      {isOpen("addNewCustomer") && (
-        <AddNewCustomerModal
-          isOpen={isOpen("addNewCustomer")}
-          onClose={closeAllModals}
-          t={t}
-        />
-      )}
-
       {/* Send form to customer */}
       {isOpen("sendFormToCustomer") && (
         <SendFormToCustomerModal
           isOpen={isOpen("sendFormToCustomer")}
           onClose={closeAllModals}
           t={t}
+        />
+      )}
+
+      {/* Customer details drawer */}
+      {isOpen("clientInfoDrawer") && (
+        <DrawerForCustomerAddAndEdit
+          isOpen={isOpen("clientInfoDrawer")}
+          onClose={() => closeModal("clientInfoDrawer")}
+          headerTitle={t("addCustomer")}
+          defaultSample={false}
+        />
+      )}
+
+      {/* Perform action modal for delete and resend action */}
+      {actionModal && (
+        <ConfirmActionModal
+          loading={false}
+          loadingSpinner={false}
+          confirmButtonText={
+            actionModal.type === "delete"
+              ? t("common:delete")
+              : t("common:resend")
+          }
+          cancelButtonText={t("common:cancel")}
+          isOpen={!!actionModal.type}
+          onClose={() => {
+            setActionModal(null);
+          }}
+          title={
+            actionModal.type === "delete"
+              ? t("deleteCustomer")
+              : t("resendForm")
+          }
+          description={
+            actionModal.type === "delete"
+              ? t("deleteCustomerDescription")
+              : t("resendFormDescription")
+          }
+          onAction={handlePeroformAction}
+          type="primary"
         />
       )}
     </>

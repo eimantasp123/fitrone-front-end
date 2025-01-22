@@ -1,4 +1,15 @@
 {
+  "firstName": "Vardas",
+  "lastName": "Pavardė",
+  "phoneNumber": "Telefono numeris",
+  "age": "Amžius",
+  "height": "Ūgis (cm)",
+  "weight": "Svoris (kg)",
+  "weightGoal": "Svorio tikslas (kg)",
+  "foodAllergies": "Maisto alergijos papildomai (neprivaloma)",
+  "physicalActivityLevel": "Fizinio aktyvumo lygis",
+  "fitnessGoal": "Fitneso tikslas",
+
   "feedbackModal": {
     "title": "Atsiliepimas",
     "description": " Jūsų atsiliepimas yra vertingas, padedantis mums geriau suprasti jūsų poreikius ir pritaikyti mūsų paslaugas atitinkamai.",
@@ -44,6 +55,8 @@
   "published": "Paskelbta",
   "unpublish": "Nebeskelbti",
   "clean": "Išvalyti",
+  "submitForm": "Pateikti formą",
+  "resend": "Persiųsti",
 
   "menuCreated": "Sukurta",
   "lastUpdatedAt": "Atnaujinta",
@@ -101,6 +114,11 @@
     "invalidHeight": "Neteisingas ūgis",
     "invalidWeight": "Neteisingas svoris",
     "invalidAge": "Neteisingas amžius",
-    "invalidWeightGoal": "Neteisingas svorio tikslas"
-  }
+    "invalidWeightGoal": "Neteisingas svorio tikslas",
+    "selectOne": "Pasirinkite vieną"
+  },
+
+  "selectedAddress": "Pasirinktas adresas",
+  "latitude": "Platuma",
+  "longitude": "Ilguma"
 }

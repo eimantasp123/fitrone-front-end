@@ -24,7 +24,7 @@ import IngredientsGeneral from "@/pages/Ingredients/IngredientsGeneral";
 import GeneralMealsOverview from "@/pages/Meals/GeneralMealsOverview";
 import WeeklyMenuOverview from "@/pages/WeeklyMenu/WeeklyMenuOverview";
 import WeeklyMenuByIdGeneral from "@/pages/WeeklyMenuByID/WeeklyMenuByIdGeneral";
-import SendCustomerAddForm from "@/pages/MealPlan/components/SendCustomerAddForm";
+import CustomerPageForm from "@/pages/CustomerFormPage/CustomerPageForm";
 
 /**
  * App routes component
@@ -41,6 +41,7 @@ const AppRoutes: React.FC = () => (
         <Route path="/register-done" element={<RegisterDone />} />
       </Route>
     </Route>
+    <Route path="/customer-form/:token" element={<CustomerPageForm />} />
     <Route element={<PrivateRoute />}>
       <Route path="/" element={<DashboardLayout />}>
         <Route index path="/" element={<Dashboard />} />
@@ -53,7 +54,6 @@ const AppRoutes: React.FC = () => (
         <Route path="ingredients" element={<IngredientsGeneral />} />
         <Route path="customers" element={<Customers />} />
         <Route path="orders" element={<Orders />} />
-        <Route path="customer-form" element={<SendCustomerAddForm />} />
         {/* <Route path="business-page" element={<BusinessPage />} /> */}
         {/* <Route path="notifications" element={<Notifications />} /> */}
         {/* <Route path="messages" element={<Messages />}>

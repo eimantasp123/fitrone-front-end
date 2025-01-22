@@ -66,7 +66,7 @@ const OptionsSelectAndRegisterToForm: React.FC<
             className={`relative flex w-full ${errors[name] ? "border-2 border-red-400 dark:border-red-400" : ""} cursor-pointer items-center justify-between text-nowrap rounded-lg border border-borderDark py-3 pl-4 pr-2 text-sm transition-all duration-300 ease-in-out ${isOpen ? "ring-[1.5px] ring-neutral-400/70 dark:ring-primary" : "ring-0 ring-transparent"} ease-in-out hover:border-neutral-300 dark:border-borderLight dark:hover:border-neutral-600`}
             onClick={() => setIsOpen(!isOpen)}
           >
-            <span>
+            <span className="overflow-hidden overflow-ellipsis">
               {field.value
                 ? options.find((opt) => opt.key === field.value)?.title
                 : placeholder}

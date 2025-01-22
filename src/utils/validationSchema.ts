@@ -389,15 +389,23 @@ export const useCustomerDetails = () => {
       .transform(numberTransform)
       .typeError(t("validationErrors.invalidWeight"))
       .required(requiredMessage),
-    weightGoals: yup
+    weightGoal: yup
       .number()
       .transform(numberTransform)
-      .typeError(t("validationErrors.invalidWeightGoal"))
-      .required(requiredMessage),
+      .typeError(t("validationErrors.invalidWeightGoal")),
+    gender: yup.string().trim().required(requiredMessage),
     foodAllergies: yup.string().trim(),
     physicalActivityLevel: yup.string().trim().required(requiredMessage),
     fitnessGoal: yup.string().trim().required(requiredMessage),
-    dietaryPreferences: yup.string().trim(),
-    dietaryRestrictions: yup.string().trim(),
+    dietaryPreferences: yup
+      .array()
+      .of(yup.string().trim().required(requiredMessage))
+      .min(1, t("validationErrors.selectOne"))
+      .required(requiredMessage),
+    dietaryRestrictions: yup
+      .array()
+      .of(yup.string().trim().required(requiredMessage))
+      .min(1, t("validationErrors.selectOne"))
+      .required(requiredMessage),
   });
 };

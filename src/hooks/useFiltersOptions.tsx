@@ -50,6 +50,11 @@ const useFiltersOptions = () => {
     title: string;
   }[];
 
+  const genderOptions = t("customers:gender", { returnObjects: true }) as {
+    key: string;
+    title: string;
+  }[];
+
   return {
     dietaryPreferences,
     dietaryRestrictions,
@@ -58,6 +63,7 @@ const useFiltersOptions = () => {
     categoriesTranslated,
     fitnessGoalOptionsTranslated,
     physicalActivityLevelOptions,
+    genderOptions,
   };
 };
 

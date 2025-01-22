@@ -1,4 +1,15 @@
 {
+  "firstName": "First name",
+  "lastName": "Last name",
+  "phoneNumber": "Phone number",
+  "age": "Age",
+  "height": "Height (cm)",
+  "weight": "Weight (kg)",
+  "weightGoal": "Weight goal (kg)",
+  "foodAllergies": "Food allergies additionally (optional)",
+  "physicalActivityLevel": "Physical activity level",
+  "fitnessGoal": "Fitness goal",
+
   "feedbackModal": {
     "title": "Feedback",
     "description": " Your feedback is valuable in helping us better understand your needs and tailor our service accordingly.",
@@ -44,6 +55,8 @@
   "published": "Published",
   "unpublish": "Unpublish",
   "clean": "Clean",
+  "submitForm": "Submit form",
+  "resend": "Resend",
 
   "menuCreated": "Created at",
   "lastUpdatedAt": "Updated at",
@@ -101,6 +114,11 @@
     "invalidHeight": "Invalid height",
     "invalidWeight": "Invalid weight",
     "invalidAge": "Invalid age",
-    "invalidWeightGoal": "Invalid weight goal"
-  }
+    "invalidWeightGoal": "Invalid weight goal",
+    "selectOne": "Select one"
+  },
+
+  "selectedAddress": "Selected address",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }

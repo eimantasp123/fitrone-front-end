@@ -26,6 +26,13 @@ interface CustomerCardProps {
     gender?: string | null;
   };
   t: TFunction;
+  setActionModal: ({
+    type,
+    customerId,
+  }: {
+    type: "delete" | "resend";
+    customerId: string;
+  }) => void;
 }
 
 /**
@@ -33,7 +40,11 @@ interface CustomerCardProps {
  * @param client  The client object
  * @returns
  */
-const CustomerCard: React.FC<CustomerCardProps> = ({ client, t }) => {
+const CustomerCard: React.FC<CustomerCardProps> = ({
+  client,
+  t,
+  setActionModal,
+}) => {
   const genderOptions = t("gender", { returnObjects: true }) as {
     key: string;
     title: string;
@@ -95,12 +106,20 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ client, t }) => {
               {t("moreDetails")}
             </MenuItem>
             {client.status === "pending" && (
-              <MenuItem icon={<HiOutlineReply className="text-[15px]" />}>
+              <MenuItem
+                onClick={() =>
+                  setActionModal({ type: "resend", customerId: client.email })
+                }
+                icon={<HiOutlineReply className="text-[15px]" />}
+              >
                 {t("resendForm")}
               </MenuItem>
             )}
             <MenuItem
               color="red.500"
+              onClick={() =>
+                setActionModal({ type: "delete", customerId: client.email })
+              }
               icon={<HiOutlineTrash className="text-[15px]" />}
             >
               {t("common:delete")}
