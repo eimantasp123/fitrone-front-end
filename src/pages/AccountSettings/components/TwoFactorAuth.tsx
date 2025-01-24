@@ -199,68 +199,70 @@ const TwoFactorAuth: React.FC = () => {
       </div>
 
       {/* Modal */}
-      <Modal
-        isOpen={showModal}
-        onClose={handleCloseModal}
-        closeOnOverlayClick={false}
-        size={{ base: "xs", md: "lg" }}
-      >
-        <ModalOverlay />
-        <ModalContent sx={{ padding: "1.5rem", borderRadius: "0.5rem" }}>
-          <h2 className="p-1 font-medium">{t("2fa.modal.title")}</h2>
-          <ModalCloseButton />
-          <ModalBody style={{ padding: "5px" }}>
-            <p className="mb-4 text-sm text-textSecondary">
-              <Trans
-                i18nKey="2fa.modal.verificationMessage"
-                ns="profileSettings"
-                values={{ phone, action }}
-                components={{ strong: <strong /> }}
-              />
-            </p>
-            <div className="flex w-full flex-col items-center gap-5 md:flex-row">
-              <input
-                className="`w-full w-full rounded-lg border border-borderPrimary bg-transparent px-3 py-[9px] leading-tight text-textPrimary placeholder-placeholder outline-none transition-all duration-300 ease-in-out focus-within:border-borderPrimary dark:border-borderLight md:w-[50%]"
-                id="verificationCode"
-                type="text"
-                placeholder={t("2fa.modal.inputPlaceholder")}
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-              />
-              <div className="flex w-full items-center gap-3 md:w-[70%] md:justify-end">
-                <button
-                  className="bg-accent1 w-full cursor-pointer rounded-lg bg-primary px-6 py-2 text-sm text-black transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
-                  onClick={handleVerificationSubmit}
-                  disabled={verify2FALoading}
-                >
-                  {verify2FALoading ? (
-                    <Spinner size="sm" />
-                  ) : (
-                    `${t("2fa.modal.verify")}`
-                  )}
-                </button>
-                <button
-                  className="text-text1 w-full cursor-pointer rounded-lg px-6 py-2 text-sm text-textPrimary"
-                  onClick={handleCloseModal}
-                >
-                  {t("2fa.modal.cancel")}
-                </button>
+      {showModal && (
+        <Modal
+          isOpen={showModal}
+          onClose={handleCloseModal}
+          closeOnOverlayClick={false}
+          size={{ base: "xs", md: "lg" }}
+        >
+          <ModalOverlay />
+          <ModalContent sx={{ padding: "1.5rem", borderRadius: "0.5rem" }}>
+            <h2 className="p-1 font-medium">{t("2fa.modal.title")}</h2>
+            <ModalCloseButton />
+            <ModalBody style={{ padding: "5px" }}>
+              <p className="mb-4 text-sm text-textSecondary">
+                <Trans
+                  i18nKey="2fa.modal.verificationMessage"
+                  ns="profileSettings"
+                  values={{ phone, action }}
+                  components={{ strong: <strong /> }}
+                />
+              </p>
+              <div className="flex w-full flex-col items-center gap-5 md:flex-row">
+                <input
+                  className="`w-full w-full rounded-lg border border-borderPrimary bg-transparent px-3 py-[9px] leading-tight text-textPrimary placeholder-placeholder outline-none transition-all duration-300 ease-in-out focus-within:border-borderPrimary dark:border-borderLight md:w-[50%]"
+                  id="verificationCode"
+                  type="text"
+                  placeholder={t("2fa.modal.inputPlaceholder")}
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                />
+                <div className="flex w-full items-center gap-3 md:w-[70%] md:justify-end">
+                  <button
+                    className="bg-accent1 w-full cursor-pointer rounded-lg bg-primary px-6 py-2 text-sm text-black transition-colors duration-300 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark"
+                    onClick={handleVerificationSubmit}
+                    disabled={verify2FALoading}
+                  >
+                    {verify2FALoading ? (
+                      <Spinner size="sm" />
+                    ) : (
+                      `${t("2fa.modal.verify")}`
+                    )}
+                  </button>
+                  <button
+                    className="text-text1 w-full cursor-pointer rounded-lg px-6 py-2 text-sm text-textPrimary"
+                    onClick={handleCloseModal}
+                  >
+                    {t("2fa.modal.cancel")}
+                  </button>
+                </div>
               </div>
-            </div>
-            <button
-              className="mt-3 cursor-pointer pl-2 text-[13px] font-medium text-textSecondary"
-              onClick={handleResendCode}
-              disabled={resendLoading}
-            >
-              {resendLoading ? (
-                <Spinner size="sm" />
-              ) : (
-                `${t("2fa.modal.resend")}`
-              )}
-            </button>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+              <button
+                className="mt-3 cursor-pointer pl-2 text-[13px] font-medium text-textSecondary"
+                onClick={handleResendCode}
+                disabled={resendLoading}
+              >
+                {resendLoading ? (
+                  <Spinner size="sm" />
+                ) : (
+                  `${t("2fa.modal.resend")}`
+                )}
+              </button>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
     </div>
   );
 };

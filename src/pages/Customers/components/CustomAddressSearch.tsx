@@ -1,27 +1,50 @@
 import { capitalizeFirstLetter } from "@/utils/helper";
 import { useEffect, useRef, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdSearch } from "react-icons/md";
-import { ThreeDots } from "react-loader-spinner";
 
-export const CustomAddressSearch = () => {
+interface CustomAddressSearchProps {
+  selectedPlace: google.maps.places.PlaceResult | null;
+  setSelectedPlace: React.Dispatch<
+    React.SetStateAction<google.maps.places.PlaceResult | null>
+  >;
+  name: string;
+  disableForm?: boolean;
+}
+
+/**
+ * Custom Address Search Component for the Customers Page
+ */
+const CustomAddressSearch: React.FC<CustomAddressSearchProps> = ({
+  selectedPlace,
+  setSelectedPlace,
+  name,
+  disableForm = false,
+}) => {
   const { t } = useTranslation(["common", "auth", "customers"]);
   const [inputValue, setInputValue] = useState(""); // User's input
   const [showResults, setShowResults] = useState(false); // Show search results
-  const [loading, setLoading] = useState(false); // Loading state
   const [searchCount, setSearchCount] = useState(0); // Search count
-
   const [predictions, setPredictions] = useState<
     google.maps.places.AutocompletePrediction[]
   >([]); // Predicted places
-  const [selectedPlace, setSelectedPlace] =
-    useState<google.maps.places.PlaceResult | null>(null); // Final selected place
-
   const autocompleteService =
     useRef<google.maps.places.AutocompleteService | null>(null);
-
   const placesService = useRef<google.maps.places.PlacesService | null>(null);
+  const {
+    setValue,
+    register,
+    formState: { errors },
+    clearErrors,
+  } = useFormContext();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Register the input in the form
+  useEffect(() => {
+    register(name);
+  }, [register, name]);
 
   // Initialize Google services when the API is loaded
   useEffect(() => {
@@ -31,15 +54,29 @@ export const CustomAddressSearch = () => {
     }
   }, []);
 
+  // Close the results dropdown when clicked outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        cleanStates();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [containerRef]);
+
   // Fetch predictions based on the input value
   const fetchPredictions = () => {
     if (autocompleteService.current && inputValue.length > 0) {
       setSearchCount((prev) => prev + 1);
-      setLoading(true);
-      setShowResults(true);
       autocompleteService.current.getPlacePredictions(
         { input: inputValue },
         (predictions) => {
+          setShowResults(true);
           if (predictions) {
             setPredictions(predictions);
             setSearchCount(0);
@@ -49,38 +86,41 @@ export const CustomAddressSearch = () => {
         },
       );
     } else {
+      setShowResults(false);
       setSearchCount(0);
       setPredictions([]);
     }
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
   };
 
   // Fetch place details based on the selected prediction
   const handleSelectPrediction = (placeId: string) => {
     if (!placesService.current) {
-      const map = document.createElement("div"); // Create a dummy map element
-      placesService.current = new google.maps.places.PlacesService(map);
+      const placeholder = document.getElementById("google-maps-placeholder");
+      if (placeholder) {
+        placesService.current = new google.maps.places.PlacesService(
+          placeholder as HTMLDivElement,
+        );
+      } else {
+        console.error("Google Maps Placeholder not found!");
+        return;
+      }
     }
 
     // Fetch place details based on `placeId`
-    placesService.current.getDetails({ placeId }, (place) => {
+    placesService.current?.getDetails({ placeId }, (place) => {
       if (place) {
-        cleanStates();
         setSelectedPlace(place);
-        setInputValue("");
-        setPredictions([]); // Clear the predictions after selection
+        setValue(name, place.formatted_address || "");
+        cleanStates();
       }
     });
   };
 
+  // Clear the states
   const cleanStates = () => {
     setInputValue("");
     setPredictions([]);
     setShowResults(false);
-    setLoading(false);
   };
 
   // Clear the search results
@@ -89,10 +129,8 @@ export const CustomAddressSearch = () => {
     setSelectedPlace(null);
   };
 
-  console.log("selectedPlace", selectedPlace);
-
   return (
-    <div className="relative">
+    <div ref={containerRef} className="relative">
       <p className="flex items-center gap-1 pb-1 text-[13px] text-textPrimary">
         {t("customers:searchForAPlace")}
       </p>
@@ -104,22 +142,26 @@ export const CustomAddressSearch = () => {
         </div>
         <input
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+            clearErrors(name);
+          }}
+          name={name}
           type="text"
           placeholder={t("customers:searchAddressPlaceholder")}
-          className={`w-full px-12 py-3 text-sm dark:bg-background ${
+          className={`w-full ${errors[name] ? "border-2 border-red-400 dark:border-red-400" : ""} bg-background px-12 py-3 text-sm dark:bg-background ${
             showResults
               ? "focus:border-t-1 focus:border-l-1 focus:border-r-1 rounded-tl-lg rounded-tr-lg border-b-transparent shadow-none"
               : "rounded-lg transition-shadow duration-300 ease-in-out focus:shadow-custom-light4"
-          } border border-borderPrimary placeholder-placeholder outline-none`}
+          } border border-borderDark placeholder-placeholder outline-none dark:border-borderPrimary`}
         />
-
         <button
           onClick={(e) => {
             e.preventDefault();
             fetchPredictions();
           }}
           type="submit"
+          disabled={disableForm}
           className={`absolute right-[2px] m-1 flex h-[34px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
         >
           {t("search")}
@@ -127,12 +169,18 @@ export const CustomAddressSearch = () => {
         {inputValue && (
           <span
             onClick={cleanSearch}
-            className={`absolute right-[80px] m-1 flex h-[34px] cursor-pointer items-center rounded-lg bg-backgroundSecondary px-3 text-sm`}
+            className={`absolute right-[82px] m-1 flex h-[34px] cursor-pointer items-center rounded-lg bg-backgroundSecondary px-3 text-sm`}
           >
             <IoIosCloseCircleOutline className="text-lg" />
           </span>
         )}
       </div>
+
+      {errors[name] && (
+        <p className="mt-1 text-[13px] text-red-500 dark:text-red-400">
+          {errors[name]?.message as string}
+        </p>
+      )}
 
       {!showResults && !selectedPlace && (
         <p className="flex items-center gap-1 pt-1 text-[13px] text-textSecondary">
@@ -146,11 +194,7 @@ export const CustomAddressSearch = () => {
           onWheel={(e) => e.stopPropagation()}
           className="border-b-1 border-l-1 border-r-1 z-10 max-h-[200px] overflow-y-auto rounded-b-lg border border-t-0 border-borderPrimary bg-white scrollbar-thin dark:border-borderDark dark:bg-backgroundSecondary"
         >
-          {loading ? (
-            <div className="flex items-center justify-center px-4 py-5">
-              <ThreeDots color="#BBC22C" height={30} width={30} />
-            </div>
-          ) : predictions.length > 0 ? (
+          {predictions.length > 0 ? (
             predictions.map((result, index) => (
               <div
                 key={index}
@@ -173,19 +217,16 @@ export const CustomAddressSearch = () => {
         </div>
       )}
 
-      {!loading &&
-        showResults &&
-        predictions.length === 0 &&
-        searchCount > 3 && (
-          <div className="mx-1 mt-3 flex flex-col items-center justify-center gap-2 rounded-lg bg-primary px-6 py-6 text-center text-sm text-black">
-            <p className="">
-              {t("customers:multipleTimeAddressNotFoundDescription")}
-            </p>{" "}
-            <span className="cursor-pointer font-semibold">
-              {t("customers:multipleTimeAddressNotFoundButton")}
-            </span>
-          </div>
-        )}
+      {showResults && predictions.length === 0 && searchCount > 3 && (
+        <div className="mx-1 mt-3 flex flex-col items-center justify-center gap-2 rounded-lg bg-primary px-6 py-6 text-center text-sm text-black">
+          <p className="">
+            {t("customers:multipleTimeAddressNotFoundDescription")}
+          </p>{" "}
+          <span className="cursor-pointer font-semibold">
+            {t("customers:multipleTimeAddressNotFoundButton")}
+          </span>
+        </div>
+      )}
 
       {/* Display Selected Place Details */}
       {selectedPlace && (
@@ -203,7 +244,10 @@ export const CustomAddressSearch = () => {
             </p>
           </div>
           <span
-            onClick={() => setSelectedPlace(null)}
+            onClick={() => {
+              setSelectedPlace(null);
+              setValue(name, "");
+            }}
             className={`absolute right-2 top-2 cursor-pointer text-sm`}
           >
             <IoIosCloseCircleOutline className="text-xl" />
@@ -213,3 +257,5 @@ export const CustomAddressSearch = () => {
     </div>
   );
 };
+
+export default CustomAddressSearch;

@@ -379,3 +379,29 @@ export interface CustomersFilters {
   status: { key: boolean; title: string } | null;
   gender: { key: string; title: string } | null;
 }
+
+/**
+ * Interface for customer add form
+ */
+export interface CustomerAddForm {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  age: number;
+  height: number;
+  weight: number;
+  weightGoal?: number;
+  gender: string;
+  foodAllergies?: string;
+  physicalActivityLevel: string;
+  fitnessGoal: string;
+  dietaryPreferences: string[];
+  dietaryRestrictions?: (string | undefined)[];
+  address: string;
+}
+
+export interface CustomerEditForm extends CustomerAddForm {
+  _id: string;
+  status: string;
+}

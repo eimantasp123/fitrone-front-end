@@ -3,7 +3,7 @@ import EmptyState from "@/components/common/EmptyState";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
 import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
 import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
-import { CustomersFilters } from "@/utils/types";
+import { CustomerAddForm, CustomersFilters } from "@/utils/types";
 import { Spinner } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -34,6 +34,8 @@ const SupplierCustomers: React.FC = () => {
     status: null,
     gender: null,
   });
+
+  const [clientData, setClientData] = useState<CustomerAddForm | null>(null);
 
   // Search query state and debounced value
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
@@ -84,6 +86,10 @@ const SupplierCustomers: React.FC = () => {
     console.log("Action modal", actionModal);
   };
 
+  const editCustomer = () => {
+    openModal("clientInfoDrawer");
+  };
+
   return (
     <>
       <div
@@ -95,7 +101,6 @@ const SupplierCustomers: React.FC = () => {
             <SupplierGeneralHeader
               setSearchQuery={setSearchQuery}
               searchQuery={searchQuery}
-              openModal={() => {}}
               filters={filters}
               t={t}
               handleFilterChange={handleFilterChange}
@@ -153,6 +158,7 @@ const SupplierCustomers: React.FC = () => {
                 <CustomButton
                   paddingY="py-2 md:py-3"
                   widthFull={true}
+                  type="primary"
                   text={t("addCustomerManually")}
                   onClick={() => openModal("clientInfoDrawer")}
                 />
@@ -173,6 +179,7 @@ const SupplierCustomers: React.FC = () => {
                     key={index}
                     client={client}
                     t={t}
+                    editCustomer={editCustomer}
                   />
                 ))}
               </div>
@@ -205,10 +212,10 @@ const SupplierCustomers: React.FC = () => {
       {/* Customer details drawer */}
       {isOpen("clientInfoDrawer") && (
         <DrawerForCustomerAddAndEdit
+          clientData={clientData}
           isOpen={isOpen("clientInfoDrawer")}
           onClose={() => closeModal("clientInfoDrawer")}
           headerTitle={t("addCustomer")}
-          defaultSample={false}
         />
       )}
 
@@ -238,7 +245,7 @@ const SupplierCustomers: React.FC = () => {
               : t("resendFormDescription")
           }
           onAction={handlePeroformAction}
-          type="primary"
+          type={actionModal.type === "delete" ? "delete" : "primary"}
         />
       )}
     </>

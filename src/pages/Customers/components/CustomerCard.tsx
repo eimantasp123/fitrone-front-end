@@ -1,4 +1,5 @@
 import CustomerStatusBadge from "@/components/common/CustomerStatusBadge";
+import { CustomerAddForm } from "@/utils/types";
 import {
   Avatar,
   IconButton,
@@ -33,6 +34,7 @@ interface CustomerCardProps {
     type: "delete" | "resend";
     customerId: string;
   }) => void;
+  editCustomer: () => void;
 }
 
 /**
@@ -44,6 +46,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
   client,
   t,
   setActionModal,
+  editCustomer,
 }) => {
   const genderOptions = t("gender", { returnObjects: true }) as {
     key: string;
@@ -102,7 +105,10 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
             size="sm"
           />
           <MenuList minWidth="200px" zIndex={1}>
-            <MenuItem icon={<HiOutlineUserCircle className="text-[15px]" />}>
+            <MenuItem
+              onClick={() => editCustomer()}
+              icon={<HiOutlineUserCircle className="text-[15px]" />}
+            >
               {t("moreDetails")}
             </MenuItem>
             {client.status === "pending" && (

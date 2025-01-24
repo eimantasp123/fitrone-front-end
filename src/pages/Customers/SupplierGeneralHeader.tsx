@@ -5,12 +5,12 @@ import { CustomersFilters } from "@/utils/types";
 import { useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { TFunction } from "i18next";
 import CustomCustomersFilters from "./components/CustomCustomersFilters";
+import ManageGroupModal from "./components/ManageGroupModal";
 
 interface SupplierGeneralHeaderProps {
   onFiltersClose?: () => void;
   searchQuery: string | null;
   setSearchQuery: React.Dispatch<React.SetStateAction<string | null>>;
-  openModal: () => void;
   filters: CustomersFilters;
   t: TFunction;
   handleFilterChange: (
@@ -25,13 +25,17 @@ interface SupplierGeneralHeaderProps {
 const SupplierGeneralHeader: React.FC<SupplierGeneralHeaderProps> = ({
   searchQuery,
   setSearchQuery,
-  openModal,
   filters,
   t,
   handleFilterChange,
 }) => {
   const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isGroupModalOpen,
+    onClose: closeGroupModal,
+    onOpen: onOpenGroupModal,
+  } = useDisclosure();
 
   return (
     <>
@@ -74,7 +78,7 @@ const SupplierGeneralHeader: React.FC<SupplierGeneralHeaderProps> = ({
             </div>
             <CustomButton
               widthFull={true}
-              onClick={openModal}
+              onClick={onOpenGroupModal}
               text={t("manageGroups")}
             />
           </div>
@@ -102,6 +106,11 @@ const SupplierGeneralHeader: React.FC<SupplierGeneralHeaderProps> = ({
             />
           </div>
         </DrawerFromTop>
+      )}
+
+      {/* Manage group modal */}
+      {isGroupModalOpen && (
+        <ManageGroupModal isOpen={isGroupModalOpen} onClose={closeGroupModal} />
       )}
     </>
   );

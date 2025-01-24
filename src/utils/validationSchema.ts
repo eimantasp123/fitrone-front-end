@@ -8,10 +8,12 @@ export const useLoginSchema = () => {
   return yup.object().shape({
     email: yup
       .string()
+      .trim()
       .email(t("validation.invalidEmail"))
       .required(t("validation.requiredEmail")),
     password: yup
       .string()
+      .trim()
       .required(t("validation.requiredPassword"))
       .min(4, t("validation.minPassword", { count: 4 })),
   });
@@ -71,6 +73,7 @@ export const useRegisterEmailSchema = () => {
   return yup.object().shape({
     email: yup
       .string()
+      .trim()
       .email(t("validation.invalidEmail"))
       .required(t("validation.requiredEmail"))
       .max(50, t("validation.maxEmail", { count: 50 })),
@@ -83,9 +86,14 @@ export const useRegisterSchema = () => {
   return yup.object().shape({
     firstName: yup
       .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
       .required(t("validation.firstNameRequired"))
       .min(3, t("validation.minFirstName", { count: 3 })),
-    lastName: yup.string(),
+    lastName: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value)),
     password: getPasswordValidationSchema(t),
     passwordConfirm: yup
       .string()
@@ -104,17 +112,27 @@ export const useEditProfileSchema = () => {
   return yup.object().shape({
     firstName: yup
       .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
       .required(t("validation.firstNameRequired"))
       .min(3, t("validation.firstNameMin", { count: 3 })),
-    lastName: yup.string().max(50, t("validation.lastNameMax", { count: 50 })),
+    lastName: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .max(50, t("validation.lastNameMax", { count: 50 })),
     email: yup
       .string()
+      .trim()
       .email(t("validation.invalidEmail"))
       .max(100, t("validation.maxEmail", { count: 100 })),
-    phone: yup.string().matches(phoneRegex, {
-      message: t("validation.invalidPhoneNumber"),
-      excludeEmptyString: true,
-    }),
+    phone: yup
+      .string()
+      .trim()
+      .matches(phoneRegex, {
+        message: t("validation.invalidPhoneNumber"),
+        excludeEmptyString: true,
+      }),
   });
 };
 
@@ -348,7 +366,7 @@ export const useCustomerSendForm = () => {
  * Customer schema for send form to customer form validation
  */
 export const useCustomerDetails = () => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation(["common", "profileSettings"]);
 
   const requiredMessage = t("validationErrors.fieldIsRequired");
   const numberTransform = (
@@ -367,6 +385,11 @@ export const useCustomerDetails = () => {
       .trim()
       .transform((value) => (value ? value.toLowerCase() : value))
       .required(requiredMessage),
+    email: yup
+      .string()
+      .required(t("profileSettings:validation.requiredEmail"))
+      .email(t("profileSettings:validation.invalidEmail"))
+      .max(100, t("profileSettings:validation.maxEmail", { count: 100 })),
     phone: yup
       .string()
       .required(requiredMessage)
@@ -394,6 +417,7 @@ export const useCustomerDetails = () => {
       .transform(numberTransform)
       .typeError(t("validationErrors.invalidWeightGoal")),
     gender: yup.string().trim().required(requiredMessage),
+    address: yup.string().required(requiredMessage),
     foodAllergies: yup.string().trim(),
     physicalActivityLevel: yup.string().trim().required(requiredMessage),
     fitnessGoal: yup.string().trim().required(requiredMessage),
@@ -402,10 +426,6 @@ export const useCustomerDetails = () => {
       .of(yup.string().trim().required(requiredMessage))
       .min(1, t("validationErrors.selectOne"))
       .required(requiredMessage),
-    dietaryRestrictions: yup
-      .array()
-      .of(yup.string().trim().required(requiredMessage))
-      .min(1, t("validationErrors.selectOne"))
-      .required(requiredMessage),
+    dietaryRestrictions: yup.array().of(yup.string().trim()),
   });
 };

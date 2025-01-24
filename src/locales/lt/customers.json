@@ -27,6 +27,8 @@
   "sendFormToCustomer": "Išsiųsti formą klientui",
   "previewForm": "Peržiūrėti formą",
 
+  "recaptchaError": "Norėdami išsiųsti formą, užpildykite reCAPTCHA iššūkį.",
+
   "noClientsYet": "Jūs dar neturite pridėtų klientų",
   "noClientsYetExplanation": "Norėdami pridėti klientą, spustelėkite mygtuką esantį apačioje.",
 

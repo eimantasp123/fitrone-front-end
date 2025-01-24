@@ -1,19 +1,20 @@
-import CustomButton from "@/components/common/CustomButton";
-import CustomTextarea from "@/components/common/CustomTextarea";
 import LightAndDarkMode from "@/components/common/LightAndDarkMode";
-import MultipleOptionsSelectAndRegisterToForm from "@/components/common/MultipleOptionsSelectAndRegisterToForm";
-import CustomInput from "@/components/common/NewCharkaInput";
-import NumberInputs from "@/components/common/NumberInputs";
-import OptionsSelectAndRegisterToForm from "@/components/common/OptionSelectAndRegisterToForm";
 import LanguageSelector from "@/components/LanguageSelector";
-import useFiltersOptions from "@/hooks/useFiltersOptions";
 import { useCustomerDetails } from "@/utils/validationSchema";
 import { useColorMode } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import UserDetailsFormComponent from "../Customers/components/UserDetailsFormComponent";
+import { CustomerAddForm } from "@/utils/types";
+import {
+  useCustomerForm,
+  UseCustomerFormProps,
+} from "@/hooks/CustomerPageForm/useCustomerForm";
+import { showCustomToast } from "@/hooks/showCustomToast";
 
 /**
  *  Customer page form component
@@ -22,26 +23,43 @@ const CustomerPageForm: React.FC = () => {
   const { token } = useParams();
   const { t } = useTranslation(["customers", "meals", "common"]);
   const { colorMode } = useColorMode();
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [selectedPlace, setSelectedPlace] =
+    useState<google.maps.places.PlaceResult | null>(null); // Final selected place
+
   const schema = useCustomerDetails();
-  const methods = useForm({
+  const methods = useForm<CustomerAddForm>({
     resolver: yupResolver(schema),
   });
 
-  // Get the options
-  const {
-    dietaryPreferences,
-    dietaryRestrictions,
-    fitnessGoalOptionsTranslated,
-    physicalActivityLevelOptions,
-    genderOptions,
-  } = useFiltersOptions();
+  // Mutation to create a new customer
+  const { mutate: createCustomer, isPending } = useCustomerForm(() => {
+    setSelectedPlace(null);
+    methods.reset();
+  });
 
   // Handle form submission
-  const onSubmit = async (data: unknown) => {
-    console.log("   data", data);
-  };
+  // Function to handle the submission for each step
+  const onSubmit = async (data: CustomerAddForm) => {
+    if (!selectedPlace || !token) return;
 
-  const isLoading = false;
+    if (!recaptchaToken) {
+      showCustomToast({
+        status: "error",
+        description: t("recaptchaError"),
+      });
+      return;
+    }
+
+    // Merge the data with the address
+    const dataSend: UseCustomerFormProps = {
+      ...data,
+      latitude: selectedPlace.geometry?.location?.lat().toFixed(6) || 0,
+      longitude: selectedPlace.geometry?.location?.lng().toFixed(6) || 0,
+    };
+
+    createCustomer({ data: dataSend, token, recaptchaToken });
+  };
 
   return (
     <>
@@ -63,99 +81,23 @@ const CustomerPageForm: React.FC = () => {
             <LightAndDarkMode />
           </div>
         </header>
-        <div className="mx-auto flex max-w-[1550px] flex-col pt-8 md:pt-14">
+        <div className="mx-auto flex max-w-[1550px] flex-col px-6 pt-8 md:pt-14 lg:px-10">
           {token === "sample" && (
-            <div className="mx-9 space-y-2">
+            <div className="mb-4 space-y-2 px-2 md:mb-0 md:px-9">
               <h4 className="text-lg font-semibold">{t("sampleFormTitle")}</h4>
               <p className="text-sm">{t("sampleFormDescription")}</p>
             </div>
           )}
-          <FormProvider {...methods}>
-            <form
-              className="m-9 flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-4"
-              onSubmit={methods.handleSubmit(onSubmit)}
-            >
-              {/* Name */}
-              <CustomInput name="firstName" label={t("common:firstName")} />
-
-              {/* Last Name */}
-              <CustomInput name="lastName" label={t("common:lastName")} />
-
-              {/* Phone Number */}
-              <CustomInput
-                name="phone"
-                type="tel"
-                label={t("common:phoneNumber")}
-              />
-
-              {/* Age */}
-              <NumberInputs name="age" label={t("common:age")} />
-
-              {/* Height */}
-              <NumberInputs name="height" label={t("common:height")} />
-
-              {/* Weight */}
-              <NumberInputs name="weight" label={t("common:weight")} />
-
-              {/* Weight Goals */}
-              <NumberInputs name="weightGoal" label={t("common:weightGoal")} />
-
-              {/* Activity level */}
-              <OptionsSelectAndRegisterToForm
-                name="gender"
-                placeholder={t("customers:genderSelectPlaceholder")}
-                label={t("customers:genderTitle")}
-                options={genderOptions}
-              />
-
-              {/* Activity level */}
-              <OptionsSelectAndRegisterToForm
-                name="physicalActivityLevel"
-                placeholder={t("common:physicalActivityLevel")}
-                options={physicalActivityLevelOptions}
-              />
-
-              {/* Fitness goal */}
-              <OptionsSelectAndRegisterToForm
-                name="fitnessGoal"
-                placeholder={t("common:fitnessGoal")}
-                options={fitnessGoalOptionsTranslated}
-              />
-
-              {/* Dietary preference */}
-              <MultipleOptionsSelectAndRegisterToForm
-                name="dietaryPreferences"
-                placeholder={t("meals:preferencesTitle")}
-                options={dietaryPreferences}
-              />
-
-              {/* Dietary restrictions */}
-              <MultipleOptionsSelectAndRegisterToForm
-                name="dietaryRestrictions"
-                placeholder={t("meals:restrictionsTitle")}
-                options={dietaryRestrictions}
-              />
-
-              {/* Food allergies */}
-              <div className="col-span-2">
-                <CustomTextarea
-                  name="foodAllergies"
-                  label={t("common:foodAllergies")}
-                />
-              </div>
-
-              {/* Submit button */}
-              <div className="col-span-2">
-                <CustomButton
-                  widthFull={true}
-                  paddingY="py-3"
-                  text={t("common:submitForm")}
-                  actionType="submit"
-                  disabled={token === "sample" || isLoading}
-                />
-              </div>
-            </form>
-          </FormProvider>
+          <UserDetailsFormComponent
+            setSelectedPlace={setSelectedPlace}
+            selectedPlace={selectedPlace}
+            methods={methods}
+            onSubmit={onSubmit}
+            submitButtonText={t("sendForm")}
+            loading={isPending}
+            setRecaptchaToken={setRecaptchaToken}
+            disableForm={token === "sample" || token!.length < 25 || isPending}
+          />
         </div>
       </div>
     </>

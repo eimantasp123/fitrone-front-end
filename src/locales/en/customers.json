@@ -27,6 +27,8 @@
   "sendFormToCustomer": "Send form to customer",
   "previewForm": "Preview form",
 
+  "recaptchaError": "Please complete the reCAPTCHA challenge to send the form.",
+
   "noClientsYet": "You don't have any clients added yet",
   "noClientsYetExplanation": "To add a client, click the button at the bottom.",
 
