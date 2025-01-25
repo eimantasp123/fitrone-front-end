@@ -10,14 +10,13 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { FieldValues, FormProvider, UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import CustomAddressSearch from "./CustomAddressSearch";
+import { SelectedPlace } from "./DrawerForCustomerAddAndEdit";
 
 interface UserDetailsFormComponentProps<T extends FieldValues> {
   methods: UseFormReturn<T>;
   onSubmit: (data: T) => void;
-  selectedPlace: google.maps.places.PlaceResult | null;
-  setSelectedPlace: React.Dispatch<
-    React.SetStateAction<google.maps.places.PlaceResult | null>
-  >;
+  selectedPlace: SelectedPlace | null;
+  setSelectedPlace: React.Dispatch<React.SetStateAction<SelectedPlace | null>>;
   submitButtonText?: string;
   disableForm?: boolean;
   loading?: boolean;
@@ -96,28 +95,32 @@ const UserDetailsFormComponent = <T extends FieldValues>({
         {/* Activity level */}
         <OptionsSelectAndRegisterToForm
           name="physicalActivityLevel"
-          placeholder={t("common:physicalActivityLevel")}
+          label={t("common:physicalActivityLevel")}
+          placeholder={t("select")}
           options={physicalActivityLevelOptions}
         />
 
         {/* Fitness goal */}
         <OptionsSelectAndRegisterToForm
           name="fitnessGoal"
-          placeholder={t("common:fitnessGoal")}
+          placeholder={t("select")}
+          label={t("common:fitnessGoal")}
           options={fitnessGoalOptionsTranslated}
         />
 
         {/* Dietary preference */}
         <MultipleOptionsSelectAndRegisterToForm
-          name="dietaryPreferences"
-          placeholder={t("meals:preferencesTitle")}
+          name="preferences"
+          label={t("meals:preferencesTitle")}
+          placeholder={t("select")}
           options={dietaryPreferences}
         />
 
         {/* Dietary restrictions */}
         <MultipleOptionsSelectAndRegisterToForm
-          name="dietaryRestrictions"
-          placeholder={t("meals:restrictionsTitle")}
+          name="restrictions"
+          label={t("meals:restrictionsTitle")}
+          placeholder={t("select")}
           options={dietaryRestrictions}
         />
 
@@ -139,7 +142,7 @@ const UserDetailsFormComponent = <T extends FieldValues>({
         </div>
 
         {/* reCAPTCHA */}
-        {setRecaptchaToken && (
+        {setRecaptchaToken && !disableForm && (
           <div className="col-span-2">
             <ReCAPTCHA
               sitekey={recaptchaKey}
@@ -154,6 +157,7 @@ const UserDetailsFormComponent = <T extends FieldValues>({
             widthFull={true}
             paddingY="py-3"
             loading={loading}
+            loadingSpinner={false}
             text={submitButtonText}
             actionType="submit"
             disabled={disableForm || loading}

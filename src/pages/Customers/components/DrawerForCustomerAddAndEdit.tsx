@@ -1,4 +1,4 @@
-import { CustomerAddForm } from "@/utils/types";
+import { CustomerAddForm, CustomerEditForm } from "@/utils/types";
 import { useCustomerDetails } from "@/utils/validationSchema";
 import {
   Drawer,
@@ -8,51 +8,86 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdOutlineClose } from "react-icons/md";
 import UserDetailsFormComponent from "./UserDetailsFormComponent";
 import { useTranslation } from "react-i18next";
+import { useAddOrEditCustomerAction } from "@/hooks/Customers/useAddOrEditCustomer";
 
 interface DrawerForCustomerAddAndEditProps {
   isOpen: boolean;
   onClose: () => void;
-  headerTitle?: string;
-  clientData: CustomerAddForm | null;
+  clientData?: CustomerEditForm | null;
 }
 
+export interface SelectedPlace {
+  address: string;
+  latitude: string;
+  longitude: string;
+}
+
+/**
+ * Drawer for adding and editing customers
+ */
 const DrawerForCustomerAddAndEdit: React.FC<
   DrawerForCustomerAddAndEditProps
-> = ({ isOpen, onClose, headerTitle = "Add Customer", clientData }) => {
+> = ({ isOpen, onClose, clientData }) => {
   const { t } = useTranslation(["customers"]);
   const { colorMode } = useColorMode();
-  const [selectedPlace, setSelectedPlace] =
-    useState<google.maps.places.PlaceResult | null>(null); // Final selected place
+  const [selectedPlace, setSelectedPlace] = useState<SelectedPlace | null>(
+    null,
+  ); // Final selected place
 
+  // Use the customer details schema for validation
   const schema = useCustomerDetails();
   const methods = useForm<CustomerAddForm>({
     resolver: yupResolver(schema),
   });
 
+  // Mutation to add
+  const { mutate: addOrEditCustomer, isPending } =
+    useAddOrEditCustomerAction(onClose);
+
+  // Set data to form and reset on close
+  useEffect(() => {
+    if (clientData) {
+      methods.reset(clientData);
+
+      if (clientData.latitude && clientData.longitude && clientData.address) {
+        setSelectedPlace({
+          address: clientData.address,
+          latitude: clientData.latitude,
+          longitude: clientData.longitude,
+        });
+      }
+    }
+
+    return () => {
+      methods.reset();
+      setSelectedPlace(null);
+    };
+  }, [clientData, methods]);
+
   // Function to handle the submission for each step
   const onSubmit = async (data: CustomerAddForm) => {
     if (!selectedPlace) return;
 
-    // Format the address
-    const address = {
-      latitude: selectedPlace.geometry?.location?.lat().toFixed(6) || 0,
-      longitude: selectedPlace.geometry?.location?.lng().toFixed(6) || 0,
-    };
-
     // Merge the data with the address
     const dataSend = {
       ...data,
-      ...address,
+      ...selectedPlace,
     };
 
-    // Send the data
-    console.log(dataSend);
+    if (clientData && clientData._id) {
+      // Process data update
+      addOrEditCustomer({ data: dataSend, customerId: clientData._id });
+    } else {
+      // Send new data to the server
+      addOrEditCustomer({ data: dataSend });
+    }
   };
+
   return (
     <>
       <Drawer
@@ -64,7 +99,7 @@ const DrawerForCustomerAddAndEdit: React.FC<
         <DrawerContent>
           <div className="h-12 w-full bg-background">
             <h2 className="text-md absolute left-5 top-4 font-medium lg:text-lg">
-              {headerTitle}
+              {clientData ? t("editCustomer") : t("addCustomer")}
             </h2>
 
             <div
@@ -87,7 +122,10 @@ const DrawerForCustomerAddAndEdit: React.FC<
                 setSelectedPlace={setSelectedPlace}
                 onSubmit={onSubmit}
                 methods={methods}
-                submitButtonText={t("addCustomer")}
+                loading={isPending}
+                submitButtonText={
+                  clientData ? t("editCustomer") : t("addCustomer")
+                }
               />
             </div>
           </DrawerBody>

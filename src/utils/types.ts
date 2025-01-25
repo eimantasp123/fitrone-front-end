@@ -396,12 +396,17 @@ export interface CustomerAddForm {
   foodAllergies?: string;
   physicalActivityLevel: string;
   fitnessGoal: string;
-  dietaryPreferences: string[];
-  dietaryRestrictions?: (string | undefined)[];
+  preferences: string[];
+  restrictions?: string[];
   address: string;
 }
 
+/**
+ * Interface for customer edit form
+ */
 export interface CustomerEditForm extends CustomerAddForm {
   _id: string;
   status: string;
+  latitude: string;
+  longitude: string;
 }

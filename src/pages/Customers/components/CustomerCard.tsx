@@ -1,5 +1,6 @@
 import CustomerStatusBadge from "@/components/common/CustomerStatusBadge";
-import { CustomerAddForm } from "@/utils/types";
+import { capitalizeFirstLetter } from "@/utils/helper";
+import { CustomerEditForm } from "@/utils/types";
 import {
   Avatar,
   IconButton,
@@ -18,14 +19,7 @@ import {
 } from "react-icons/hi";
 
 interface CustomerCardProps {
-  client: {
-    firstName: string;
-    lastName?: string;
-    email: string;
-    phone?: string | null;
-    status: string;
-    gender?: string | null;
-  };
+  client: CustomerEditForm;
   t: TFunction;
   setActionModal: ({
     type,
@@ -34,7 +28,7 @@ interface CustomerCardProps {
     type: "delete" | "resend";
     customerId: string;
   }) => void;
-  editCustomer: () => void;
+  editCustomer: (customer: CustomerEditForm) => void;
 }
 
 /**
@@ -63,7 +57,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
           bgColor="#c5e280"
           name={`${client.firstName} ${client?.lastName ?? ""}`}
         />
-        <p>{`${client.firstName} ${client?.lastName ?? ""}`}</p>
+        <p>{`${capitalizeFirstLetter(client.firstName)} ${capitalizeFirstLetter(client?.lastName) ?? ""}`}</p>
       </div>
 
       {/* Email Section */}
@@ -106,7 +100,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
           />
           <MenuList minWidth="200px" zIndex={1}>
             <MenuItem
-              onClick={() => editCustomer()}
+              onClick={() => editCustomer(client)}
               icon={<HiOutlineUserCircle className="text-[15px]" />}
             >
               {t("moreDetails")}
@@ -114,7 +108,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
             {client.status === "pending" && (
               <MenuItem
                 onClick={() =>
-                  setActionModal({ type: "resend", customerId: client.email })
+                  setActionModal({ type: "resend", customerId: client._id })
                 }
                 icon={<HiOutlineReply className="text-[15px]" />}
               >
@@ -124,7 +118,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
             <MenuItem
               color="red.500"
               onClick={() =>
-                setActionModal({ type: "delete", customerId: client.email })
+                setActionModal({ type: "delete", customerId: client._id })
               }
               icon={<HiOutlineTrash className="text-[15px]" />}
             >

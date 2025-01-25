@@ -1,20 +1,25 @@
+import { fetchPaginatedCustomers } from "@/api/customersApi";
+import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import CustomButton from "@/components/common/CustomButton";
 import EmptyState from "@/components/common/EmptyState";
+import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
+import { useDeleteOrResendCustomerAction } from "@/hooks/Customers/useDeleteOrResendCustomer";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
 import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
+import { usePageStates } from "@/hooks/usePageStatus";
 import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
-import { CustomerAddForm, CustomersFilters } from "@/utils/types";
+import { CustomerEditForm, CustomersFilters } from "@/utils/types";
 import { Spinner } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DrawerForCustomerAddAndEdit from "./components/DrawerForCustomerAddAndEdit";
-import SupplierGeneralHeader from "./SupplierGeneralHeader";
+import { ThreeDots } from "react-loader-spinner";
 import ClientListLabels from "./components/ClientListLabels";
 import CustomerCard from "./components/CustomerCard";
+import DrawerForCustomerAddAndEdit from "./components/DrawerForCustomerAddAndEdit";
 import PopoverClientStatusExplain from "./components/PopoverClientStatusExplain";
 import SendFormToCustomerModal from "./components/SendFormToCustomerModal";
-import { clientMock } from "./mock/clientdata";
-import ConfirmActionModal from "@/components/common/ConfirmActionModal";
+import SupplierGeneralHeader from "./SupplierGeneralHeader";
 
 /**
  *  Supplier weekly menu central station
@@ -35,7 +40,7 @@ const SupplierCustomers: React.FC = () => {
     gender: null,
   });
 
-  const [clientData, setClientData] = useState<CustomerAddForm | null>(null);
+  const [clientData, setClientData] = useState<CustomerEditForm | null>(null);
 
   // Search query state and debounced value
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
@@ -43,6 +48,14 @@ const SupplierCustomers: React.FC = () => {
     searchQuery,
     500,
     (value) => !value || value.length < 1,
+  );
+
+  // Mutation to perform action on customer
+  const { mutate: actionMutation, isPending } = useDeleteOrResendCustomerAction(
+    () => {
+      // Close the action modal
+      setActionModal(null);
+    },
   );
 
   // Ref to track the scroll container
@@ -53,6 +66,49 @@ const SupplierCustomers: React.FC = () => {
     [filters, debouncedValue],
     scrollContainerRef,
   );
+
+  // Fetch customers from the server using infinite query
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: [
+      "customers",
+      debouncedValue,
+      filters.status?.key,
+      filters.preference?.key,
+      filters.gender?.key,
+    ],
+    queryFn: fetchPaginatedCustomers,
+    initialPageParam: 1,
+    placeholderData: (prev) => prev,
+    getNextPageParam: (lastPage) => {
+      if (lastPage?.currentPage < lastPage?.totalPages) {
+        return lastPage.currentPage + 1;
+      }
+      return undefined;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes stale time
+    retry: 3,
+  });
+
+  // Memoized customers data
+  const customers = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data) || [];
+  }, [data]);
+
+  // Custom hook to check the state of the weekly menus
+  const { noItemsAdded, noResultsForSearchAndFilters, hasItems } =
+    usePageStates({
+      currentResults: data?.pages[0]?.results || 0,
+      isLoading,
+      isError,
+      totalResults: data?.pages[0]?.total || 0,
+    });
 
   // Handler for filter change
   const handleFilterChange = (
@@ -75,18 +131,18 @@ const SupplierCustomers: React.FC = () => {
     }
   };
 
-  const isLoading = false;
-  const isError = false;
-  const noItemsAdded = false;
-  const noResultsForSearchAndFilters = false;
-  const hasItems = true;
-
+  // Perform action on customer
   const handlePeroformAction = () => {
-    console.log("Performing action");
-    console.log("Action modal", actionModal);
+    if (!actionModal?.customerId || !actionModal.type) return;
+    actionMutation({
+      customerId: actionModal.customerId,
+      type: actionModal.type,
+    });
   };
 
-  const editCustomer = () => {
+  // Function to set edit customer data and open the drawer
+  const editCustomer = (customer: CustomerEditForm) => {
+    setClientData(customer);
     openModal("clientInfoDrawer");
   };
 
@@ -129,8 +185,10 @@ const SupplierCustomers: React.FC = () => {
               <EmptyState
                 title={t("noClientsYet")}
                 description={t("noClientsYetExplanation")}
-                secondButtonText={t("addCustomer")}
-                onClickSecondButton={() => {}}
+                secondButtonText={t("addCustomerManually")}
+                firstButtonText={t("sendFormToCustomer")}
+                onClickSecondButton={() => openModal("clientInfoDrawer")}
+                onClickFirstButton={() => openModal("sendFormToCustomer")}
                 height="h-[73vh]"
               />
             </div>
@@ -149,7 +207,7 @@ const SupplierCustomers: React.FC = () => {
             <>
               <div className="my-1 flex items-center justify-between px-4 text-sm">
                 <span>
-                  {t("clientsFound")}: {0}
+                  {t("clientsFound")}: {data?.pages[0]?.total || 0}
                 </span>
                 <PopoverClientStatusExplain t={t} />
               </div>
@@ -173,7 +231,7 @@ const SupplierCustomers: React.FC = () => {
 
               <div className="grid grid-cols-1 gap-2 px-3 pb-10 pt-2">
                 <ClientListLabels t={t} />
-                {clientMock.map((client, index) => (
+                {customers.map((client, index) => (
                   <CustomerCard
                     setActionModal={setActionModal}
                     key={index}
@@ -185,7 +243,7 @@ const SupplierCustomers: React.FC = () => {
               </div>
 
               {/* Bottom Spinner for Loading Next Page */}
-              {/* {isFetchingNextPage && (
+              {isFetchingNextPage && (
                 <div className="flex w-full justify-center pb-4">
                   <ThreeDots color="#AFDF3F" height={30} width={40} />
                 </div>
@@ -194,7 +252,7 @@ const SupplierCustomers: React.FC = () => {
               <IntersectionObserverForFetchPage
                 onIntersect={fetchNextPage}
                 hasNextPage={!!hasNextPage}
-              /> */}
+              />
             </>
           )}
         </div>
@@ -214,15 +272,17 @@ const SupplierCustomers: React.FC = () => {
         <DrawerForCustomerAddAndEdit
           clientData={clientData}
           isOpen={isOpen("clientInfoDrawer")}
-          onClose={() => closeModal("clientInfoDrawer")}
-          headerTitle={t("addCustomer")}
+          onClose={() => {
+            closeModal("clientInfoDrawer");
+            setClientData(null);
+          }}
         />
       )}
 
       {/* Perform action modal for delete and resend action */}
       {actionModal && (
         <ConfirmActionModal
-          loading={false}
+          loading={isPending}
           loadingSpinner={false}
           confirmButtonText={
             actionModal.type === "delete"

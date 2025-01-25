@@ -4,12 +4,11 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdSearch } from "react-icons/md";
+import { SelectedPlace } from "./DrawerForCustomerAddAndEdit";
 
 interface CustomAddressSearchProps {
-  selectedPlace: google.maps.places.PlaceResult | null;
-  setSelectedPlace: React.Dispatch<
-    React.SetStateAction<google.maps.places.PlaceResult | null>
-  >;
+  selectedPlace: SelectedPlace | null;
+  setSelectedPlace: React.Dispatch<React.SetStateAction<SelectedPlace | null>>;
   name: string;
   disableForm?: boolean;
 }
@@ -109,7 +108,11 @@ const CustomAddressSearch: React.FC<CustomAddressSearchProps> = ({
     // Fetch place details based on `placeId`
     placesService.current?.getDetails({ placeId }, (place) => {
       if (place) {
-        setSelectedPlace(place);
+        setSelectedPlace({
+          address: place.formatted_address || "",
+          latitude: place.geometry?.location?.lat().toFixed(6) || "",
+          longitude: place.geometry?.location?.lng().toFixed(6) || "",
+        });
         setValue(name, place.formatted_address || "");
         cleanStates();
       }
@@ -232,15 +235,13 @@ const CustomAddressSearch: React.FC<CustomAddressSearchProps> = ({
       {selectedPlace && (
         <div className="relative mt-4 rounded-lg bg-backgroundSecondary p-4 text-[14px]">
           <p className="font-semibold">{t("common:selectedAddress")}:</p>
-          <p>{selectedPlace.formatted_address}</p>
+          <p>{selectedPlace.address}</p>
           <div className="mt-2 flex items-center gap-2 text-xs">
             <p>
-              {t("common:latitude")}:{" "}
-              {selectedPlace.geometry?.location?.lat().toFixed(6)}
+              {t("common:latitude")}: {selectedPlace.latitude}
             </p>
             <p>
-              {t("common:longitude")}:{" "}
-              {selectedPlace.geometry?.location?.lng().toFixed(6)}
+              {t("common:longitude")}: {selectedPlace.longitude}
             </p>
           </div>
           <span

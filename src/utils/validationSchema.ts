@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
+import { transform } from "lodash";
 
 // Login schema for login form validation
 export const useLoginSchema = () => {
@@ -351,6 +352,7 @@ export const useCustomerSendForm = () => {
   return yup.object().shape({
     firstName: yup
       .string()
+      .transform((value) => (value ? value.toLowerCase() : value))
       .required(t("validation.firstNameRequired"))
       .min(2, t("validation.firstNameMin", { count: 2 }))
       .max(100, t("validation.firstNameMax", { count: 100 })),
@@ -421,11 +423,11 @@ export const useCustomerDetails = () => {
     foodAllergies: yup.string().trim(),
     physicalActivityLevel: yup.string().trim().required(requiredMessage),
     fitnessGoal: yup.string().trim().required(requiredMessage),
-    dietaryPreferences: yup
+    preferences: yup
       .array()
       .of(yup.string().trim().required(requiredMessage))
       .min(1, t("validationErrors.selectOne"))
       .required(requiredMessage),
-    dietaryRestrictions: yup.array().of(yup.string().trim()),
+    restrictions: yup.array().of(yup.string().trim().defined()),
   });
 };

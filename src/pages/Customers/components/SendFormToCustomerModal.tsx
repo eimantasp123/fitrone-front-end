@@ -1,6 +1,7 @@
 import CustomButton from "@/components/common/CustomButton";
 import LinkButton from "@/components/common/LinkButton";
 import CustomInput from "@/components/common/NewCharkaInput";
+import { useCustomerSendMailAction } from "@/hooks/Customers/useSendFormToCustomer";
 import { useCustomerSendForm } from "@/utils/validationSchema";
 import {
   Modal,
@@ -20,7 +21,7 @@ interface SendFormToCustomerModalProps {
   t: TFunction;
 }
 
-interface SendFormToCustomerForm {
+export interface SendFormToCustomerForm {
   firstName: string;
   email: string;
 }
@@ -38,8 +39,12 @@ const SendFormToCustomerModal: React.FC<SendFormToCustomerModalProps> = ({
     resolver: yupResolver(schema),
   });
 
+  // Send form to customer
+  const { mutate: sendForm, isPending } = useCustomerSendMailAction(onClose);
+
+  // Handle form submission
   const handleSubmitForm = (data: SendFormToCustomerForm) => {
-    console.log(data);
+    sendForm(data);
   };
 
   return (
@@ -107,7 +112,7 @@ const SendFormToCustomerModal: React.FC<SendFormToCustomerModalProps> = ({
                   <CustomButton
                     text={t("sendForm")}
                     actionType="submit"
-                    loading={false}
+                    loading={isPending}
                     loadingSpinner={false}
                     widthFull={true}
                     paddingY="py-3"
