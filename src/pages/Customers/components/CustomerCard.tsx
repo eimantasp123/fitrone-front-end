@@ -1,4 +1,6 @@
 import CustomerStatusBadge from "@/components/common/CustomerStatusBadge";
+import { capitalizeFirstLetter } from "@/utils/helper";
+import { CustomerEditForm } from "@/utils/types";
 import {
   Avatar,
   IconButton,
@@ -17,15 +19,16 @@ import {
 } from "react-icons/hi";
 
 interface CustomerCardProps {
-  client: {
-    firstName: string;
-    lastName?: string;
-    email: string;
-    phone: string;
-    status: string;
-    gender: string;
-  };
+  client: CustomerEditForm;
   t: TFunction;
+  setActionModal: ({
+    type,
+    customerId,
+  }: {
+    type: "delete" | "resend";
+    customerId: string;
+  }) => void;
+  editCustomer: (customer: CustomerEditForm) => void;
 }
 
 /**
@@ -33,7 +36,12 @@ interface CustomerCardProps {
  * @param client  The client object
  * @returns
  */
-const CustomerCard: React.FC<CustomerCardProps> = ({ client, t }) => {
+const CustomerCard: React.FC<CustomerCardProps> = ({
+  client,
+  t,
+  setActionModal,
+  editCustomer,
+}) => {
   const genderOptions = t("gender", { returnObjects: true }) as {
     key: string;
     title: string;
@@ -49,7 +57,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ client, t }) => {
           bgColor="#c5e280"
           name={`${client.firstName} ${client?.lastName ?? ""}`}
         />
-        <p>{`${client.firstName} ${client?.lastName ?? ""}`}</p>
+        <p>{`${capitalizeFirstLetter(client.firstName)} ${capitalizeFirstLetter(client?.lastName) ?? ""}`}</p>
       </div>
 
       {/* Email Section */}
@@ -61,14 +69,17 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ client, t }) => {
       {/* Phone Number */}
       <div className="col-span-6 flex items-center sm:col-span-3 xl:col-auto">
         <h6 className="pr-2 font-semibold xl:hidden">{t("phoneNumber")}:</h6>
-        <h6>{client.phone}</h6>
+        <h6>{client?.phone ?? t("notProvided")}</h6>
       </div>
 
       {/* Gender */}
       <div className="col-span-6 flex items-center sm:col-span-3 xl:col-auto">
         <h6 className="pr-2 font-semibold xl:hidden">{t("genderTitle")}:</h6>
         <h6>
-          {genderOptions.find((option) => option.key === client.gender)?.title}
+          {client.gender
+            ? genderOptions.find((option) => option.key === client.gender)
+                ?.title
+            : t("notProvided")}
         </h6>
       </div>
 
@@ -88,14 +99,27 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ client, t }) => {
             size="sm"
           />
           <MenuList minWidth="200px" zIndex={1}>
-            <MenuItem icon={<HiOutlineUserCircle className="text-[15px]" />}>
+            <MenuItem
+              onClick={() => editCustomer(client)}
+              icon={<HiOutlineUserCircle className="text-[15px]" />}
+            >
               {t("moreDetails")}
             </MenuItem>
-            <MenuItem icon={<HiOutlineReply className="text-[15px]" />}>
-              {t("resendForm")}
-            </MenuItem>
+            {client.status === "pending" && (
+              <MenuItem
+                onClick={() =>
+                  setActionModal({ type: "resend", customerId: client._id })
+                }
+                icon={<HiOutlineReply className="text-[15px]" />}
+              >
+                {t("resendForm")}
+              </MenuItem>
+            )}
             <MenuItem
               color="red.500"
+              onClick={() =>
+                setActionModal({ type: "delete", customerId: client._id })
+              }
               icon={<HiOutlineTrash className="text-[15px]" />}
             >
               {t("common:delete")}

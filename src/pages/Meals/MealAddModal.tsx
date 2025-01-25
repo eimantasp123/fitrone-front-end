@@ -18,7 +18,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { GiMeal } from "react-icons/gi";
 import { caclulateNutrition } from "../../utils/calculateNutrition";
-import InfoCard from "../MealPlan/components/client/InfoCard";
+import InfoCard from "../../components/common/InfoCard";
 import ImageUploader from "./components/ImageUploader";
 import IngredientAddOptionsManager from "./components/IngredientAddOptionsManager";
 import IngredientDisplayList from "./components/IngredientDisplayList";

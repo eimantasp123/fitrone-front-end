@@ -68,13 +68,15 @@
   },
   "validation": {
     "firstNameRequired": "Vardas yra privalomas",
-    "firstNameMin": "Vardas turi būti bent 3 simbolių ilgio",
-    "lastNameMax": "Pavardė turi būti ne ilgesnė kaip 50 simbolių",
+    "firstNameMin": "Vardas turi būti bent {{count}} simbolių ilgio",
+    "firstNameMax": "Vardas turi būti ne ilgesnis kaip {{count}} simbolių",
+    "lastNameMax": "Pavardė turi būti ne ilgesnė kaip {{count}} simbolių",
     "invalidPhoneNumber": "Telefono numeris turi prasidėti +, tęstis šalies kodu ir skaitmenimis.",
     "verificationCodeRequired": "Patvirtinimo kodas yra privalomas",
     "invalidVerificationCode": "Neteisingas patvirtinimas",
     "bothMustMatch": "Abu laukai turi sutapti",
     "invalidEmail": "Neteisingas el. pašto adresas",
+    "requiredEmail": "El. paštas yra privalomas",
     "maxEmail": "El. pašto adresas turi būti ne ilgesnis kaip {{count}} simbolių"
   }
 }

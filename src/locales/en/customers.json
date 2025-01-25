@@ -1,8 +1,10 @@
 {
   "customers": "Customers",
   "searchPlaceholder": "Search customers",
-  "addCustomer": "Add Customer",
+  "addCustomer": "Add New Customer",
+  "editCustomer": "Edit Customer",
   "clientsFound": "Clients found",
+  "select": "Select",
   "statusTitle": "Status",
   "active": "Active",
   "inactive": "Inactive",
@@ -12,10 +14,30 @@
   "email": "Email",
   "phoneNumber": "Phone number",
   "genderTitle": "Gender",
+  "genderSelectPlaceholder": "Select your gender",
+  "sendForm": "Send form",
+  "notProvided": "Not provided",
+  "customerForm": "Customer form",
+  "deleteCustomer": "Delete customer",
+  "deleteCustomerDescription": "Are you sure you want to delete this customer? This action cannot be undone.",
+  "resendFormDescription": "Are you sure you want to resend the information form to the customer?",
 
   "resendForm": "Resend form",
   "moreDetails": "More details",
   "manageGroups": "Manage groups",
+  "addCustomerManually": "Add customer manually",
+  "sendFormToCustomer": "Send form to customer",
+  "previewForm": "Preview form",
+
+  "recaptchaError": "Please complete the reCAPTCHA challenge to send the form.",
+
+  "noClientsYet": "You don't have any clients added yet",
+  "noClientsYetExplanation": "To add a client, click the button at the bottom.",
+
+  "sendFormToCustomerDescription": "Send an information form to the customer so they can fill out the information you need. A sample form link is provided below.",
+
+  "noResults": "No clients found",
+  "noResultsDescription": "We couldn't find any clients matching your search or filter criteria. Try adjusting the filters or modifying the search query to find the desired results.",
 
   "gender": [
     { "key": "male", "title": "Male" },
@@ -30,11 +52,49 @@
     { "key": "pending", "title": "Pending" }
   ],
 
+  "fitnessGoalOptions": [
+    { "key": "weightLoss", "title": "Weight Loss" },
+    { "key": "weightGain", "title": "Muscle Gain" },
+    { "key": "weightMaintenance", "title": "Weight Maintenance" },
+    { "key": "improveHealth", "title": "Improve health" },
+    {
+      "key": "weightLossAndMuscleGain",
+      "title": "Weight Loss and Muscle Gain"
+    },
+    { "key": "other", "title": "Other" }
+  ],
+
+  "physicalActivityLevelOptions": [
+    {
+      "key": "sedentary",
+      "title": "Sedentary (little to no physical activity)"
+    },
+    { "key": "lightlyActive", "title": "Lightly Active (1-3 days per week)" },
+    {
+      "key": "moderatelyActive",
+      "title": "Moderately Active (3-5 days per week)"
+    },
+    { "key": "veryActive", "title": "Very Active (6-7 days per week)" }
+  ],
+
   "selectGender": "Gender",
   "clientStatus": "Client status",
   "clientStatusExplanation": "Client status explanation",
 
   "activeCustomerStatusExplanation": "Active customers are fully engaged in the system and any operations related to them can be performed.",
   "inactiveCustomerStatusExplanation": "Inactive customers are temporarily unavailable in the system, and no operations can be performed with them.",
-  "pendingCustomerStatusExplanation": "Pending customers are in a transitional state where an information form has been sent to them but has not yet been completed or approved."
+  "pendingCustomerStatusExplanation": "Pending customers are in a transitional state where an information form has been sent to them but has not yet been completed or approved.",
+
+  "sampleFormTitle": "Sample Form Preview",
+  "sampleFormDescription": "This is a sample form showcasing how your clients will see and interact with the information you provide. Use this as a reference to ensure all fields are correctly filled out and aligned with your requirements.",
+
+  "searchForAPlace": "Enter Customer Address",
+  "searchAddressPlaceholder": "E.g., Gedimino pr. 9, 01103, Vilnius",
+  "searchAddressPlaceholderNote": "Please enter a complete address, including the street name, postal code, and city, for the best match. For example: 'Gedimino pr. 9, 01103, Vilnius'.",
+
+  "noAddressFound": "No Address Found",
+  "noAddressFoundDescription": "We couldn't find a match for the address you entered. Please check your spelling, include as much detail as possible (e.g., street name, city, zip code), and try again.",
+
+  "multipleTimeAddressNotFoundDescription": "If you've tried multiple times and still can't find your address, click below to see instructions on how to refine your query for the best results.",
+  "multipleTimeAddressNotFoundButton": "See Instructions for Best Results"
 }

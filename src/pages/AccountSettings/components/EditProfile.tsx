@@ -10,6 +10,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdEdit } from "react-icons/md";
 import ChangeProfileImage from "./ChangeProfileImage";
+import { capitalizeFirstLetter } from "@/utils/helper";
 
 interface EditProfileProps {
   firstName: string;
@@ -42,8 +43,8 @@ const EditProfile: React.FC = () => {
   useEffect(() => {
     if (user) {
       methods.reset({
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
+        firstName: capitalizeFirstLetter(user.firstName || "") || "",
+        lastName: capitalizeFirstLetter(user.lastName || "") || "",
         email: user.email || "",
         phone: user.phone || "",
       });

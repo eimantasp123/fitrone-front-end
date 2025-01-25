@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
+import { transform } from "lodash";
 
 // Login schema for login form validation
 export const useLoginSchema = () => {
@@ -8,10 +9,12 @@ export const useLoginSchema = () => {
   return yup.object().shape({
     email: yup
       .string()
+      .trim()
       .email(t("validation.invalidEmail"))
       .required(t("validation.requiredEmail")),
     password: yup
       .string()
+      .trim()
       .required(t("validation.requiredPassword"))
       .min(4, t("validation.minPassword", { count: 4 })),
   });
@@ -71,6 +74,7 @@ export const useRegisterEmailSchema = () => {
   return yup.object().shape({
     email: yup
       .string()
+      .trim()
       .email(t("validation.invalidEmail"))
       .required(t("validation.requiredEmail"))
       .max(50, t("validation.maxEmail", { count: 50 })),
@@ -83,9 +87,14 @@ export const useRegisterSchema = () => {
   return yup.object().shape({
     firstName: yup
       .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
       .required(t("validation.firstNameRequired"))
       .min(3, t("validation.minFirstName", { count: 3 })),
-    lastName: yup.string(),
+    lastName: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value)),
     password: getPasswordValidationSchema(t),
     passwordConfirm: yup
       .string()
@@ -104,17 +113,27 @@ export const useEditProfileSchema = () => {
   return yup.object().shape({
     firstName: yup
       .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
       .required(t("validation.firstNameRequired"))
-      .min(3, t("validation.firstNameMin")),
-    lastName: yup.string().max(50, t("validation.lastNameMax")),
+      .min(3, t("validation.firstNameMin", { count: 3 })),
+    lastName: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .max(50, t("validation.lastNameMax", { count: 50 })),
     email: yup
       .string()
+      .trim()
       .email(t("validation.invalidEmail"))
       .max(100, t("validation.maxEmail", { count: 100 })),
-    phone: yup.string().matches(phoneRegex, {
-      message: t("validation.invalidPhoneNumber"),
-      excludeEmptyString: true,
-    }),
+    phone: yup
+      .string()
+      .trim()
+      .matches(phoneRegex, {
+        message: t("validation.invalidPhoneNumber"),
+        excludeEmptyString: true,
+      }),
   });
 };
 
@@ -310,6 +329,9 @@ export const useMealInputSchema = () => {
   });
 };
 
+/**
+ *  Meal input schema for meal input form validation
+ */
 export const useCreateMenuSchema = () => {
   const { t } = useTranslation("weeklyMenu");
   return yup.object().shape({
@@ -319,5 +341,93 @@ export const useCreateMenuSchema = () => {
       .min(3, t("validation.titleLength"))
       .max(70, t("validation.titleLength")),
     description: yup.string().max(500, t("validation.descriptionLength")),
+  });
+};
+
+/**
+ *  Customer schema for send form to customer form validation
+ */
+export const useCustomerSendForm = () => {
+  const { t } = useTranslation("profileSettings");
+  return yup.object().shape({
+    firstName: yup
+      .string()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .required(t("validation.firstNameRequired"))
+      .min(2, t("validation.firstNameMin", { count: 2 }))
+      .max(100, t("validation.firstNameMax", { count: 100 })),
+    email: yup
+      .string()
+      .required(t("validation.requiredEmail"))
+      .email(t("validation.invalidEmail"))
+      .max(100, t("validation.maxEmail", { count: 100 })),
+  });
+};
+
+/**
+ * Customer schema for send form to customer form validation
+ */
+export const useCustomerDetails = () => {
+  const { t } = useTranslation(["common", "profileSettings"]);
+
+  const requiredMessage = t("validationErrors.fieldIsRequired");
+  const numberTransform = (
+    value: string | number,
+    originalValue: string | number,
+  ) => (originalValue === "" ? undefined : Number(value));
+
+  return yup.object().shape({
+    firstName: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .required(requiredMessage),
+    lastName: yup
+      .string()
+      .trim()
+      .transform((value) => (value ? value.toLowerCase() : value))
+      .required(requiredMessage),
+    email: yup
+      .string()
+      .required(t("profileSettings:validation.requiredEmail"))
+      .email(t("profileSettings:validation.invalidEmail"))
+      .max(100, t("profileSettings:validation.maxEmail", { count: 100 })),
+    phone: yup
+      .string()
+      .required(requiredMessage)
+      .matches(phoneRegex, {
+        message: t("validationErrors.invalidPhoneNumber"),
+        excludeEmptyString: false,
+      }),
+    age: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("validationErrors.invalidAge"))
+      .required(requiredMessage),
+    height: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("validationErrors.invalidHeight"))
+      .required(requiredMessage),
+    weight: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("validationErrors.invalidWeight"))
+      .required(requiredMessage),
+    weightGoal: yup
+      .number()
+      .transform(numberTransform)
+      .typeError(t("validationErrors.invalidWeightGoal")),
+    gender: yup.string().trim().required(requiredMessage),
+    address: yup.string().required(requiredMessage),
+    foodAllergies: yup.string().trim(),
+    physicalActivityLevel: yup.string().trim().required(requiredMessage),
+    fitnessGoal: yup.string().trim().required(requiredMessage),
+    preferences: yup
+      .array()
+      .of(yup.string().trim().required(requiredMessage))
+      .min(1, t("validationErrors.selectOne"))
+      .required(requiredMessage),
+    restrictions: yup.array().of(yup.string().trim().defined()),
   });
 };

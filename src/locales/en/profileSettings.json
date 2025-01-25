@@ -68,13 +68,15 @@
   },
   "validation": {
     "firstNameRequired": "First Name is required",
-    "firstNameMin": "First Name must be at least 3 characters long",
-    "lastNameMax": "Last Name must be at most 50 characters long",
+    "firstNameMin": "First Name must be at least {{count}} characters long",
+    "firstNameMax": "First Name must be at most {{count}} characters long",
+    "lastNameMax": "Last Name must be at most {{count}} characters long",
     "invalidPhoneNumber": "Phone number must start with +, followed by country code and digits.",
     "verificationCodeRequired": "Verification code is required",
     "invalidVerificationCode": "Invalid verification",
     "bothMustMatch": "Both fields must match",
     "invalidEmail": "Invalid email address",
+    "requiredEmail": "Email address is required",
     "maxEmail": "Email address must be at most {{count}} characters long"
   }
 }

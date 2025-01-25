@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 const useFiltersOptions = () => {
-  const { t } = useTranslation(["meals", "weeklyMenu"]);
+  const { t } = useTranslation(["meals", "weeklyMenu", "customers"]);
 
   const dietaryPreferences = t("preferences", {
     returnObjects: true,
@@ -33,12 +33,37 @@ const useFiltersOptions = () => {
     returnObjects: true,
   }) as Record<string, string>;
 
+  const fitnessGoalOptionsTranslated = t("customers:fitnessGoalOptions", {
+    returnObjects: true,
+  }) as {
+    key: string;
+    title: string;
+  }[];
+
+  const physicalActivityLevelOptions = t(
+    "customers:physicalActivityLevelOptions",
+    {
+      returnObjects: true,
+    },
+  ) as {
+    key: string;
+    title: string;
+  }[];
+
+  const genderOptions = t("customers:gender", { returnObjects: true }) as {
+    key: string;
+    title: string;
+  }[];
+
   return {
     dietaryPreferences,
     dietaryRestrictions,
     categories,
     menuArchivingOptions,
     categoriesTranslated,
+    fitnessGoalOptionsTranslated,
+    physicalActivityLevelOptions,
+    genderOptions,
   };
 };
 

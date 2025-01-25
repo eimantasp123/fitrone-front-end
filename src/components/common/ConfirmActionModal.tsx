@@ -15,12 +15,18 @@ interface ConfirmActionModalProps {
   onAction: () => void;
   title: string;
   description: string;
-  cancelButtonText: string;
+  cancelButtonText?: string;
+  leftButtonText?: string;
   confirmButtonText: string;
   type?: "warning" | "delete" | "primary";
   loadingSpinner?: boolean;
+  leftButtonAction?: () => void;
+  buttonSectionClassName?: string;
 }
 
+/**
+ * General modal for confirming actions
+ */
 const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
   isOpen,
   onClose,
@@ -29,9 +35,12 @@ const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
   title,
   description,
   cancelButtonText,
+  leftButtonAction,
+  leftButtonText,
   confirmButtonText,
   loadingSpinner,
   type = "delete",
+  buttonSectionClassName = "flex w-full items-center justify-between gap-3",
 }) => {
   return (
     <>
@@ -49,12 +58,12 @@ const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
             <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
               {description}
             </p>
-            <div className="flex w-full items-center justify-between gap-3">
+            <div className={buttonSectionClassName}>
               <CustomButton
-                text={cancelButtonText}
+                text={cancelButtonText || leftButtonText}
                 type="light"
                 widthFull={true}
-                onClick={onClose}
+                onClick={leftButtonAction ?? onClose}
               />
               <CustomButton
                 text={confirmButtonText}

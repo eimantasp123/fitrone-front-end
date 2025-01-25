@@ -2,12 +2,13 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Input,
   InputGroup,
   InputProps,
+  NumberInput,
+  NumberInputField,
 } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { FieldError, useFormContext } from "react-hook-form";
+import { Controller, FieldError, useFormContext } from "react-hook-form";
 
 interface NumberInputsProps extends InputProps {
   name: string;
@@ -27,36 +28,27 @@ const NumberInputs: FC<NumberInputsProps> = ({
   required = false,
   placeholder,
   isDisabled = false,
-  ...rest
 }) => {
   const {
-    register,
-    setValue,
+    control,
     formState: { errors },
   } = useFormContext();
 
-  // Handle numeric input sanitization
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let inputValue = e.target.value;
+  // Parse function to sanitize input and trim trailing zeros
+  const parse = (value: string) => {
+    if (!value) return "";
+    const sanitizedValue = value.replace(",", ".").replace(/[^0-9.]/g, "");
 
-    // Replace commas with dots and allow only numeric characters or a single dot
-    inputValue = inputValue.replace(",", ".").replace(/[^0-9.]/g, "");
-
-    // Ensure only one dot is present
-    const parts = inputValue.split(".");
-    if (parts.length > 2) {
-      inputValue = parts[0] + "." + parts.slice(1).join("");
+    // Prevent multiple decimal points
+    const [integer, decimal] = sanitizedValue.split(".");
+    if (decimal?.length > 2) {
+      return `${integer}.${decimal.slice(0, 2)}`;
     }
-
-    // Update the value in the form state
-    setValue(name, inputValue, { shouldValidate: true });
+    return sanitizedValue;
   };
 
   return (
-    <FormControl
-      isInvalid={!!errors[name as keyof typeof errors]}
-      isRequired={required}
-    >
+    <FormControl isInvalid={!!errors[name]} isRequired={required}>
       {label && (
         <FormLabel
           htmlFor={name}
@@ -68,20 +60,26 @@ const NumberInputs: FC<NumberInputsProps> = ({
         </FormLabel>
       )}
       <InputGroup>
-        <Input
-          id={name}
-          type="text"
-          defaultValue={value}
-          autoFocus={false}
-          {...register(name, {
-            validate: (val) =>
-              !isNaN(parseFloat(val)) || "Please enter a valid number",
-          })}
-          onChange={handleInputChange}
-          placeholder={placeholder}
-          isDisabled={isDisabled}
-          {...rest}
+        <Controller
+          name={name}
+          control={control}
+          render={({ field }) => (
+            <NumberInput
+              sx={{ width: "100%" }}
+              value={
+                field.value !== undefined && field.value !== null
+                  ? field.value
+                  : ""
+              }
+              onChange={(valueString) => field.onChange(parse(valueString))}
+              isDisabled={isDisabled}
+              min={0}
+            >
+              <NumberInputField id={name} placeholder={placeholder} />
+            </NumberInput>
+          )}
         />
+
         {Icon && (
           <div className="absolute right-3 top-1/2 z-20 -translate-y-1/2">
             <Icon

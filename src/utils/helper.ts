@@ -24,3 +24,9 @@ export const formatDate = (obj: string) => {
     obj.split(" ")[1].slice(1)
   );
 };
+
+// Function to format a number to 2 decimal places
+export const formatToTwoDecimalsForDisplay = (value: number | undefined) => {
+  if (!value) return 0.0;
+  return value.toFixed(2);
+};

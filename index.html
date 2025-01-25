@@ -4,11 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGNhzL9ZGQoA6vdGoIataJAZoO6mf3iQQ&libraries=places"
+      async
+      defer
+    ></script>
     <link rel="icon" href="/icon.png" />
     <title>Fitrone</title>
   </head>
   <body class="bg-background">
     <div id="root"></div>
+    <div id="google-maps-placeholder" style="display: none"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
