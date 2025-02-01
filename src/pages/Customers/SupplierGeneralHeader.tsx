@@ -4,8 +4,8 @@ import DrawerFromTop from "@/components/common/DrawerFromTop";
 import { CustomersFilters } from "@/utils/types";
 import { useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { TFunction } from "i18next";
+import { useNavigate } from "react-router-dom";
 import CustomCustomersFilters from "./components/CustomCustomersFilters";
-import ManageGroupModal from "./components/ManageGroupModal";
 
 interface SupplierGeneralHeaderProps {
   onFiltersClose?: () => void;
@@ -31,11 +31,7 @@ const SupplierGeneralHeader: React.FC<SupplierGeneralHeaderProps> = ({
 }) => {
   const isDrawerVisible = useBreakpointValue({ base: true, "2xl": false });
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const {
-    isOpen: isGroupModalOpen,
-    onClose: closeGroupModal,
-    onOpen: onOpenGroupModal,
-  } = useDisclosure();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -78,7 +74,7 @@ const SupplierGeneralHeader: React.FC<SupplierGeneralHeaderProps> = ({
             </div>
             <CustomButton
               widthFull={true}
-              onClick={onOpenGroupModal}
+              onClick={() => navigate("/groups")}
               text={t("manageGroups")}
             />
           </div>
@@ -100,17 +96,15 @@ const SupplierGeneralHeader: React.FC<SupplierGeneralHeaderProps> = ({
               onClose={onClose}
             />
             <CustomButton
-              onClick={() => handleFilterChange("all")}
+              onClick={() => {
+                handleFilterChange("all");
+                onClose();
+              }}
               text={t("meals:resetFilters")}
               widthFull={true}
             />
           </div>
         </DrawerFromTop>
-      )}
-
-      {/* Manage group modal */}
-      {isGroupModalOpen && (
-        <ManageGroupModal isOpen={isGroupModalOpen} onClose={closeGroupModal} />
       )}
     </>
   );

@@ -59,6 +59,7 @@ const SupplierWeekPlan: React.FC = () => {
   });
 
   const weekData = useMemo(() => data?.data?.assignMenu, [data]);
+  const mainObject = useMemo(() => data?.data, [data]);
 
   // Handle Add Menu Click
   const handleAddMenuClick = () => {
@@ -112,6 +113,11 @@ const SupplierWeekPlan: React.FC = () => {
     openModal("assignedGroup");
   };
 
+  // Enabled week plan
+  const disableWeekPlan = useMemo(() => {
+    return mainObject?.status === "expired";
+  }, [mainObject]);
+
   return (
     <>
       <div className="w-full select-none overflow-y-auto scrollbar-thin">
@@ -151,10 +157,17 @@ const SupplierWeekPlan: React.FC = () => {
           {/* No menu for the current week */}
           {!weekData?.length && !isLoading && !isError && (
             <EmptyState
-              title={t("noMenuForCurrentWeek")}
-              description={t("noMenuForCurrentWeekDescription")}
-              firstButtonText={t("addMenu")}
+              title={
+                !disableWeekPlan ? t("noMenuForCurrentWeek") : t("weekExpired")
+              }
+              description={
+                !disableWeekPlan
+                  ? t("noMenuForCurrentWeekDescription")
+                  : t("weekExpiredDescription")
+              }
+              firstButtonText={!disableWeekPlan ? t("addMenu") : null}
               onClickFirstButton={handleAddMenuClick}
+              disabledFirstButton={disableWeekPlan}
             />
           )}
 
@@ -168,16 +181,19 @@ const SupplierWeekPlan: React.FC = () => {
                   setPublish={setWeekPlanMenuPublised}
                   assignClient={handelOpenAssignClientsModal}
                   assignGroup={handelOpenAssignGroupModal}
+                  disabled={mainObject?.status !== "active"}
                   key={item._id}
                   {...item}
                 />
               ))}
-              <CustomButton
-                widthFull={true}
-                paddingY="py-2 md:py-3"
-                text={t("addMenu")}
-                onClick={() => openModal("setMenus")}
-              />
+              {!disableWeekPlan && (
+                <CustomButton
+                  widthFull={true}
+                  paddingY="py-2 md:py-3"
+                  text={t("addMenu")}
+                  onClick={() => openModal("setMenus")}
+                />
+              )}
             </div>
           )}
         </div>
@@ -289,3 +305,70 @@ const SupplierWeekPlan: React.FC = () => {
 };
 
 export default SupplierWeekPlan;
+
+// Lambda Handler to Get Users
+export const handler = async () => {
+  await connectDB();
+
+  // Get the current year and week number in UTC time
+  const now = new Date();
+  const currentYear = getYear(now);
+  const currentWeek = getWeek(now);
+
+  console.log(
+    `Processing week plan expiration for year ${currentYear}, week ${currentWeek}`,
+  );
+
+  // Find past weeks plans
+  const expiredWeekPlans = await WeekPlan.find({
+    $or: [
+      { year: { $lt: currentYear } }, // Expire all previous years
+      { year: currentYear, weekNumber: { $lt: currentWeek } }, // Expire past weeks in current year
+    ],
+  });
+
+  console.log(`Found ${expiredWeekPlans.length} expired week plans.`);
+
+  // Update the status of expired week plans
+  await WeekPlan.updateMany(
+    {
+      _id: { $in: expiredWeekPlans.map((plan) => plan._id) },
+    },
+    {
+      $set: { status: "expired", isSnapshot: true },
+    },
+  );
+
+  console.log("Expired week plans updated.");
+
+  // Process WeeklyMenu to Remore expired weeks
+  const expiredWeeks = expiredWeekPlans.map((plan) => ({
+    year: plan.year,
+    weekNumber: plan.weekNumber,
+  }));
+
+  console.log(
+    `Processing ${expiredWeeks.length} expired week references in WeeklyMenu.`,
+  );
+
+  await WeeklyMenu.updateMany(
+    {
+      "activeWeeks.year": { $lt: currentYear },
+      "activeWeeks.weekNumber": { $lt: currentWeek },
+    },
+    { $pull: { activeWeeks: { $in: expiredWeeks } } },
+  );
+
+  console.log("Expired weeks removed from WeeklyMenu.");
+
+  await WeeklyMenu.updateMany(
+    {
+      activeWeeks: { $size: 0 },
+    },
+    {
+      $set: { status: "inactive" },
+    },
+  );
+
+  console.log("WeeklyMenu status updated where no active weeks remain.");
+};

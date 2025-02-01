@@ -1,9 +1,9 @@
-import { deleteCustomerApi, resendFormCustomerApi } from "@/api/customersApi";
 import {
-  InfiniteData,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+  deleteCustomerApi,
+  resendFormCustomerApi,
+  updateCustomerStatusApi,
+} from "@/api/customersApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { showCustomToast } from "../showCustomToast";
 
@@ -13,19 +13,23 @@ import { showCustomToast } from "../showCustomToast";
 export const useDeleteOrResendCustomerAction = (onCleanup: () => void) => {
   const queryClient = useQueryClient();
 
-  const actionMutation = useMutation({
+  return useMutation({
     mutationFn: async ({
       customerId,
       type,
+      status,
     }: {
       customerId: string;
-      type: "delete" | "resend";
+      type: "delete" | "resend" | "status";
+      status?: string | null;
     }) => {
       switch (type) {
         case "delete":
           return deleteCustomerApi(customerId);
         case "resend":
           return resendFormCustomerApi(customerId);
+        case "status":
+          return updateCustomerStatusApi(customerId, status!);
         default:
           throw new Error("Invalid action type");
       }
@@ -39,9 +43,10 @@ export const useDeleteOrResendCustomerAction = (onCleanup: () => void) => {
         title: message,
       });
 
-      if (type === "delete") {
+      if (type === "delete" || type === "status") {
         // Invalidate the customers query
         queryClient.invalidateQueries({ queryKey: ["customers"] });
+        queryClient.invalidateQueries({ queryKey: ["groupById"] });
       }
 
       // Call onCleanup function
@@ -58,6 +63,4 @@ export const useDeleteOrResendCustomerAction = (onCleanup: () => void) => {
       }
     },
   });
-
-  return actionMutation;
 };

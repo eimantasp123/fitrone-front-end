@@ -10,7 +10,7 @@ import { showCustomToast } from "../showCustomToast";
 export const useCustomerSendMailAction = (onCleanup: () => void) => {
   const queryClient = useQueryClient();
 
-  const actionMutation = useMutation({
+  return useMutation({
     mutationFn: async (data: SendFormToCustomerForm) => {
       return sendFormToCustomerApi(data);
     },
@@ -39,6 +39,4 @@ export const useCustomerSendMailAction = (onCleanup: () => void) => {
       }
     },
   });
-
-  return actionMutation;
 };

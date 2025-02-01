@@ -1,0 +1,40 @@
+{
+  "groups": "Grupės",
+  "allGroups": "Visos grupės",
+  "addNewGroup": "Sukurti naują grupę",
+  "editGroup": "Redaguoti grupę",
+  "selectGroupName": "Pasirinkite grupės pavadinimą",
+  "removeGroup": "Pašalinti grupę",
+  "changeGroupName": "Pakeisti pavadinimą",
+  "addMembers": "Pridėti narius",
+  "removeMember": "Pašalinti narį",
+  "infoAboutCustomer": "Informacija apie klientą",
+  "dietaryPreferences": "Dietiniai pasirinkimai",
+  "dietaryRestrictions": "Dietiniai apribojimai",
+  "notSettled": "Nenustatyta",
+  "assignCustomers": "Priskirti klientus",
+  "assignedGroup": "Priskirta grupė",
+  "seeAllGroups": "Peržiūrėti visas grupes",
+  "createNewGroupDescription": "Sukurkite naują grupę, kad galėtumėte efektyviai organizuoti narius ir valdyti prieigą.",
+
+  "emptySidebar": {
+    "title": "Nėra grupių",
+    "description": "Jūs dar nesukūrėte jokių grupių. Grupės padeda organizuoti narius ir efektyviai valdyti prieigą."
+  },
+
+  "emptyState": {
+    "title": "Grupė nepasirinkta",
+    "description": "Pasirinkite grupę iš kairiojo šoninio meniu, kad galėtumėte valdyti jos narius ir nustatymus."
+  },
+
+  "noMembersInCurrentGroup": {
+    "title": "Šioje grupėje nėra narių",
+    "description": "Šioje grupėje dar nėra narių. Pridėkite narius, kad galėtumėte juos valdyti čia."
+  },
+
+  "deleteGroup": "Ištrinti grupę",
+  "deleteGroupDescription": "Ar tikrai norite ištrinti šią grupę? Šis veiksmas negali būti atšauktas.",
+
+  "deleteMember": "Ištrinti narį",
+  "deleteMemberDescription": "Ar tikrai norite ištrinti šį narį iš grupės? Šis veiksmas negali būti atšauktas."
+}

@@ -1,9 +1,10 @@
 {
-  "menu": "Savaitės meniu",
+  "menu": "Meniu",
   "dashboard": "Prietaisų skydelis",
   "meal": "Valgių planai",
   "customers": "Klientai",
   "orders": "Užsakymai",
+  "groups": "Grupės",
   "notifications": "Pranešimai",
   "messages": "Žinutės",
   "giveFeedback": "Pateikti atsiliepimą",

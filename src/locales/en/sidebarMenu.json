@@ -1,9 +1,10 @@
 {
-  "menu": "Weekly Menu",
+  "menu": "Menu",
   "dashboard": "Dashboard",
   "meal": "Meal Plans",
   "customers": "Customers",
   "orders": "Orders",
+  "groups": "Groups",
   "notifications": "Notifications",
   "messages": "Messages",
   "giveFeedback": "Give Feedback",

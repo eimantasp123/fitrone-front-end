@@ -50,6 +50,9 @@ export const useAddOrEditWeeklyMenuBio = ({
           queryClient.invalidateQueries({
             queryKey: ["weeklyMenuById", editWeeklyMenuId],
           });
+
+          // Invalidate the week plan query
+          queryClient.invalidateQueries({ queryKey: ["weekPlan"] });
         }
 
         // Invalidate the ingredients query

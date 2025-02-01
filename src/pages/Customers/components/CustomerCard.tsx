@@ -17,6 +17,7 @@ import {
   HiOutlineTrash,
   HiOutlineUserCircle,
 } from "react-icons/hi";
+import { LiaExchangeAltSolid } from "react-icons/lia";
 
 interface CustomerCardProps {
   client: CustomerEditForm;
@@ -25,10 +26,12 @@ interface CustomerCardProps {
     type,
     customerId,
   }: {
-    type: "delete" | "resend";
+    type: "delete" | "resend" | "status";
     customerId: string;
   }) => void;
   editCustomer: (customer: CustomerEditForm) => void;
+  setActiveStatus: (status: string) => void;
+  setClientData: React.Dispatch<React.SetStateAction<CustomerEditForm | null>>;
 }
 
 /**
@@ -41,6 +44,8 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
   t,
   setActionModal,
   editCustomer,
+  setActiveStatus,
+  setClientData,
 }) => {
   const genderOptions = t("gender", { returnObjects: true }) as {
     key: string;
@@ -113,6 +118,18 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
                 icon={<HiOutlineReply className="text-[15px]" />}
               >
                 {t("resendForm")}
+              </MenuItem>
+            )}
+            {client.status !== "pending" && (
+              <MenuItem
+                onClick={() => {
+                  setActiveStatus(client.status);
+                  setClientData(client);
+                  setActionModal({ type: "status", customerId: client._id });
+                }}
+                icon={<LiaExchangeAltSolid className="text-[15px]" />}
+              >
+                {t("changeStatus")}
               </MenuItem>
             )}
             <MenuItem

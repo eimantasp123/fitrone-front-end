@@ -4,6 +4,7 @@ import CustomButton from "@/components/common/CustomButton";
 import EmptyState from "@/components/common/EmptyState";
 import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
 import { useDeleteOrResendCustomerAction } from "@/hooks/Customers/useDeleteOrResendCustomer";
+import { showCustomToast } from "@/hooks/showCustomToast";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
 import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
 import { usePageStates } from "@/hooks/usePageStatus";
@@ -16,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { ThreeDots } from "react-loader-spinner";
 import ClientListLabels from "./components/ClientListLabels";
 import CustomerCard from "./components/CustomerCard";
+import ChangeCustomerStatus from "./components/CustomerChangeStatus";
 import DrawerForCustomerAddAndEdit from "./components/DrawerForCustomerAddAndEdit";
 import PopoverClientStatusExplain from "./components/PopoverClientStatusExplain";
 import SendFormToCustomerModal from "./components/SendFormToCustomerModal";
@@ -27,7 +29,7 @@ import SupplierGeneralHeader from "./SupplierGeneralHeader";
 const SupplierCustomers: React.FC = () => {
   const { t } = useTranslation(["customers", "meals", "common", "auth"]);
   const [actionModal, setActionModal] = useState<{
-    type: "delete" | "resend";
+    type: "delete" | "resend" | "status";
     customerId: string;
   } | null>(null);
   const { isOpen, openModal, closeModal, closeAllModals } =
@@ -41,6 +43,7 @@ const SupplierCustomers: React.FC = () => {
   });
 
   const [clientData, setClientData] = useState<CustomerEditForm | null>(null);
+  const [activeStatus, setActiveStatus] = useState<string>("");
 
   // Search query state and debounced value
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
@@ -55,6 +58,8 @@ const SupplierCustomers: React.FC = () => {
     () => {
       // Close the action modal
       setActionModal(null);
+      setActiveStatus("");
+      setClientData(null);
     },
   );
 
@@ -101,7 +106,7 @@ const SupplierCustomers: React.FC = () => {
     return data?.pages.flatMap((page) => page.data) || [];
   }, [data]);
 
-  // Custom hook to check the state of the weekly menus
+  // Custom hook to check the state of the customers
   const { noItemsAdded, noResultsForSearchAndFilters, hasItems } =
     usePageStates({
       currentResults: data?.pages[0]?.results || 0,
@@ -132,7 +137,7 @@ const SupplierCustomers: React.FC = () => {
   };
 
   // Perform action on customer
-  const handlePeroformAction = () => {
+  const handlePerformAction = () => {
     if (!actionModal?.customerId || !actionModal.type) return;
     actionMutation({
       customerId: actionModal.customerId,
@@ -140,11 +145,42 @@ const SupplierCustomers: React.FC = () => {
     });
   };
 
+  // Handler to change customer status
+  const handleChangeStatus = () => {
+    if (!activeStatus || !actionModal?.customerId || !actionModal.type) return;
+
+    // Check if the status is same as the current status
+    if (activeStatus === clientData?.status) {
+      showCustomToast({
+        status: "info",
+        description: t("noChangesMade"),
+      });
+    } else {
+      actionMutation({
+        customerId: actionModal.customerId,
+        type: actionModal.type,
+        status: activeStatus,
+      });
+    }
+  };
+
   // Function to set edit customer data and open the drawer
   const editCustomer = (customer: CustomerEditForm) => {
     setClientData(customer);
     openModal("clientInfoDrawer");
   };
+
+  // Customer status options
+  const customerStatus = t("customers:status", { returnObjects: true }) as {
+    key: string;
+    title: string;
+  }[];
+
+  // Remove the pending status
+  const filteredCustomerStatus = useMemo(
+    () => customerStatus.filter((item) => item.key !== "pending"),
+    [customerStatus],
+  );
 
   return (
     <>
@@ -236,8 +272,10 @@ const SupplierCustomers: React.FC = () => {
                     setActionModal={setActionModal}
                     key={index}
                     client={client}
+                    setActiveStatus={setActiveStatus}
                     t={t}
                     editCustomer={editCustomer}
+                    setClientData={setClientData}
                   />
                 ))}
               </div>
@@ -304,8 +342,26 @@ const SupplierCustomers: React.FC = () => {
               ? t("deleteCustomerDescription")
               : t("resendFormDescription")
           }
-          onAction={handlePeroformAction}
+          onAction={handlePerformAction}
           type={actionModal.type === "delete" ? "delete" : "primary"}
+        />
+      )}
+
+      {/* Change customer status modal */}
+      {actionModal && actionModal.type === "status" && (
+        <ChangeCustomerStatus
+          options={filteredCustomerStatus}
+          activeStatus={activeStatus}
+          isOpen={actionModal!.type === "status"}
+          loading={isPending}
+          performAction={handleChangeStatus}
+          setStatusSelected={setActiveStatus}
+          t={t}
+          onClose={() => {
+            setActionModal(null);
+            setActiveStatus("");
+            setClientData(null);
+          }}
         />
       )}
     </>

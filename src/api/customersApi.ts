@@ -90,3 +90,19 @@ export const updateCustomerApi = async ({
   const response = await axiosInstance.put(`customers/${customerId}`, data);
   return response.data;
 };
+
+/**
+ * Update customer status on the server
+ */
+export const updateCustomerStatusApi = async (
+  customerId: string,
+  status: string,
+) => {
+  const response = await axiosInstance.patch(
+    `customers/${customerId}/change-status`,
+    {
+      status,
+    },
+  );
+  return response.data;
+};
