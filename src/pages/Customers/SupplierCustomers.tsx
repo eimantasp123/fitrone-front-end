@@ -99,6 +99,7 @@ const SupplierCustomers: React.FC = () => {
     },
     staleTime: 1000 * 60 * 5, // 5 minutes stale time
     retry: 3,
+    notifyOnChangeProps: "all",
   });
 
   // Memoized customers data
@@ -308,7 +309,7 @@ const SupplierCustomers: React.FC = () => {
       {/* Customer details drawer */}
       {isOpen("clientInfoDrawer") && (
         <DrawerForCustomerAddAndEdit
-          clientData={clientData}
+          customerId={clientData?._id}
           isOpen={isOpen("clientInfoDrawer")}
           onClose={() => {
             closeModal("clientInfoDrawer");

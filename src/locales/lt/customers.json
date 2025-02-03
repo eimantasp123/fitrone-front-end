@@ -37,6 +37,9 @@
   "addCustomerManually": "Pridėti klientą savarankiškai",
   "sendFormToCustomer": "Išsiųsti formą klientui",
   "previewForm": "Peržiūrėti formą",
+  "calculateNutrients": "AI pagrįstas maistinių medžiagų skaičiavimas",
+  "reCalculateNutrients": "Perskaičiuoti normas",
+  "aiRecommendationDescription": "Dirbtinio intelekto sukurtos mitybos rekomendacijos ne visada gali būti tobulos, todėl peržiūrėkite klientui rekomenduojamą suvartojimą ir įsitikinkite, kad viskas yra prasminga.",
 
   "recaptchaError": "Norėdami išsiųsti formą, užpildykite reCAPTCHA iššūkį.",
 

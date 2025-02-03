@@ -16,6 +16,7 @@ interface CustomButtonProps {
   loadingSpinner?: boolean;
   icon?: React.ReactNode;
   width?: string;
+  minH?: string;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -27,6 +28,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   widthFull = false,
   paddingY = "py-2",
   paddingX = "px-6",
+  minH = "min-h-9",
   textLight = false,
   width,
   type,
@@ -70,7 +72,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       type={actionType}
       className={`${className} ${
         disabled || loading ? "opacity-70" : ""
-      } select-none ${widthFull ? "w-full" : paddingX} ${width} text-nowrap rounded-lg ${paddingY} ${textLight ? "font-normal" : "font-medium"} text-sm transition-colors duration-300 ease-in-out`}
+      } select-none ${widthFull ? "w-full" : paddingX} ${width} ${minH} text-nowrap rounded-lg ${paddingY} ${textLight ? "font-normal" : "font-medium"} text-sm transition-colors duration-300 ease-in-out`}
     >
       <span className="flex w-full items-center justify-center gap-3">
         {Icon && <span className="max-w-[15%]">{Icon}</span>}

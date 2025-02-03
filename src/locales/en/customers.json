@@ -37,6 +37,9 @@
   "addCustomerManually": "Add customer manually",
   "sendFormToCustomer": "Send form to customer",
   "previewForm": "Preview form",
+  "calculateNutrients": "AI Based Nutrient Calculation",
+  "reCalculateNutrients": "Recalculate Norms",
+  "aiRecommendationDescription": "AI-generated nutritional recommendations may not always be perfect, so review the recommended intake for the customer and make sure everything makes sense.",
 
   "recaptchaError": "Please complete the reCAPTCHA challenge to send the form.",
 

@@ -106,3 +106,13 @@ export const updateCustomerStatusApi = async (
   );
   return response.data;
 };
+
+/**
+ * Calculate the nutrition for the customer
+ */
+export const calculateNutritionApi = async (customerId: string) => {
+  const response = await axiosInstance.post(
+    `customers/${customerId}/calculate-nutrition`,
+  );
+  return response.data;
+};

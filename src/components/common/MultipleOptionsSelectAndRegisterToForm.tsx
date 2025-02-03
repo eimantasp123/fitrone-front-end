@@ -10,6 +10,7 @@ interface MultipleOptionsSelectAndRegisterToFormProps {
   label?: string;
   required?: boolean;
   optionsModalPosition?: "top" | "bottom";
+  selectJustOne?: boolean;
 }
 
 /**
@@ -24,6 +25,7 @@ const MultipleOptionsSelectAndRegisterToForm: React.FC<
   label,
   required = false,
   optionsModalPosition = "bottom",
+  selectJustOne = false,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -144,7 +146,14 @@ const MultipleOptionsSelectAndRegisterToForm: React.FC<
                       key={option.key}
                       onClick={() => {
                         if (!field.value?.includes(option.key)) {
-                          field.onChange([...(field.value || []), option.key]);
+                          if (selectJustOne) {
+                            field.onChange([option.key]);
+                          } else {
+                            field.onChange([
+                              ...(field.value || []),
+                              option.key,
+                            ]);
+                          }
                         }
                         setIsOpen(false);
                       }}
