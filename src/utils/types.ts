@@ -409,4 +409,22 @@ export interface CustomerEditForm extends CustomerAddForm {
   status: string;
   latitude: string;
   longitude: string;
+  recommendedNutrition?: {
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+  } | null;
+}
+
+/**
+ *  Customer interface for the customer object
+ */
+export interface PaginatedCustomersResponse {
+  status: string;
+  results: number;
+  total: number;
+  currentPage: number;
+  totalPages: number;
+  data: CustomerEditForm[];
 }

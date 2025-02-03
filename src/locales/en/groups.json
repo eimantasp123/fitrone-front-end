@@ -1,0 +1,40 @@
+{
+  "groups": "Groups",
+  "allGroups": "All groups",
+  "addNewGroup": "Create new group",
+  "editGroup": "Edit group",
+  "selectGroupName": "Select group name",
+  "removeGroup": "Remove group",
+  "changeGroupName": "Change name",
+  "addMembers": "Add members",
+  "removeMember": "Remove member",
+  "infoAboutCustomer": "Information about customer",
+  "dietaryPreferences": "Dietary preferences",
+  "dietaryRestrictions": "Dietary restrictions",
+  "notSettled": "Not Settled",
+  "assignCustomers": "Assign customers",
+  "assignedGroup": "Assigned group",
+  "seeAllGroups": "See all groups",
+  "createNewGroupDescription": "Create a new group to organize members and manage access efficiently.",
+
+  "emptySidebar": {
+    "title": "No groups found",
+    "description": "You haven't created any groups yet. Groups help you organize members and manage access efficiently."
+  },
+
+  "emptyState": {
+    "title": "No group selected",
+    "description": "Select a group from the left sidebar to manage its members and settings."
+  },
+
+  "noMembersInCurrentGroup": {
+    "title": "No members in this group",
+    "description": "This group doesn’t have any members yet. Add members to start managing them here."
+  },
+
+  "deleteGroup": "Delete group",
+  "deleteGroupDescription": "Are you sure you want to delete this group? This action cannot be undone.",
+
+  "deleteMember": "Delete member",
+  "deleteMemberDescription": "Are you sure you want to delete this member from the group? This action cannot be undone."
+}

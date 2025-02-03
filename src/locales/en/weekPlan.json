@@ -13,6 +13,10 @@
   "cancel": "Cancel",
   "noMenuForCurrentWeek": "You have not assigned any menus for this week yet.",
   "noMenuForCurrentWeekDescription": "Assign an existing menu or create a new one to start planning.",
+
+  "weekExpired": "It is not possible to create a plan for the selected week.",
+  "weekExpiredDescription": "The selected week has already passed, so you cannot create a plan.",
+
   "selectTimezone": "Select Timezone",
   "selectTimezoneDescription": "Choose a timezone to manage your weekly menu plan and other features that depend on time, ensuring accuracy across all schedules and reports.",
   "updateTimezoneDescription": "Updating your timezone will adjust all background operations such as reports, weekly menu plans, and other time-sensitive features to align with your selected timezone.",

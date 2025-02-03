@@ -431,3 +431,17 @@ export const useCustomerDetails = () => {
     restrictions: yup.array().of(yup.string().trim().defined()),
   });
 };
+
+/**
+ *  Create new group schema for create new group form validation
+ */
+export const useCreateNewGroupSchema = () => {
+  const { t } = useTranslation("weeklyMenu");
+  return yup.object().shape({
+    title: yup
+      .string()
+      .required(t("validation.titleRequired"))
+      .min(3, t("validation.titleLength"))
+      .max(70, t("validation.titleLength")),
+  });
+};

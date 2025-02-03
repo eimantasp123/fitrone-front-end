@@ -32,6 +32,9 @@ export const useAssignMenuForWeek = (cleanUp: () => void) => {
         queryKey: ["weekPlan", { year, weekNumber }],
       });
 
+      // Invalidate weekly menus
+      queryClient.invalidateQueries({ queryKey: ["weeklyMenus"] });
+
       // Clean up the state
       if (cleanUp) cleanUp();
     },

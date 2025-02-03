@@ -8,9 +8,13 @@ import { FaClipboardList } from "react-icons/fa";
 import { FaRegCalendarCheck } from "react-icons/fa6";
 import { GiMeal } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
-import { MdCardMembership, MdDashboard } from "react-icons/md";
+import {
+  MdCardMembership,
+  MdDashboard,
+  MdGroupAdd,
+  MdOutlineRestaurantMenu,
+} from "react-icons/md";
 import { PiBowlFoodFill } from "react-icons/pi";
-import { MdOutlineRestaurantMenu } from "react-icons/md";
 
 import { RiFeedbackFill } from "react-icons/ri";
 import SidebarNavLink from "../common/SideBarNavLink";
@@ -55,7 +59,7 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
           onClick={closeDrawer}
           to="/weekly-menu"
           icon={MdOutlineRestaurantMenu}
-          text={t("menu")}
+          text={t("weekly-menu")}
         />
         <SidebarNavLink
           onClick={closeDrawer}
@@ -74,6 +78,12 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
           to="/customers"
           icon={BsPeopleFill}
           text={t("customers")}
+        />
+        <SidebarNavLink
+          onClick={closeDrawer}
+          to="/groups"
+          icon={MdGroupAdd}
+          text={t("groups")}
         />
         <SidebarNavLink
           onClick={closeDrawer}
@@ -108,7 +118,6 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
             <span className="text-sm">{t("giveFeedback")}</span>
           </div>
         </button>
-
         {/* Support modal */}
         <button
           onClick={onSupportModalOpen}

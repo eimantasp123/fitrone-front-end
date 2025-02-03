@@ -40,6 +40,7 @@ const CustomInput: FC<CustomInputProps> = ({
     <FormControl
       isInvalid={!!errors[name as keyof typeof errors]}
       isRequired={required}
+      autoFocus={false}
     >
       {label && (
         <FormLabel

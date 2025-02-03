@@ -131,7 +131,7 @@ const AssignMealForCurrentDayModal: React.FC<
           </div>
           <ModalCloseButton marginTop="3" />
           <ModalBody style={{ padding: "0px 0px" }}>
-            <p className="flex items-center gap-1 border-t-[1px] border-borderPrimary py-2 text-sm text-textPrimary">
+            <p className="flex items-center gap-1 py-2 text-sm text-textPrimary">
               {t("searchMealsFromDatabaseAndAssign")}
             </p>
 

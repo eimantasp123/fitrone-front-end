@@ -25,6 +25,8 @@ import GeneralMealsOverview from "@/pages/Meals/GeneralMealsOverview";
 import WeeklyMenuOverview from "@/pages/WeeklyMenu/WeeklyMenuOverview";
 import WeeklyMenuByIdGeneral from "@/pages/WeeklyMenuByID/WeeklyMenuByIdGeneral";
 import CustomerPageForm from "@/pages/CustomerFormPage/CustomerPageForm";
+import Groups from "@/pages/Groups/GroupsGeneral";
+import SingleGroupManagement from "@/pages/Groups/SingleGroupManagement";
 
 /**
  * App routes component
@@ -53,6 +55,9 @@ const AppRoutes: React.FC = () => (
         <Route path="meals" element={<GeneralMealsOverview />} />
         <Route path="ingredients" element={<IngredientsGeneral />} />
         <Route path="customers" element={<Customers />} />
+        <Route path="groups" element={<Groups />}>
+          <Route path=":groupId" element={<SingleGroupManagement />} />
+        </Route>
         <Route path="orders" element={<Orders />} />
         {/* <Route path="business-page" element={<BusinessPage />} /> */}
         {/* <Route path="notifications" element={<Notifications />} /> */}

@@ -59,6 +59,7 @@ const SupplierWeekPlan: React.FC = () => {
   });
 
   const weekData = useMemo(() => data?.data?.assignMenu, [data]);
+  const mainObject = useMemo(() => data?.data, [data]);
 
   // Handle Add Menu Click
   const handleAddMenuClick = () => {
@@ -112,6 +113,11 @@ const SupplierWeekPlan: React.FC = () => {
     openModal("assignedGroup");
   };
 
+  // Enabled week plan
+  const disableWeekPlan = useMemo(() => {
+    return mainObject?.status === "expired";
+  }, [mainObject]);
+
   return (
     <>
       <div className="w-full select-none overflow-y-auto scrollbar-thin">
@@ -151,10 +157,17 @@ const SupplierWeekPlan: React.FC = () => {
           {/* No menu for the current week */}
           {!weekData?.length && !isLoading && !isError && (
             <EmptyState
-              title={t("noMenuForCurrentWeek")}
-              description={t("noMenuForCurrentWeekDescription")}
-              firstButtonText={t("addMenu")}
+              title={
+                !disableWeekPlan ? t("noMenuForCurrentWeek") : t("weekExpired")
+              }
+              description={
+                !disableWeekPlan
+                  ? t("noMenuForCurrentWeekDescription")
+                  : t("weekExpiredDescription")
+              }
+              firstButtonText={!disableWeekPlan ? t("addMenu") : null}
               onClickFirstButton={handleAddMenuClick}
+              disabledFirstButton={disableWeekPlan}
             />
           )}
 
@@ -168,16 +181,19 @@ const SupplierWeekPlan: React.FC = () => {
                   setPublish={setWeekPlanMenuPublised}
                   assignClient={handelOpenAssignClientsModal}
                   assignGroup={handelOpenAssignGroupModal}
+                  disabled={mainObject?.status !== "active"}
                   key={item._id}
                   {...item}
                 />
               ))}
-              <CustomButton
-                widthFull={true}
-                paddingY="py-2 md:py-3"
-                text={t("addMenu")}
-                onClick={() => openModal("setMenus")}
-              />
+              {!disableWeekPlan && (
+                <CustomButton
+                  widthFull={true}
+                  paddingY="py-2 md:py-3"
+                  text={t("addMenu")}
+                  onClick={() => openModal("setMenus")}
+                />
+              )}
             </div>
           )}
         </div>

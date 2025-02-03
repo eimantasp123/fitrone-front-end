@@ -3,12 +3,14 @@
   "lastName": "Pavardė",
   "phoneNumber": "Telefono numeris",
   "age": "Amžius",
+  "email": "El. paštas",
   "height": "Ūgis (cm)",
   "weight": "Svoris (kg)",
   "weightGoal": "Svorio tikslas (kg)",
   "foodAllergies": "Maisto alergijos papildomai (neprivaloma)",
   "physicalActivityLevel": "Fizinio aktyvumo lygis",
   "fitnessGoal": "Fitneso tikslas",
+  "createdAt": "Sukurta",
 
   "feedbackModal": {
     "title": "Atsiliepimas",
@@ -57,6 +59,7 @@
   "clean": "Išvalyti",
   "submitForm": "Pateikti formą",
   "resend": "Persiųsti",
+  "create": "Sukurti",
 
   "menuCreated": "Sukurta",
   "lastUpdatedAt": "Atnaujinta",

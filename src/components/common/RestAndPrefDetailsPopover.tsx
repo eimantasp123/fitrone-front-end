@@ -15,6 +15,7 @@ interface RestAndPrefDetailsPopoverProps {
   restrictions: string[];
   titleTextSettings?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 interface FilterPopoverProps {
@@ -23,6 +24,7 @@ interface FilterPopoverProps {
   options: { key: string; title: string }[];
   noItemsText: string;
   titleTextSettings: string;
+  disabled?: boolean;
 }
 
 const FilterPopover: React.FC<FilterPopoverProps> = ({
@@ -31,6 +33,7 @@ const FilterPopover: React.FC<FilterPopoverProps> = ({
   options,
   noItemsText,
   titleTextSettings,
+  disabled = false,
 }) => {
   const { t } = useTranslation("common");
 
@@ -38,6 +41,7 @@ const FilterPopover: React.FC<FilterPopoverProps> = ({
     <Popover>
       <PopoverTrigger>
         <button
+          disabled={disabled}
           className={`text-nowrap ${titleTextSettings} dark:text-neutral-200`}
         >
           {t(title)}
@@ -80,6 +84,7 @@ const RestAndPrefDetailsPopover: React.FC<RestAndPrefDetailsPopoverProps> = ({
   restrictions,
   titleTextSettings = "text-xs font-medium",
   className,
+  disabled = false,
 }) => {
   const { dietaryPreferences, dietaryRestrictions } = useFiltersOptions();
 
@@ -91,6 +96,7 @@ const RestAndPrefDetailsPopover: React.FC<RestAndPrefDetailsPopoverProps> = ({
         items={preferences}
         options={dietaryPreferences}
         noItemsText="noPreferences"
+        disabled={disabled}
         titleTextSettings={titleTextSettings}
       />
 
@@ -103,6 +109,7 @@ const RestAndPrefDetailsPopover: React.FC<RestAndPrefDetailsPopoverProps> = ({
         items={restrictions}
         options={dietaryRestrictions}
         noItemsText="noRestrictions"
+        disabled={disabled}
         titleTextSettings={titleTextSettings}
       />
     </div>

@@ -13,6 +13,10 @@
   "cancel": "Atšaukti",
   "noMenuForCurrentWeek": "Šiai savaitei dar nepriskyrėte jokių meniu.",
   "noMenuForCurrentWeekDescription": "Priskirkite esamą meniu arba sukurkite naują, kad pradėtumėte planavimą.",
+
+  "weekExpired": "Pasirinktos savaitės plano sudaryti neįmanoma.",
+  "weekExpiredDescription": "Pasirinkta savaitė jau praėjo, todėl negalite kurti plano.",
+
   "selectTimezone": "Pasirinkite laiko juostą",
   "selectTimezoneDescription": "Pasirinkite laiko juostą, kad galėtumėte tvarkyti savaitės meniu planą ir kitas funkcijas, kurios priklauso nuo laiko, užtikrinant tikslumą visose tvarkaraščiuose ir ataskaitose.",
   "updateTimezoneDescription": "Atnaujinus laiko juostą, visos fono operacijos, tokios kaip ataskaitos, savaitės meniu planai ir kitos su laiku susijusios funkcijos, bus pritaikytos pagal pasirinktą laiko juostą.",

@@ -23,6 +23,7 @@ interface WeekPlanProps extends WeekPlanItemCardProps {
   setPublish: React.Dispatch<React.SetStateAction<boolean>>;
   assignClient: () => void;
   assignGroup: () => void;
+  disabled?: boolean;
 }
 /**
  *  Week Plan Item Card Component for displaying the weekly menu item card
@@ -33,6 +34,7 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
   published,
   assignedGroups,
   assignedClients,
+  disabled = false,
   delete: handleDelete,
   publish: handlePublish,
   setPublish: handleSetPublish,
@@ -43,7 +45,9 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
   const navigate = useNavigate();
 
   return (
-    <div className="grid w-full grid-cols-1 grid-rows-[auto_auto_auto] gap-4 rounded-lg bg-background p-4 shadow-custom-dark2 dark:bg-backgroundSecondary md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1 2xl:grid-cols-[minmax(400px,_450px)__1fr_minmax(400px,_450px)]">
+    <div
+      className={`grid w-full ${disabled ? "opacity-70 dark:opacity-60" : "opacity-100"} grid-cols-1 grid-rows-[auto_auto_auto] gap-4 rounded-lg bg-background p-4 shadow-custom-dark2 dark:bg-backgroundSecondary md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1 2xl:grid-cols-[minmax(400px,_450px)__1fr_minmax(400px,_450px)]`}
+    >
       <div className="col-span-1 flex flex-col items-start justify-center gap-1 md:col-start-1 md:col-end-2 md:row-start-1 md:row-end-3 2xl:row-span-1">
         <h4 className="text-[15px] font-medium">
           {capitalizeFirstLetter(menu?.title)}
@@ -52,7 +56,10 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
           {menu?.description && (
             <Popover placement="bottom-start">
               <PopoverTrigger>
-                <button className="cursor-pointer rounded-full bg-backgroundSecondary px-6 py-1 text-[13px] dark:bg-background md:py-[3px]">
+                <button
+                  disabled={disabled}
+                  className="rounded-full bg-backgroundSecondary px-6 py-1 text-[13px] dark:bg-background md:py-[3px]"
+                >
                   {t("common:description")}
                 </button>
               </PopoverTrigger>
@@ -70,6 +77,7 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
             <RestAndPrefDetailsPopover
               preferences={menu?.preferences ?? []}
               restrictions={menu?.restrictions ?? []}
+              disabled={disabled}
               className="flex w-full justify-center"
             />
           </div>
@@ -80,12 +88,14 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
         <CustomButton
           icon={<MdPeople className="text-lg" />}
           width="w-full lg:w-48"
+          disabled={disabled}
           text={t("assignedClients")}
           type="light_outline"
           onClick={handleAssignClient}
         />
         <CustomButton
           width="w-full lg:w-48"
+          disabled={disabled}
           icon={<MdGroupAdd className="text-[16px]" />}
           text={t("assignedGroups")}
           type="light_outline"
@@ -97,6 +107,7 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
         <CustomButton
           text={t("common:manageMenu")}
           type="primary_outline"
+          disabled={disabled}
           paddingY="py-1 md:py-2"
           onClick={() => navigate(`/weekly-menu/${menu?._id}`)}
         />
@@ -105,6 +116,7 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
           <h6>{published ? t("common:published") : t("common:publish")}</h6>
           <Switch
             isChecked={published}
+            disabled={disabled}
             onChange={() => {
               handlePublish(_id);
               handleSetPublish(published);
@@ -113,12 +125,13 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
         </div>
         <div className="flex items-center gap-3">
           <h6>{t("common:delete")}</h6>
-          <span
+          <button
             onClick={() => handleDelete(_id)}
-            className="cursor-pointer rounded-md p-2 text-[13px] text-red-500 transition-colors duration-150 ease-in-out hover:bg-backgroundSecondary dark:text-red-500 dark:hover:bg-background"
+            disabled={disabled}
+            className="rounded-md p-2 text-[13px] text-red-500 transition-colors duration-150 ease-in-out hover:bg-backgroundSecondary dark:text-red-500 dark:hover:bg-background"
           >
             <FaTrash />
-          </span>
+          </button>
         </div>
       </div>
     </div>

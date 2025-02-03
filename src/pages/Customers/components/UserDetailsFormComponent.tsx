@@ -114,6 +114,7 @@ const UserDetailsFormComponent = <T extends FieldValues>({
           label={t("meals:preferencesTitle")}
           placeholder={t("select")}
           options={dietaryPreferences}
+          selectJustOne={true}
         />
 
         {/* Dietary restrictions */}

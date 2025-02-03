@@ -1,11 +1,19 @@
 {
   "customers": "Customers",
   "searchPlaceholder": "Search customers",
+  "searchPlaceholderLabel": "Search for a customer by first or last name.",
+  "onlyActiveCustomersShow": "Only active customers are shown.",
+  "singleGroupRestriction": "Each customer can only be assigned to one group at a time. To add a customer to a new group, they must first be removed from their current group.",
   "addCustomer": "Add New Customer",
   "editCustomer": "Edit Customer",
   "clientsFound": "Clients found",
   "select": "Select",
+  "note": "Note",
+  "assignSelected": "Assign selected",
   "statusTitle": "Status",
+  "changeStatus": "Change status",
+  "updateStatus": "Update status",
+  "noChangesMade": "No changes made. Customer status remains the same.",
   "active": "Active",
   "inactive": "Inactive",
   "pending": "Pending",
@@ -21,6 +29,7 @@
   "deleteCustomer": "Delete customer",
   "deleteCustomerDescription": "Are you sure you want to delete this customer? This action cannot be undone.",
   "resendFormDescription": "Are you sure you want to resend the information form to the customer?",
+  "updateCustomerStatusDescription": "Set customer status to active or inactive.",
 
   "resendForm": "Resend form",
   "moreDetails": "More details",
@@ -28,6 +37,9 @@
   "addCustomerManually": "Add customer manually",
   "sendFormToCustomer": "Send form to customer",
   "previewForm": "Preview form",
+  "calculateNutrients": "AI Based Nutrient Calculation",
+  "reCalculateNutrients": "Recalculate Norms",
+  "aiRecommendationDescription": "AI-generated nutritional recommendations may not always be perfect, so review the recommended intake for the customer and make sure everything makes sense.",
 
   "recaptchaError": "Please complete the reCAPTCHA challenge to send the form.",
 
@@ -96,5 +108,7 @@
   "noAddressFoundDescription": "We couldn't find a match for the address you entered. Please check your spelling, include as much detail as possible (e.g., street name, city, zip code), and try again.",
 
   "multipleTimeAddressNotFoundDescription": "If you've tried multiple times and still can't find your address, click below to see instructions on how to refine your query for the best results.",
-  "multipleTimeAddressNotFoundButton": "See Instructions for Best Results"
+  "multipleTimeAddressNotFoundButton": "See Instructions for Best Results",
+
+  "manageGroupsTitle": "Manage Groups"
 }

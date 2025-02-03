@@ -33,6 +33,8 @@ import enTimezones from "./locales/en/timezones.json";
 import ltTimezones from "./locales/lt/timezones.json";
 import enCustomers from "./locales/en/customers.json";
 import ltCustomers from "./locales/lt/customers.json";
+import enGroups from "./locales/en/groups.json";
+import ltGroups from "./locales/lt/groups.json";
 
 /**
  *  Instance of i18n
@@ -57,6 +59,7 @@ i18n
         weeklyMenu: enMenu,
         timezone: enTimezones,
         customers: enCustomers,
+        groups: enGroups,
       },
       lt: {
         common: ltCommon,
@@ -73,6 +76,7 @@ i18n
         weeklyMenu: ltMenu,
         timezone: ltTimezones,
         customers: ltCustomers,
+        groups: ltGroups,
       },
     },
     fallbackLng: "en", // Fallback language if the current language is not available

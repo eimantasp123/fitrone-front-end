@@ -18,7 +18,7 @@ interface SingleDayProps {
 const SingleDay: React.FC<SingleDayProps> = ({ meal, t, handleMealDelete }) => {
   return (
     <>
-      <div className="flex h-full items-center gap-3 rounded-lg border border-neutral-200/50 bg-backgroundSecondary p-1 shadow-custom-light4 dark:border-neutral-800 dark:bg-background">
+      <div className="flex h-full items-center gap-3 rounded-lg border border-neutral-200/50 bg-backgroundSecondary p-1 dark:border-neutral-800 dark:bg-background">
         {/* Meal Image */}
         <div
           style={{
@@ -27,7 +27,7 @@ const SingleDay: React.FC<SingleDayProps> = ({ meal, t, handleMealDelete }) => {
           className="h-16 w-20 flex-shrink-0 overflow-hidden rounded-md bg-cover bg-center"
         />
         <div className="flex flex-1 flex-col items-start gap-2">
-          <p className="text-sm font-semibold">
+          <p className="text-sm font-medium">
             {capitalizeFirstLetter(meal?.title)}
           </p>
           {/* Description and Nutrition information popover */}

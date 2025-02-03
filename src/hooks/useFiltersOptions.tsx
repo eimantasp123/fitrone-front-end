@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 const useFiltersOptions = () => {
-  const { t } = useTranslation(["meals", "weeklyMenu", "customers"]);
+  const { t } = useTranslation(["meals", "weeklyMenu", "customers", "common"]);
 
   const dietaryPreferences = t("preferences", {
     returnObjects: true,
@@ -55,6 +55,13 @@ const useFiltersOptions = () => {
     title: string;
   }[];
 
+  const customerStatusOptions = t("customers:status", {
+    returnObjects: true,
+  }) as {
+    key: string;
+    title: string;
+  }[];
+
   return {
     dietaryPreferences,
     dietaryRestrictions,
@@ -64,6 +71,7 @@ const useFiltersOptions = () => {
     fitnessGoalOptionsTranslated,
     physicalActivityLevelOptions,
     genderOptions,
+    customerStatusOptions,
   };
 };
 

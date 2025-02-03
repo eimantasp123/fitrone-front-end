@@ -3,12 +3,14 @@
   "lastName": "Last name",
   "phoneNumber": "Phone number",
   "age": "Age",
+  "email": "Email",
   "height": "Height (cm)",
   "weight": "Weight (kg)",
   "weightGoal": "Weight goal (kg)",
   "foodAllergies": "Food allergies additionally (optional)",
   "physicalActivityLevel": "Physical activity level",
   "fitnessGoal": "Fitness goal",
+  "createdAt": "Created at",
 
   "feedbackModal": {
     "title": "Feedback",
@@ -57,6 +59,7 @@
   "clean": "Clean",
   "submitForm": "Submit form",
   "resend": "Resend",
+  "create": "Create",
 
   "menuCreated": "Created at",
   "lastUpdatedAt": "Updated at",

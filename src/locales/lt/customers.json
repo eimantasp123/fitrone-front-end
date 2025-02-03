@@ -1,11 +1,19 @@
 {
   "customers": "Klientai",
   "searchPlaceholder": "Ieškoti klientų",
+  "searchPlaceholderLabel": "Ieškokite kliento pagal vardą arba pavardę.",
+  "onlyActiveCustomersShow": "Rodomi tik aktyvūs klientai",
+  "singleGroupRestriction": "Kiekvienas klientas vienu metu gali būti priskirtas tik vienai grupei. Norėdami įtraukti klientą į naują grupę, pirmiausia jis turi būti pašalintas iš esamos grupės.",
   "addCustomer": "Pridėti naują klientą",
   "editCustomer": "Redaguoti klientą",
   "clientsFound": "Rasti klientai",
   "select": "Pasirinkti",
+  "note": "Pastaba",
+  "assignSelected": "Priskirti pasirinktus",
   "statusTitle": "Būsena",
+  "changeStatus": "Pakeisti būseną",
+  "updateStatus": "Atnaujinti būseną",
+  "noChangesMade": "Pakeitimų nebuvo atlikta. Kliento būsena lieka tokia pati.",
   "active": "Aktyvus",
   "inactive": "Neaktyvus",
   "pending": "Laukiama",
@@ -21,6 +29,7 @@
   "deleteCustomer": "Ištrinti klientą",
   "deleteCustomerDescription": "Ar tikrai norite ištrinti šį klientą? Šis veiksmas negali būti atšauktas.",
   "resendFormDescription": "Ar tikrai norite persiųsti informacijos formą klientui?",
+  "updateCustomerStatusDescription": "Nustatykite kliento būseną kaip aktyvią arba neaktyvią.",
 
   "resendForm": "Persiųsti formą",
   "moreDetails": "Daugiau informacijos",
@@ -28,6 +37,9 @@
   "addCustomerManually": "Pridėti klientą savarankiškai",
   "sendFormToCustomer": "Išsiųsti formą klientui",
   "previewForm": "Peržiūrėti formą",
+  "calculateNutrients": "AI pagrįstas maistinių medžiagų skaičiavimas",
+  "reCalculateNutrients": "Perskaičiuoti normas",
+  "aiRecommendationDescription": "Dirbtinio intelekto sukurtos mitybos rekomendacijos ne visada gali būti tobulos, todėl peržiūrėkite klientui rekomenduojamą suvartojimą ir įsitikinkite, kad viskas yra prasminga.",
 
   "recaptchaError": "Norėdami išsiųsti formą, užpildykite reCAPTCHA iššūkį.",
 
@@ -97,5 +109,7 @@
   "noAddressFoundDescription": "Nepavyko rasti atitikmens jūsų įvestam adresui. Prašome patikrinti rašybą, įtraukti kuo daugiau detalių (pvz., gatvės pavadinimą, miestą, pašto kodą) ir bandyti dar kartą.",
 
   "multipleTimeAddressNotFoundDescription": "Jei bandėte kelis kartus ir vis dar nepavyksta rasti adreso, spustelėkite žemiau esančią nuorodą, kad pamatytumėte instrukcijas, kaip patikslinti užklausą geriausiems rezultatams pasiekti.",
-  "multipleTimeAddressNotFoundButton": "Žiūrėti instrukcijas geriausiems rezultatams"
+  "multipleTimeAddressNotFoundButton": "Žiūrėti instrukcijas geriausiems rezultatams",
+
+  "manageGroupsTitle": "Tvarkyti grupes"
 }
