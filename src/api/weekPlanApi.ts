@@ -1,4 +1,5 @@
 import axiosInstance from "@/utils/axiosInterceptors";
+import { QueryKey } from "@tanstack/react-query";
 
 /**
  * Set timezone for the user
@@ -69,5 +70,108 @@ export const managePublishWeekPlan = async (
     menuId,
     publish,
   });
+  return response.data;
+};
+
+/**
+ * Get the week plan menu details
+ */
+export const fetchCurrentWeekPlanMenuDetails = async ({
+  queryKey,
+}: {
+  queryKey: QueryKey;
+}) => {
+  const [, weekPlanId, weekPlanMenuId] = queryKey;
+  const response = await axiosInstance.get(
+    `week-plan/${weekPlanId}/menu-details/${weekPlanMenuId}`,
+  );
+  return response.data;
+};
+
+/**
+ * Assign clients to the week plan menu
+ */
+export const assignClientsToWeekPlanMenu = async ({
+  weekPlanId,
+  weekPlanMenuId,
+  clients,
+}: {
+  weekPlanId: string;
+  weekPlanMenuId: string;
+  clients: string[];
+}) => {
+  const response = await axiosInstance.patch(
+    `week-plan/${weekPlanId}/assign-clients`,
+    {
+      menuId: weekPlanMenuId,
+      clients,
+    },
+  );
+  return response.data;
+};
+
+/**
+ * Remove client from the week plan menu
+ */
+export const removeClientFromWeekPlanMenu = async ({
+  weekPlanId,
+  weekPlanMenuId,
+  clientId,
+}: {
+  weekPlanId: string;
+  weekPlanMenuId: string;
+  clientId: string;
+}) => {
+  const response = await axiosInstance.patch(
+    `week-plan/${weekPlanId}/remove-client`,
+    {
+      menuId: weekPlanMenuId,
+      clientId,
+    },
+  );
+  return response.data;
+};
+
+/**
+ * Assign group to the week plan menu
+ */
+export const assignGroupToWeekPlanMenu = async ({
+  weekPlanId,
+  weekPlanMenuId,
+  groupId,
+}: {
+  weekPlanId: string;
+  weekPlanMenuId: string;
+  groupId: string;
+}) => {
+  const response = await axiosInstance.patch(
+    `week-plan/${weekPlanId}/assign-group`,
+    {
+      menuId: weekPlanMenuId,
+      groupId,
+    },
+  );
+  return response.data;
+};
+
+/**
+ * Remove group from the week plan menu
+ */
+export const removeGroupFromWeekPlanMenu = async ({
+  weekPlanId,
+  weekPlanMenuId,
+  groupId,
+}: {
+  weekPlanId: string;
+  weekPlanMenuId: string;
+  groupId: string;
+}) => {
+  const response = await axiosInstance.patch(
+    `week-plan/${weekPlanId}/remove-group`,
+    {
+      menuId: weekPlanMenuId,
+      groupId,
+    },
+  );
   return response.data;
 };

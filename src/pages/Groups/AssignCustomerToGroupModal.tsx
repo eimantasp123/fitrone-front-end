@@ -17,17 +17,16 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { TFunction } from "i18next";
 import React, { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ThreeDots } from "react-loader-spinner";
 import AssignCustomersModalHeader from "./components/ManageGroupsModalHeader";
-import { useAssignCustomersAction } from "@/hooks/Groups/useAssignCustomers";
 
 interface AssignCustomerToGroupModalProps {
   isOpen: boolean;
   onClose: () => void;
-  t: TFunction;
-  groupId: string | null;
+  loading: boolean;
+  onAssign: (selectedCustomers: string[]) => void;
 }
 
 /**
@@ -36,9 +35,10 @@ interface AssignCustomerToGroupModalProps {
 const AssignCustomerToGroupModal: React.FC<AssignCustomerToGroupModalProps> = ({
   isOpen,
   onClose,
-  t,
-  groupId,
+  loading,
+  onAssign,
 }) => {
+  const { t } = useTranslation(["groups", "common", "customers"]);
   const { colorMode } = useColorMode();
   const [selectedCustomers, setSelectedCustomers] = useState<string[] | null>(
     null,
@@ -56,10 +56,6 @@ const AssignCustomerToGroupModal: React.FC<AssignCustomerToGroupModalProps> = ({
     status: null,
     gender: null,
   });
-
-  // Mutation to assign customers to a group
-  const { mutate: assignCustomers, isPending } =
-    useAssignCustomersAction(onClose);
 
   // Fetch customers from the server using infinite query
   const {
@@ -132,13 +128,6 @@ const AssignCustomerToGroupModal: React.FC<AssignCustomerToGroupModalProps> = ({
       }
       return [...(prev || []), customerId];
     });
-  };
-
-  // Handler for assigning selected
-  const assingSelectedMeals = () => {
-    if (!groupId || !selectedCustomers) return;
-    console.log("selectedCustomers", selectedCustomers);
-    assignCustomers({ groupId, data: selectedCustomers });
   };
 
   return (
@@ -258,9 +247,9 @@ const AssignCustomerToGroupModal: React.FC<AssignCustomerToGroupModalProps> = ({
                 </span>
                 <CustomButton
                   text={`${t("customers:assignSelected")} (${selectedCustomers?.length || 0})`}
-                  onClick={assingSelectedMeals}
+                  onClick={() => onAssign(selectedCustomers || [])}
                   widthFull={true}
-                  loading={isPending}
+                  loading={loading}
                   loadingSpinner={false}
                   disabled={selectedCustomers?.length === 0}
                   paddingY="py-3"

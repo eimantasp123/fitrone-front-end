@@ -4,6 +4,10 @@
   "weekPlan": "Savaitės Planas",
   "notSet": "Nenustatyta",
   "timezone": "Laiko juosta",
+  "clients": "Klientai",
+  "groups": "Grupės",
+  "assignClient": "Priskirti klientą",
+  "assignGroup": "Priskirti grupę",
   "setTimezone": "Nustatyti laiko juostą",
   "updateTimezone": "Atnaujinti laiko juostą",
   "searchPlaceholder": "Ieškoti meniu",
@@ -13,6 +17,10 @@
   "cancel": "Atšaukti",
   "noMenuForCurrentWeek": "Šiai savaitei dar nepriskyrėte jokių meniu.",
   "noMenuForCurrentWeekDescription": "Priskirkite esamą meniu arba sukurkite naują, kad pradėtumėte planavimą.",
+
+  "searchGroupDescription": "Ieškokite grupės pagal pavadinimą.",
+  "noSearchResults": "Nerasta jokių rezultatų",
+  "noSearchResultsDescription": "Nerasta jokių grupių pagal paieškos užklausą. Pabandykite pakeisti paieškos užklausą ir bandykite dar kartą.",
 
   "weekExpired": "Pasirinktos savaitės plano sudaryti neįmanoma.",
   "weekExpiredDescription": "Pasirinkta savaitė jau praėjo, todėl negalite kurti plano.",
@@ -26,8 +34,7 @@
   "noWeeklyMenuFoundDescription": "Nerasta jokių savaitės meniu. Tikriausiai jūs dar neturite jokių sukurtų savaitės meniu. Eikite į meniu puslapį ir pradėkite kurti savaitės meniu.",
 
   "weeklyMenuDescription": "Savaitės meniu aprašymas",
-  "assignedGroups": "Priskirtos grupės",
-  "assignedClients": "Priskirti klientai",
+  "assignedClientsAndGroups": "Priskirti klientai ir grupės",
 
   "deleteWeekPlanMenu": "Ištrinti savaitės meniu planą",
   "deleteWeekPlanMenuDescription": "Ar tikrai norite ištrinti šį savaitės meniu planą? Šis veiksmas negali būti atšauktas.",
@@ -36,5 +43,23 @@
   "publishWeekPlanMenuDescription": "Ar tikrai norite paskelbti šį savaitės meniu planą? Šis veiksmas negali būti atšauktas.",
 
   "unpublishWeekPlanMenu": "Atšaukti savaitės meniu planą",
-  "unpublishWeekPlanMenuDescription": "Ar tikrai norite atšaukti šį savaitės meniu planą? Šis veiksmas negali būti atšauktas."
+  "unpublishWeekPlanMenuDescription": "Ar tikrai norite atšaukti šį savaitės meniu planą? Šis veiksmas negali būti atšauktas.",
+
+  "emptyState": {
+    "noClientsAssigned": "Nėra priskirtų klientų",
+    "noGroupsAssigned": "Nėra priskirtų grupių",
+    "noClientsAssignedDescription": "Priskirkite klientus šios savaitės atitinkamam meniu, kad galėtumėte visapusiškai valdyti užsakymus kiekvieną dieną.",
+    "noGroupsAssignedDescription": "Priskirkite grupes šios savaitės atitinkamam meniu, kad galėtumėte visapusiškai valdyti užsakymus kiekvieną dieną."
+  },
+
+  "deleteCustomer": "Ištrinti klientą",
+  "deleteCustomerDescription": "Ar tikrai norite ištrinti šį klientą? Šis veiksmas negali būti atšauktas.",
+
+  "deleteGroup": "Ištrinti grupę",
+  "deleteGroupDescription": "Ar tikrai norite ištrinti šią grupę? Šis veiksmas negali būti atšauktas.",
+
+  "noGroupsFound": "Nerasta jokių grupių",
+  "noGroupsFoundDescription": "Nerasta jokių grupių. Jūs tikriausiai dar neturite sukurtų grupių. Eikite į grupių puslapį ir pradėkite kurti grupes.",
+
+  "oneClientPerWeekPlanMenu": "Vienas klientas gali būti priskirtas tik vienam savaitės meniu planui, todėl jei klientas jau priskirtas kitam planui individualiai arba su grupe, jo nebus galima priskirti."
 }

@@ -60,6 +60,8 @@
   "submitForm": "Pateikti formą",
   "resend": "Persiųsti",
   "create": "Sukurti",
+  "results": "Rezultatai: {{count}}",
+  "manageGroup": "Tvarkyti grupę",
 
   "menuCreated": "Sukurta",
   "lastUpdatedAt": "Atnaujinta",
@@ -123,5 +125,8 @@
 
   "selectedAddress": "Pasirinktas adresas",
   "latitude": "Platuma",
-  "longitude": "Ilguma"
+  "longitude": "Ilguma",
+
+  "removeMember": "Pašalinti narį",
+  "removeGroup": "Pašalinti grupę"
 }

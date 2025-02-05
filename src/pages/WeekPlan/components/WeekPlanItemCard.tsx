@@ -14,16 +14,15 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaTrash } from "react-icons/fa";
-import { MdPeople, MdGroupAdd } from "react-icons/md";
+import { MdPeople } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 interface WeekPlanProps extends WeekPlanItemCardProps {
   delete: (menuId: string) => void;
   publish: (menuId: string) => void;
   setPublish: React.Dispatch<React.SetStateAction<boolean>>;
-  assignClient: () => void;
-  assignGroup: () => void;
   disabled?: boolean;
+  assignAction: (weekPlanMenuID: string) => void;
 }
 /**
  *  Week Plan Item Card Component for displaying the weekly menu item card
@@ -32,14 +31,11 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
   menu,
   _id,
   published,
-  assignedGroups,
-  assignedClients,
   disabled = false,
   delete: handleDelete,
   publish: handlePublish,
   setPublish: handleSetPublish,
-  assignClient: handleAssignClient,
-  assignGroup: handleAssignGroup,
+  assignAction,
 }) => {
   const { t } = useTranslation(["weekPlan", "common"]);
   const navigate = useNavigate();
@@ -87,19 +83,11 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
       <div className="col-span-1 flex flex-col items-center justify-start gap-2 border-neutral-200/70 text-sm dark:border-neutral-800 sm:flex-row sm:justify-end md:row-start-2 md:row-end-3 2xl:row-span-1 2xl:justify-center 2xl:gap-3 2xl:border-x-[1px] 2xl:px-3">
         <CustomButton
           icon={<MdPeople className="text-lg" />}
-          width="w-full lg:w-48"
+          width="w-full lg:w-72"
           disabled={disabled}
-          text={t("assignedClients")}
+          text={t("assignedClientsAndGroups")}
           type="light_outline"
-          onClick={handleAssignClient}
-        />
-        <CustomButton
-          width="w-full lg:w-48"
-          disabled={disabled}
-          icon={<MdGroupAdd className="text-[16px]" />}
-          text={t("assignedGroups")}
-          type="light_outline"
-          onClick={handleAssignGroup}
+          onClick={() => assignAction(menu?._id)}
         />
       </div>
 

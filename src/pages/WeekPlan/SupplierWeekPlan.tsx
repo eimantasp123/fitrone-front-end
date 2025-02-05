@@ -1,21 +1,21 @@
 import { fetchWeekPlan } from "@/api/weekPlanApi";
 import ConfirmActionModal from "@/components/common/ConfirmActionModal";
+import CustomButton from "@/components/common/CustomButton";
 import EmptyState from "@/components/common/EmptyState";
 import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
-import { useAppSelector } from "@/store";
-import { Spinner } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
-import AssignExistingMenuModal from "./AssignExistingMenuModal";
-import useTime from "./useTime";
-import WeekPlanHeader from "./WeekPlanHeader";
-import WeekPlanItemCard from "./components/WeekPlanItemCard";
-import { WeekPlanItemCardProps } from "@/utils/types";
-import { useMemo, useState } from "react";
-import CustomButton from "@/components/common/CustomButton";
 import { useDeleteWeekPlanMenu } from "@/hooks/WeekPlan/useDeleteWeekPlanMenu";
 import { useManagePublishMenu } from "@/hooks/WeekPlan/useManagePublishMenu";
-import AssignClientsModal from "./AssignClientsModal";
+import { useAppSelector } from "@/store";
+import { WeekPlanItemCardProps } from "@/utils/types";
+import { Spinner } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import AssignClientsToCurrentWeekPlanMenuModal from "./AssignClientsToCurrentWeekPlanMenuModal";
+import AssignExistingMenuModal from "./AssignExistingMenuModal";
+import WeekPlanItemCard from "./components/WeekPlanItemCard";
+import useTime from "./useTime";
+import WeekPlanHeader from "./WeekPlanHeader";
 
 /**
  *  Supplier Week Plan Page Component for attaching a weekly menu to a current week
@@ -103,20 +103,16 @@ const SupplierWeekPlan: React.FC = () => {
     });
   };
 
-  // Handle open assign clients modal
-  const handelOpenAssignClientsModal = () => {
-    openModal("assignedClients");
-  };
-
-  // Handle open assign group modal
-  const handelOpenAssignGroupModal = () => {
-    openModal("assignedGroup");
-  };
-
   // Enabled week plan
   const disableWeekPlan = useMemo(() => {
     return mainObject?.status === "expired";
   }, [mainObject]);
+
+  // Assign action handler
+  const assignAction = (weekPlanMenuId: string) => {
+    setWeekPlanMenuId(weekPlanMenuId);
+    openModal("assignAction");
+  };
 
   return (
     <>
@@ -179,8 +175,7 @@ const SupplierWeekPlan: React.FC = () => {
                   delete={handleOpenDeleteWeekPlanModal}
                   publish={handleOpenManagePublishModal}
                   setPublish={setWeekPlanMenuPublised}
-                  assignClient={handelOpenAssignClientsModal}
-                  assignGroup={handelOpenAssignGroupModal}
+                  assignAction={assignAction}
                   disabled={mainObject?.status !== "active"}
                   key={item._id}
                   {...item}
@@ -276,28 +271,15 @@ const SupplierWeekPlan: React.FC = () => {
       )}
 
       {/* Assign Clients modal */}
-      {isOpen("assignedClients") && (
-        <AssignClientsModal
-          isOpen={isOpen("assignedClients")}
+      {isOpen("assignAction") && (
+        <AssignClientsToCurrentWeekPlanMenuModal
+          isOpen={isOpen("assignAction")}
           onClose={() => {
-            closeModal("assignedClients");
+            closeModal("assignAction");
+            setWeekPlanMenuId(null);
           }}
-          year={year}
-          weekNumber={weekNumber}
           weekPlanId={data?.data._id}
-        />
-      )}
-
-      {/* Assign group modal */}
-      {isOpen("assignedGroup") && (
-        <AssignClientsModal
-          isOpen={isOpen("assignedGroup")}
-          onClose={() => {
-            closeModal("assignedGroup");
-          }}
-          year={year}
-          weekNumber={weekNumber}
-          weekPlanId={data?.data._id}
+          weekPlanMenuId={weekPlanMenuId ?? ""}
         />
       )}
     </>

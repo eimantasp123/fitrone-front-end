@@ -17,6 +17,8 @@ import CreateOrUpdateGroupModal from "./components/CreateOrUpdateGroupModal";
 import MemberInfoItem from "./components/MemberInfoItem";
 import { useGroupAction } from "@/hooks/Groups/useActionGroup";
 import { useDeleteCustomerFromGroupAction } from "@/hooks/Groups/useDeleteCustomerFromGroup";
+import { useAssignCustomersAction } from "@/hooks/Groups/useAssignCustomers";
+import { capitalizeFirstLetter } from "@/utils/helper";
 
 /**
  * Single Group Management Component
@@ -34,6 +36,9 @@ const SingleGroupManagement = () => {
   const { mutate: actionGroup, isPending } = useGroupAction();
   const { mutate: deleteCustomer, isPending: loading } =
     useDeleteCustomerFromGroupAction(() => setModalState(null));
+  // Mutation to assign customers to a group
+  const { mutate: assignCustomers, isPending: loadingForAssignClient } =
+    useAssignCustomersAction(() => closeModal("addMembers"));
 
   // Fetch single group data
   const { data, isLoading, isError } = useQuery({
@@ -61,6 +66,13 @@ const SingleGroupManagement = () => {
     }
   };
 
+  // Handler for assigning selected
+  const assingSelectedMeals = (selectedCustomers: string[]) => {
+    if (!groupId || selectedCustomers.length === 0 || !selectedCustomers)
+      return;
+    assignCustomers({ groupId, data: selectedCustomers });
+  };
+
   return (
     <>
       <div className="flex h-full w-[100%] flex-col rounded-lg bg-background dark:bg-backgroundSecondary">
@@ -86,7 +98,9 @@ const SingleGroupManagement = () => {
         {!isLoading && !isError && group && (
           <>
             <div className="mb-3 flex w-full flex-col justify-between gap-2 px-6 pt-6 sm:flex-row sm:items-center">
-              <h4 className="font-semibold">{group?.title}</h4>
+              <h4 className="font-semibold">
+                {capitalizeFirstLetter(group?.title)}
+              </h4>
               <div className="flex items-center justify-between gap-2">
                 <CustomButton
                   type="light_outline"
@@ -165,8 +179,8 @@ const SingleGroupManagement = () => {
       {/* Assign Customer to group modal */}
       {isOpen("addMembers") && (
         <AssignCustomerToGroupModal
-          t={t}
-          groupId={groupId ?? null}
+          loading={loadingForAssignClient}
+          onAssign={assingSelectedMeals}
           isOpen={isOpen("addMembers")}
           onClose={() => closeModal("addMembers")}
         />

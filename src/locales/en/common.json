@@ -60,6 +60,8 @@
   "submitForm": "Submit form",
   "resend": "Resend",
   "create": "Create",
+  "results": "Results: {{count}}",
+  "manageGroup": "Manage group",
 
   "menuCreated": "Created at",
   "lastUpdatedAt": "Updated at",
@@ -123,5 +125,8 @@
 
   "selectedAddress": "Selected address",
   "latitude": "Latitude",
-  "longitude": "Longitude"
+  "longitude": "Longitude",
+
+  "removeMember": "Remove member",
+  "removeGroup": "Remove group"
 }

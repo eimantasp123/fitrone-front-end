@@ -4,6 +4,10 @@
   "weekPlan": "Week Plan",
   "notSet": "Not Set",
   "timezone": "Timezone",
+  "clients": "Clients",
+  "groups": "Groups",
+  "assignClient": "Assign Client",
+  "assignGroup": "Assign Group",
   "setTimezone": "Set Timezone",
   "updateTimezone": "Update Timezone",
   "searchPlaceholder": "Search for a menu",
@@ -13,6 +17,10 @@
   "cancel": "Cancel",
   "noMenuForCurrentWeek": "You have not assigned any menus for this week yet.",
   "noMenuForCurrentWeekDescription": "Assign an existing menu or create a new one to start planning.",
+
+  "searchGroupDescription": "Search for a group by title.",
+  "noSearchResults": "No search results found.",
+  "noSearchResultsDescription": "No groups found for the search query. Try adjusting your search query and try again.",
 
   "weekExpired": "It is not possible to create a plan for the selected week.",
   "weekExpiredDescription": "The selected week has already passed, so you cannot create a plan.",
@@ -26,8 +34,7 @@
   "noWeeklyMenuFoundDescription": "No weekly menus found. You probably don't have any created weekly menus yet. Go to the menu page and start creating weekly menus.",
 
   "weeklyMenuDescription": "Weekly menu description",
-  "assignedGroups": "Assigned Groups",
-  "assignedClients": "Assigned Clients",
+  "assignedClientsAndGroups": "Assigned Clients & Groups",
 
   "deleteWeekPlanMenu": "Delete Week Plan Menu",
   "deleteWeekPlanMenuDescription": "Are you sure you want to delete this week plan menu? This action cannot be undone.",
@@ -36,5 +43,17 @@
   "publishWeekPlanMenuDescription": "Are you sure you want to publish this week plan menu? This action cannot be undone.",
 
   "unpublishWeekPlanMenu": "Unpublish Week Plan Menu",
-  "unpublishWeekPlanMenuDescription": "Are you sure you want to unpublish this week plan menu? This action cannot be undone."
+  "unpublishWeekPlanMenuDescription": "Are you sure you want to unpublish this week plan menu? This action cannot be undone.",
+
+  "emptyState": {
+    "noClientsAssigned": "No clients assigned",
+    "noGroupsAssigned": "No groups assigned",
+    "noClientsAssignedDescription": "Assign clients to the respective menu for this week to fully manage orders each day.",
+    "noGroupsAssignedDescription": "Assign groups to the respective menu for this week to fully manage orders each day."
+  },
+
+  "noGroupsFound": "No Groups Found",
+  "noGroupsFoundDescription": "No groups found. You probably don't have any created groups yet. Go to the groups page and start creating groups.",
+
+  "oneClientPerWeekPlanMenu": "One client can only be assigned to one weekly menu plan. If the client is already assigned to another plan individually or with a group, they cannot be assigned again."
 }
