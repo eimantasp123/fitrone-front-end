@@ -193,7 +193,7 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
             <>
               <div className="my-1 flex items-center justify-between px-5 text-sm">
                 <span>
-                  {t("weeklyMenuFound")}: {data?.pages[0]?.total || 0}
+                  {t("weeklyMenuFound")}: {weeklyMenus?.length || 0}
                 </span>
                 <PopoverForStatusDescription t={t} />
               </div>

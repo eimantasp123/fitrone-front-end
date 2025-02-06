@@ -22,12 +22,14 @@ import DrawerForCustomerAddAndEdit from "./components/DrawerForCustomerAddAndEdi
 import PopoverClientStatusExplain from "./components/PopoverClientStatusExplain";
 import SendFormToCustomerModal from "./components/SendFormToCustomerModal";
 import SupplierGeneralHeader from "./SupplierGeneralHeader";
+import { useAppSelector } from "@/store";
 
 /**
  *  Supplier weekly menu central station
  */
 const SupplierCustomers: React.FC = () => {
   const { t } = useTranslation(["customers", "meals", "common", "auth"]);
+  const { details: user } = useAppSelector((state) => state.personalDetails);
   const [actionModal, setActionModal] = useState<{
     type: "delete" | "resend" | "status";
     customerId: string;
@@ -244,7 +246,7 @@ const SupplierCustomers: React.FC = () => {
             <>
               <div className="my-1 flex items-center justify-between px-4 text-sm">
                 <span>
-                  {t("clientsFound")}: {data?.pages[0]?.total || 0}
+                  {t("clientsFound")}: {customers?.length || 0}
                 </span>
                 <PopoverClientStatusExplain t={t} />
               </div>
@@ -257,13 +259,15 @@ const SupplierCustomers: React.FC = () => {
                   text={t("addCustomerManually")}
                   onClick={() => openModal("clientInfoDrawer")}
                 />
-                <CustomButton
-                  paddingY="py-2 md:py-3"
-                  widthFull={true}
-                  text={t("sendFormToCustomer")}
-                  type="light2"
-                  onClick={() => openModal("sendFormToCustomer")}
-                />
+                {["pro", "premium"].includes(user?.plan || "") && (
+                  <CustomButton
+                    paddingY="py-2 md:py-3"
+                    widthFull={true}
+                    text={t("sendFormToCustomer")}
+                    type="light2"
+                    onClick={() => openModal("sendFormToCustomer")}
+                  />
+                )}
               </div>
 
               <div className="grid grid-cols-1 gap-2 px-3 pb-10 pt-2">

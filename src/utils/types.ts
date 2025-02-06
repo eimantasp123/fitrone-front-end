@@ -41,8 +41,7 @@ export interface UserDetails {
     messageRead: boolean;
     ingredients: number | null;
     meals: number | null;
-    mealWeekTypes: number | null;
-    clients: number | null;
+    weeklyMenus: number | null;
   };
 }
 

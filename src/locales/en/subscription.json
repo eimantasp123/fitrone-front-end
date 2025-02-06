@@ -23,8 +23,7 @@
     "archivedData": "Archived data",
     "ingredients": "Ingredients",
     "meals": "Meals",
-    "mealWeekTypes": "Meal week types",
-    "clients": "Clients",
+    "weeklyMenus": "Weekly menus",
     "markMessageAsRead": "Mark message as read"
   },
 
@@ -59,33 +58,33 @@
       "title": "Meals Limit",
       "description": "You can create up to a specific number of meals depending on your plan."
     },
-    "meal_week_types_limit": {
-      "title": "Weekly Meal Plan Types Limit",
-      "description": "You can create a specific number of different weekly meal plan types depending on your plan."
+    "weekly_menus_limit": {
+      "title": "Weekly Menus Types Limit",
+      "description": "You can create a specific number of different weekly menus plan types depending on your plan."
+    },
+    "week_plan_menu_limit": {
+      "title": "Week Plan Menu Limit",
+      "description": "You can assign a specific number of different weekly menus plans to a specific week depending on your plan."
     },
     "clients_limit": {
       "title": "Clients Limit",
       "description": "You can manage up to a specific number of clients depending on your plan."
     },
+    "groups_limit": {
+      "title": "Groups Limit",
+      "description": "You can create up to a specific number of groups depending on your plan."
+    },
     "ai_search": {
       "title": "AI Search for Ingredients",
       "description": "Automated AI-powered assistance for ingredient searching."
     },
-    "business_page": {
-      "title": "Business Page",
-      "description": "A private page designed to showcase your weekly meal plans."
-    },
     "client_request_form": {
       "title": "Individual Request Forms",
-      "description": "Create and send individual request forms to your clients."
+      "description": "Ability to send individual client requests to collect necessary information."
     },
     "order_management": {
       "title": "Order Management",
-      "description": "Manage orders based on your plan. Higher plans offer more features."
-    },
-    "weekly_reports": {
-      "title": "Weekly Reports",
-      "description": "Automatically generated weekly reports for your clients."
+      "description": "All the functionality needed for order management and efficiency in your business."
     }
   },
 

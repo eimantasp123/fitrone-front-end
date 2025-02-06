@@ -5,7 +5,7 @@ import { showCustomToast } from "../showCustomToast";
 import { useNavigate } from "react-router-dom";
 
 /**
- * useAction hook to perform actions on customer
+ * Hook to perform actions on group
  */
 export const useGroupAction = (onCleanup?: () => void) => {
   const queryClient = useQueryClient();
@@ -33,13 +33,30 @@ export const useGroupAction = (onCleanup?: () => void) => {
       }
     },
     onSuccess: (data, { type, id }) => {
-      const { message } = data;
+      const { message, status, warning } = data;
 
-      // Show success toast
-      showCustomToast({
-        status: "success",
-        title: message,
-      });
+      // Show info toast if limit reached
+      if (status === "limit_reached") {
+        showCustomToast({
+          status: "info",
+          title: message,
+        });
+        return;
+      }
+
+      // Show warning toast
+      if (warning) {
+        showCustomToast({
+          status: "warning",
+          title: warning,
+        });
+      } else {
+        // Show success toast
+        showCustomToast({
+          status: "success",
+          title: message,
+        });
+      }
 
       switch (type) {
         case "delete":

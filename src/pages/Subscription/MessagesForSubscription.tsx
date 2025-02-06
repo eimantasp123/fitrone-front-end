@@ -154,8 +154,7 @@ interface ArchivedData {
   messageRead: boolean;
   ingredients: number | null;
   meals: number | null;
-  mealWeekTypes: number | null;
-  clients: number | null;
+  weeklyMenus: number | null;
 }
 
 const generateArchivedDataMessage = (
@@ -180,19 +179,19 @@ const generateArchivedDataMessage = (
     });
   }
 
-  if (archivedData.mealWeekTypes !== null) {
+  if (archivedData.weeklyMenus !== null) {
     details.push({
-      label: t("archivedData.mealWeekTypes"),
-      count: archivedData.mealWeekTypes,
+      label: t("archivedData.weeklyMenus"),
+      count: archivedData.weeklyMenus,
     });
   }
 
-  if (archivedData.clients !== null) {
-    details.push({
-      label: t("archivedData.clients"),
-      count: archivedData.clients,
-    });
-  }
+  // if (archivedData.clients !== null) {
+  //   details.push({
+  //     label: t("archivedData.clients"),
+  //     count: archivedData.clients,
+  //   });
+  // }
 
   return details;
 };

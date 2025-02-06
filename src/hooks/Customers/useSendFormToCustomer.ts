@@ -15,13 +15,29 @@ export const useCustomerSendMailAction = (onCleanup: () => void) => {
       return sendFormToCustomerApi(data);
     },
     onSuccess: (data) => {
-      const { message } = data;
+      const { message, warning, status } = data;
 
-      // Show success toast
-      showCustomToast({
-        status: "success",
-        title: message,
-      });
+      // Show info toast if limit reached
+      if (status === "limit_reached") {
+        showCustomToast({
+          status: "info",
+          title: message,
+        });
+        return;
+      }
+
+      // Show warning or success toast
+      if (warning) {
+        showCustomToast({
+          status: "warning",
+          title: warning,
+        });
+      } else {
+        showCustomToast({
+          status: "success",
+          title: message,
+        });
+      }
       // Invalidate the customers query
       queryClient.invalidateQueries({ queryKey: ["customers"] });
 

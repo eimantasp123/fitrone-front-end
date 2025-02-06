@@ -350,8 +350,7 @@ const personalDetailsSlice = createSlice({
           messageRead: true,
           ingredients: state.details.archivedData?.ingredients || 0,
           meals: state.details.archivedData?.meals || 0,
-          mealWeekTypes: state.details.archivedData?.mealWeekTypes || 0,
-          clients: state.details.archivedData?.clients || 0,
+          weeklyMenus: state.details.archivedData?.weeklyMenus || 0,
         };
       })
       .addCase(markArchivedDataAsRead.rejected, (state) => {

@@ -181,13 +181,19 @@ const SupplierWeekPlan: React.FC = () => {
                   {...item}
                 />
               ))}
+
               {!disableWeekPlan && (
-                <CustomButton
-                  widthFull={true}
-                  paddingY="py-2 md:py-3"
-                  text={t("addMenu")}
-                  onClick={() => openModal("setMenus")}
-                />
+                <div className="flex w-full flex-col gap-3 md:-mt-2">
+                  <CustomButton
+                    widthFull={true}
+                    paddingY="py-2 md:py-3"
+                    text={t("addMenu")}
+                    onClick={() => openModal("setMenus")}
+                  />
+                  <span className="text-sm">
+                    {t("assignedMenus")}: {weekData?.length || 0}
+                  </span>
+                </div>
               )}
             </div>
           )}

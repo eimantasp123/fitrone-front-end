@@ -2,29 +2,29 @@ export const tablePlans = [
   {
     key: "basic-plan",
     features: {
-      ingredients_limit: 5,
-      meals_limit: 10,
-      meal_week_types_limit: 20,
-      clients_limit: 50,
+      ingredients_limit: 200,
+      meals_limit: 50,
+      weekly_menus_limit: 30,
+      week_plan_menu_limit: 3,
+      clients_limit: 10,
+      groups_limit: 3,
       ai_search: false,
-      business_page: false,
-      order_management: false,
       client_request_form: false,
-      weekly_reports: false,
+      order_management: true,
     },
   },
   {
     key: "pro-plan",
     features: {
-      ingredients_limit: 10,
-      meals_limit: 20,
-      meal_week_types_limit: 40,
-      clients_limit: 100,
+      ingredients_limit: 500,
+      meals_limit: 350,
+      weekly_menus_limit: 100,
+      week_plan_menu_limit: 10,
+      clients_limit: 50,
+      groups_limit: 20,
       ai_search: true,
-      business_page: true,
+      client_request_form: true,
       order_management: true,
-      client_request_form: false,
-      weekly_reports: false,
     },
   },
   {
@@ -32,13 +32,13 @@ export const tablePlans = [
     features: {
       ingredients_limit: -1,
       meals_limit: -1,
-      meal_week_types_limit: -1,
+      weekly_menus_limit: -1,
+      week_plan_menu_limit: -1,
       clients_limit: -1,
+      groups_limit: -1,
       ai_search: true,
-      business_page: true,
-      order_management: true,
       client_request_form: true,
-      weekly_reports: true,
+      order_management: true,
     },
   },
 ];
@@ -51,25 +51,25 @@ export const featuresList = [
     key: "meals_limit",
   },
   {
-    key: "meal_week_types_limit",
+    key: "weekly_menus_limit",
+  },
+  {
+    key: "week_plan_menu_limit",
   },
   {
     key: "clients_limit",
   },
   {
+    key: "groups_limit",
+  },
+  {
     key: "ai_search",
-  },
-  {
-    key: "business_page",
-  },
-  {
-    key: "order_management",
   },
   {
     key: "client_request_form",
   },
   {
-    key: "weekly_reports",
+    key: "order_management",
   },
 ];
 

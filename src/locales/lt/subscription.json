@@ -23,8 +23,7 @@
     "archivedData": "Archyvuoti duomenys",
     "ingredients": "Ingredientai",
     "meals": "Patiekalai",
-    "mealWeekTypes": "Savaitės meniu tipai",
-    "clients": "Klientai",
+    "weeklyMenus": "Savaitės meniu",
     "markMessageAsRead": "Pažymėti žinutę kaip perskaitytą"
   },
 
@@ -59,33 +58,33 @@
       "title": "Patiekalo limitas",
       "description": "Galite sukurti iki tam tikro skaičiaus patiekalų, atsižvelgiant į jūsų planą."
     },
-    "meal_week_types_limit": {
-      "title": "Savaitės mitybos planų tipų limitas",
-      "description": "Galite sukurti tam tikrą skaičių skirtingų savaitės mitybos planų tipų, atsižvelgiant į jūsų planą."
+    "weekly_menus_limit": {
+      "title": "Savaitės meniu tipų limitas",
+      "description": "Galite sukurti tam tikrą skaičių skirtingų savaitės mitybos meniu, atsižvelgiant į jūsų planą."
+    },
+    "week_plan_menu_limit": {
+      "title": "Meniu priskyrimo limitas",
+      "description": "Galite priskirti tam tikrą skaičių skirtingų savaitės mitybos meniu prie tam tikros savaitės, atsižvelgiant į jūsų planą."
     },
     "clients_limit": {
       "title": "Klientų limitas",
       "description": "Galite valdyti iki tam tikro skaičiaus klientų, atsižvelgiant į jūsų planą."
     },
+    "groups_limit": {
+      "title": "Grupių limitas",
+      "description": "Galite sukurti iki tam tikro skaičiaus grupių, atsižvelgiant į jūsų planą."
+    },
     "ai_search": {
       "title": "AI paieška ingredientams",
       "description": "Automatizuota dirbtinio intelekto pagalba ingredientų paieškai."
     },
-    "business_page": {
-      "title": "Verslo puslapis",
-      "description": "Privatus puslapis, skirtas atvaizduoti savaitės mitybos planus."
-    },
     "client_request_form": {
       "title": "Individualios užklausos formos",
-      "description": "Galimybė kurti ir siųsti individualias užklausos formas savo klientams."
+      "description": "Galimybė siųsti individualias klientų užklausas reikalingai informacijai surinkti."
     },
     "order_management": {
       "title": "Užsakymų valdymas",
-      "description": "Valdykite užsakymus pagal savo planą. Aukštesnių planų vartotojai gauna daugiau funkcijų."
-    },
-    "weekly_reports": {
-      "title": "Savaitės ataskaitos",
-      "description": "Automatiškai sugeneruotos savaitės ataskaitos jūsų klientams."
+      "description": "Visas funkcionalumas reikalingas užsakymų valdymui bei efektyvumui jūsų versle."
     }
   },
 

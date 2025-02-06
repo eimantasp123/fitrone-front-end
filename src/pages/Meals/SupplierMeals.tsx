@@ -181,7 +181,7 @@ const SupplierMeals: React.FC = () => {
           {hasItems && (
             <>
               <span className="pl-5 text-sm">
-                {t("mealsFound")}: {data?.pages[0]?.total || 0}
+                {t("mealsFound")}: {meals?.length || 0}
               </span>
               <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 2xl:grid-cols-2">
                 {meals.map((meal, index) => (

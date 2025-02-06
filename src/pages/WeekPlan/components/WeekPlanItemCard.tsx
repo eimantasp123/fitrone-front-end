@@ -42,7 +42,7 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
 
   return (
     <div
-      className={`grid w-full ${disabled ? "opacity-70 dark:opacity-60" : "opacity-100"} grid-cols-1 grid-rows-[auto_auto_auto] gap-4 rounded-lg bg-background p-4 shadow-custom-dark2 dark:bg-backgroundSecondary md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1 2xl:grid-cols-[minmax(400px,_450px)__1fr_minmax(400px,_450px)]`}
+      className={`grid w-full ${disabled ? "opacity-70 dark:opacity-60" : "opacity-100"} grid-cols-1 grid-rows-[auto_auto_auto_auto] gap-4 rounded-lg bg-background p-4 shadow-custom-dark2 dark:bg-backgroundSecondary md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1 2xl:grid-cols-[minmax(400px,_450px)__1fr_minmax(400px,_450px)]`}
     >
       <div className="col-span-1 flex flex-col items-start justify-center gap-1 md:col-start-1 md:col-end-2 md:row-start-1 md:row-end-3 2xl:row-span-1">
         <h4 className="text-[15px] font-medium">
@@ -91,35 +91,40 @@ const WeekPlanItemCard: React.FC<WeekPlanProps> = ({
         />
       </div>
 
-      <div className="col-span-1 flex items-center justify-between text-sm md:justify-end md:gap-4 lg:col-span-1 lg:gap-6 2xl:col-auto">
-        <CustomButton
-          text={t("common:manageMenu")}
-          type="primary_outline"
-          disabled={disabled}
-          paddingY="py-1 md:py-2"
-          onClick={() => navigate(`/weekly-menu/${menu?._id}`)}
-        />
-
-        <div className="flex w-24 items-center gap-3">
-          <h6>{published ? t("common:published") : t("common:publish")}</h6>
-          <Switch
-            isChecked={published}
+      <div className="col-span-1 flex flex-col items-center justify-between gap-3 text-sm sm:flex-row sm:justify-end md:gap-4 lg:col-span-1 lg:gap-6 2xl:col-auto">
+        <div className="-mt-2 w-full sm:mt-0 md:flex md:justify-end">
+          <CustomButton
+            text={t("common:manageMenu")}
+            type="primary_outline"
+            width="w-full sm:w-40"
             disabled={disabled}
-            onChange={() => {
-              handlePublish(_id);
-              handleSetPublish(published);
-            }}
+            paddingY="py-1 md:py-2"
+            onClick={() => navigate(`/weekly-menu/${menu?._id}`)}
           />
         </div>
-        <div className="flex items-center gap-3">
-          <h6>{t("common:delete")}</h6>
-          <button
-            onClick={() => handleDelete(_id)}
-            disabled={disabled}
-            className="rounded-md p-2 text-[13px] text-red-500 transition-colors duration-150 ease-in-out hover:bg-backgroundSecondary dark:text-red-500 dark:hover:bg-background"
-          >
-            <FaTrash />
-          </button>
+
+        <div className="flex w-full justify-between gap-3 sm:w-fit sm:justify-end sm:gap-5">
+          <div className="flex w-24 items-center gap-3">
+            <h6>{published ? t("common:published") : t("common:publish")}</h6>
+            <Switch
+              isChecked={published}
+              disabled={disabled}
+              onChange={() => {
+                handlePublish(_id);
+                handleSetPublish(published);
+              }}
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <h6>{t("common:delete")}</h6>
+            <button
+              onClick={() => handleDelete(_id)}
+              disabled={disabled}
+              className="rounded-md p-2 text-[13px] text-red-500 transition-colors duration-150 ease-in-out hover:bg-backgroundSecondary dark:text-red-500 dark:hover:bg-background"
+            >
+              <FaTrash />
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -123,6 +123,8 @@ const AssignExistingMenuModal: React.FC<AssignExistingMenuModalProps> = ({
     assignMenuForWeek({ selectedMenu, weekPlanId, year, weekNumber });
   };
 
+  console.log("selectedMenu", selectedMenu);
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} size="6xl">

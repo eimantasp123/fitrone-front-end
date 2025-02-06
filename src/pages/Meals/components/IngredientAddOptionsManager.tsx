@@ -26,9 +26,9 @@ const IngredientAddOptionsManager: React.FC<
   return (
     <>
       <div
-        className={`mt-2 grid grid-cols-1 gap-2 text-sm ${user.plan === "premium" ? "md:grid-cols-3" : "md:grid-cols-2"} md:gap-3`}
+        className={`mt-2 grid grid-cols-1 gap-2 text-sm ${["pro", "premium"].includes(user.plan || "") ? "md:grid-cols-3" : "md:grid-cols-2"} md:gap-3`}
       >
-        {user.plan === "premium" && (
+        {["pro", "premium"].includes(user.plan || "") && (
           <span
             onClick={() => openModal("searchAi")}
             className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary py-3 text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:bg-primary dark:text-black dark:hover:bg-primaryDark"
@@ -52,7 +52,7 @@ const IngredientAddOptionsManager: React.FC<
       </div>
 
       {/* Search input for API */}
-      {user.plan === "premium" && isOpen("searchAi") && (
+      {["pro", "premium"].includes(user.plan || "") && isOpen("searchAi") && (
         <IngredientSearchAiModal
           isOpen={isOpen("searchAi")}
           setIngredients={setIngredients}
