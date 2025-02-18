@@ -9,6 +9,7 @@ interface OptionsSelectAndRegisterToFormProps {
   name: string;
   required?: boolean;
   optionsModalPosition?: "top" | "bottom";
+  setDefaultValueKey?: string;
 }
 
 /**
@@ -19,6 +20,7 @@ const OptionsSelectAndRegisterToForm: React.FC<
 > = ({
   options,
   placeholder = "Placeholder",
+  setDefaultValueKey,
   label,
   required = false,
   name,
@@ -29,6 +31,7 @@ const OptionsSelectAndRegisterToForm: React.FC<
   const {
     formState: { errors },
     control,
+    setValue,
   } = useFormContext();
 
   // Close the dropdown when clicked outside
@@ -50,6 +53,13 @@ const OptionsSelectAndRegisterToForm: React.FC<
     };
   }, [isOpen]);
 
+  // Set the default value if setDefaultValueKey is provided
+  useEffect(() => {
+    if (setDefaultValueKey) {
+      setValue(name, setDefaultValueKey);
+    }
+  }, [setDefaultValueKey, setValue, name]);
+
   return (
     <div ref={modalRef} className="flex w-full select-none flex-col">
       {/* The visible part of the custom select */}
@@ -69,7 +79,8 @@ const OptionsSelectAndRegisterToForm: React.FC<
             <span className="overflow-hidden overflow-ellipsis">
               {field.value
                 ? options.find((opt) => opt.key === field.value)?.title
-                : placeholder}
+                : placeholder ||
+                  options.find((opt) => opt.key === setDefaultValueKey)?.title}
             </span>
             <MdKeyboardArrowDown
               className={`text-lg text-textSecondary transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : ""}`}

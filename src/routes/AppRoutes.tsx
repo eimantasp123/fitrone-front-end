@@ -17,7 +17,7 @@ import VerifyEmaiil from "../pages/VerifyEmail/VerifyEmail";
 import { PrivateRoute, PublicRoute } from "./RouteWrappers";
 import LoginForm from "@/pages/Login/LoginForm";
 import Orders from "@/pages/Orders/Orders";
-import WeekPlan from "@/pages/WeekPlan/WeekPlan";
+import WeeklyPlan from "@/pages/WeeklyPlan/WeeklyPlan";
 // import BusinessPage from "@/pages/BusinessPage/BusinessPage";
 import Customers from "@/pages/Customers/Customers";
 import IngredientsGeneral from "@/pages/Ingredients/IngredientsGeneral";
@@ -25,8 +25,10 @@ import GeneralMealsOverview from "@/pages/Meals/GeneralMealsOverview";
 import WeeklyMenuOverview from "@/pages/WeeklyMenu/WeeklyMenuOverview";
 import WeeklyMenuByIdGeneral from "@/pages/WeeklyMenuByID/WeeklyMenuByIdGeneral";
 import CustomerPageForm from "@/pages/CustomerFormPage/CustomerPageForm";
-import Groups from "@/pages/Groups/GroupsGeneral";
-import SingleGroupManagement from "@/pages/Groups/SingleGroupManagement";
+// import Groups from "@/pages/Groups/GroupsGeneral";
+// import SingleGroupManagement from "@/pages/Groups/SingleGroupManagement";
+import SupplierDayManagement from "@/pages/Orders/Day/SupplierDayManagement";
+import SupplierIngredientsManagement from "@/pages/Orders/Ingredients/SupplierIngredientsManagement";
 
 /**
  * App routes component
@@ -49,16 +51,24 @@ const AppRoutes: React.FC = () => (
         <Route index path="/" element={<Dashboard />} />
         <Route path="/dashboard" element={<Navigate replace to="/" />} />
         <Route path="subscription" element={<ManageSubscriptionPlan />} />
-        <Route path="week-plan" element={<WeekPlan />} />
+        <Route path="weekly-plan" element={<WeeklyPlan />} />
         <Route path="weekly-menu" element={<WeeklyMenuOverview />} />
         <Route path="weekly-menu/:id" element={<WeeklyMenuByIdGeneral />} />
         <Route path="meals" element={<GeneralMealsOverview />} />
         <Route path="ingredients" element={<IngredientsGeneral />} />
         <Route path="customers" element={<Customers />} />
-        <Route path="groups" element={<Groups />}>
+        {/* <Route path="groups" element={<Groups />}>
           <Route path=":groupId" element={<SingleGroupManagement />} />
-        </Route>
+        </Route> */}
         <Route path="orders" element={<Orders />} />
+        <Route
+          path="orders/:weekId/day/:dayId"
+          element={<SupplierDayManagement />}
+        />
+        <Route
+          path="orders/:weekId/ingredients"
+          element={<SupplierIngredientsManagement />}
+        />
         {/* <Route path="business-page" element={<BusinessPage />} /> */}
         {/* <Route path="notifications" element={<Notifications />} /> */}
         {/* <Route path="messages" element={<Messages />}>

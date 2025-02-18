@@ -23,6 +23,8 @@ import PopoverClientStatusExplain from "./components/PopoverClientStatusExplain"
 import SendFormToCustomerModal from "./components/SendFormToCustomerModal";
 import SupplierGeneralHeader from "./SupplierGeneralHeader";
 import { useAppSelector } from "@/store";
+import CustomerChangeMenuQuantityModal from "./components/CustomerChangeMenuQuantityModal";
+import { useChangeMenuQuantity } from "@/hooks/Customers/useChangeMenuQuantity";
 
 /**
  *  Supplier weekly menu central station
@@ -31,7 +33,7 @@ const SupplierCustomers: React.FC = () => {
   const { t } = useTranslation(["customers", "meals", "common", "auth"]);
   const { details: user } = useAppSelector((state) => state.personalDetails);
   const [actionModal, setActionModal] = useState<{
-    type: "delete" | "resend" | "status";
+    type: "delete" | "resend" | "status" | "menuQuantity";
     customerId: string;
   } | null>(null);
   const { isOpen, openModal, closeModal, closeAllModals } =
@@ -46,6 +48,7 @@ const SupplierCustomers: React.FC = () => {
 
   const [clientData, setClientData] = useState<CustomerEditForm | null>(null);
   const [activeStatus, setActiveStatus] = useState<string>("");
+  const [menuQuantity, setMenuQuantity] = useState<number | null>(null);
 
   // Search query state and debounced value
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
@@ -64,6 +67,16 @@ const SupplierCustomers: React.FC = () => {
       setClientData(null);
     },
   );
+
+  // Mutation to change menu quantity
+  const {
+    mutate: actionMutationMenuQuantity,
+    isPending: loadingChangeQuantity,
+  } = useChangeMenuQuantity(() => {
+    setActionModal(null);
+    setClientData(null);
+    setMenuQuantity(null);
+  });
 
   // Ref to track the scroll container
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -179,11 +192,39 @@ const SupplierCustomers: React.FC = () => {
     title: string;
   }[];
 
+  // Customer menu quantity options
+  const customerMenuQuantity = t("customers:menuQuantityOptions", {
+    returnObjects: true,
+  }) as { key: string; title: string }[];
+
   // Remove the pending status
   const filteredCustomerStatus = useMemo(
     () => customerStatus.filter((item) => item.key !== "pending"),
     [customerStatus],
   );
+
+  // Handle the change for customer menu quantity
+  const handleMenuQuantityChange = () => {
+    if (
+      !menuQuantity ||
+      !actionModal?.customerId ||
+      actionModal.type !== "menuQuantity"
+    )
+      return;
+
+    // Check if the menu quantity is same as the current quantity
+    if (menuQuantity === clientData?.weeklyMenuQuantity) {
+      showCustomToast({
+        status: "info",
+        description: t("noChangesMade"),
+      });
+    } else {
+      actionMutationMenuQuantity({
+        customerId: actionModal.customerId,
+        menuQuantity: menuQuantity,
+      });
+    }
+  };
 
   return (
     <>
@@ -323,34 +364,35 @@ const SupplierCustomers: React.FC = () => {
       )}
 
       {/* Perform action modal for delete and resend action */}
-      {actionModal && (
-        <ConfirmActionModal
-          loading={isPending}
-          loadingSpinner={false}
-          confirmButtonText={
-            actionModal.type === "delete"
-              ? t("common:delete")
-              : t("common:resend")
-          }
-          cancelButtonText={t("common:cancel")}
-          isOpen={!!actionModal.type}
-          onClose={() => {
-            setActionModal(null);
-          }}
-          title={
-            actionModal.type === "delete"
-              ? t("deleteCustomer")
-              : t("resendForm")
-          }
-          description={
-            actionModal.type === "delete"
-              ? t("deleteCustomerDescription")
-              : t("resendFormDescription")
-          }
-          onAction={handlePerformAction}
-          type={actionModal.type === "delete" ? "delete" : "primary"}
-        />
-      )}
+      {actionModal &&
+        !["menuQuantity", "status"].includes(actionModal.type) && (
+          <ConfirmActionModal
+            loading={isPending}
+            loadingSpinner={false}
+            confirmButtonText={
+              actionModal.type === "delete"
+                ? t("common:delete")
+                : t("common:resend")
+            }
+            cancelButtonText={t("common:cancel")}
+            isOpen={!!actionModal.type}
+            onClose={() => {
+              setActionModal(null);
+            }}
+            title={
+              actionModal.type === "delete"
+                ? t("deleteCustomer")
+                : t("resendForm")
+            }
+            description={
+              actionModal.type === "delete"
+                ? t("deleteCustomerDescription")
+                : t("resendFormDescription")
+            }
+            onAction={handlePerformAction}
+            type={actionModal.type === "delete" ? "delete" : "primary"}
+          />
+        )}
 
       {/* Change customer status modal */}
       {actionModal && actionModal.type === "status" && (
@@ -366,6 +408,25 @@ const SupplierCustomers: React.FC = () => {
             setActionModal(null);
             setActiveStatus("");
             setClientData(null);
+          }}
+        />
+      )}
+
+      {/* Change customer menu quantity */}
+      {actionModal && actionModal.type === "menuQuantity" && (
+        <CustomerChangeMenuQuantityModal
+          options={customerMenuQuantity}
+          isOpen={actionModal!.type === "menuQuantity"}
+          loading={loadingChangeQuantity}
+          performAction={handleMenuQuantityChange}
+          defaultQuantity={clientData?.weeklyMenuQuantity || null}
+          menuQuantity={menuQuantity}
+          setMenuQuantity={setMenuQuantity}
+          t={t}
+          onClose={() => {
+            setActionModal(null);
+            setClientData(null);
+            setMenuQuantity(null);
           }}
         />
       )}

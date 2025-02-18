@@ -18,6 +18,7 @@ import {
   HiOutlineUserCircle,
 } from "react-icons/hi";
 import { LiaExchangeAltSolid } from "react-icons/lia";
+import { TbNumber } from "react-icons/tb";
 
 interface CustomerCardProps {
   client: CustomerEditForm;
@@ -26,7 +27,7 @@ interface CustomerCardProps {
     type,
     customerId,
   }: {
-    type: "delete" | "resend" | "status";
+    type: "delete" | "resend" | "status" | "menuQuantity";
     customerId: string;
   }) => void;
   editCustomer: (customer: CustomerEditForm) => void;
@@ -53,7 +54,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
   }[];
 
   return (
-    <div className="grid w-full grid-cols-6 gap-2 rounded-lg bg-background p-4 text-sm shadow-custom-light4 dark:bg-backgroundSecondary xl:grid-cols-[minmax(250px,_350px)_minmax(250px,_350px)_minmax(150px,_250px)_minmax(100px,_1fr)_minmax(100px,_1fr)_50px]">
+    <div className="grid w-full grid-cols-6 gap-2 rounded-lg bg-background p-4 text-sm shadow-custom-light4 dark:bg-backgroundSecondary xl:grid-cols-[minmax(200px,_300px)_minmax(200px,_300px)_minmax(150px,_300px)_minmax(100px,_1fr)_minmax(100px,_1fr)_minmax(100px,_1fr)_50px]">
       {/* Avatar + Name */}
       <div className="col-span-6 flex items-center gap-3 sm:col-span-3 xl:col-auto">
         <Avatar
@@ -88,6 +89,12 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
         </h6>
       </div>
 
+      {/* Menu quantity */}
+      <div className="col-span-6 flex items-center sm:col-span-3 xl:col-auto">
+        <h6 className="pr-2 font-semibold xl:hidden">{t("menuQuantity")}:</h6>
+        <h6>{client?.weeklyMenuQuantity ?? t("notProvided")}</h6>
+      </div>
+
       {/* Customer Status */}
       <div className="col-span-3 flex items-center xl:col-auto">
         <h6 className="pr-2 font-semibold xl:hidden">{t("statusTitle")}:</h6>
@@ -95,7 +102,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
       </div>
 
       {/* Menu Button */}
-      <div className="col-span-3 flex items-center justify-end xl:col-auto">
+      <div className="col-span-3 flex items-center justify-end sm:col-span-6 xl:col-auto">
         <Menu placement="bottom-end">
           <MenuButton
             as={IconButton}
@@ -130,6 +137,20 @@ const CustomerCard: React.FC<CustomerCardProps> = ({
                 icon={<LiaExchangeAltSolid className="text-[15px]" />}
               >
                 {t("changeStatus")}
+              </MenuItem>
+            )}
+            {client.status !== "pending" && (
+              <MenuItem
+                onClick={() => {
+                  setClientData(client);
+                  setActionModal({
+                    type: "menuQuantity",
+                    customerId: client._id,
+                  });
+                }}
+                icon={<TbNumber className="text-[15px]" />}
+              >
+                {t("changeMenuQuantity")}
               </MenuItem>
             )}
             <MenuItem

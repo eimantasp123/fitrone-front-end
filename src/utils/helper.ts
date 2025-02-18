@@ -6,7 +6,7 @@ export const capitalizeFirstLetter = (str: string) => {
 
 // Function to format a number to 1 decimal place
 export const formatNumber = (num: number) => {
-  if (!num) return "";
+  if (!num) return 0;
   return num % 1 === 0 ? num : parseFloat(num.toFixed(1));
 };
 

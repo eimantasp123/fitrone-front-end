@@ -68,12 +68,13 @@ export const useDeleteIngredient = () => {
       return { previousDataMap };
     },
     onSuccess: (data) => {
+      const { message } = data;
       // Invalidate the cache to refetch the data
       queryClient.invalidateQueries({ queryKey: ["ingredients"] });
       // Show success toast
       showCustomToast({
         status: "success",
-        description: data.message || "Ingredient deleted successfully",
+        description: message || "Ingredient deleted successfully",
       });
     },
 

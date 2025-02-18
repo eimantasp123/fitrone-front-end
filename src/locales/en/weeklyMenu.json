@@ -31,7 +31,8 @@
   "validation": {
     "titleRequired": "Title is required and must be unique",
     "titleLength": "Title must be between 3 and 70 characters",
-    "descriptionLength": "Description must be less than 200 characters"
+    "descriptionLength": "Description must be less than 200 characters",
+    "customDescriptionLength": "Description must be less than {{count}} characters"
   },
 
   "weeklyMenuFound": "Weekly menus found",

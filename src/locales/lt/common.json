@@ -11,6 +11,7 @@
   "physicalActivityLevel": "Fizinio aktyvumo lygis",
   "fitnessGoal": "Fitneso tikslas",
   "createdAt": "Sukurta",
+  "additionalInformation": "Papildoma informacija",
 
   "feedbackModal": {
     "title": "Atsiliepimas",
@@ -120,7 +121,8 @@
     "invalidWeight": "Neteisingas svoris",
     "invalidAge": "Neteisingas amžius",
     "invalidWeightGoal": "Neteisingas svorio tikslas",
-    "selectOne": "Pasirinkite vieną"
+    "selectOne": "Pasirinkite vieną",
+    "maxLength": "Maksimalus simbolių skaičius yra {{count}}"
   },
 
   "selectedAddress": "Pasirinktas adresas",

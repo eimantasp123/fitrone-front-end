@@ -20,6 +20,7 @@ import CreateOrUpdateGroupModal from "./components/CreateOrUpdateGroupModal";
 export interface Group {
   _id: string;
   title: string;
+  description?: string;
   createdAt: string;
 }
 

@@ -12,6 +12,7 @@
   "systemIssues": "System Issue? Let Us Know",
   "faq": "FAQ",
   "help": "Help",
+
   "supportModal": {
     "headerTitle": "Get in Touch",
     "title": "   How Can We Help You?",
@@ -25,5 +26,32 @@
       "message": "Message is required",
       "messageMax": "Message must be at most 500 characters long"
     }
+  },
+
+  "systemProblemModal": {
+    "headerTitle": "System Issue",
+    "description": "If you're experiencing any issues with the system, let us know, and we'll get it fixed as soon as possible.",
+    "problem": "Problem Type",
+    "message": "Describe the problem",
+    "selectProblem": "Select a problem",
+    "send": "Send",
+    "validation": {
+      "problem": "Subject is required",
+      "message": "Message is required",
+      "messageMax": "Message must be at most 500 characters long"
+    },
+
+    "problems": [
+      { "key": "ingredients", "title": "Ingredient Issue" },
+      { "key": "meals", "title": "Meal Issue" },
+      { "key": "weekly_menus", "title": "Weekly Menu Issue" },
+      { "key": "weekly_plan", "title": "Weekly Plan Issue" },
+      { "key": "order_system", "title": "Order System Issue" },
+      { "key": "customers", "title": "Customer Issue" },
+      { "key": "group", "title": "Group Issue" },
+      { "key": "dashboard", "title": "Dashboard Issue" },
+      { "key": "personal_details", "title": "Personal Details Issue" },
+      { "key": "other", "title": "Other Issue" }
+    ]
   }
 }

@@ -8,6 +8,8 @@ interface CustomSelectProps {
   onChange: (option: { key: string; title: string }) => void;
   selectedOption?: string | null;
   background?: string;
+  maxH?: string;
+  optionsModalPosition?: "top" | "bottom";
 }
 
 /**
@@ -20,6 +22,8 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   onChange,
   title,
   background = "bg-backgroundSecondary dark:bg-backgroundLight",
+  maxH = "max-h-52",
+  optionsModalPosition = "top",
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -59,32 +63,31 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         className={`relative flex w-full cursor-pointer items-center ${background} justify-between text-nowrap rounded-md py-2 pl-4 pr-2 text-sm transition-colors duration-300 ease-in-out md:py-2 3xl:py-2`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span>{!selectedOption ? defaultOption : selectedOption}</span>
+        <span className="overflow-hidden overflow-ellipsis">
+          {!selectedOption ? defaultOption : selectedOption}
+        </span>
         <MdKeyboardArrowDown
           className={`text-lg text-textSecondary transition-transform duration-300 ease-in-out ${
             isOpen ? "rotate-90" : ""
           }`}
         />
         {/* Dropdown menu */}
-        {isOpen && (
-          <div className="custom-scrollbar-select absolute left-0 top-[40px] z-10 max-h-52 w-full overflow-y-auto rounded-lg border border-neutral-200 bg-background p-2 text-sm text-textSecondary shadow-custom-light dark:border-neutral-700/50 md:top-[40px] 3xl:top-[40px]">
-            <div className="space-y-1">
-              {Object.values(options).map((option, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleOptionSelect(option)}
-                  className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundDark ${
-                    defaultOption === option.key
-                      ? "bg-backgroundSecondary dark:bg-neutral-800"
-                      : ""
-                  }`}
-                >
-                  {option.title}
-                </div>
-              ))}
-            </div>
+
+        <div
+          className={`custom-scrollbar-select transform transition-all duration-300 ease-in-out ${isOpen ? "visible translate-y-0 opacity-100" : `invisible ${optionsModalPosition === "top" ? "-translate-y-2" : "translate-y-2"} opacity-0`} border-border absolute left-0 ${optionsModalPosition === "top" ? "top-[40px]" : "bottom-[52px]"} z-10 ${maxH} w-full overflow-y-auto rounded-lg border border-neutral-200 bg-background p-2 text-sm text-textSecondary shadow-custom-light dark:border-neutral-700/50`}
+        >
+          <div className="space-y-1">
+            {options.map((option) => (
+              <div
+                key={option.key}
+                onClick={() => handleOptionSelect(option)}
+                className={`cursor-pointer text-nowrap rounded-lg px-3 py-[6px] text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundDark`}
+              >
+                {option.title}
+              </div>
+            ))}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

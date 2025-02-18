@@ -354,9 +354,9 @@ export interface SearchResultFromDatabase {
 }
 
 /**
- * Week plan item card props interface
+ * Weekly plan item card props interface
  */
-export interface WeekPlanItemCardProps {
+export interface WeeklyPlanItemCardProps {
   _id: string;
   menu: {
     _id: string;
@@ -367,7 +367,7 @@ export interface WeekPlanItemCardProps {
   };
   published: boolean;
   assignedClients?: string[] | null;
-  assignedGroups?: string[] | null;
+  // assignedGroups?: string[] | null;
 }
 
 /**
@@ -390,6 +390,8 @@ export interface CustomerAddForm {
   age: number;
   height: number;
   weight: number;
+  additionalInfo?: string;
+  weeklyMenuQuantity?: number;
   weightGoal?: number;
   gender: string;
   foodAllergies?: string;

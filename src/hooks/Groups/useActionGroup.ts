@@ -74,6 +74,10 @@ export const useGroupAction = (onCleanup?: () => void) => {
         case "update":
           queryClient.invalidateQueries({ queryKey: ["groupById", id] });
           queryClient.invalidateQueries({ queryKey: ["groups"] });
+          queryClient.invalidateQueries({ queryKey: ["customers"] });
+          queryClient.invalidateQueries({
+            queryKey: ["currentMenuDetailsOnWeekPlan"],
+          });
           break;
         case "create":
           queryClient.invalidateQueries({ queryKey: ["groups"] });

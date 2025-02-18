@@ -9,7 +9,7 @@ interface ClientListLabelsProps {
  */
 const ClientListLabels: React.FC<ClientListLabelsProps> = ({ t }) => {
   return (
-    <div className="hidden w-full grid-cols-6 gap-2 rounded-lg px-4 pt-1 text-[13px] font-semibold xl:grid xl:grid-cols-[minmax(250px,_350px)_minmax(250px,_350px)_minmax(150px,_250px)_minmax(100px,_1fr)_minmax(100px,_1fr)_50px]">
+    <div className="hidden w-full grid-cols-6 gap-2 rounded-lg px-4 pt-1 text-[13px] font-semibold xl:grid xl:grid-cols-[minmax(200px,_300px)_minmax(200px,_300px)_minmax(150px,_300px)_minmax(100px,_1fr)_minmax(100px,_1fr)_minmax(100px,_1fr)_50px]">
       {/* Avatar + Name */}
       <div className="col-span-6 flex items-center gap-3 sm:col-span-3 xl:col-auto">
         {t("fullName")}
@@ -29,6 +29,12 @@ const ClientListLabels: React.FC<ClientListLabelsProps> = ({ t }) => {
       <div className="col-span-3 flex items-center xl:col-auto">
         {" "}
         {t("genderTitle")}
+      </div>
+
+      {/* Gender */}
+      <div className="col-span-3 flex items-center xl:col-auto">
+        {" "}
+        {t("menuQuantity")}
       </div>
 
       {/* Customer Status */}

@@ -1,4 +1,5 @@
 import { extendTheme, NumberInput } from "@chakra-ui/react";
+import { pad, size } from "lodash";
 
 const customTheme = extendTheme({
   colors: {
@@ -54,17 +55,6 @@ const customTheme = extendTheme({
     },
   },
   components: {
-    // Skeleton: {
-    //   baseStyle: (props) => ({
-    //     baseStyle: {
-    //       startColor:
-    //         props.colorMode === "light"
-    //           ? "light.blackAlpha.100"
-    //           : "dark.whiteAlpha.100",
-    //       endColor: "light.background",
-    //     },
-    //   }),
-    // },
     Popover: {
       baseStyle: (props) => ({
         content: {

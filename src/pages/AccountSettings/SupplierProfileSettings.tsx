@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import EditProfile from "./components/EditProfile";
 import ChangePassword from "./components/ChangePassword";
 import TwoFactorAuth from "./components/TwoFactorAuth";
-import DeleteAccount from "./components/DeleteAccount";
+// import DeleteAccount from "./components/DeleteAccount";
 
 const SupplierProfileSettings: React.FC = () => {
   const { t } = useTranslation("profileSettings");
@@ -20,10 +20,10 @@ const SupplierProfileSettings: React.FC = () => {
         <ChangePassword />
         <h2 className="mt-3 font-semibold lg:mt-8">{t("2fa.title")}</h2>
         <TwoFactorAuth />
-        <h2 className="mt-3 font-semibold lg:mt-8">
+        {/* <h2 className="mt-3 font-semibold lg:mt-8">
           {t("deleteAccount.title")}
         </h2>
-        <DeleteAccount />
+        <DeleteAccount /> */}
       </div>
     </div>
   );

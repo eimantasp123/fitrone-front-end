@@ -11,6 +11,7 @@
   "physicalActivityLevel": "Physical activity level",
   "fitnessGoal": "Fitness goal",
   "createdAt": "Created at",
+  "additionalInformation": "Additional information",
 
   "feedbackModal": {
     "title": "Feedback",
@@ -120,7 +121,8 @@
     "invalidWeight": "Invalid weight",
     "invalidAge": "Invalid age",
     "invalidWeightGoal": "Invalid weight goal",
-    "selectOne": "Select one"
+    "selectOne": "Select one",
+    "maxLength": "Maximum length is {{count}} characters"
   },
 
   "selectedAddress": "Selected address",

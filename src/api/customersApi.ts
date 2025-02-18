@@ -2,6 +2,9 @@ import { UseCustomerFormProps } from "@/hooks/CustomerPageForm/useCustomerForm";
 import { SendFormToCustomerForm } from "@/pages/Customers/components/SendFormToCustomerModal";
 import axiosInstance from "@/utils/axiosInterceptors";
 import { QueryFunctionContext, QueryKey } from "@tanstack/react-query";
+import axios from "axios";
+
+const MOCK_API = import.meta.env.VITE_API_URL;
 
 /**
  *  Create a new customer on the server
@@ -15,8 +18,8 @@ export const createCustomer = async ({
   data: UseCustomerFormProps;
   recaptchaToken: string;
 }) => {
-  const response = await axiosInstance.post(
-    `customers/confirm-form/${token}?recaptchaToken=${recaptchaToken}`,
+  const response = await axios.post(
+    `${MOCK_API}/customers/confirm-form/${token}?recaptchaToken=${recaptchaToken}`,
     data,
   );
   return response.data;
@@ -92,17 +95,20 @@ export const updateCustomerApi = async ({
 };
 
 /**
- * Update customer status on the server
+ * Update customer status to active on the server
  */
-export const updateCustomerStatusApi = async (
-  customerId: string,
-  status: string,
-) => {
+export const updateCustomerStatusToActiveApi = async (customerId: string) => {
   const response = await axiosInstance.patch(
-    `customers/${customerId}/change-status`,
-    {
-      status,
-    },
+    `customers/${customerId}/change-status/active`,
+  );
+  return response.data;
+};
+/**
+ * Update customer status to inactive on the server
+ */
+export const updateCustomerStatusToInactiveApi = async (customerId: string) => {
+  const response = await axiosInstance.patch(
+    `customers/${customerId}/change-status/inactive`,
   );
   return response.data;
 };
@@ -113,6 +119,25 @@ export const updateCustomerStatusApi = async (
 export const calculateNutritionApi = async (customerId: string) => {
   const response = await axiosInstance.post(
     `customers/${customerId}/calculate-nutrition`,
+  );
+  return response.data;
+};
+
+/**
+ * Change menu quantity for the customer
+ */
+export const changeMenuQuantityApi = async ({
+  customerId,
+  menuQuantity,
+}: {
+  customerId: string;
+  menuQuantity: number;
+}) => {
+  const response = await axiosInstance.patch(
+    `customers/${customerId}/change-menu-quantity`,
+    {
+      menuQuantity,
+    },
   );
   return response.data;
 };

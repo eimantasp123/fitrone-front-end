@@ -8,6 +8,7 @@ import useAsync from "../hooks/useAsync";
 import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
 import axiosInstance from "../utils/axiosInterceptors";
 import { useQueryClient } from "@tanstack/react-query";
+import prefetchDashboardAndOtherData from "@/utils/prefetchData";
 
 const AuthContext = createContext();
 const MOCK_API = import.meta.env.VITE_API_URL;
@@ -36,12 +37,14 @@ export const AuthProvider = ({ children }) => {
       if (!isAutenticated) {
         setIsAuthenticated(false);
         setAuthChecking(false);
+        queryClient.clear();
         return;
       }
       try {
         const response = await axiosInstance.get("/auth/user");
         dispatch(setUserDetails(response.data.user));
         setIsAuthenticated(true);
+        prefetchDashboardAndOtherData(queryClient);
       } catch (error) {
         console.error(error);
         if (error.response && error.response.status === 401) {
@@ -54,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkAuth();
-  }, [dispatch, authChecking]);
+  }, [dispatch, authChecking, queryClient]);
 
   // Clear messages function
   const clearMessages = () => {

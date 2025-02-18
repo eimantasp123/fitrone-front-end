@@ -22,6 +22,7 @@
   "email": "El. paštas",
   "phoneNumber": "Telefono numeris",
   "genderTitle": "Lytis",
+  "menuQuantity": "Meniu kiekis",
   "genderSelectPlaceholder": "Pasirinkite savo lytį",
   "sendForm": "Siųsti formą",
   "notProvided": "Nepateikta",
@@ -34,6 +35,8 @@
   "resendForm": "Persiųsti formą",
   "moreDetails": "Daugiau informacijos",
   "manageGroups": "Tvarkyti grupes",
+  "changeMenuQuantity": "Pakeisti meniu kiekį",
+  "changeMenuQuantityDescription": "Pakeiskite kliento meniu kiekį, jei jis nori gauti daugiau ar mažiau meniu per dieną. Pakeitimai gali būti atlikti, jeigu klientas nėra priskirtas jokiam aktyviam savaitės planui.",
   "addCustomerManually": "Pridėti klientą savarankiškai",
   "sendFormToCustomer": "Išsiųsti formą klientui",
   "previewForm": "Peržiūrėti formą",
@@ -75,6 +78,7 @@
     },
     { "key": "other", "title": "Kita" }
   ],
+
   "physicalActivityLevelOptions": [
     {
       "key": "sedentary",
@@ -90,6 +94,20 @@
     },
     { "key": "veryActive", "title": "Labai aktyvus (6-7 dienos per savaitę)" }
   ],
+
+  "menuQuantityOptions": [
+    { "key": "1", "title": "1 meniu" },
+    { "key": "2", "title": "2 meniu" },
+    { "key": "3", "title": "3 meniu" },
+    { "key": "4", "title": "4 meniu" },
+    { "key": "5", "title": "5 meniu" },
+    { "key": "6", "title": "6 meniu" },
+    { "key": "7", "title": "7 meniu" },
+    { "key": "8", "title": "8 meniu" },
+    { "key": "9", "title": "9 meniu" },
+    { "key": "10", "title": "10 meniu" }
+  ],
+
   "selectGender": "Lytis",
   "clientStatus": "Kliento būsena",
   "clientStatusExplanation": "Kliento būsenos paaiškinimas",

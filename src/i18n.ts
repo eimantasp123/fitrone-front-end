@@ -25,8 +25,8 @@ import enSubscription from "./locales/en/subscription.json";
 import ltSubscription from "./locales/lt/subscription.json";
 import enDashboard from "./locales/en/dashboard.json";
 import ltDashboard from "./locales/lt/dashboard.json";
-import enWeekPlan from "./locales/en/weekPlan.json";
-import ltWeekPlan from "./locales/lt/weekPlan.json";
+import enWeeklyPlan from "./locales/en/weeklyPlan.json";
+import ltWeeklyPlan from "./locales/lt/weeklyPlan.json";
 import enMenu from "./locales/en/weeklyMenu.json";
 import ltMenu from "./locales/lt/weeklyMenu.json";
 import enTimezones from "./locales/en/timezones.json";
@@ -35,6 +35,8 @@ import enCustomers from "./locales/en/customers.json";
 import ltCustomers from "./locales/lt/customers.json";
 import enGroups from "./locales/en/groups.json";
 import ltGroups from "./locales/lt/groups.json";
+import enOrders from "./locales/en/orders.json";
+import ltOrders from "./locales/lt/orders.json";
 
 /**
  *  Instance of i18n
@@ -55,11 +57,12 @@ i18n
         meals: enMeals,
         subscription: enSubscription,
         dashboard: enDashboard,
-        weekPlan: enWeekPlan,
+        weeklyPlan: enWeeklyPlan,
         weeklyMenu: enMenu,
         timezone: enTimezones,
         customers: enCustomers,
         groups: enGroups,
+        orders: enOrders,
       },
       lt: {
         common: ltCommon,
@@ -72,11 +75,12 @@ i18n
         meals: ltMeals,
         subscription: ltSubscription,
         dashboard: ltDashboard,
-        weekPlan: ltWeekPlan,
+        weeklyPlan: ltWeeklyPlan,
         weeklyMenu: ltMenu,
         timezone: ltTimezones,
         customers: ltCustomers,
         groups: ltGroups,
+        orders: ltOrders,
       },
     },
     fallbackLng: "en", // Fallback language if the current language is not available

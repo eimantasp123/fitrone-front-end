@@ -1,4 +1,5 @@
 import CustomButton from "@/components/common/CustomButton";
+import CustomTextarea from "@/components/common/CustomTextarea";
 import CustomInput from "@/components/common/NewCharkaInput";
 import { useGroupAction } from "@/hooks/Groups/useActionGroup";
 import { useCreateNewGroupSchema } from "@/utils/validationSchema";
@@ -40,7 +41,10 @@ const CreateOrUpdateGroupModal: React.FC<CreateOrUpdateGroupModalProps> = ({
   const { mutate: actionGroup, isPending } = useGroupAction(onClose);
 
   // Handle form submit
-  const handleSubmitForm = async (data: { title: string }) => {
+  const handleSubmitForm = async (data: {
+    title: string;
+    description?: string;
+  }) => {
     if (group) {
       actionGroup({ data, type: "update", id: group._id });
     } else {
@@ -52,6 +56,7 @@ const CreateOrUpdateGroupModal: React.FC<CreateOrUpdateGroupModalProps> = ({
   useEffect(() => {
     if (group) {
       methods.setValue("title", group.title);
+      methods.setValue("description", group.description);
     }
 
     return () => {
@@ -95,6 +100,12 @@ const CreateOrUpdateGroupModal: React.FC<CreateOrUpdateGroupModalProps> = ({
                 )}
                 {/* Meal title */}
                 <CustomInput name="title" label={t("selectGroupName")} />
+
+                {/* Meal description */}
+                <CustomTextarea
+                  name="description"
+                  label={t("common:description")}
+                />
 
                 <div className="mt-2 flex items-center gap-3">
                   <CustomButton

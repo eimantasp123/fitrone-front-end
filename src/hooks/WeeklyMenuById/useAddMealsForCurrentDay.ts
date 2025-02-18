@@ -21,7 +21,16 @@ export const useAddMealsForCurrentDay = (onCleanup: () => void) => {
       return addMealsToCurrentDay({ meals, dayId, weeklyMenuId });
     },
     onSuccess: (data, { weeklyMenuId }) => {
-      const { message } = data;
+      const { message, status } = data;
+
+      if (status === "warning") {
+        showCustomToast({
+          status: "warning",
+          description: message,
+        });
+        return;
+      }
+
       showCustomToast({
         status: "success",
         description: message,

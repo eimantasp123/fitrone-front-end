@@ -51,9 +51,9 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
         />
         <SidebarNavLink
           onClick={closeDrawer}
-          to="/week-plan"
+          to="/weekly-plan"
           icon={FaRegCalendarCheck}
-          text={t("week-plan")}
+          text={t("weekly-plan")}
         />
         <SidebarNavLink
           onClick={closeDrawer}
@@ -79,12 +79,12 @@ const SupplierMenu: React.FC<SupplierMenuProps> = ({
           icon={BsPeopleFill}
           text={t("customers")}
         />
-        <SidebarNavLink
+        {/* <SidebarNavLink
           onClick={closeDrawer}
           to="/groups"
           icon={MdGroupAdd}
           text={t("groups")}
-        />
+        /> */}
         <SidebarNavLink
           onClick={closeDrawer}
           to="/orders"

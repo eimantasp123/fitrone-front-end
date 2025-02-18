@@ -190,6 +190,18 @@ export const useSupportSchema = () => {
   });
 };
 
+// System problem schema for form validation
+export const useSystemProblemSchema = () => {
+  const { t } = useTranslation("header");
+  return yup.object().shape({
+    problem: yup.string(),
+    message: yup
+      .string()
+      .required(t("systemProblemModal.validation.message"))
+      .max(500, t("systemProblemModal.validation.messageMax")),
+  });
+};
+
 //  Ingredient input schema for ingredient input form validation
 export const useIngredientInputSchema = () => {
   const { t } = useTranslation("meals");
@@ -414,6 +426,10 @@ export const useCustomerDetails = () => {
       .transform(numberTransform)
       .typeError(t("validationErrors.invalidWeight"))
       .required(requiredMessage),
+    additionalInfo: yup
+      .string()
+      .trim()
+      .max(500, t("validationErrors.maxLength", { count: 500 })),
     weightGoal: yup
       .number()
       .transform(numberTransform)
@@ -436,12 +452,15 @@ export const useCustomerDetails = () => {
  *  Create new group schema for create new group form validation
  */
 export const useCreateNewGroupSchema = () => {
-  const { t } = useTranslation("weeklyMenu");
+  const { t } = useTranslation(["weeklyMenu", "groups"]);
   return yup.object().shape({
     title: yup
       .string()
       .required(t("validation.titleRequired"))
       .min(3, t("validation.titleLength"))
       .max(70, t("validation.titleLength")),
+    description: yup
+      .string()
+      .max(500, t("validation.customDescriptionLength", { count: 500 })),
   });
 };

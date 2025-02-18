@@ -18,6 +18,7 @@ export default {
       colors: {
         // Primary Colors
         primary: "var(--color-primary)",
+        primaryYellow: "var(--color-primary-yellow)",
         primaryDark: "var(--color-primary-dark)",
         primaryLight: "var(--color-primary-light)",
         primaryLighter: "var(--color-primary-lighter)",

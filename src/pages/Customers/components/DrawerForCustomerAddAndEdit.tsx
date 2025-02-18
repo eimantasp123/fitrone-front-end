@@ -172,8 +172,8 @@ const DrawerForCustomerAddAndEdit: React.FC<
               scrollbarWidth: "thin",
             }}
           >
-            <div className="w-full pt-8">
-              {customer && (
+            <div className="w-full pt-8 md:pt-3">
+              {customer && customer.status !== "pending" && (
                 <div className="md:-mb-3 md:px-8">
                   <CustomButton
                     widthFull={true}
@@ -185,6 +185,7 @@ const DrawerForCustomerAddAndEdit: React.FC<
                     }
                     onClick={() => calculateNutritionHandler()}
                   />
+
                   {customer.recommendedNutrition && (
                     <div className="mt-4 space-y-2">
                       <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">

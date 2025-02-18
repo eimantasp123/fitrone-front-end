@@ -25,7 +25,7 @@ interface ChangeCustomerStatusProps {
   performAction: () => void;
 }
 /**
- *  Set Timezone Modal Component
+ *  Modal to change the status of a customer
  */
 const ChangeCustomerStatus: React.FC<ChangeCustomerStatusProps> = ({
   isOpen,

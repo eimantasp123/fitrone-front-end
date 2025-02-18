@@ -83,10 +83,10 @@ const FeedbackFormModal: React.FC<FeedbackFormModalProps> = ({
           <ModalOverlay />
           <ModalContent p={6} sx={{ borderRadius: "0.75rem" }}>
             <div className="border-borderColor flex items-center gap-3 border-b-[1px] pb-5">
-              <span className="flex size-9 items-center justify-center rounded-full bg-textPrimary">
-                <RiFeedbackLine className="text-lg text-background" />
+              <span className="flex size-7 items-center justify-center rounded-full bg-textPrimary">
+                <RiFeedbackLine className="text-md text-background" />
               </span>
-              <h4 className="text-xl font-semibold">
+              <h4 className="text-lg font-semibold">
                 {t("feedbackModal.title")}
               </h4>
             </div>
@@ -98,7 +98,7 @@ const FeedbackFormModal: React.FC<FeedbackFormModalProps> = ({
                   className="mt-6"
                   onSubmit={methods.handleSubmit(handleSubmitFeedback)}
                 >
-                  <p className="mb-4 text-center leading-snug">
+                  <p className="mb-4 text-center text-sm leading-snug">
                     {t("feedbackModal.description")}
                   </p>
 

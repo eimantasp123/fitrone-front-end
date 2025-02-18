@@ -31,7 +31,8 @@
   "validation": {
     "titleRequired": "Pavadinimas yra privalomas ir turi būti unikalus",
     "titleLength": "Pavadinimas turi būti nuo 3 iki 70 simbolių",
-    "descriptionLength": "Aprašymas turi būti trumpesnis nei 200 simbolių"
+    "descriptionLength": "Aprašymas turi būti trumpesnis nei 200 simbolių",
+    "customDescriptionLength": "Aprašymas turi būti trumpesnis nei {{count}} simbolių"
   },
 
   "weeklyMenuFound": "Rasti savaitės meniu",

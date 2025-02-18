@@ -18,7 +18,16 @@ export const useDeleteMealFromCurrentDay = (onCleanup: () => void) => {
       return deleteMealFromCurrentDay({ mealId, dayId, weeklyMenuId });
     },
     onSuccess: (data, { weeklyMenuId }) => {
-      const { message } = data;
+      const { message, status } = data;
+
+      if (status === "warning") {
+        showCustomToast({
+          status: "warning",
+          description: message,
+        });
+        return;
+      }
+
       showCustomToast({
         status: "success",
         description: message,

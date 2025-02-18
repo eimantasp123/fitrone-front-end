@@ -133,6 +133,14 @@ const UserDetailsFormComponent = <T extends FieldValues>({
           />
         </div>
 
+        {/* Additional info */}
+        <div className="col-span-2">
+          <CustomTextarea
+            name="additionalInfo"
+            label={t("common:additionalInformation")}
+          />
+        </div>
+
         <div className="col-span-2 h-full">
           <CustomAddressSearch
             name="address"

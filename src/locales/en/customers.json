@@ -22,6 +22,7 @@
   "email": "Email",
   "phoneNumber": "Phone number",
   "genderTitle": "Gender",
+  "menuQuantity": "Menu Quantity",
   "genderSelectPlaceholder": "Select your gender",
   "sendForm": "Send form",
   "notProvided": "Not provided",
@@ -34,6 +35,8 @@
   "resendForm": "Resend form",
   "moreDetails": "More details",
   "manageGroups": "Manage groups",
+  "changeMenuQuantity": "Change menu quantity",
+  "changeMenuQuantityDescription": "Change the customer's menu quantity if they want to receive more or fewer menus per day. Changes can be made if the customer is not assigned to any active weekly plan.",
   "addCustomerManually": "Add customer manually",
   "sendFormToCustomer": "Send form to customer",
   "previewForm": "Preview form",
@@ -87,6 +90,19 @@
       "title": "Moderately Active (3-5 days per week)"
     },
     { "key": "veryActive", "title": "Very Active (6-7 days per week)" }
+  ],
+
+  "menuQuantityOptions": [
+    { "key": "1", "title": "1 menu" },
+    { "key": "2", "title": "2 menus" },
+    { "key": "3", "title": "3 menus" },
+    { "key": "4", "title": "4 menus" },
+    { "key": "5", "title": "5 menus" },
+    { "key": "6", "title": "6 menus" },
+    { "key": "7", "title": "7 menus" },
+    { "key": "8", "title": "8 menus" },
+    { "key": "9", "title": "9 menus" },
+    { "key": "10", "title": "10 menus" }
   ],
 
   "selectGender": "Gender",

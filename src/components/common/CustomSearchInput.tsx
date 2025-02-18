@@ -34,7 +34,19 @@ const CustomSearchInput: React.FC<CustomSearchInputProps> = ({
         value={searchQuery}
         className="h-9 w-full rounded-lg bg-backgroundSecondary px-6 text-[15px] placeholder:text-placeholder focus:outline-none dark:bg-background"
         placeholder={placeholderText}
-        onChange={handleSearch}
+        onChange={(e) => {
+          let value = e.target.value;
+
+          // Prevent leading spaces if input is empty
+          if (searchQuery === "" && value.startsWith(" ")) {
+            return;
+          }
+
+          // Replace multiple spaces with a single space
+          value = value.replace(/\s{2,}/g, " ");
+
+          handleSearch({ ...e, target: { ...e.target, value } }); // Pass sanitized input to parent handler
+        }}
       />
 
       {searchQuery && (

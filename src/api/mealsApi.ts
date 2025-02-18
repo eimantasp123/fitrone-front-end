@@ -11,7 +11,7 @@ export const fetchPaginatedMeals = async ({
   const [, searchQuery, category, preference, restriction] = queryKey;
   const response = await axiosInstance.get("/meals", {
     params: {
-      page: pageParam,
+      page: pageParam || 1,
       limit: 15,
       query: searchQuery,
       category,

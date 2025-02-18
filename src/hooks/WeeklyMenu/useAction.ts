@@ -57,11 +57,6 @@ export const useAction = (onCleanup: () => void) => {
           queryClient.invalidateQueries({ queryKey: ["weeklyMenuById", id] });
         }
 
-        // Invalidate the week plan query
-        if (type === "delete") {
-          queryClient.invalidateQueries({ queryKey: ["weekPlan"] });
-        }
-
         // Redirect to weekly menu page if on weekly menu details page
         if (type === "delete" && location.pathname === `/weekly-menu/${id}`) {
           navigate("/weekly-menu");

@@ -39,11 +39,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({
       case "error":
         return <BiMessageError className="mb-2 text-2xl text-red-500" />;
       case "warning":
-        return <BiMessageError className="text-warning mb-4 text-4xl" />;
+        return <BiMessageError className="text-warning mb-4 text-3xl" />;
       case "success":
-        return <BiMessageError className="text-success mb-4 text-4xl" />;
+        return <BiMessageError className="text-success mb-4 text-3xl" />;
       default:
-        return <VscEmptyWindow className="mb-4 text-4xl" />;
+        return <VscEmptyWindow className="mb-4 text-3xl" />;
     }
   };
   return (

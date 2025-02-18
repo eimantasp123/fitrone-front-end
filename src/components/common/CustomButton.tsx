@@ -17,6 +17,7 @@ interface CustomButtonProps {
   icon?: React.ReactNode;
   width?: string;
   minH?: string;
+  fontSize?: string;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -35,6 +36,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   loading = false,
   loadingSpinner = true,
   icon: Icon = null,
+  fontSize = "text-sm",
 }) => {
   const className = (() => {
     switch (type) {
@@ -48,12 +50,14 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         return "bg-backgroundSecondary hover:bg-backgroundLight dark:bg-backgroundSecondary dark:hover:bg-neutral-800";
       case "light_outline":
         return "border border-neutral-200 hover:bg-neutral-200/80 dark:border-neutral-800 dark:hover:bg-neutral-800";
+      case "light_outline2":
+        return "border border-neutral-200 hover:bg-neutral-100/90 dark:border-neutral-800 dark:hover:bg-neutral-800/30";
       case "lightSecondary":
         return "bg-neutral-200/50 hover:bg-neutral-200/80 dark:bg-background dark:hover:bg-neutral-800";
       case "light2":
         return "bg-neutral-200/50 hover:bg-neutral-300/60 dark:bg-backgroundSecondary dark:hover:bg-neutral-900/70";
       case "white":
-        return "bg-white  hover:bg-neutral-200 dark:bg-white dark:text-black dark:hover:bg-neutral-300";
+        return "bg-white text-black  hover:bg-neutral-200 dark:bg-white dark:text-black dark:hover:bg-neutral-300";
       case "delete":
         return "bg-transparent text-red-500 hover:bg-red-500/10 dark:hover:bg-red-800/30";
       case "red":
@@ -72,7 +76,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       type={actionType}
       className={`${className} ${
         disabled || loading ? "opacity-70" : ""
-      } select-none ${widthFull ? "w-full" : paddingX} ${width} ${minH} text-nowrap rounded-lg ${paddingY} ${textLight ? "font-normal" : "font-medium"} text-sm transition-colors duration-300 ease-in-out`}
+      } select-none ${widthFull ? "w-full" : paddingX} ${width} ${minH} text-nowrap rounded-lg ${paddingY} ${textLight ? "font-normal" : "font-medium"} ${fontSize} transition-colors duration-300 ease-in-out`}
     >
       <span className="flex w-full items-center justify-center gap-3">
         {Icon && <span className="max-w-[15%]">{Icon}</span>}

@@ -5,7 +5,7 @@ import axios from "axios";
 import { showCustomToast } from "../showCustomToast";
 
 /**
- * useAction hook to perform actions on customer
+ * Hook to send form to customer
  */
 export const useCustomerSendMailAction = (onCleanup: () => void) => {
   const queryClient = useQueryClient();

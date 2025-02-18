@@ -50,6 +50,9 @@ export const useAddOrEditCustomerAction = (onCleanup: () => void) => {
       }
       // Invalidate the customers query
       queryClient.invalidateQueries({ queryKey: ["customers"] });
+      queryClient.invalidateQueries({
+        queryKey: ["currentMenuDetailsOnWeeklyPlan"],
+      });
 
       // Call onCleanup function
       if (onCleanup) onCleanup();

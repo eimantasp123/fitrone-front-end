@@ -13,6 +13,8 @@ body {
 /* Default (light) theme */
 :root {
   --color-primary: #aadb34;
+  /* --color-primary: #dbff00; */
+  --color-primary-yellow: #ffa100;
   --color-primary-dark: #90bb2d;
   --color-primary-light: #b6e44b;
   --color-primary-lighter: #eeffd628;
@@ -40,6 +42,8 @@ body {
 /* Dark theme */
 [data-theme="dark"] {
   --color-primary: #aadb34;
+  /* --color-primary: #dbff00; */
+  --color-primary-yellow: #ffa100;
   --color-primary-dark: #90bb2d;
   --color-primary-light: #b6e44b;
   --color-primary-lighter: #d7f7a60e;

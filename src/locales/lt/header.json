@@ -12,6 +12,7 @@
   "systemIssues": "Sistemos problema? Praneškite mums",
   "faq": "DUK",
   "help": "Pagalba",
+
   "supportModal": {
     "headerTitle": "Susisiekite",
     "title": "Kaip galime jums padėti?",
@@ -25,5 +26,32 @@
       "message": "Žinutė yra privaloma",
       "messageMax": "Žinutė turi būti ne ilgesnė kaip 500 simbolių"
     }
+  },
+
+  "systemProblemModal": {
+    "headerTitle": "Sistemos problema",
+    "description": "Jei patiriate problemas su sistema, praneškite mums, ir mes ją kuo greičiau išspręsime.",
+    "problem": "Problemos tipas",
+    "message": "Aprašykite problemą",
+    "selectProblem": "Pasirinkite problemą",
+    "send": "Siųsti",
+    "validation": {
+      "problem": "Problemos tipas yra privalomas",
+      "message": "Aprašymas yra privalomas",
+      "messageMax": "Aprašymas turi būti ne ilgesnis kaip 500 simbolių"
+    },
+
+    "problems": [
+      { "key": "ingredients", "title": "Ingredientų problema" },
+      { "key": "meals", "title": "Patiekalo problema" },
+      { "key": "weekly_menus", "title": "Savaitės meniu problema" },
+      { "key": "weekly_plan", "title": "Savaitės plano problema" },
+      { "key": "order_system", "title": "Užsakymų sistemos problema" },
+      { "key": "customers", "title": "Klientų problema" },
+      { "key": "group", "title": "Grupės problema" },
+      { "key": "dashboard", "title": "Prietaisų skydelio problema" },
+      { "key": "personal_details", "title": "Asmeninių duomenų problema" },
+      { "key": "other", "title": "Kita problema" }
+    ]
   }
 }

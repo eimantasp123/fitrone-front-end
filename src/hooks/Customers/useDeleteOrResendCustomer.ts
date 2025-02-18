@@ -1,7 +1,8 @@
 import {
   deleteCustomerApi,
   resendFormCustomerApi,
-  updateCustomerStatusApi,
+  updateCustomerStatusToActiveApi,
+  updateCustomerStatusToInactiveApi,
 } from "@/api/customersApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -20,7 +21,7 @@ export const useDeleteOrResendCustomerAction = (onCleanup: () => void) => {
       status,
     }: {
       customerId: string;
-      type: "delete" | "resend" | "status";
+      type: "delete" | "resend" | "status" | "menuQuantity";
       status?: string | null;
     }) => {
       switch (type) {
@@ -29,24 +30,49 @@ export const useDeleteOrResendCustomerAction = (onCleanup: () => void) => {
         case "resend":
           return resendFormCustomerApi(customerId);
         case "status":
-          return updateCustomerStatusApi(customerId, status!);
+          if (status === "active")
+            return updateCustomerStatusToActiveApi(customerId);
+          if (status === "inactive")
+            return updateCustomerStatusToInactiveApi(customerId);
+          break;
         default:
           throw new Error("Invalid action type");
       }
     },
     onSuccess: (data, { type }) => {
-      const { message } = data;
+      const { message, status, warning } = data;
 
-      // Show success toast
-      showCustomToast({
-        status: "success",
-        title: message,
-      });
+      if (status === "warning") {
+        showCustomToast({
+          status: "warning",
+          title: message,
+        });
+        return;
+      }
+
+      if (status === "limit_reached") {
+        showCustomToast({
+          status: "info",
+          title: message,
+        });
+        return;
+      }
+
+      if (warning) {
+        showCustomToast({
+          status: "warning",
+          title: warning,
+        });
+      } else {
+        showCustomToast({
+          status: "success",
+          title: message,
+        });
+      }
 
       if (type === "delete" || type === "status") {
         // Invalidate the customers query
         queryClient.invalidateQueries({ queryKey: ["customers"] });
-        queryClient.invalidateQueries({ queryKey: ["groupById"] });
       }
 
       // Call onCleanup function

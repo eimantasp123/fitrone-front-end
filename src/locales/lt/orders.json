@@ -1,0 +1,21 @@
+{
+  "orders": "Užsakymai",
+  "order": "Užsakymas",
+  "week": "Savaitė",
+  "activeDay": "Aktyvi diena",
+  "markAsDone": "Pažymėti kaip atlikta",
+  "manageOrder": "Tvarkyti užsakymą",
+  "ingredientsList": "Ingredientų sąrašas",
+  "weekPlans": "Savaitiniai planai",
+  "noOrdersForCurrentWeekTitle": "Nėra užsakymų šiai savaitei",
+  "noOrdersForCurrentWeekDescription": "Šiai savaitei nėra jokių užsakymų. Spauskite meniu juostoje esantį mygtuką 'Savaitiniai planai' ir sukurkite naują savaitės planą bei publikuokite jį, jog galėtumėte matyti visus užsakymus. Taip pat galite pakeisti savaitę, kad peržiūrėtumėte ankstesnius užsakymus.",
+
+  "noOrdersForCurrentDayTitle": "Nėra užsakymų pasirinktą dieną",
+  "noOrdersForCurrentDayDescription": "Pasirinktą dieną nėra jokių užsakymų. Spauskite meniu juostoje esantį mygtuką 'Savaitiniai planai' ir prie atitinkamo 'savaitės meniu' pridėkite pageidaujamus patiekalus prie atitinkamos dienos.",
+
+  "statusOptions": [
+    { "key": "not_done", "title": "Neparuošta" },
+    { "key": "preparing", "title": "Ruošiama" },
+    { "key": "done", "title": "Paruošta" }
+  ]
+}

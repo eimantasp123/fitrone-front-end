@@ -16,11 +16,17 @@ import LanguageSelector from "../LanguageSelector";
 import SupplierMenu from "../Sidebar/SupplierMenu";
 import LightAndDarkMode from "../common/LightAndDarkMode";
 import UserProfileButton from "./UserProfileButton";
+import SystemProblemModal from "@/pages/SystemProblemModal/SystemProblemModal";
 
 // Client Header
 const GeneralHeader: React.FC = () => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenProblemModal,
+    onClose: closeProblemModal,
+    onOpen: onOpenProblemModal,
+  } = useDisclosure();
   const location = useLocation();
   const { t } = useTranslation(["sidebar", "header"]);
 
@@ -57,7 +63,10 @@ const GeneralHeader: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 md:gap-2">
-          <span className="hidden cursor-pointer rounded-lg px-3 py-2 text-[13px] transition-colors duration-200 ease-in-out hover:bg-background dark:hover:bg-neutral-700/50 md:block">
+          <span
+            onClick={onOpenProblemModal}
+            className="hidden cursor-pointer rounded-lg px-3 py-2 text-[13px] transition-colors duration-200 ease-in-out hover:bg-background dark:hover:bg-neutral-700/50 md:block"
+          >
             🐞 {t("header:systemIssues")}
           </span>
           {/* Language switcher */}
@@ -111,6 +120,15 @@ const GeneralHeader: React.FC = () => {
             </DrawerBody>
           </DrawerContent>
         </Drawer>
+      )}
+
+      {/* System Problem modal */}
+
+      {isOpenProblemModal && (
+        <SystemProblemModal
+          isModalOpen={isOpenProblemModal}
+          onClose={closeProblemModal}
+        />
       )}
     </>
   );

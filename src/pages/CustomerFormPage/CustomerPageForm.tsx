@@ -15,6 +15,7 @@ import {
   UseCustomerFormProps,
 } from "@/hooks/CustomerPageForm/useCustomerForm";
 import { showCustomToast } from "@/hooks/showCustomToast";
+import { SelectedPlace } from "../Customers/components/DrawerForCustomerAddAndEdit";
 
 /**
  *  Customer page form component
@@ -24,8 +25,10 @@ const CustomerPageForm: React.FC = () => {
   const { t } = useTranslation(["customers", "meals", "common"]);
   const { colorMode } = useColorMode();
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
-  const [selectedPlace, setSelectedPlace] =
-    useState<google.maps.places.PlaceResult | null>(null); // Final selected place
+  // Final selected place
+  const [selectedPlace, setSelectedPlace] = useState<SelectedPlace | null>(
+    null,
+  );
 
   const schema = useCustomerDetails();
   const methods = useForm<CustomerAddForm>({
@@ -54,8 +57,7 @@ const CustomerPageForm: React.FC = () => {
     // Merge the data with the address
     const dataSend: UseCustomerFormProps = {
       ...data,
-      latitude: selectedPlace.geometry?.location?.lat().toFixed(6) || 0,
-      longitude: selectedPlace.geometry?.location?.lng().toFixed(6) || 0,
+      ...selectedPlace,
     };
 
     createCustomer({ data: dataSend, token, recaptchaToken });

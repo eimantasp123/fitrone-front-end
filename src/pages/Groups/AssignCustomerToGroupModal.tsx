@@ -216,11 +216,19 @@ const AssignCustomerToGroupModal: React.FC<AssignCustomerToGroupModalProps> = ({
                         <p>{capitalizeFirstLetter(customer.firstName)}</p>
                         <p>{capitalizeFirstLetter(customer.lastName)}</p>
                       </div>
-                      {customer.groupId && (
-                        <span className="text-xs text-textSecondary dark:text-textSecondary">
-                          {t("assignedGroup")}: {customer.groupId.title}
-                        </span>
-                      )}
+                      <div className="flex flex-col">
+                        {customer.groupId && (
+                          <span className="text-xs text-textSecondary dark:text-textSecondary">
+                            {t("assignedGroup")}: {customer.groupId.title}
+                          </span>
+                        )}
+                        {customer.weeklyMenuQuantity && (
+                          <span className="text-xs text-textSecondary dark:text-textSecondary">
+                            {t("customers:menuQuantity")}:{" "}
+                            {customer.weeklyMenuQuantity}
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <span
                       className={`size-[14px] rounded-full border-[2px] transition-colors duration-200 ease-in-out ${selectedCustomers?.includes(customer._id) ? "border-primary dark:bg-backgroundSecondary" : "border-neutral-300 bg-backgroundSecondary dark:border-neutral-700 dark:bg-background"} `}

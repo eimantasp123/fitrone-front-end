@@ -1,0 +1,21 @@
+{
+  "orders": "Orders",
+  "order": "Order",
+  "week": "Week",
+  "activeDay": "Active day",
+  "markAsDone": "Mark as done",
+  "manageOrder": "Manage order",
+  "ingredientsList": "Ingredients list",
+  "weekPlans": "Week plans",
+  "noOrdersForCurrentWeekTitle": "No orders for current week",
+  "noOrdersForCurrentWeekDescription": "There are no orders for this week. Click the 'Week plans' button in the menu bar to create and publish a new week plan to see all orders. You can also change the week to view previous orders.",
+
+  "noOrdersForCurrentDayTitle": "No orders for selected day",
+  "noOrdersForCurrentDayDescription": "There are no orders for the selected day. Click the 'Week plans' button in the menu bar and add the desired dishes to the corresponding day in the 'weekly menu'.",
+
+  "statusOptions": [
+    { "key": "not_done", "title": "Not done" },
+    { "key": "preparing", "title": "Preparing" },
+    { "key": "done", "title": "Done" }
+  ]
+}

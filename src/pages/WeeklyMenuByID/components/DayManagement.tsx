@@ -113,8 +113,10 @@ const DayManagement: React.FC<DayManagementProps> = React.memo(
         <div className="h-full w-full">
           {meals.length === 0 ? (
             <div className="flex h-full flex-col items-center gap-1 rounded-lg border-[1.5px] border-dashed border-primary bg-primaryLighter px-4 pt-20 text-center">
-              <MdOutlinePostAdd className="text-3xl" />
-              <h4 className="font-semibold">{t("noMealsAssignedTitle")}</h4>
+              <MdOutlinePostAdd className="text-2xl" />
+              <h4 className="text-sm font-semibold">
+                {t("noMealsAssignedTitle")}
+              </h4>
               <p className="pb-4 text-sm">{t("noMealsAssignedDescription")}</p>
               <CustomButton
                 onClick={() => openModal("assignMeals")}
@@ -144,7 +146,7 @@ const DayManagement: React.FC<DayManagementProps> = React.memo(
                 {sortedCategories.map(([category, meals]) => (
                   <div key={category} className="mb-4">
                     {/* Category Title */}
-                    <h2 className="mb-2 text-sm font-semibold">
+                    <h2 className="mb-1 text-sm font-medium">
                       {categoriesTranslated[category] || "Unknown Category"}
                     </h2>
                     <div className="grid gap-3">

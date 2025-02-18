@@ -76,7 +76,7 @@ export const useAddOrEditMeal = ({
       }
     },
     onSuccess: (response) => {
-      const { status, message, warning } = response;
+      const { status, message, warning, action } = response;
 
       // Perform actions based on success status
       if (status === "success") {
@@ -93,7 +93,13 @@ export const useAddOrEditMeal = ({
           });
         }
 
+        // Invalidate meals query
         queryClient.invalidateQueries({ queryKey: ["meals"] });
+
+        // Invalidate weekly menu query if meal is updated
+        if (action === "update") {
+          queryClient.invalidateQueries({ queryKey: ["weeklyMenuById"] });
+        }
 
         // Close modal
         if (closeModal) closeModal();

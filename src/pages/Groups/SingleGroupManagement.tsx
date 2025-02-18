@@ -104,7 +104,7 @@ const SingleGroupManagement = () => {
               <div className="flex items-center justify-between gap-2">
                 <CustomButton
                   type="light_outline"
-                  text={t("changeGroupName")}
+                  text={t("updateGroupBio")}
                   onClick={() => openModal("updateTitle")}
                 />
                 <Tooltip label={t("removeGroup")} aria-label={t("removeGroup")}>

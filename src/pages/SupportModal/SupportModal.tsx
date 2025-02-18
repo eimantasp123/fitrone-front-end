@@ -81,11 +81,11 @@ const SupportModal: React.FC<SupportModalProps> = ({
           <ModalContent p={6} sx={{ borderRadius: "0.75rem" }}>
             <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
               <div className="flex items-center gap-4">
-                <span className="flex size-9 items-center justify-center rounded-full bg-textPrimary">
-                  <MdContactSupport className="text-lg text-background" />
+                <span className="flex size-7 items-center justify-center rounded-full bg-textPrimary">
+                  <MdContactSupport className="text-md text-background" />
                 </span>
 
-                <h4 className="text-2xl font-semibold">
+                <h4 className="text-lg font-semibold">
                   {t("supportModal.headerTitle")}
                 </h4>
               </div>
@@ -97,10 +97,10 @@ const SupportModal: React.FC<SupportModalProps> = ({
                   className="mt-6 flex flex-col gap-3"
                   onSubmit={methods.handleSubmit(handleSubmitForm)}
                 >
-                  <h3 className="mb-2 text-center text-2xl font-bold text-textPrimary md:mb-4 md:text-3xl">
+                  <h3 className="mb-2 text-center text-lg font-bold text-textPrimary md:mb-1 md:text-xl">
                     {t("supportModal.title")}
                   </h3>
-                  <p className="mb-4 text-center leading-tight text-textSecondary">
+                  <p className="mb-4 text-center text-sm leading-tight text-textSecondary">
                     {t("supportModal.description")}
                   </p>
 

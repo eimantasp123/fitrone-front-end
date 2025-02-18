@@ -52,7 +52,7 @@ export const useAddOrEditWeeklyMenuBio = ({
           });
 
           // Invalidate the week plan query
-          queryClient.invalidateQueries({ queryKey: ["weekPlan"] });
+          queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] });
         }
 
         // Invalidate the ingredients query
