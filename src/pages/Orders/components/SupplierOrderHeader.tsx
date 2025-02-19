@@ -53,7 +53,7 @@ const SupplierOrderHeader: React.FC<SupplierOrderHeaderProps> = ({
             type="lightSecondary"
           />
           <CustomButton
-            onClick={() => navigate("/week-plan")}
+            onClick={() => navigate("/weekly-plan")}
             text={t("weekPlans")}
             type="primary"
           />

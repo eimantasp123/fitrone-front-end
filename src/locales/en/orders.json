@@ -7,6 +7,9 @@
   "manageOrder": "Manage order",
   "ingredientsList": "Ingredients list",
   "weekPlans": "Week plans",
+  "ordersInsight": "Orders insight",
+  "quantityOfCurrentMeal": "The quantity of this dish for the customer",
+  "moreDetailsAboutCustomer": "More details about the customer",
   "noOrdersForCurrentWeekTitle": "No orders for current week",
   "noOrdersForCurrentWeekDescription": "There are no orders for this week. Click the 'Week plans' button in the menu bar to create and publish a new week plan to see all orders. You can also change the week to view previous orders.",
 

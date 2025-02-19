@@ -20,22 +20,24 @@ const SupplierDayGeneralHeader: React.FC = () => {
     title: string;
   }[];
 
-  const weekData = ["fsdf"];
+  const weekData = ["fdf"];
   const status = "not_done";
 
   return (
     <>
-      <div className="grid-rows-auto md:grid-rows-auto z-20 grid grid-cols-2 gap-4 bg-background px-5 py-3 dark:bg-backgroundSecondary md:rounded-lg xl:grid-cols-[200px_1fr_200px]">
+      <div className="grid-rows-auto md:grid-rows-auto z-20 grid grid-cols-2 gap-2 bg-background px-5 py-3 dark:bg-backgroundSecondary md:gap-4 md:rounded-lg xl:grid-cols-[120px_1fr_1fr]">
         {/* Go back button*/}
-        <div className="row-start-1 flex items-center">
+        <div className="col-span-2 row-start-1 flex items-center sm:col-span-1 xl:row-auto">
           <CustomButton
             text="Go back"
+            widthFull={true}
+            width="w-full sm:w-[120px]"
             type="lightSecondary"
             onClick={() => navigate(-1)}
           />
         </div>
         {/* Day title and date with status */}
-        <div className="col-span-2 flex flex-col items-center justify-center gap-2 sm:flex-row xl:col-auto">
+        <div className="col-span-2 row-start-3 flex flex-col items-center justify-center gap-2 sm:flex-row xl:col-auto xl:row-auto xl:justify-start">
           <div className="flex items-center gap-4 text-sm">
             <span className="font-semibold">Pirmadienis</span>
             <span className="text-nowrap border-l-[1px] pl-4 sm:border-x-[1px] sm:px-6">
@@ -55,12 +57,26 @@ const SupplierDayGeneralHeader: React.FC = () => {
           </div>
         </div>
 
-        <div className="row-start-1 flex items-center justify-end xl:row-auto">
+        <div className="col-span-2 row-start-2 flex items-center justify-end gap-3 sm:col-span-1 sm:row-start-1 xl:row-auto">
+          <CustomButton
+            type="lightSecondary"
+            onClick={() => {}}
+            widthFull={true}
+            width="w-full sm:w-[240px] lg:w-[200px]"
+            text={t("ordersInsight")}
+          />
           {weekData.length > 0 ? (
-            <CustomButton onClick={() => {}} text={t("markAsDone")} />
+            <CustomButton
+              widthFull={true}
+              width="w-full sm:w-[240px] lg:w-[200px]"
+              onClick={() => {}}
+              text={t("markAsDone")}
+            />
           ) : (
             <CustomButton
               onClick={() => navigate("/week-plan")}
+              widthFull={true}
+              width="w-full sm:w-[240px] lg:w-[200px]"
               text={t("weekPlans")}
             />
           )}

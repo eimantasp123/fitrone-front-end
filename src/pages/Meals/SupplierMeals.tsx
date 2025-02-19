@@ -181,7 +181,10 @@ const SupplierMeals: React.FC = () => {
           {hasItems && (
             <>
               <span className="pl-5 text-sm">
-                {t("mealsFound")}: {meals?.length || 0}
+                {t("common:showingData", {
+                  from: meals?.length || 0,
+                  general: data?.pages[0]?.total || 0,
+                })}
               </span>
               <div className="grid grid-cols-1 gap-4 px-4 pb-10 pt-2 2xl:grid-cols-2">
                 {meals.map((meal, index) => (

@@ -118,7 +118,7 @@ const SupplierOrders = () => {
                   return (
                     <div
                       key={day._id}
-                      className="mb-4 w-full space-y-2 border-b-[1px] border-neutral-300 pb-8 dark:border-neutral-700"
+                      className="mb-4 w-full space-y-2 border-b-[1px] border-neutral-300/50 pb-8 dark:border-neutral-700"
                     >
                       <span className="text-sm font-medium">
                         {t("activeDay")}

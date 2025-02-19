@@ -1,8 +1,7 @@
-import CustomButton from "@/components/common/CustomButton";
-import { Tooltip } from "@chakra-ui/react";
+import { Popover, Tooltip } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import { FaCircleInfo } from "react-icons/fa6";
-import { MdDone } from "react-icons/md";
+import { FaInfo } from "react-icons/fa6";
+
 import SupplierDayStatusChange from "./SupplierDayStatusChange";
 import SupplierStatusBadge from "./SupplierStatusBadge";
 
@@ -17,8 +16,6 @@ const SupplierDaySingleMealView = () => {
   }[];
 
   const status = "not_done" as StatusType;
-
-  const individualStatus = false;
 
   const classname = (() => {
     switch (status) {
@@ -92,152 +89,42 @@ const SupplierDaySingleMealView = () => {
         {/* Right side */}
         <div className="flex w-full flex-col rounded-lg bg-backgroundSecondary dark:bg-background">
           <p className="px-3 pt-3">
-            Visi prie patiekalo priskirti individualūs klientai ir grupės:
+            Visi prie patiekalo priskirti individualūs klientai:
           </p>
 
           <div className="my-3 max-h-[300px] overflow-y-auto px-3 scrollbar-thin md:max-h-[500px]">
             {/* Individual client container */}
             <div className="flex flex-col gap-3 rounded-lg bg-background p-3 dark:bg-backgroundSecondary">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between md:h-[25px]">
-                <span className="text-nowrap">Individual customers:</span>
-                {!individualStatus && (
-                  <CustomButton
-                    paddingY="py-0"
-                    minH="min-h-[30px]"
-                    type="light_outline2"
-                    text="Mark clients as done"
-                  />
-                )}
-              </div>
-              {Array.from({ length: 3 }).map((_, index) => (
+              {Array.from({ length: 45 }).map((_, index) => (
                 <div
                   key={index}
                   className="flex w-full items-center justify-between gap-3 rounded-lg bg-backgroundSecondary px-4 py-2 dark:bg-background"
                 >
-                  <div className="flex flex-wrap items-center gap-3">
-                    <p className="break-all">Client nameasdasdasdasdasd</p>
-                    <span>
-                      <FaCircleInfo className="size-4 cursor-pointer" />
-                    </span>
-                  </div>
-                  <span>
-                    {individualStatus ? (
-                      <SupplierStatusBadge
-                        status="done"
-                        paddingY="py-[0px]"
-                        text={
-                          statusOptions.find((option) => option.key === "done")
-                            ?.title || "Unknow"
-                        }
-                      />
-                    ) : (
-                      <Tooltip label="Mark as done" aria-label="Mark as done">
-                        <button className="flex size-5 items-center justify-center rounded-full border bg-white text-black transition-colors duration-300 ease-in-out">
-                          <MdDone />
+                  <p className="break-all">Client nameasdasdasdasdasd</p>
+
+                  <div className="flex items-center gap-3 md:gap-7">
+                    <Popover>
+                      <Tooltip
+                        label={t("quantityOfCurrentMeal")}
+                        aria-label={t("quantityOfCurrentMeal")}
+                      >
+                        <span>1x</span>
+                      </Tooltip>
+                    </Popover>
+
+                    <Popover>
+                      <Tooltip
+                        label={t("moreDetailsAboutCustomer")}
+                        aria-label={t("moreDetailsAboutCustomer")}
+                      >
+                        <button className="flex size-[17px] items-center justify-center rounded-full bg-primary text-black">
+                          <FaInfo className="text-[10px]" />
                         </button>
                       </Tooltip>
-                    )}
-                  </span>
+                    </Popover>
+                  </div>
                 </div>
               ))}
-            </div>
-            <div className="mt-3 flex flex-col gap-3">
-              <span>Groups:</span>
-
-              {/* 1 Group container */}
-              <div className="flex flex-col gap-3 rounded-lg bg-background p-3 dark:bg-backgroundSecondary">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between md:h-[25px]">
-                  <span className="text-nowrap">Group title</span>
-                  {!individualStatus && (
-                    <CustomButton
-                      paddingY="py-0"
-                      minH="min-h-[30px]"
-                      type="light_outline2"
-                      text="Mark group as done"
-                    />
-                  )}
-                </div>
-
-                {Array.from({ length: 3 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between gap-3 rounded-lg bg-backgroundSecondary px-4 py-2 dark:bg-background"
-                  >
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className="break-all">Client namesdfsdfsdfsdf</span>
-                      <span>
-                        <FaCircleInfo className="size-4 cursor-pointer" />
-                      </span>
-                    </div>
-                    <span>
-                      {individualStatus ? (
-                        <SupplierStatusBadge
-                          status="done"
-                          paddingY="py-[0px]"
-                          text={
-                            statusOptions.find(
-                              (option) => option.key === "done",
-                            )?.title || "Unknow"
-                          }
-                        />
-                      ) : (
-                        <Tooltip label="Mark as done" aria-label="Mark as done">
-                          <button className="flex size-5 items-center justify-center rounded-full border bg-white text-black transition-colors duration-300 ease-in-out">
-                            <MdDone />
-                          </button>
-                        </Tooltip>
-                      )}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              {/* 2 Group container */}
-              <div className="flex flex-col gap-3 rounded-lg bg-background p-3 dark:bg-backgroundSecondary">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between md:h-[25px]">
-                  <span className="text-nowrap">Group title</span>
-                  {!individualStatus && (
-                    <CustomButton
-                      paddingY="py-0"
-                      minH="min-h-[30px]"
-                      type="light_outline2"
-                      text="Mark group as done"
-                    />
-                  )}
-                </div>
-
-                {Array.from({ length: 3 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between gap-3 rounded-lg bg-backgroundSecondary px-4 py-2 dark:bg-background"
-                  >
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className="break-all">Client namesdfsdfsdfsdf</span>
-                      <span>
-                        <FaCircleInfo className="size-4 cursor-pointer" />
-                      </span>
-                    </div>
-                    <span>
-                      {individualStatus ? (
-                        <SupplierStatusBadge
-                          status="done"
-                          paddingY="py-[0px]"
-                          text={
-                            statusOptions.find(
-                              (option) => option.key === "done",
-                            )?.title || "Unknow"
-                          }
-                        />
-                      ) : (
-                        <Tooltip label="Mark as done" aria-label="Mark as done">
-                          <button className="flex size-5 items-center justify-center rounded-full border bg-white text-black transition-colors duration-300 ease-in-out">
-                            <MdDone />
-                          </button>
-                        </Tooltip>
-                      )}
-                    </span>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>

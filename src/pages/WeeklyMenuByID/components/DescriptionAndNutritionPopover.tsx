@@ -22,7 +22,7 @@ const DescriptionAndNutritionPopover: React.FC<
     <div className="flex gap-2">
       <Popover placement="top-start">
         <PopoverTrigger>
-          <button className="cursor-pointer rounded-full bg-background px-2 py-[2px] text-xs transition-opacity duration-200 ease-in-out hover:opacity-80 dark:bg-backgroundSecondary">
+          <button className="cursor-pointer rounded-full bg-background px-3 py-[3px] text-xs transition-opacity duration-200 ease-in-out hover:opacity-80 dark:bg-backgroundSecondary md:px-4">
             {t("common:description")}
           </button>
         </PopoverTrigger>
@@ -41,7 +41,7 @@ const DescriptionAndNutritionPopover: React.FC<
 
       <Popover placement="top-start">
         <PopoverTrigger>
-          <button className="cursor-pointer rounded-full bg-background px-2 py-[2px] text-xs transition-opacity duration-200 ease-in-out hover:opacity-80 dark:bg-backgroundSecondary">
+          <button className="cursor-pointer rounded-full bg-background px-3 py-[3px] text-xs transition-opacity duration-200 ease-in-out hover:opacity-80 dark:bg-backgroundSecondary md:px-4">
             {t("common:nutrition")}
           </button>
         </PopoverTrigger>
