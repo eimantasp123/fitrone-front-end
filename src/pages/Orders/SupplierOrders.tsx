@@ -72,7 +72,7 @@ const SupplierOrders = () => {
   return (
     <>
       <div className="w-full select-none overflow-y-auto scrollbar-thin">
-        <div className="container mx-auto flex max-w-[1550px] flex-col items-center">
+        <div className="container mx-auto flex max-w-[1700px] flex-col items-center">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <SupplierOrderHeader
               t={t}
@@ -118,7 +118,7 @@ const SupplierOrders = () => {
                   return (
                     <div
                       key={day._id}
-                      className="mb-4 w-full space-y-2 border-b-[1px] border-neutral-300 pb-8 dark:border-neutral-700"
+                      className="mb-4 w-full space-y-2 border-b-[1px] border-neutral-300/50 pb-8 dark:border-neutral-700"
                     >
                       <span className="text-sm font-medium">
                         {t("activeDay")}

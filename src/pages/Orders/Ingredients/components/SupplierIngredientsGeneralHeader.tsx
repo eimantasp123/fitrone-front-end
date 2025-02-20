@@ -20,6 +20,7 @@ const SupplierIngredientsGeneralHeader: React.FC<Props> = ({ openModal }) => {
         <div className="row-start-1 flex items-center">
           <CustomButton
             text="Go back"
+            width="sm:w-[120px]"
             type="lightSecondary"
             onClick={() => navigate(-1)}
           />

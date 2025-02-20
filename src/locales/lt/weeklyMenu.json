@@ -35,7 +35,6 @@
     "customDescriptionLength": "Aprašymas turi būti trumpesnis nei {{count}} simbolių"
   },
 
-  "weeklyMenuFound": "Rasti savaitės meniu",
   "removeMealFromDay": "Patiekalo pašalinimas iš šios dienos gali paveikti jūsų savaitės meniu. Ar tikrai norite pašalinti šį patiekalą iš šios dienos?",
 
   "deleteWeeklyMenuTitle": "Ištrinti Savaitės Meniu",

@@ -37,7 +37,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
             <div className="flex justify-between gap-4 border-b-[1px] px-3 py-1">
               {/*  */}
               <div className="w-[85%] flex-1 text-start">
-                <h2 className="text-[16px] font-medium text-textPrimary">
+                <h2 className="text-[15px] font-medium text-textPrimary">
                   {capitalizeFirstLetter(title) || "N/A"}
                 </h2>
               </div>

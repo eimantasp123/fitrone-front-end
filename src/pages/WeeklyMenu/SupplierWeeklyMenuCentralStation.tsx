@@ -140,7 +140,7 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
         ref={scrollContainerRef}
         className="w-full select-none overflow-y-auto scrollbar-thin"
       >
-        <div className="container mx-auto flex max-w-[1550px] flex-col">
+        <div className="container mx-auto flex max-w-[1700px] flex-col">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <WeeklyMenuPageHeader
               setSearchQuery={setSearchQuery}
@@ -193,7 +193,10 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
             <>
               <div className="my-1 flex items-center justify-between px-5 text-sm">
                 <span>
-                  {t("weeklyMenuFound")}: {weeklyMenus?.length || 0}
+                  {t("common:showingData", {
+                    from: weeklyMenus?.length || 0,
+                    general: data?.pages[0]?.total || 0,
+                  })}
                 </span>
                 <PopoverForStatusDescription t={t} />
               </div>

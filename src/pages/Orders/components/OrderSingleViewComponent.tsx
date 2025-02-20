@@ -2,7 +2,6 @@ import CustomButton from "@/components/common/CustomButton";
 import { capitalizeFirstLetter } from "@/utils/helper";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { MdPeople } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import SupplierStatusBadge from "../Day/components/SupplierStatusBadge";
 
@@ -65,16 +64,8 @@ const OrderSingleViewComponent: React.FC<OrderSingleViewProps> = ({ day }) => {
       </div>
 
       <div
-        className={`flex w-full flex-col items-center gap-2 xl:flex-row ${statusDone ? "md:w-[225px]" : "md:w-[450px]"} md:gap-3`}
+        className={`flex w-full flex-col items-center gap-2 xl:flex-row ${statusDone ? "md:w-[280px]" : "md:w-[280px]"} md:gap-3`}
       >
-        {!statusDone && (
-          <CustomButton
-            text={t("markAsDone")}
-            type="lightSecondary"
-            widthFull={true}
-            onClick={() => {}}
-          />
-        )}
         <CustomButton
           widthFull={true}
           text={t("manageOrder")}

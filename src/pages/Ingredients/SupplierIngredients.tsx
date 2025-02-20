@@ -101,7 +101,7 @@ const SupplierIngredients: React.FC = () => {
         ref={scrollContainerRef}
         className="w-full overflow-y-auto scrollbar-thin"
       >
-        <div className="container mx-auto flex max-w-[1550px] flex-col">
+        <div className="container mx-auto flex max-w-[1700px] flex-col">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <IngredientsHeader
               setSearchQuery={setSearchQuery}
@@ -157,7 +157,10 @@ const SupplierIngredients: React.FC = () => {
           {hasItems && (
             <>
               <span className="pl-5 text-sm">
-                {t("ingredientsFound")}: {ingredients?.length || 0}
+                {t("common:showingData", {
+                  from: ingredients?.length || 0,
+                  general: data?.pages[0]?.total || 0,
+                })}
               </span>
               <div className="grid grid-cols-1 gap-4 px-4 pb-6 pt-2 md:grid-cols-2 2xl:grid-cols-3">
                 {ingredients.map(

@@ -42,6 +42,7 @@
   "fat": "Riebalai",
   "calories": "Kalorijos",
   "nutrition": "Maistinė vertė",
+  "showingData": "Rodomi {{from}} iš {{general}}",
 
   "delete": "Ištrinti",
   "archiveMenu": "Archyvuoti meniu",

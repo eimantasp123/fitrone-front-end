@@ -42,6 +42,7 @@
   "fat": "Fats",
   "calories": "Calories",
   "nutrition": "Nutrition",
+  "showingData": "Showing {{from}} of {{general}}",
 
   "delete": "Delete",
   "archiveMenu": "Archive meniu",

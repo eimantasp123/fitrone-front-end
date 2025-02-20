@@ -21,12 +21,21 @@ export const useManagePublishMenu = (onCleanup: () => void) => {
       managePublishWeeklyPlan(year, week, menuId, publish),
 
     onSuccess: (data, { year, week }) => {
-      const { message } = data;
+      const { message, status } = data;
+
+      // Show warning toast
+      if (status === "warning") {
+        showCustomToast({
+          status: "warning",
+          title: message,
+        });
+        return;
+      }
 
       // Show success toast
       showCustomToast({
         status: "success",
-        description: message,
+        title: message,
       });
 
       // Invalidate and refetch

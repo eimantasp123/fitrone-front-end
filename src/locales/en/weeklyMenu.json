@@ -35,8 +35,6 @@
     "customDescriptionLength": "Description must be less than {{count}} characters"
   },
 
-  "weeklyMenuFound": "Weekly menus found",
-
   "removeMealFromDay": "Remove meal from this day can be effect your weekly menu. Are you sure you want to remove this meal from this day?",
 
   "deleteWeeklyMenuTitle": "Delete Weekly Menu",
