@@ -69,7 +69,7 @@ const SupplierWeeklyMenyById: React.FC = () => {
         <title>{id && data && capitalizeFirstLetter(data.data.title)}</title>
       </Helmet>
       <div className="w-full select-none overflow-y-auto scrollbar-thin">
-        <div className="container mx-auto flex max-w-[1550px] flex-col items-center">
+        <div className="container mx-auto flex max-w-[1700px] flex-col items-center">
           {renderContent()}
         </div>
       </div>

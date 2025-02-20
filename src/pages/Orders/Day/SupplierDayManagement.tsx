@@ -26,7 +26,7 @@ const SupplierDayManagement = () => {
   return (
     <>
       <div className="w-full select-none overflow-y-auto scrollbar-thin">
-        <div className="container mx-auto flex max-w-[1550px] flex-col items-center">
+        <div className="container mx-auto flex max-w-[1700px] flex-col items-center">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <SupplierDayGeneralHeader />
           </div>
