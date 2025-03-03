@@ -1,17 +1,17 @@
 import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import CustomButton from "@/components/common/CustomButton";
+import InfoCard from "@/components/common/InfoCard";
 import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
 import useFiltersOptions from "@/hooks/useFiltersOptions";
 import { useDeleteMealFromCurrentDay } from "@/hooks/WeeklyMenuById/useDeleteMealFromCurrentDay";
-import InfoCard from "@/components/common/InfoCard";
+import { roundTo } from "@/utils/roundeNumber";
 import { Day, MealAssignment } from "@/utils/types";
 import { TFunction } from "i18next";
 import React, { useCallback, useMemo, useState } from "react";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import AssignMealForCurrentDayModal from "./AssignMealForCurrentDayModal";
-import SingleDay from "./SingleDay";
-import { roundTo } from "@/utils/roundeNumber";
+import SingleDayMealObject from "./SingleDayMealObject";
 
 // Category order
 const categoryOrder = [
@@ -44,8 +44,8 @@ const DayManagement: React.FC<DayManagementProps> = React.memo(
 
     // Open delete meal modal and set meal id
     const openDeleteMealModal = useCallback(
-      (mealId: string) => {
-        setMealToDelete(mealId);
+      (mealObjectInArrayId: string) => {
+        setMealToDelete(mealObjectInArrayId);
         openModal("deleteMeal");
       },
       [openModal],
@@ -60,7 +60,11 @@ const DayManagement: React.FC<DayManagementProps> = React.memo(
     // Delete meal
     const handleMealDelete = useCallback(() => {
       if (!id) return;
-      deleteMealFromDay({ mealId: mealToDelete, dayId, weeklyMenuId: id });
+      deleteMealFromDay({
+        mealObjectInArrayId: mealToDelete,
+        dayId,
+        weeklyMenuId: id,
+      });
     }, [id, mealToDelete, dayId, deleteMealFromDay]);
 
     // Group meals by category
@@ -108,6 +112,8 @@ const DayManagement: React.FC<DayManagementProps> = React.memo(
       );
     }, [meals]);
 
+    console.log("sortedCategories", sortedCategories);
+
     return (
       <>
         <div className="h-full w-full">
@@ -152,11 +158,13 @@ const DayManagement: React.FC<DayManagementProps> = React.memo(
                     <div className="grid gap-3">
                       {/* Meals for this Category */}
                       {meals.map((object) => (
-                        <SingleDay
+                        <SingleDayMealObject
                           key={object._id}
                           meal={object.meal}
                           t={t}
-                          handleMealDelete={openDeleteMealModal}
+                          handleMealDelete={() =>
+                            openDeleteMealModal(object._id)
+                          }
                         />
                       ))}
                     </div>

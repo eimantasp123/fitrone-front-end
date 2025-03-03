@@ -217,6 +217,9 @@ const AssignMealForCurrentDayModal: React.FC<
                 </div>
 
                 <div className="mt-4 px-4">
+                  <span className="mb-2 flex w-full justify-center rounded-lg bg-backgroundSecondary p-2 py-2 text-center text-sm text-textSecondary dark:bg-background">
+                    {t("mealAddedAsCopy")}
+                  </span>
                   <CustomButton
                     text={`${t("assignSelected")} (${selectedMeals?.length})`}
                     onClick={assingSelectedMeals}

@@ -3,10 +3,26 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import SupplierStatusBadge from "./SupplierStatusBadge";
 
+interface SupplierDayGeneralHeaderProps {
+  day: number;
+  date: string;
+  status: "done" | "not_done" | "preparing";
+  changeDayStatus: () => void;
+  expired: boolean;
+  openOrdersInsight: () => void;
+}
+
 /**
  * Supplier Day General Header Component
  */
-const SupplierDayGeneralHeader: React.FC = () => {
+const SupplierDayGeneralHeader: React.FC<SupplierDayGeneralHeaderProps> = ({
+  day,
+  date,
+  status,
+  changeDayStatus,
+  expired,
+  openOrdersInsight,
+}) => {
   const { t } = useTranslation(["orders", "common"]);
   const navigate = useNavigate();
 
@@ -19,9 +35,6 @@ const SupplierDayGeneralHeader: React.FC = () => {
     key: string;
     title: string;
   }[];
-
-  const weekData = ["fdf"];
-  const status = "not_done";
 
   return (
     <>
@@ -39,14 +52,16 @@ const SupplierDayGeneralHeader: React.FC = () => {
         {/* Day title and date with status */}
         <div className="col-span-2 row-start-3 flex flex-col items-center justify-center gap-2 sm:flex-row xl:col-auto xl:row-auto xl:justify-start">
           <div className="flex items-center gap-4 text-sm">
-            <span className="font-semibold">Pirmadienis</span>
+            <span className="font-semibold">
+              {weekDays.find((days) => days.index === day)?.name}
+            </span>
             <span className="text-nowrap border-l-[1px] pl-4 sm:border-x-[1px] sm:px-6">
-              Date: 2027.01.51
+              {t("date")}: {date}
             </span>
           </div>
 
           <div className="flex items-center gap-3 text-sm sm:pl-4">
-            <p>Status:</p>
+            <p>{t("status")}:</p>
             <SupplierStatusBadge
               status={status}
               text={
@@ -60,24 +75,18 @@ const SupplierDayGeneralHeader: React.FC = () => {
         <div className="col-span-2 row-start-2 flex items-center justify-end gap-3 sm:col-span-1 sm:row-start-1 xl:row-auto">
           <CustomButton
             type="lightSecondary"
-            onClick={() => {}}
+            onClick={openOrdersInsight}
             widthFull={true}
             width="w-full sm:w-[240px] lg:w-[200px]"
             text={t("ordersInsight")}
           />
-          {weekData.length > 0 ? (
+          {!expired && (
             <CustomButton
               widthFull={true}
               width="w-full sm:w-[240px] lg:w-[200px]"
-              onClick={() => {}}
-              text={t("markAsDone")}
-            />
-          ) : (
-            <CustomButton
-              onClick={() => navigate("/week-plan")}
-              widthFull={true}
-              width="w-full sm:w-[240px] lg:w-[200px]"
-              text={t("weekPlans")}
+              onClick={changeDayStatus}
+              type={status === "done" ? "red" : "primary"}
+              text={status === "done" ? t("unmarkAsDone") : t("markAsDone")}
             />
           )}
         </div>

@@ -82,6 +82,8 @@ const IngredientSearchFromDatabase: React.FC<
     setSearchQuery("");
   };
 
+  console.log("amounts", amounts);
+
   return (
     <>
       <Modal
@@ -128,7 +130,6 @@ const IngredientSearchFromDatabase: React.FC<
                   onAccept={handleAccept}
                   onAmountChange={handleAmountChange}
                   loading={searchMutation.isPending}
-                  onAcceptLoading={acceptSearchResult.isPending}
                   t={t}
                   searchResults={searchResults}
                 />

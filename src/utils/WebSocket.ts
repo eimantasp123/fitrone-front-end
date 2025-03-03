@@ -26,7 +26,6 @@ const WebSocketListener: React.FC = () => {
     webSocketInstance.addEventListener("ingredient_updated_in_meals", () => {
       console.log("ingredient_updated_in_meals");
       queryClient.invalidateQueries({ queryKey: ["meals"] });
-      queryClient.invalidateQueries({ queryKey: ["weeklyMenuById"] });
     });
 
     // Add event listener for WebSocket to listen for customer form confirmation
@@ -34,6 +33,14 @@ const WebSocketListener: React.FC = () => {
       console.log("customer_form_confirmed");
       queryClient.invalidateQueries({ queryKey: ["customers"] });
     });
+
+    // Add event listener for WebSocket to listen for customer form confirmation
+    webSocketInstance.addEventListener(
+      "customer_publish_unpublish_orders",
+      () => {
+        console.log("customer_publish_unpublish_orders");
+      },
+    );
 
     return () => {
       webSocketInstance.disconnect();

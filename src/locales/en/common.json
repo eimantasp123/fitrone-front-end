@@ -64,6 +64,7 @@
   "create": "Create",
   "results": "Results: {{count}}",
   "manageGroup": "Manage group",
+  "ingredients": "Ingredients",
 
   "menuCreated": "Created at",
   "lastUpdatedAt": "Updated at",

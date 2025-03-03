@@ -250,7 +250,7 @@ const AssignCustomerToGroupModal: React.FC<AssignCustomerToGroupModalProps> = ({
               </div>
 
               <div className="mt-4">
-                <span className="mb-2 flex w-full justify-center rounded-lg bg-backgroundSecondary p-2 py-2 text-sm text-textSecondary dark:bg-background">
+                <span className="mb-2 flex w-full justify-center rounded-lg bg-backgroundSecondary p-2 py-2 text-center text-sm text-textSecondary dark:bg-background">
                   {t("customers:singleGroupRestriction")}
                 </span>
                 <CustomButton

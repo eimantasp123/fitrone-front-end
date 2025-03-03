@@ -1,8 +1,8 @@
 import LockPage from "@/components/common/LockPage";
 import { useAppSelector } from "@/store";
 import { Helmet } from "react-helmet-async";
-import SupplierOrders from "./SupplierOrders";
 import { useTranslation } from "react-i18next";
+import SupplierOrders from "./SupplierOrders";
 
 const Orders = () => {
   const { t } = useTranslation("orders");

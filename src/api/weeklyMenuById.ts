@@ -12,11 +12,11 @@ export const fetchWeeklyMenuById = async (id: string) => {
  * Delete meal from current day
  */
 export const deleteMealFromCurrentDay = async ({
-  mealId,
+  mealObjectInArrayId,
   dayId,
   weeklyMenuId,
 }: {
-  mealId: string;
+  mealObjectInArrayId: string;
   dayId: string;
   weeklyMenuId: string;
 }) => {
@@ -24,7 +24,7 @@ export const deleteMealFromCurrentDay = async ({
     `weekly-menu/${weeklyMenuId}/meal`,
     {
       params: {
-        mealId,
+        mealObjectInArrayId,
         dayId,
       },
     },

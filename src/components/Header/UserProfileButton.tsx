@@ -1,5 +1,6 @@
 import AuthContext from "@/context/AuthContext";
 import { useAppSelector } from "@/store";
+import { capitalizeFirstLetter } from "@/utils/helper";
 import {
   Button,
   Menu,
@@ -22,6 +23,11 @@ const UserProfileButton: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Capitalize the first letter of the user's name and surname
+  const fullName = `${capitalizeFirstLetter(user.firstName || "")} ${capitalizeFirstLetter(
+    user.lastName || "",
+  )}`;
 
   return (
     <>
@@ -49,7 +55,7 @@ const UserProfileButton: React.FC = () => {
             />
             <div className="flex flex-col items-start">
               <div className="hidden whitespace-nowrap text-sm font-normal text-white transition-all duration-1000 ease-in-out lg:block">
-                {user.firstName} {user.lastName}
+                {`${fullName.length > 22 ? `${fullName.slice(0, 22)}...` : fullName}`}
               </div>
               <div className="hidden whitespace-nowrap text-xs font-normal text-white transition-all duration-1000 ease-in-out lg:block">
                 {user.email && user.email.length > 22
