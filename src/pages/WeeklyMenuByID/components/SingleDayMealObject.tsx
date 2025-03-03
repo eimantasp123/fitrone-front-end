@@ -6,16 +6,20 @@ import React from "react";
 import { FaTrash } from "react-icons/fa";
 import DescriptionAndNutritionPopover from "./DescriptionAndNutritionPopover";
 
-interface SingleDayProps {
+interface SingleDayMealObjectProps {
   meal: MealForCurrentDay;
   t: TFunction;
-  handleMealDelete: (mealId: string) => void;
+  handleMealDelete: () => void;
 }
 
 /**
  * Single day component for weekly menu by id page
  */
-const SingleDay: React.FC<SingleDayProps> = ({ meal, t, handleMealDelete }) => {
+const SingleDayMealObject: React.FC<SingleDayMealObjectProps> = ({
+  meal,
+  t,
+  handleMealDelete,
+}) => {
   return (
     <>
       <div className="flex h-full items-center gap-3 rounded-lg border border-neutral-200/50 bg-backgroundSecondary p-1 dark:border-neutral-800 dark:bg-background">
@@ -40,7 +44,7 @@ const SingleDay: React.FC<SingleDayProps> = ({ meal, t, handleMealDelete }) => {
             aria-label={t("common:removeMeal")}
           >
             <button
-              onClick={() => handleMealDelete(meal._id)}
+              onClick={() => handleMealDelete()}
               className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-md text-xs text-red-500 transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-300/20"
             >
               <FaTrash />
@@ -52,4 +56,4 @@ const SingleDay: React.FC<SingleDayProps> = ({ meal, t, handleMealDelete }) => {
   );
 };
 
-export default SingleDay;
+export default SingleDayMealObject;

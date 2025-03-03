@@ -1,6 +1,5 @@
 import { capitalizeFirstLetter } from "@/utils/helper";
 import { IngredientToCreateOrUpdate } from "@/utils/types";
-import { Spinner } from "@chakra-ui/react";
 import { TFunction } from "i18next";
 import React from "react";
 import { MdDelete, MdDownloadDone } from "react-icons/md";
@@ -18,7 +17,6 @@ interface SearchResultsDisplayProps {
   onDelete?: () => void;
   infoForSearchIngredient?: string | null;
   onSingleAmountChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onAcceptLoading?: boolean;
 }
 
 const SearchResultsDisplay: React.FC<SearchResultsDisplayProps> = ({
@@ -33,7 +31,6 @@ const SearchResultsDisplay: React.FC<SearchResultsDisplayProps> = ({
   onDelete,
   handleAcceptByResultId = false,
   infoForSearchIngredient,
-  onAcceptLoading,
 }) => {
   // Render input value based on the current amount state
   const renderInputValue = (id: string) => {
@@ -108,11 +105,7 @@ const SearchResultsDisplay: React.FC<SearchResultsDisplayProps> = ({
                   }}
                   className={`flex ${onDelete ? "size-5" : "size-6"} cursor-pointer items-center justify-center rounded-full bg-primary`}
                 >
-                  {onAcceptLoading ? (
-                    <Spinner size="xs" color="black" />
-                  ) : (
-                    <MdDownloadDone className="text-md text-black" />
-                  )}
+                  <MdDownloadDone className="text-md text-black" />
                 </span>
                 {onDelete && (
                   <span onClick={onDelete}>

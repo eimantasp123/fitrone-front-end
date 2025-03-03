@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
+type mealStatus = "not_done" | "preparing" | "done";
+
 interface SupplierDayStatusChangeProps {
   options: { key: string; title: string }[];
   placeholder?: string;
   optionsModalPosition?: "top" | "bottom";
+  mealStatus: mealStatus;
+  changeStatus: (status: mealStatus) => void;
 }
 
 /**
@@ -14,6 +18,8 @@ const SupplierDayStatusChange: React.FC<SupplierDayStatusChangeProps> = ({
   options,
   placeholder = "Placeholder",
   optionsModalPosition = "bottom",
+  mealStatus,
+  changeStatus,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -45,12 +51,7 @@ const SupplierDayStatusChange: React.FC<SupplierDayStatusChangeProps> = ({
         className={`relative flex w-full cursor-pointer items-center justify-between text-nowrap rounded-lg border py-1 pl-4 pr-2 text-sm transition-all duration-300 ease-in-out ${isOpen ? "ring-[1.5px] ring-neutral-400/70 dark:ring-primary" : "ring-0 ring-transparent"} ease-in-out hover:border-neutral-300 dark:border-borderLight dark:hover:border-neutral-600`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="overflow-hidden overflow-ellipsis">
-          {/* {field.value
-                ? options.find((opt) => opt.key === field.value)?.title
-                : placeholder} */}
-          {placeholder}
-        </span>
+        <span className="overflow-hidden overflow-ellipsis">{placeholder}</span>
         <MdKeyboardArrowDown
           className={`text-lg text-textSecondary transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : ""}`}
         />
@@ -63,10 +64,10 @@ const SupplierDayStatusChange: React.FC<SupplierDayStatusChangeProps> = ({
               <div
                 key={option.key}
                 onClick={() => {
-                  //   field.onChange(option.key);
+                  changeStatus(option.key as mealStatus);
                   setIsOpen(false);
                 }}
-                className={`cursor-pointer text-wrap rounded-lg px-3 py-2 text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundDark`}
+                className={`cursor-pointer ${option.key === mealStatus ? "bg-backgroundSecondary dark:bg-backgroundDark" : ""} text-wrap rounded-lg px-3 py-2 text-left hover:bg-backgroundSecondary dark:hover:bg-backgroundDark`}
               >
                 {option.title}
               </div>

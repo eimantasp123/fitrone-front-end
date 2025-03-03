@@ -66,5 +66,7 @@
   "searchMealsFromDatabaseAndAssign": "Search for a meals in the database and assign them to this day.",
 
   "noResults": "No results",
-  "noResultsDescription": "No weekly menu match your search and filters. Try adjusting your search or filters."
+  "noResultsDescription": "No weekly menu match your search and filters. Try adjusting your search or filters.",
+
+  "mealAddedAsCopy": "Meals added to the Weekly Menu are copied, so any future changes to the original meal won't appear here. Remove and re-add the meal to use its updated version."
 }

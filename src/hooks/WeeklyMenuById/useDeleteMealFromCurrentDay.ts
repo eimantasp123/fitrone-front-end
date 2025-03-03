@@ -7,15 +7,19 @@ export const useDeleteMealFromCurrentDay = (onCleanup: () => void) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({
-      mealId,
+      mealObjectInArrayId,
       dayId,
       weeklyMenuId,
     }: {
-      mealId: string;
+      mealObjectInArrayId: string;
       dayId: string;
       weeklyMenuId: string;
     }) => {
-      return deleteMealFromCurrentDay({ mealId, dayId, weeklyMenuId });
+      return deleteMealFromCurrentDay({
+        mealObjectInArrayId,
+        dayId,
+        weeklyMenuId,
+      });
     },
     onSuccess: (data, { weeklyMenuId }) => {
       const { message, status } = data;

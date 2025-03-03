@@ -66,5 +66,7 @@
   "searchMealsFromDatabaseAndAssign": "Ieškokite patiekalų duomenų bazėje ir priskirkite juos pasirinktai dienai.",
 
   "noResults": "Rezultatų nėra",
-  "noResultsDescription": "Jūsų paieškai ir filtrams atitinkančių savaitės meniu nerasta. Pabandykite pakeisti paiešką ar filtrus."
+  "noResultsDescription": "Jūsų paieškai ir filtrams atitinkančių savaitės meniu nerasta. Pabandykite pakeisti paiešką ar filtrus.",
+
+  "mealAddedAsCopy": "Prie savaitės meniu pridėti patiekalai yra kopijuojami, todėl vėlesni pakeitimai originaliame patiekale neatsispindės čia. Pašalinkite ir pridėkite patiekalą iš naujo, jei norite naudoti jo atnaujintą versiją."
 }

@@ -213,6 +213,7 @@ export interface MealForCurrentDay {
   nutrition: Nutrition;
   preferences: string[];
   restrictions: string[];
+  ingredients: IngredientToCreateOrUpdate[];
   category:
     | "breakfast"
     | "lunch"
@@ -428,4 +429,84 @@ export interface PaginatedCustomersResponse {
   currentPage: number;
   totalPages: number;
   data: CustomerEditForm[];
+}
+
+/**
+ * Order interface for the order object
+ */
+export interface Order {
+  _id: string;
+  year: number;
+  weekNumber: number;
+  day: number;
+  status: "not_done" | "preparing" | "done";
+  expired: boolean;
+  date: string;
+  active: boolean;
+}
+
+/**
+ * Order by id interface for curent day category object
+ */
+export interface OrderMealsByCategory {
+  _id: string;
+  mealsPerCategory: number;
+  category: string;
+  meals: SingleDayMealForOrderDay[];
+}
+
+/**
+ * Order by id interface for the single day meal object
+ */
+export interface SingleDayMealForOrderDay {
+  _id: string;
+  mealTitle: string;
+  mealDescription?: string | null;
+  ingredients: {
+    title: string;
+    generalAmount: number;
+    currentAmount: number;
+    unit: string;
+  }[];
+  portions: number;
+  weeklyMenuTitle: string;
+  status: "not_done" | "preparing" | "done";
+  customers: {
+    firstName: string;
+    lastName: string;
+    quantity: number;
+  }[];
+}
+
+/**
+ * Order by id interface for the order by id object
+ */
+export interface OrderByIdResponse {
+  status: string;
+  data: {
+    _id: string;
+    year: number;
+    weekNumber: number;
+    day: number;
+    status: "not_done" | "preparing" | "done";
+    expired: boolean;
+    date: string;
+    categories: OrderMealsByCategory[];
+  };
+  generalInsights: OrderByIdGeneralInsights[];
+}
+
+/**
+ * Order by id general insights interface for the order by id general insights object
+ */
+export interface OrderByIdGeneralInsights {
+  firstName: string;
+  lastName: string;
+  categories: {
+    category: string;
+    meals: {
+      mealTitle: string;
+      quantity: number;
+    }[];
+  }[];
 }
