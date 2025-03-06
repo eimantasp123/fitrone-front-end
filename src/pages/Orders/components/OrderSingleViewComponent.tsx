@@ -30,18 +30,18 @@ const OrderSingleViewComponent = ({ order }: { order: Order }) => {
   // Navigate to weekly menu management
   const navigateToWeeklyMenuManagement = async () => {
     if (!order._id) return; // Return if no menu id
-    setIsFetching(true);
     const orderFromCache = queryClient.getQueryData([
       "orderById",
       order._id,
     ]) as OrderByIdResponse;
     if (!orderFromCache) {
+      setIsFetching(true);
       await queryClient.prefetchQuery({
         queryKey: ["orderById", order._id],
         queryFn: () => fetchOrderById(order._id),
       });
+      setIsFetching(false);
     }
-    setIsFetching(false);
     navigate(`/orders/${order._id}`);
   };
 

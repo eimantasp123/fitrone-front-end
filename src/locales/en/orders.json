@@ -4,6 +4,7 @@
   "week": "Week",
   "date": "Date",
   "status": "Status",
+  "days": "Days",
   "activeDay": "Active day",
   "markAsDone": "Mark as done",
   "unmarkAsDone": "Unmark as done",
@@ -11,11 +12,27 @@
   "manageOrder": "Manage order",
   "viewOrder": "View order",
   "ingredientsList": "Ingredients list",
+  "generateSelectedDaysList": "Generate selected days list",
+  "comboList": "Combo list",
+  "combinedDays": "Combined days",
   "selectedCategory": "Selected category",
   "selectStatus": "Select status",
   "weekPlans": "Week plans",
   "ordersInsight": "Orders insight",
   "weeklyMenu": "Weekly menu: {{menuName}}",
+  "removeComboList": "Remove combo list",
+  "noComboListYet": "No combo list generated yet",
+  "quantity": "Quantity",
+  "generatingPdf": "Generating PDF",
+  "pdfGenerationFailed": "PDF generation failed",
+  "pdfGenerationSuccess": "PDF generated successfully",
+  "customer": "Customer",
+  "category": "Category",
+  "downloadPdf": "Download PDF",
+  "viewAndEnterStock": "View & Enter stock",
+  "view": "View",
+  "selectDays": "Select days",
+  "generateComboList": "Generate combo list",
   "mealDescription": "Meal description",
   "requiredPortions": "Required portions: {{quantity}}",
   "requiredIngredients": "Required ingredients for all ({{quantity}}) portions",
@@ -35,6 +52,35 @@
   "markAsDoneModalDescription": "Are you sure you want to mark this order as done?",
 
   "mealAlreadyHasThisStatus": "The meal is already in this status",
+
+  "noIngredientsForSelectedWeek": "No ingredients for the selected week",
+
+  "modal": {
+    "ingredient": {
+      "title": "Ingredient",
+      "description": "Ingredient used in the planned meals for the week."
+    },
+    "unit": {
+      "title": "Unit",
+      "description": "Unit used to measure the ingredient."
+    },
+    "stockAmount": {
+      "title": "Stock amount",
+      "description": "Currently available, unused amount of ingredients."
+    },
+    "totalRequiredAmount": {
+      "title": "Total required amount",
+      "description": "Total amount of ingredients required for all planned meals."
+    },
+    "requiredAmount": {
+      "title": "Required amount",
+      "description": "Final amount of ingredients needed to be purchased, after subtracting the available stock, to prepare all meals."
+    }
+  },
+
+  "enterStock": "Enter stock",
+  "deleteStock": "Delete stock",
+  "stockTheSame": "Stock the same",
 
   "statusOptions": [
     { "key": "not_done", "title": "Not done" },

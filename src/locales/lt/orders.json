@@ -4,6 +4,7 @@
   "week": "Savaitė",
   "date": "Data",
   "status": "Būsena",
+  "days": "Dienos",
   "activeDay": "Aktyvi diena",
   "markAsDone": "Pažymėti kaip atlikta",
   "unmarkAsDone": "Pažymėti kaip neatlikta",
@@ -11,11 +12,27 @@
   "manageOrder": "Tvarkyti užsakymą",
   "viewOrder": "Peržiūrėti užsakymą",
   "ingredientsList": "Ingredientų sąrašas",
+  "generateSelectedDaysList": "Generuoti pasirinktų dienų sąrašą",
+  "comboList": "Kombinacijos sąrašas",
+  "combinedDays": "Kombinuotos dienos",
   "selectedCategory": "Pasirinkta kategorija",
   "selectStatus": "Pasirinkite būseną",
   "weekPlans": "Savaitiniai planai",
   "ordersInsight": "Užsakymų apžvalga",
   "weeklyMenu": "Savaitinis meniu: {{menuName}}",
+  "removeComboList": "Pašalinti kombinacijų sąrašą",
+  "noComboListYet": "Dar nėra sugeneruota jokių kombinacijų sąrašų",
+  "quantity": "Kiekis",
+  "generatingPdf": "Generuojamas PDF",
+  "pdfGenerationFailed": "PDF generavimas nepavyko",
+  "pdfGenerationSuccess": "PDF sugeneruotas sėkmingai",
+  "customer": "Klientas",
+  "category": "Kategorija",
+  "downloadPdf": "Atsisiųsti PDF",
+  "viewAndEnterStock": "Peržiūrėti ir įvesti atsargas",
+  "view": "Peržiūrėti",
+  "selectDays": "Pasirinkite dienas",
+  "generateComboList": "Generuoti kombinacijų sąrašą",
   "mealDescription": "Patiekalo aprašymas",
   "requiredPortions": "Reikalingas patiekalų kiekis: {{quantity}}",
   "requiredIngredients": "Reikalingas ingredientų kiekis visoms ({{quantity}}) porcijoms",
@@ -35,6 +52,35 @@
   "markAsDoneModalDescription": "Ar tikrai norite pažymėti šį užsakymą kaip atliktą?",
 
   "mealAlreadyHasThisStatus": "Patiekalas jau yra šioje būsenoje",
+
+  "noIngredientsForSelectedWeek": "Nėra ingredientų pasirinktai savaitei",
+
+  "modal": {
+    "ingredient": {
+      "title": "Ingredientas",
+      "description": "Ingredientas, naudojamas suplanuotuose savaitės patiekaluose."
+    },
+    "unit": {
+      "title": "Mato vienetas",
+      "description": "Mato vienetas, naudojamas ingredientui matuoti."
+    },
+    "stockAmount": {
+      "title": "Turimas kiekis",
+      "description": "Šiuo metu turimas, nepanaudotas ingredientų kiekis."
+    },
+    "totalRequiredAmount": {
+      "title": "Bendras kiekis",
+      "description": "Bendras reikalingas ingredientų kiekis visiems suplanuotiems patiekalams."
+    },
+    "requiredAmount": {
+      "title": "Reikalingas kiekis",
+      "description": "Galutinis ingredientų kiekis, kurį reikia įsigyti, atėmus turimą likutį, kad būtų galima paruošti visus patiekalus."
+    }
+  },
+
+  "enterStock": "Įvesti atsargas",
+  "deleteStock": "Ištrinti atsargas",
+  "stockTheSame": "Atsargos nepasikeitė",
 
   "statusOptions": [
     { "key": "not_done", "title": "Neparuošta" },

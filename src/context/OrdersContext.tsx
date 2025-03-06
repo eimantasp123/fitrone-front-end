@@ -10,8 +10,8 @@ import {
 
 // Define the shape of the context
 interface WeekOrderContextType {
-  week: number;
-  currentYear: number;
+  week: number | null;
+  currentYear: number | null;
   formattedWeekRange: string;
   navigateWeeks: (weeks: number) => void;
 }
@@ -24,11 +24,11 @@ const WeekOrderContext = createContext<WeekOrderContextType | undefined>(
 // Create the provider component
 export const WeekOrderProvider = ({ children }: { children: ReactNode }) => {
   const { details: user } = useAppSelector((state) => state.personalDetails);
-  const [week, setWeek] = useState(1);
-  const [currentYear, setCurrentYear] = useState(2025);
   const { weekNumber, formattedWeekRange, year, navigateWeeks } = useTime(
     user.timezone ?? null,
   );
+  const [week, setWeek] = useState<number>(weekNumber);
+  const [currentYear, setCurrentYear] = useState<number>(year);
 
   // Function to set the week and year when navigating
   useEffect(() => {
@@ -49,7 +49,13 @@ export const WeekOrderProvider = ({ children }: { children: ReactNode }) => {
 export const useWeekOrder = (): WeekOrderContextType => {
   const context = useContext(WeekOrderContext);
   if (!context) {
-    throw new Error("useWeekOrder must be used within a WeekOrderProvider");
+    return {
+      week: null,
+      currentYear: null,
+      formattedWeekRange: "",
+      navigateWeeks: () => {},
+    };
   }
+
   return context;
 };

@@ -97,7 +97,7 @@ const WeeklyMenuAddModal: React.FC<WeeklyMenuAddModalProps> = ({
           }}
         >
           <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
-            <h4 className="text-xl font-semibold md:text-xl">
+            <h4 className="text-md font-semibold md:text-xl">
               {menuToEdit ? t("editMenu") : t("createNewMenu")}
             </h4>
           </div>

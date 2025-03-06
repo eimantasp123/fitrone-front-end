@@ -40,18 +40,18 @@ const WeeklyMenuItemCard: React.FC<WeeklyMenuItemCardProps> = ({
   // Navigate to weekly menu management
   const navigateToWeeklyMenuManagement = async () => {
     if (!_id) return; // Return if no menu id
-    setIsFetching(true);
     const menu = queryClient.getQueryData([
       "weeklyMenuById",
       _id,
     ]) as WeeklyMenuByIdResponse;
     if (!menu) {
+      setIsFetching(true);
       await queryClient.prefetchQuery({
         queryKey: ["weeklyMenuById", _id],
         queryFn: () => fetchWeeklyMenuById(_id),
       });
+      setIsFetching(false);
     }
-    setIsFetching(false);
     navigate(`/weekly-menu/${_id}`);
   };
 

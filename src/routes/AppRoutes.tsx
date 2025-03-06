@@ -80,7 +80,7 @@ const AppRoutes: React.FC = () => (
                 <Route index element={<Orders />} />
                 <Route path=":orderId" element={<SupplierDayManagement />} />
                 <Route
-                  path=":weekId/ingredients"
+                  path="ingredients"
                   element={<SupplierIngredientsManagement />}
                 />
               </Routes>

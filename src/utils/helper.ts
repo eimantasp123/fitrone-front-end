@@ -30,3 +30,9 @@ export const formatToTwoDecimalsForDisplay = (value: number | undefined) => {
   if (!value) return 0.0;
   return value.toFixed(2);
 };
+
+export const roundTo = (num: number, decimals = 1) => {
+  if (!num) return 0;
+  const factor = Math.pow(10, decimals);
+  return Math.round(num * factor) / factor;
+};
