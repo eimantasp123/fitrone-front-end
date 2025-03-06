@@ -53,7 +53,7 @@ const SupplierWeeklyPlan: React.FC = () => {
 
   // Fetch the weekly plan data
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["weeklyPlan", { year, weekNumber }],
+    queryKey: ["weeklyPlan", year, weekNumber],
     queryFn: () => fetchWeeklyPlan(year, weekNumber),
     enabled: !!user.timezone,
     staleTime: 1000 * 60 * 10, // 10 minutes

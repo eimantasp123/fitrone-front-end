@@ -5,7 +5,7 @@ import { BiMessageError } from "react-icons/bi";
 
 interface EmptyStateProps {
   title: string;
-  description: string;
+  description?: string;
   onClickFirstButton?: () => void;
   onClickSecondButton?: () => void;
   firstButtonText?: string | null;
@@ -52,9 +52,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     >
       {iconShow && getIcon()}
       <h1 className="text-md font-medium text-textPrimary">{title}</h1>
-      <p className="max-w-[900px] px-6 text-center text-sm text-textSecondary">
-        {description}
-      </p>
+      {description && (
+        <p className="max-w-[900px] px-6 text-center text-sm text-textSecondary">
+          {description}
+        </p>
+      )}
       <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
         {firstButtonText && (
           <CustomButton

@@ -6,8 +6,11 @@ import { useNavigate } from "react-router-dom";
 interface SupplierOrderHeaderProps {
   t: TFunction;
   navigateWeeks: (weeks: number) => void;
-  weekNumber: number;
+  week: number | null;
   formattedWeekRange: string;
+  loading: boolean;
+  isData: boolean;
+  navigateToWeeklyMenuManagement: () => void;
 }
 
 /**
@@ -16,8 +19,11 @@ interface SupplierOrderHeaderProps {
 const SupplierOrderHeader: React.FC<SupplierOrderHeaderProps> = ({
   t,
   navigateWeeks,
-  weekNumber,
+  week,
   formattedWeekRange,
+  loading,
+  navigateToWeeklyMenuManagement,
+  isData,
 }) => {
   const navigate = useNavigate();
 
@@ -25,6 +31,7 @@ const SupplierOrderHeader: React.FC<SupplierOrderHeaderProps> = ({
     <>
       <div className="z-20 flex w-full flex-col-reverse justify-between gap-4 bg-background px-5 py-3 dark:bg-backgroundSecondary md:flex-row md:rounded-lg">
         {/* Week navigation */}
+
         <div className={`flex items-center justify-center`}>
           <span>
             <Arrow
@@ -33,8 +40,9 @@ const SupplierOrderHeader: React.FC<SupplierOrderHeaderProps> = ({
               type="dark"
             />
           </span>
+
           <span className="w-[300px] select-none text-nowrap text-center text-sm font-medium">
-            {`${formattedWeekRange} (${t("week")} ${weekNumber})`}
+            {week && `${formattedWeekRange} (${t("week")} ${week ?? ""})`}
           </span>
           <span>
             <Arrow
@@ -47,11 +55,15 @@ const SupplierOrderHeader: React.FC<SupplierOrderHeaderProps> = ({
 
         {/* Time zone */}
         <div className="flex flex-col justify-center gap-2 text-center sm:flex-row md:gap-3">
-          <CustomButton
-            onClick={() => navigate("/orders/weekid/ingredients")}
-            text={t("ingredientsList")}
-            type="lightSecondary"
-          />
+          {isData && (
+            <CustomButton
+              onClick={navigateToWeeklyMenuManagement}
+              text={t("ingredientsList")}
+              loading={loading}
+              loadingSpinner={false}
+              type="lightSecondary"
+            />
+          )}
           <CustomButton
             onClick={() => navigate("/weekly-plan")}
             text={t("weekPlans")}

@@ -32,7 +32,7 @@ export const useDeleteWeeklyPlanMenu = (onCleanup: () => void) => {
 
       // Invalidate week plan
       queryClient.invalidateQueries({
-        queryKey: ["weeklyPlan", { year, weekNumber: week }],
+        queryKey: ["weeklyPlan", year, week],
       });
 
       // Invalidate the week plan query

@@ -18,6 +18,7 @@ export const showPromiseToast = async <T,>(
     loading: {
       duration: null, // Keeps the toast open until resolved
       isClosable: false,
+      position: "top",
       render: () => (
         <CustomToast
           status="loading"
@@ -29,6 +30,7 @@ export const showPromiseToast = async <T,>(
     success: {
       duration: 4000,
       isClosable: true,
+      position: "top",
       render: ({ id }) => (
         <CustomToast
           status="success"
@@ -41,6 +43,7 @@ export const showPromiseToast = async <T,>(
     error: {
       duration: 4000,
       isClosable: true,
+      position: "top",
       render: ({ id }) => (
         <CustomToast
           status="error"

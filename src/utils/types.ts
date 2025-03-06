@@ -510,3 +510,58 @@ export interface OrderByIdGeneralInsights {
     }[];
   }[];
 }
+
+/**
+ * Ingredient list response for order day
+ */
+export interface IngredientListResponse {
+  status: string;
+  data: {
+    expired: boolean;
+    generalList: SingleDayIngredientList[];
+    combinedList: WeekCombinedIngredientList[];
+  };
+}
+
+/**
+ * Single day ingredient list for order day
+ */
+export interface SingleDayIngredientList {
+  _id: string;
+  year: number;
+  weekNumber: number;
+  day: number;
+  status: "not_done" | "done";
+  date: string;
+  expired: boolean;
+  ingredients: SingleIngredient[];
+}
+
+/**
+ * Week combined ingredient list for order day
+ */
+export interface WeekCombinedIngredientList {
+  combineListDocId: string;
+  year: number;
+  weekNumber: number;
+  expired: boolean;
+  dayCombined: number[];
+  ingredients: SingleIngredient[];
+}
+
+/**
+ * Single ingredient interface for ingredients list
+ */
+export interface SingleIngredient {
+  _id: string;
+  title: string;
+  generalAmount: number;
+  unit: string;
+  stockAmount: number | null;
+  restockNeeded: number | null;
+  mealsToUse: {
+    meal: string;
+    quantity: number;
+    amountPerPortion: number;
+  }[];
+}

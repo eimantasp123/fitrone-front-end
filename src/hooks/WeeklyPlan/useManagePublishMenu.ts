@@ -40,8 +40,21 @@ export const useManagePublishMenu = (onCleanup: () => void) => {
 
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: ["weeklyPlan", { year, weekNumber: week }],
+        queryKey: ["weeklyPlan", year, week],
       });
+
+      // Invalidate and refetch the orders
+      queryClient.refetchQueries({
+        queryKey: ["orders", year, week],
+      });
+
+      // Invalidate and refetch ingredients list
+      queryClient.invalidateQueries({
+        queryKey: ["ingredientsList", String(year), String(week)],
+      });
+
+      // Delete the order by id query
+      queryClient.removeQueries({ queryKey: ["orderById"] });
 
       // Cleanup
       if (onCleanup) onCleanup();

@@ -5,7 +5,7 @@ import axios from "axios";
 import { showCustomToast } from "../showCustomToast";
 
 /**
- * useChangeDayStatus hook to change the meal status
+ * useChangeDayStatus hook to change the day status
  */
 export const useChangeDayStatus = (onCleanUp: () => void) => {
   const queryClient = useQueryClient();
@@ -18,7 +18,7 @@ export const useChangeDayStatus = (onCleanUp: () => void) => {
       orderId: string;
       status: "not_done" | "preparing" | "done";
     }) => {
-      // Call the API to change the meal status
+      // Call the API to change the day status
       return changeSingleDayStatus({ orderId, status });
     },
     onMutate: async ({ orderId, status }) => {

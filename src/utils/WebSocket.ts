@@ -34,14 +34,6 @@ const WebSocketListener: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ["customers"] });
     });
 
-    // Add event listener for WebSocket to listen for customer form confirmation
-    webSocketInstance.addEventListener(
-      "customer_publish_unpublish_orders",
-      () => {
-        console.log("customer_publish_unpublish_orders");
-      },
-    );
-
     return () => {
       webSocketInstance.disconnect();
     };

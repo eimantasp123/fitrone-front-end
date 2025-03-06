@@ -1,27 +1,57 @@
-import { fetchOrders } from "@/api/ordersApi";
+import { fetchOrderIngredientsList, fetchOrders } from "@/api/ordersApi";
 import EmptyState from "@/components/common/EmptyState";
 import { useWeekOrder } from "@/context/OrdersContext";
-import { Order } from "@/utils/types";
+import { IngredientListResponse, Order } from "@/utils/types";
 import { Spinner } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import OrderSingleViewComponent from "./components/OrderSingleViewComponent";
 import SupplierOrderHeader from "./components/SupplierOrderHeader";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Supplier Orders Page Component
  */
 const SupplierOrders = () => {
   const { t } = useTranslation(["orders", "common", "timezone"]);
+  const queryClient = useQueryClient();
   const { week, navigateWeeks, currentYear, formattedWeekRange } =
     useWeekOrder();
+  const navigate = useNavigate();
+  const [isFetching, setIsFetching] = useState(false);
+
   // Fetch the orders data
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["orders", { currentYear, week }],
-    queryFn: () => fetchOrders(currentYear, week),
-    staleTime: 1000 * 60 * 5, // 10 minutes
+    queryKey: ["orders", currentYear, week],
+    queryFn: () => fetchOrders(currentYear!, week!),
+    enabled: Boolean(currentYear) && Boolean(week),
+    staleTime: 1000 * 60 * 5,
     placeholderData: (prev) => prev,
   });
+
+  // Prefetch the ingredients list
+  const navigateToWeeklyMenuManagement = async () => {
+    if (!week && !currentYear) return;
+    const orderFromCache = queryClient.getQueryData([
+      "ingredientsList",
+      String(currentYear),
+      String(week),
+    ]) as IngredientListResponse;
+    if (!orderFromCache && week && currentYear) {
+      setIsFetching(true);
+      await queryClient.prefetchQuery({
+        queryKey: ["ingredientsList", String(currentYear), String(week)],
+        queryFn: () =>
+          fetchOrderIngredientsList({
+            year: String(currentYear),
+            week: String(week),
+          }),
+      });
+      setIsFetching(false);
+    }
+    navigate("/orders/ingredients");
+  };
 
   return (
     <>
@@ -31,7 +61,10 @@ const SupplierOrders = () => {
             <SupplierOrderHeader
               t={t}
               navigateWeeks={navigateWeeks}
-              weekNumber={week}
+              week={week}
+              loading={isFetching}
+              isData={data?.data.length > 0}
+              navigateToWeeklyMenuManagement={navigateToWeeklyMenuManagement}
               formattedWeekRange={formattedWeekRange}
             />
           </div>
@@ -55,19 +88,23 @@ const SupplierOrders = () => {
           )}
 
           {/* No orders for the current week */}
-          {!data?.data.length && !isLoading && !isError && (
-            <EmptyState
-              title={t("noOrdersForCurrentWeekTitle")}
-              description={t("noOrdersForCurrentWeekDescription")}
-            />
-          )}
+          {!data?.data.length &&
+            !isLoading &&
+            !isError &&
+            week &&
+            currentYear && (
+              <EmptyState
+                title={t("noOrdersForCurrentWeekTitle")}
+                description={t("noOrdersForCurrentWeekDescription")}
+              />
+            )}
 
           {/* Orders for the current week */}
-          <div className="mb-12 mt-3 flex w-full flex-col gap-3 px-3">
+          <div className="mb-12 mt-3 flex w-full flex-col gap-2 px-3">
             {/* Order cards */}
             {!isLoading &&
               !isError &&
-              data.data.map((order: Order) => {
+              data?.data.map((order: Order) => {
                 if (order.active) {
                   return (
                     <div
