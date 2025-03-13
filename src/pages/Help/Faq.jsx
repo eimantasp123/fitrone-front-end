@@ -73,6 +73,7 @@ export default function Faq() {
   const handleToggle = (index) => {
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
   };
+
   return (
     <>
       <Helmet>

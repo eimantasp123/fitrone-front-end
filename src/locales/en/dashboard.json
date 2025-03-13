@@ -1,3 +1,102 @@
 {
-  "pageTitle": "Fitrone | Personal Dashboard & Insights"
+  "pageTitle": "Fitrone | Personal Dashboard & Insights",
+  "systemLimits": "System Limits",
+  "systemLimitsDescription": "Here you can see the system limits and your current usage.",
+  "usage": "Usage: {{count}}",
+  "unlimited": "Unlimited",
+  "enabled": "Enabled",
+  "disabled": "Disabled",
+  "invalidAmountOrLimit": "Invalid amount or limit",
+  "changeMembership": "Change membership plan",
+  "ingredients": "Ingredients",
+  "meals": "Meals",
+  "weeklyMenus": "Weekly Menus",
+  "clients": "Customers",
+  "weeklyPlanMenus": "Weekly Plan Menus",
+  "aiSearch": "AI search for ingredients",
+  "clientRequestForm": "Client request form",
+  "plan": "plan",
+  "systemGuide": "System Guide",
+  "systemGuideDescription": "Here you can find a guide on how to use the system. ",
+  "refresh": "Refresh limits details",
+  "guideTopics": "Guide Topics",
+
+  "guideContainer": [
+    {
+      "title": "Adding and Managing Ingredients",
+      "description": "Learn how to efficiently add, update, manage, and remove ingredients from the system.",
+      "steps": [
+        "Add ingredients manually or using AI.",
+        "Edit existing ingredients with automatic recalculation.",
+        "Delete ingredients from the system.",
+        "View nutritional values of ingredients."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Creating and Editing Meals",
+      "description": "Create nutritious meals from ingredients, manage meal information, and use AI for ingredient search.",
+      "steps": [
+        "Create meals using available or new ingredients.",
+        "Update meal information and photos.",
+        "Use AI for ingredient search during meal creation.",
+        "Delete meals from the system."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Efficient Weekly Menu Planning",
+      "description": "Create weekly menus tailored to dietary needs and restrictions.",
+      "steps": [
+        "Create a new weekly menu.",
+        "Manage menu dietary needs and restrictions.",
+        "Add or remove meals from the weekly menu.",
+        "Archive and restore unused weekly menus."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Managing Weekly Plans",
+      "description": "Efficiently assign menus and manage weekly plans and clients.",
+      "steps": [
+        "Set your time zone for accurate planning.",
+        "Assign weekly menus to your plans.",
+        "Manage client assignments to the corresponding weekly menu.",
+        "Publish or unpublish weekly menus."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Adding and Managing Customers",
+      "description": "Conveniently manage clients and change customer  settings.",
+      "steps": [
+        "Add customers manually or using electronic forms.",
+        "Change customer status (active/inactive).",
+        "Adjust the number of menu choices for the customer.",
+        "Calculate recommended nutritional values for the customer."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Tracking Orders and Ingredients",
+      "description": "Efficiently track orders and manage your ingredient inventory.",
+      "steps": [
+        "View daily and weekly orders.",
+        "Combine ingredient lists for multiple days.",
+        "Enter ingredient inventory and recalculate required amounts.",
+        "Generate ingredient lists in PDF format."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Managing Subscription Limits",
+      "description": "Understand subscription limits and efficiently manage your plan.",
+      "steps": [
+        "View subscription plan limits.",
+        "Manage system alerts about limits.",
+        "Understand the data archiving process when changing plans."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    }
+  ]
 }

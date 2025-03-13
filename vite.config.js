@@ -10,7 +10,7 @@ export default defineConfig({
     host: true, // Your desired port number
   },
   optimizeDeps: {
-    include: ["react-cookie"],
+    include: ["react-cookie", "react-player"],
   },
   resolve: {
     alias: {

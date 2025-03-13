@@ -1,3 +1,102 @@
 {
-  "pageTitle": "Fitrone | Asmeninis skydelis ir įžvalgos"
+  "pageTitle": "Fitrone | Asmeninis skydelis ir įžvalgos",
+  "systemLimits": "Sistemos limitai",
+  "systemLimitsDescription": "Čia galite pamatyti sistemos limitus ir savo dabartinį naudojimą.",
+  "usage": "Naudojimas: {{count}}",
+  "unlimited": "Neribotas",
+  "enabled": "Įjungta",
+  "disabled": "Išjungta",
+  "invalidAmountOrLimit": "Netinkama suma arba limitas",
+  "changeMembership": "Pakeisti narystės planą",
+  "ingredients": "Ingredientai",
+  "meals": "Patiekalai",
+  "weeklyMenus": "Savaitės meniu",
+  "clients": "Klientai",
+  "weeklyPlanMenus": "Savaitės planavimo meniu",
+  "aiSearch": "AI paieška ingredientams",
+  "clientRequestForm": "Kliento užklausos forma",
+  "plan": "planas",
+  "systemGuide": "Sistemos gidas",
+  "systemGuideDescription": "Čia galite rasti vadovą, kaip naudotis sistema.",
+  "refresh": "Atnaujinti limitų informaciją",
+  "guideTopics": "Vadovo temos",
+
+  "guideContainer": [
+    {
+      "title": "Ingredientų pridėjimas ir valdymas",
+      "description": "Sužinokite, kaip efektyviai pridėti, atnaujinti, valdyti ir pašalinti ingredientus iš sistemos.",
+      "steps": [
+        "Pridėti ingredientus rankiniu būdu arba naudojant AI.",
+        "Redaguoti esamus ingredientus su automatiniu perskaičiavimu.",
+        "Ištrinti ingredientus iš sistemos.",
+        "Peržiūrėti ingredientų maistines vertes."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Patiekalų kūrimas ir redagavimas",
+      "description": "Kurti maistingus patiekalus iš ingredientų, valdyti patiekalų informaciją ir naudoti AI ingredientų paieškai.",
+      "steps": [
+        "Kurti patiekalus naudojant turimus arba naujus ingredientus.",
+        "Atnaujinti patiekalų informaciją ir nuotraukas.",
+        "Naudoti AI ingredientų paieškai patiekalų kūrimo metu.",
+        "Ištrinti patiekalus iš sistemos."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Efektyvus savaitės meniu sudarymas",
+      "description": "Kurti savaitės meniu, pritaikytus dietiniams poreikiams ir apribojimams.",
+      "steps": [
+        "Sukurti naują savaitės meniu.",
+        "Valdyti meniu dietinius poreikius ir apribojimus.",
+        "Pridėti arba šalinti patiekalus iš savaitės meniu.",
+        "Archyvuoti ir atkurti nenaudojamus savaitės meniu."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Savaitės planų valdymas",
+      "description": "Efektyviai priskirkite meniu ir valdykite savaitės planus bei klientus.",
+      "steps": [
+        "Nustatyti savo laiko juostą tiksliam planavimui.",
+        "Priskirti savaitės meniu savo planams.",
+        "Valdyti klientų priskyrimus prie atitinkamo savaitės meniu.",
+        "Publikuoti arba išpublikuoti savaitės meniu."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Klientų pridėjimas ir valdymas",
+      "description": "Patogiai valdykite klientus ir keiskite kliento nustatymus.",
+      "steps": [
+        "Pridėti klientus rankiniu būdu arba el. formų pagalba.",
+        "Keisti kliento statusą (aktyvus/neaktyvus).",
+        "Reguliuoti kliento meniu pasirinkimų kiekį.",
+        "Apskaičiuoti rekomenduojamas kliento maistines vertes."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Užsakymų ir ingredientų sekimas",
+      "description": "Efektyviai sekite užsakymus ir valdykite savo ingredientų likučius.",
+      "steps": [
+        "Peržiūrėti dienos ir savaitės užsakymus.",
+        "Kombinuoti ingredientų sąrašus kelioms dienoms.",
+        "Įvesti ingredientų likučius ir perskaičiuoti reikiamą kiekį.",
+        "Generuoti ingredientų sąrašus PDF formatu."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    },
+    {
+      "title": "Prenumeratos limitų valdymas",
+      "description": "Supraskite prenumeratos limitus ir efektyviai valdykite savo planą.",
+      "steps": [
+        "Peržiūrėti prenumeratos planų limitus.",
+        "Valdyti sistemos įspėjimus apie limitus.",
+        "Suprasti duomenų archyvavimo procesą keičiant planus."
+      ],
+      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+    }
+  ]
 }
