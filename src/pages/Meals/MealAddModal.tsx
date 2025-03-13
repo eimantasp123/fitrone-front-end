@@ -99,7 +99,7 @@ const MealAddModal: React.FC<MealAddModalProps> = ({
         onClose={onClose}
         closeOnOverlayClick={false}
         blockScrollOnMount={false}
-        size={{ base: "sm", md: "3xl" }}
+        size={{ base: "sm", md: "4xl" }}
       >
         <ModalOverlay />
         <ModalContent

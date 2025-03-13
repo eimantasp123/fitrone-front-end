@@ -32,14 +32,10 @@ interface AssignClientsToCurrentWeeklyPlanMenuModalProps {
 
 interface MenuData {
   weeklyPlanId: string;
+  expired: boolean;
   menuDetails: {
     menu: string;
     published: boolean;
-    // assignedGroups: {
-    //   _id: string;
-    //   title: string;
-    //   createdAt: string;
-    // }[];
     assignedClients: {
       _id: string;
       firstName: string;
@@ -184,10 +180,12 @@ const AssignClientsToCurrentWeeklyPlanMenuModal: React.FC<
                 <div className="min-h-[350px] w-full flex-col gap-3 px-2 md:min-h-[600px]">
                   <div className="sticky top-0 flex w-full flex-col gap-2 bg-background px-2 pb-3 pt-2 dark:bg-backgroundSecondary">
                     <h4 className="text-sm">{t("clients")}</h4>
-                    <CustomButton
-                      onClick={() => openModal("assignClients")}
-                      text={`+ ${t("assignClient")}`}
-                    />
+                    {!menuData.expired && (
+                      <CustomButton
+                        onClick={() => openModal("assignClients")}
+                        text={`+ ${t("assignClient")}`}
+                      />
+                    )}
                   </div>
 
                   {/* Display all client */}
@@ -208,22 +206,24 @@ const AssignClientsToCurrentWeeklyPlanMenuModal: React.FC<
                                 {client.email}
                               </h6>
                             </div>
-                            <Tooltip
-                              label={t("common:removeMember")}
-                              aria-label={t("common:removeMember")}
-                            >
-                              <button
-                                onClick={() =>
-                                  setModalState({
-                                    type: "client",
-                                    objectId: client._id,
-                                  })
-                                }
-                                className="rounded-lg p-3 text-xs text-red-500 hover:bg-red-100 dark:hover:bg-red-800/20"
+                            {!menuData.expired && (
+                              <Tooltip
+                                label={t("common:removeMember")}
+                                aria-label={t("common:removeMember")}
                               >
-                                <FaTrash />
-                              </button>
-                            </Tooltip>
+                                <button
+                                  onClick={() =>
+                                    setModalState({
+                                      type: "client",
+                                      objectId: client._id,
+                                    })
+                                  }
+                                  className="rounded-lg p-3 text-xs text-red-500 hover:bg-red-100 dark:hover:bg-red-800/20"
+                                >
+                                  <FaTrash />
+                                </button>
+                              </Tooltip>
+                            )}
                           </div>
                         ),
                       )}

@@ -148,16 +148,14 @@ const SupplierDaySingleMealView = ({
                   <p className="break-all">{`${capitalizeFirstLetter(customer.firstName)} ${capitalizeFirstLetter(customer.lastName)}`}</p>
 
                   <div className="flex items-center gap-3 md:gap-7">
-                    <Popover>
-                      <Tooltip
-                        label={t("quantityOfCurrentMeal")}
-                        aria-label={t("quantityOfCurrentMeal")}
-                      >
-                        <span className="flex size-5 items-center justify-center rounded-full bg-primary text-xs text-black">
-                          {customer.quantity}x
-                        </span>
-                      </Tooltip>
-                    </Popover>
+                    <Tooltip
+                      label={t("quantityOfCurrentMeal")}
+                      aria-label={t("quantityOfCurrentMeal")}
+                    >
+                      <span className="flex size-5 items-center justify-center rounded-full bg-primary text-xs text-black">
+                        {customer.quantity}x
+                      </span>
+                    </Tooltip>
 
                     {/* <Popover>
                       <Tooltip

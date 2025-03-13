@@ -565,3 +565,18 @@ export interface SingleIngredient {
     amountPerPortion: number;
   }[];
 }
+
+/**
+ * Dashboard limits response interface
+ */
+export interface DashboardLimitsResponse {
+  status: string;
+  data: {
+    plan: "base" | "basic" | "pro" | "premium";
+    usageLimits: Record<string, { currentCount: number; limit: number }>;
+    features: {
+      aiSearch: boolean;
+      clientRequestForm: boolean;
+    };
+  };
+}

@@ -42,7 +42,7 @@ const WeeklyPlanItemCard: React.FC<WeeklyPlanProps> = ({
 
   return (
     <div
-      className={`grid w-full ${disabled ? "opacity-70 dark:opacity-60" : "opacity-100"} grid-cols-1 grid-rows-[auto_auto_auto_auto] gap-4 rounded-lg bg-background p-4 shadow-custom-dark2 dark:bg-backgroundSecondary md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1 2xl:grid-cols-[minmax(400px,_450px)__1fr_minmax(400px,_450px)]`}
+      className={`grid w-full grid-cols-1 grid-rows-[auto_auto_auto_auto] gap-4 rounded-lg bg-background p-4 shadow-custom-dark2 dark:bg-backgroundSecondary md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1 2xl:grid-cols-[minmax(400px,_450px)__1fr_minmax(400px,_450px)]`}
     >
       <div className="col-span-1 flex flex-col items-start justify-center gap-1 md:col-start-1 md:col-end-2 md:row-start-1 md:row-end-3 2xl:row-span-1">
         <h4 className="text-[15px] font-medium">
@@ -52,10 +52,7 @@ const WeeklyPlanItemCard: React.FC<WeeklyPlanProps> = ({
           {menu?.description && (
             <Popover placement="bottom-start">
               <PopoverTrigger>
-                <button
-                  disabled={disabled}
-                  className="rounded-full bg-backgroundSecondary px-6 py-1 text-[13px] dark:bg-background md:py-[3px]"
-                >
+                <button className="rounded-full bg-backgroundSecondary px-6 py-1 text-[13px] dark:bg-background md:py-[3px]">
                   {t("common:description")}
                 </button>
               </PopoverTrigger>
@@ -73,7 +70,6 @@ const WeeklyPlanItemCard: React.FC<WeeklyPlanProps> = ({
             <RestAndPrefDetailsPopover
               preferences={menu?.preferences ?? []}
               restrictions={menu?.restrictions ?? []}
-              disabled={disabled}
               className="flex w-full justify-center"
             />
           </div>
@@ -84,7 +80,6 @@ const WeeklyPlanItemCard: React.FC<WeeklyPlanProps> = ({
         <CustomButton
           icon={<MdPeople className="text-lg" />}
           width="w-full md:w-72"
-          disabled={disabled}
           text={t("assignedClientsAndGroups")}
           type="light_outline"
           onClick={() => assignAction(menu?._id)}

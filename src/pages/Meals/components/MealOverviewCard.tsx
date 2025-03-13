@@ -27,6 +27,8 @@ const MealOverviewCard: React.FC<MealOverviewCardProps> = ({
   const { categories } = useFiltersOptions();
   const { title, _id: id, nutrition, preferences, restrictions } = meal;
 
+  console.log("mealImage", meal.image);
+
   return (
     <>
       <div className="flex h-full w-full flex-col gap-2 overflow-hidden rounded-lg bg-background p-2 shadow-custom-light2 dark:bg-backgroundSecondary sm:flex-row">

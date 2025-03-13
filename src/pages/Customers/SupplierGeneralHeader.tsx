@@ -72,11 +72,6 @@ const SupplierGeneralHeader: React.FC<SupplierGeneralHeaderProps> = ({
                 type="lightSecondary"
               />
             </div>
-            <CustomButton
-              widthFull={true}
-              onClick={() => navigate("/groups")}
-              text={t("manageGroups")}
-            />
           </div>
         </div>
       </div>
