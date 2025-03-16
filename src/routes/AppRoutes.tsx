@@ -18,7 +18,6 @@ import { PrivateRoute, PublicRoute } from "./RouteWrappers";
 import LoginForm from "@/pages/Login/LoginForm";
 import Orders from "@/pages/Orders/Orders";
 import WeeklyPlan from "@/pages/WeeklyPlan/WeeklyPlan";
-// import BusinessPage from "@/pages/BusinessPage/BusinessPage";
 import Customers from "@/pages/Customers/Customers";
 import IngredientsGeneral from "@/pages/Ingredients/IngredientsGeneral";
 import GeneralMealsOverview from "@/pages/Meals/GeneralMealsOverview";
@@ -55,7 +54,6 @@ const AppRoutes: React.FC = () => (
         <Route path="/dashboard" element={<Navigate replace to="/" />} />
         <Route path="subscription" element={<ManageSubscriptionPlan />} />
         <Route path="weekly-plan" element={<WeeklyPlan />} />
-        {/* <Route path="weekly-plan/weekly-menu/" element={<WeeklyPlan />} /> */}
         <Route
           path="weekly-menu/*"
           element={
@@ -88,7 +86,6 @@ const AppRoutes: React.FC = () => (
           }
         />
 
-        {/* <Route path="business-page" element={<BusinessPage />} /> */}
         {/* <Route path="notifications" element={<Notifications />} /> */}
         {/* <Route path="messages" element={<Messages />}>
           <Route path=":conversationId" element={<Conversation />} />

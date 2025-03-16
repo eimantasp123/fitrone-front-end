@@ -10,7 +10,6 @@ import { Filters, Meal } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import React, { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ThreeDots } from "react-loader-spinner";
 import MealOverviewCard from "./components/MealOverviewCard";
 import MealAddModal from "./MealAddModal";
 import MealsPageHeader from "./MealsPageHeader";
@@ -126,7 +125,7 @@ const SupplierMeals: React.FC = () => {
         ref={scrollContainerRef}
         className="w-full overflow-y-auto scrollbar-thin"
       >
-        <div className="container mx-auto flex max-w-[1700px] flex-col">
+        <div className="container mx-auto flex max-w-[1450px] flex-col md:px-3 2xl:max-w-[1500px] 3xl:max-w-[1600px]">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             {/* Filters */}
             <MealsPageHeader
@@ -161,6 +160,7 @@ const SupplierMeals: React.FC = () => {
               <EmptyState
                 title={t("noMealsAdded")}
                 description={t("noMealsDescription")}
+                height="h-[78vh] xl:h-[73vh]  3xl:h-[70vh]"
                 firstButtonText={t("addMeal")}
                 onClickFirstButton={() =>
                   setModalState({ type: "create", meal: null })
@@ -180,7 +180,7 @@ const SupplierMeals: React.FC = () => {
 
           {hasItems && (
             <>
-              <span className="pl-5 text-sm">
+              <span className="my-1 pl-5 text-sm">
                 {t("common:showingData", {
                   from: meals?.length || 0,
                   general: data?.pages[0]?.total || 0,
@@ -197,16 +197,10 @@ const SupplierMeals: React.FC = () => {
                 ))}
               </div>
 
-              {/* Bottom Spinner for Loading Next Page */}
-              {isFetchingNextPage && (
-                <div className="flex w-full justify-center pb-4">
-                  {<ThreeDots color="#AFDF3F" height={30} width={40} />}
-                </div>
-              )}
-
               <IntersectionObserverForFetchPage
                 onIntersect={fetchNextPage}
                 hasNextPage={!!hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
               />
             </>
           )}

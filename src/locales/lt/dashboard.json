@@ -1,7 +1,7 @@
 {
   "pageTitle": "Fitrone | Asmeninis skydelis ir įžvalgos",
   "systemLimits": "Sistemos limitai",
-  "systemLimitsDescription": "Čia galite pamatyti sistemos limitus ir savo dabartinį naudojimą.",
+  "systemLimitsDescription": "Žemiau galite matyti sistemos limitus ir savo dabartinį naudojimą.",
   "usage": "Naudojimas: {{count}}",
   "unlimited": "Neribotas",
   "enabled": "Įjungta",
@@ -17,86 +17,395 @@
   "clientRequestForm": "Kliento užklausos forma",
   "plan": "planas",
   "systemGuide": "Sistemos gidas",
-  "systemGuideDescription": "Čia galite rasti vadovą, kaip naudotis sistema.",
+  "systemGuideDescription": "Žemiau apžvelgiamos pagrindinės sistemos funkcijos ir nurodyti žingsniai, kaip jas naudoti.",
   "refresh": "Atnaujinti limitų informaciją",
   "guideTopics": "Vadovo temos",
+  "note": "Pastaba",
+  "steps": "Žingsniai",
 
   "guideContainer": [
     {
       "title": "Ingredientų pridėjimas ir valdymas",
-      "description": "Sužinokite, kaip efektyviai pridėti, atnaujinti, valdyti ir pašalinti ingredientus iš sistemos.",
+      "description": "Sistemoje galite lengvai pridėti, redaguoti ir ištrinti ingredientus, kurie naudojami patiekalams kurti.",
       "steps": [
-        "Pridėti ingredientus rankiniu būdu arba naudojant AI.",
-        "Redaguoti esamus ingredientus su automatiniu perskaičiavimu.",
-        "Ištrinti ingredientus iš sistemos.",
-        "Peržiūrėti ingredientų maistines vertes."
+        {
+          "title": "Pridėti ingredientą",
+          "actions": [
+            "Eikite į skiltį 'Ingredientai' prietaisų skydelyje.",
+            "Paspauskite mygtuką 'Pridėti ingredientą'.",
+            "Įveskite ingrediento pavadinimą ir maistinę vertę.",
+            "Paspauskite 'Pridėti ingredientą', kad ingredientas būtų įrašytas į sistemą."
+          ]
+        },
+        {
+          "title": "Redaguoti ingredientą",
+          "actions": [
+            "Raskite ingredientą sąraše.",
+            "Paspauskite 'Redaguoti'.",
+            "Atnaujinkite reikalingą informaciją.",
+            "Išsaugokite pakeitimus."
+          ]
+        },
+        {
+          "title": "Ištrinti ingredientą",
+          "actions": [
+            "Raskite ingredientą sąraše.",
+            "Paspauskite 'Ištrinti' šalia ingrediento."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Ištrynus ingredientą, jis nebus pašalintas iš jau egzistuojančių patiekalų, todėl istorija nebus paveikta.",
+      "url": ""
     },
     {
-      "title": "Patiekalų kūrimas ir redagavimas",
-      "description": "Kurti maistingus patiekalus iš ingredientų, valdyti patiekalų informaciją ir naudoti AI ingredientų paieškai.",
+      "title": "Patiekalo kūrimas ir valdymas",
+      "description": "Patiekalai sudaromi iš ingredientų ir gali būti įtraukti į savaitės meniu.",
       "steps": [
-        "Kurti patiekalus naudojant turimus arba naujus ingredientus.",
-        "Atnaujinti patiekalų informaciją ir nuotraukas.",
-        "Naudoti AI ingredientų paieškai patiekalų kūrimo metu.",
-        "Ištrinti patiekalus iš sistemos."
+        {
+          "title": "Sukurti patiekalą",
+          "actions": [
+            "Eikite į skiltį 'Patiekalai'.",
+            "Paspauskite 'Pridėti patiekalą'.",
+            "Įveskite patiekalo pavadinimą ir (pasirinktinai) aprašymą bei nuotrauką.",
+            "Pasirinkite patiekalo kategoriją."
+          ]
+        },
+        {
+          "title": "Pridėti ingredientus",
+          "methods": [
+            {
+              "name": "Naudoti AI paiešką (PRO ir PREMIUM nariams)",
+              "actions": [
+                "Paspauskite 'Rasti ingredientą'.",
+                "Įveskite ingrediento pavadinimą ir pasirinkite kiekį.",
+                "Paspauskite žalią 'varnelę' norėdami pridėti ingredientą."
+              ]
+            },
+            {
+              "name": "Naudoti asmeninius ingredientus",
+              "actions": [
+                "Pasirinkite 'Mano asmeniniai ingredientai'.",
+                "Pasirinkite ingredientą iš sąrašo.",
+                "Įveskite kiekį ir patvirtinkite pasirinkimą."
+              ]
+            },
+            {
+              "name": "Pridėti ingredientą rankiniu būdu",
+              "actions": [
+                "Paspauskite 'Pridėti ingredientą savarankiškai'.",
+                "Įveskite ingrediento pavadinimą, maistinę vertę ir kiekį.",
+                "Paspauskite 'Pridėti', kad ingredientas būtų išsaugotas."
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Išsaugoti patiekalą",
+          "actions": [
+            "Patikrinkite visus duomenis.",
+            "Paspauskite 'Pridėti naują patiekalą', kad patiekalas būtų sukurtas."
+          ]
+        },
+        {
+          "title": "Redaguoti arba ištrinti patiekalą",
+          "actions": [
+            "Raskite patiekalą sąraše.",
+            "Paspauskite 'Redaguoti' arba 'Ištrinti'."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Ištrynus patiekalą, jis liks jau sukurtuose savaitės meniu ir užsakymuose.",
+      "url": ""
     },
     {
-      "title": "Efektyvus savaitės meniu sudarymas",
-      "description": "Kurti savaitės meniu, pritaikytus dietiniams poreikiams ir apribojimams.",
+      "title": "Savaitės meniu valdymas",
+      "description": "Savaitės meniu leidžia planuoti patiekalus ir sudaryti valgymo tvarkaraštį visai savaitei. Patiekalai, kurie pridedami prie savaitės meniu, yra kopijuojami ir nepriklauso nuo pirminio patiekalo duomenų, todėl būsimi patiekalo pakeitimai neturės įtakos anksčiau sudarytiems meniu.",
       "steps": [
-        "Sukurti naują savaitės meniu.",
-        "Valdyti meniu dietinius poreikius ir apribojimus.",
-        "Pridėti arba šalinti patiekalus iš savaitės meniu.",
-        "Archyvuoti ir atkurti nenaudojamus savaitės meniu."
+        {
+          "title": "Sukurti savaitės meniu",
+          "actions": [
+            "Eikite į skiltį 'Savaitės meniu'.",
+            "Paspauskite mygtuką 'Sukurti meniu'.",
+            "Įveskite meniu pavadinimą, dietinius pasirinkimus bei apribojimus (jei reikalinga).",
+            "Spauskite 'Sukurti meniu', kad jį išsaugotumėte.",
+            "Sėkmingai sukurtas meniu atsiras sąraše, kur jį bus galima papildyti patiekalais."
+          ]
+        },
+        {
+          "title": "Pridėti patiekalus į savaitės meniu",
+          "actions": [
+            "Raskite sukurtą savaitės meniu sąraše.",
+            "Paspauskite 'Tvarkyti meniu'.",
+            "Pasirinkite savaitės dieną, į kurią norite pridėti patiekalą.",
+            "Pasirinkite norimą patiekalą iš sąrašo ir pridėkite jį prie pasirinktos dienos.",
+            "Kai patiekalas pridedamas prie savaitės meniu, jis yra kopijuojamas. Tai reiškia, kad jei patiekalas ateityje bus redaguojamas ar ištrinamas iš 'Patiekalo' skilties, jis išliks nepakitęs šiame savaitės meniu.",
+            "Pakartokite veiksmus kiekvienai savaitės dienai, kuriai norite priskirti patiekalus."
+          ]
+        },
+        {
+          "title": "Meniu valdymas ir redagavimas",
+          "actions": [
+            "Redaguoti meniu informaciją – Paspauskite 'Redaguoti aprašą', kad pakeistumėte jo pavadinimą, dietinius pasirinkimus ar apribojimus.",
+            "Kopijuoti meniu – Paspauskite 'Sukurti kopiją', kad greitai dubliuotumėte savaitės meniu su visais priskirtais patiekalais.",
+            "Archyvuoti meniu – Jei meniu nebenaudojamas, paspauskite 'Archyvuoti', kad atlaisvintumėte limitą naujiems meniu.",
+            "Išarchyvuoti meniu – Norėdami atkurti archyvuotą meniu, raskite jį naudodami paieškos filtrus ir paspauskite 'Išarchyvuoti'."
+          ]
+        },
+        {
+          "title": "Svarbios pastabos dėl patiekalų ir meniu redagavimo",
+          "actions": [
+            "Pridėjus patiekalą į savaitės meniu, jis tampa nepriklausoma kopija. Tai reiškia, kad jei originalus patiekalas bus redaguotas, tai neatsispindės jau egzistuojančiuose savaitės meniu.",
+            "Jei norite atnaujinti savaitės meniu patiekalus pagal naujausias patiekalų versijas, reikės ištrinti senus patiekalus iš savaitės meniu ir pridėti naujas jų versijas.",
+            "Jei savaitės meniu jau yra priskirtas prie savaitės plano, jo redaguoti nebegalima. Jei reikia atlikti pakeitimus, pirmiausia turėsite pašalinti meniu iš aktyvaus savaitės plano."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Savaitės meniu leidžia organizuoti patiekalus ir jų tvarkaraštį, tačiau svarbu atkreipti dėmesį, kad visi patiekalai yra kopijuojami į savaitės meniu. Tai reiškia, kad vėlesni pakeitimai pagrindiniuose patiekaluose nepaveiks jau sukurtų savaitės meniu.",
+      "url": ""
     },
     {
-      "title": "Savaitės planų valdymas",
-      "description": "Efektyviai priskirkite meniu ir valdykite savaitės planus bei klientus.",
+      "title": "Klientų valdymas",
+      "description": "Klientų valdymo sekcijoje galite pridėti naujus klientus, keisti jų informaciją, priskirti meniu bei šalinti iš sistemos.",
       "steps": [
-        "Nustatyti savo laiko juostą tiksliam planavimui.",
-        "Priskirti savaitės meniu savo planams.",
-        "Valdyti klientų priskyrimus prie atitinkamo savaitės meniu.",
-        "Publikuoti arba išpublikuoti savaitės meniu."
+        {
+          "title": "Pridėti naują klientą",
+          "actions": [
+            "Eikite į skiltį 'Klientai'.",
+            "Paspauskite mygtuką 'Pridėti klientą savarankiškai'.",
+            "Įveskite reikiamą informaciją kliento profilio sukūrimui.",
+            "Paspauskite 'Pridėti naują klientą', kad išsaugotumėte."
+          ]
+        },
+        {
+          "title": "Kliento užklausos forma (PRO ir PREMIUM nariams)",
+          "actions": [
+            "Spauskite 'Išsiųsti formą klientui'.",
+            "Įveskite kliento el. pašto adresą.",
+            "Išsiųskite formą.",
+            "Kai klientas užpildys formą, jo duomenys bus automatiškai įkelti į jūsų klientų sąrašą."
+          ]
+        },
+        {
+          "title": "Kliento informacijos peržiūra",
+          "actions": [
+            "Norėdami surasti klientą, naudokite paiešką arba naršykite klientų sąraše.",
+            "Raskite kliento įrašą ir eikite į dešinę pusę.",
+            "Paspauskite trijų taškų mygtuką.",
+            "Pasirinkite 'Kliento informacija', kad peržiūrėtumėte detalią informaciją."
+          ]
+        },
+        {
+          "title": "Keisti kliento būseną",
+          "actions": [
+            "Raskite klientą sąraše.",
+            "Paspauskite trijų taškų mygtuką.",
+            "Pasirinkite 'Pakeisti būseną'.",
+            "Jei klientas yra priskirtas aktyviam savaitės planui, būsenos keisti negalėsite."
+          ]
+        },
+        {
+          "title": "Keisti kliento meniu kiekį",
+          "actions": [
+            "Paspauskite trijų taškų mygtuką prie kliento.",
+            "Pasirinkite 'Pakeisti meniu kiekį'.",
+            "Nurodykite, kiek meniu klientas gali gauti.",
+            "Jei klientas jau priskirtas prie aktyvaus savaitės plano, meniu kiekis negali būti pakeistas."
+          ]
+        },
+        {
+          "title": "Ištrinti klientą",
+          "actions": [
+            "Paspauskite trijų taškų mygtuką prie kliento.",
+            "Pasirinkite 'Ištrinti'.",
+            "Jei klientas yra priskirtas prie aktyvaus savaitės plano, jis negali būti ištrintas."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Norint ištrinti klientą arba keisti jo meniu kiekį, jis negali būti priskirtas aktyviam savaitės planui. Pirmiausia pašalinkite klientą iš plano.",
+      "url": ""
     },
     {
-      "title": "Klientų pridėjimas ir valdymas",
-      "description": "Patogiai valdykite klientus ir keiskite kliento nustatymus.",
+      "title": "Savaitės plano valdymas",
+      "description": "Savaitės planas susieja savaitės meniu su konkrečia savaite ir priskiria jį klientams.",
       "steps": [
-        "Pridėti klientus rankiniu būdu arba el. formų pagalba.",
-        "Keisti kliento statusą (aktyvus/neaktyvus).",
-        "Reguliuoti kliento meniu pasirinkimų kiekį.",
-        "Apskaičiuoti rekomenduojamas kliento maistines vertes."
+        {
+          "title": "Savaitės plano kūrimas",
+          "actions": [
+            "Eikite į skiltį 'Savaitės planas'.",
+            "Pasirinkite savo laiko juostą, kad būtų galima aktyvuoti savaitės planavimo funkciją.",
+            "Naudodami meniu juostą naršykite tarp savaičių ir pasirinkite savaitę, kuriai norite priskirti savaitės meniu.",
+            "Paspauskite 'Priskirti meniu'.",
+            "Pasirinkite norimus savaitės meniu iš sąrašo.",
+            "Spauskite 'Priskirti meniu', kad išsaugotumėte priskyrimą."
+          ]
+        },
+        {
+          "title": "Klientų priskyrimas prie savaitės plano",
+          "actions": [
+            "Raskite savaitės meniu sąraše.",
+            "Paspauskite 'Priskirti klientus'.",
+            "Atsidariusiame lange bus rodomi jau priskirti klientai bei galimybė pridėti naujus klientus.",
+            "Pasirinkite klientus iš sąrašo ir paspauskite 'Priskirti'."
+          ]
+        },
+        {
+          "title": "Meniu publikavimas",
+          "actions": [
+            "Kai visi klientai priskirti, meniu turi būti 'publikuojamas', kad užsakymai būtų sugeneruoti.",
+            "Raskite savaitės meniu sąraše ir paspauskite 'Publikuoti'.",
+            "Kai savaitės meniu yra publikuotas, bus sugeneruoti užsakymai, įskaitant ingredientų sąrašus ir patiekalų kiekius."
+          ]
+        },
+        {
+          "title": "Savaitės plano valdymas ir redagavimas",
+          "actions": [
+            "Jei norite redaguoti savaitės planą, pirmiausia turite 'išpublikuoti' savaitės meniu.",
+            "Norėdami išpublikuoti, paspauskite 'Išpublikuoti meniu'.",
+            "Po išpublikavimo galėsite pakeisti meniu ar priskirtus klientus.",
+            "Po atliktų pakeitimų vėl spauskite 'Publikuoti'."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Kai savaitės meniu priskirtas ir publikuotas, jo nebegalima redaguoti. Jei norite atlikti pakeitimus, pirmiausia turite 'išpublikuoti' meniu. Tačiau, jei bent viena diena jau pažymėta kaip 'Paruošta', savaitės meniu nebegali būti išpublikuotas.",
+      "url": ""
     },
     {
-      "title": "Užsakymų ir ingredientų sekimas",
-      "description": "Efektyviai sekite užsakymus ir valdykite savo ingredientų likučius.",
+      "title": "UŽSAKYMAI: Bendras užsakymų sąrašas",
+      "description": "Šiame lange galite peržiūrėti visos savaitės užsakymus, matyti jų būsenas ir pasirinkti dienas užsakymų peržiūrai ar valdymui.",
       "steps": [
-        "Peržiūrėti dienos ir savaitės užsakymus.",
-        "Kombinuoti ingredientų sąrašus kelioms dienoms.",
-        "Įvesti ingredientų likučius ir perskaičiuoti reikiamą kiekį.",
-        "Generuoti ingredientų sąrašus PDF formatu."
+        {
+          "title": "Peržiūrėti savaitės užsakymus",
+          "actions": [
+            "Eikite į skiltį 'Užsakymai'.",
+            "Matysite savaitės datas ir kiekvienos dienos užsakymų būseną.",
+            "Aktyvi diena bus pažymėta, kad lengvai rastumėte aktyvią dieną."
+          ]
+        },
+        {
+          "title": "Pasirinkti dienos užsakymą",
+          "actions": [
+            "Raskite dieną, kurios užsakymą norite valdyti.",
+            "Paspauskite 'Tvarkyti užsakymą'.",
+            "Atsidarys dienos užsakymų valdymo langas, kuriame matysite visą reikiamą informaciją."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Dienos, kurių užsakymai pažymėti kaip 'Paruošta', nebegali būti redaguojamos.",
+      "url": ""
     },
     {
-      "title": "Prenumeratos limitų valdymas",
-      "description": "Supraskite prenumeratos limitus ir efektyviai valdykite savo planą.",
+      "title": "UŽSAKYMAI: Dienos užsakymų valdymas",
+      "description": "Šiame lange galite valdyti konkrečios dienos užsakymus, matyti patiekalų sudėtį ir priskirtus klientus.",
       "steps": [
-        "Peržiūrėti prenumeratos planų limitus.",
-        "Valdyti sistemos įspėjimus apie limitus.",
-        "Suprasti duomenų archyvavimo procesą keičiant planus."
+        {
+          "title": "Peržiūrėti dienos užsakymą",
+          "actions": [
+            "Paspauskite mygtuką 'Tvarkyti užsakymą' prie norimos dienos.",
+            "Puslapio viršuje matysite užsakymo datą ir jo būseną.",
+            "Norėdami peržiūrėti klientams paskirstytus patiekalus, spauskite 'Užsakymų apžvalga'.",
+            "Atidaromas langas parodys, kiek porcijų ir kokių patiekalų kiekvienas klientas turi gauti."
+          ]
+        },
+        {
+          "title": "Tvarkyti patiekalus ir ingredientus",
+          "actions": [
+            "Pasirinkite maisto kategoriją (pusryčiai, pietūs, vakarienė ir kt.), kad matytumėte susijusius užsakymus.",
+            "Matysite patiekalų sąrašą su jų būsenomis ir reikalingų porcijų kiekiu.",
+            "Prie kiekvieno patiekalo bus rodomas bendras ingredientų kiekis, reikalingas pagaminti visas priskirtas porcijas."
+          ]
+        },
+        {
+          "title": "Keisti patiekalų būseną",
+          "actions": [
+            "Pradedant gaminti patiekalą, pažymėkite jį kaip 'Ruošiama'.",
+            "Kai patiekalas paruoštas, pakeiskite jo būseną į 'Paruošta'.",
+            "Kai visi dienos patiekalai bus pagaminti, pažymėkite dieną kaip 'Atlikta' paspausdami 'Pažymėti kaip atlikta'.",
+            "Visi patiekalai tam tikrai dienai bus pažymėti kaip 'Paruošta'."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Kiekvienos dienos užsakymai susieti su savaitės meniu priskyrimu prie savaitės plano. Jei bent viena diena pažymėta kaip 'Atlikta', savaitės meniu nebegalima išpublikuoti.",
+      "url": ""
+    },
+    {
+      "title": "UŽSAKYMAI: Ingredientų sąrašo peržiūra",
+      "description": "Šiame lange tiekėjai gali peržiūrėti ingredientų sąrašą pagal dienos užsakymus, pridėti turimus ingredientus bei atsisiųsti sąrašą kaip PDF. Tai padeda efektyviai pasiruošti gamybai ir užtikrinti, kad visi reikalingi ingredientai yra vietoje.",
+      "steps": [
+        {
+          "title": "Peržiūrėti ingredientų sąrašą",
+          "actions": [
+            "Eikite į skiltį 'Užsakymai'.",
+            "Viršuje paspauskite 'Ingredientų sąrašas'.",
+            "Pasirinkite dieną, kurios ingredientų sąrašą norite peržiūrėti.",
+            "Paspauskite 'Peržiūrėti'.",
+            "Matysite ingredientų sąrašą su reikiamais kiekiais, apskaičiuotais pagal užsakymus."
+          ]
+        },
+        {
+          "title": "Pridėti turimus ingredientus",
+          "actions": [
+            "Pasirinkite dieną arba kelias dienas (naudodami kombinacijų funkciją).",
+            "Peržiūrėkite ingredientų sąrašą.",
+            "Jei turite tam tikrų ingredientų sandėlyje, įveskite jų turimą kiekį.",
+            "Sistema automatiškai perskaičiuos trūkstamų ingredientų kiekius, remiantis jūsų įvesta informacija."
+          ]
+        },
+        {
+          "title": "Atsisiųsti ingredientų sąrašą",
+          "actions": [
+            "Norėdami atsisiųsti ingredientų sąrašą kaip PDF, paspauskite 'Atsisiųsti PDF'.",
+            "PDF dokumente bus pateikti visi reikiami ingredientai ir jų kiekiai pasirinktai dienai ar kombinacijai."
+          ]
+        },
+        {
+          "title": "Sujungti kelių dienų ingredientų sąrašą",
+          "actions": [
+            "Jei norite sujungti kelių dienų ingredientų sąrašus, spauskite viršutiniame meniu 'Generuoti pasirinktų dienų sąrašą'.",
+            "Pasirinkite dienas ir paspauskite 'Generuoti kombinacijų sąrašą'.",
+            "Sugeneruotas sąrašas bus matomas puslapio apačioje 'Kombinacijų sąrašas' skiltyje.",
+            "Taip pat galite pridėti turimus ingredientus ir atsisiųsti PDF."
+          ]
+        }
+      ],
+      "note": "Tiekėjai negali sekti atsargų, tačiau gali peržiūrėti ingredientų sąrašą ir pridėti turimus kiekius. Sistema automatiškai apskaičiuos trūkstamus ingredientus, kad būtų lengviau planuoti gamybą ir užtikrinti sklandų tiekimą.",
+      "url": ""
+    },
+    {
+      "title": "Prenumeratos plano keitimas",
+      "description": "Sistemoje galima keisti prenumeratos planą į aukštesnį arba žemesnį. Keitimo metu gali būti ribojama prieiga prie tam tikrų duomenų ar funkcijų.",
+      "steps": [
+        {
+          "title": "Plano atnaujinimas (Upgrade)",
+          "actions": [
+            "Eikite į skiltį 'Prenumerata'.",
+            "Paspauskite 'Tvarkyti prenumeratą ir mokėjimus'.",
+            "Pasirinkite naują prenumeratos planą.",
+            "Patvirtinkite pakeitimus ir atlikite mokėjimą.",
+            "Po atnaujinimo visos naujos funkcijos bus aktyvuotos iš karto.",
+            "PASTABA: Jei negalite matyti savo naujo plano, bandykite atnaujinti puslapį arba iš naujo prisijungti."
+          ]
+        },
+        {
+          "title": "Plano sumažinimas (Downgrade)",
+          "actions": [
+            "Eikite į skiltį 'Prenumerata'.",
+            "Paspauskite 'Tvarkyti prenumeratą ir mokėjimus'.",
+            "Pasirinkite naują prenumeratos planą.",
+            "Patvirtinkite pakeitimus ir atlikite mokėjimą.",
+            "Tam tikri duomenys bus automatiškai archyvuoti, jei jie viršija naujo plano limitus.",
+            "PASTABA: Jei negalite matyti savo naujo plano, bandykite atnaujinti puslapį arba iš naujo prisijungti."
+          ]
+        },
+        {
+          "title": "Archyvuojami duomenys sumažinant planą",
+          "actions": [
+            "Ingredientai ir patiekalai, viršijantys naujo plano limitus, bus archyvuoti.",
+            "Savaitės meniu bus archyvuoti, jei jie nebetelpa į naują planą.",
+            "Archyvuotų duomenų negalima aktyviai naudoti, tačiau jie liks prieinami peržiūrai, jei tai leidžia planas."
+          ]
+        }
+      ],
+      "note": "Keičiant planą į žemesnį, duomenys, kurie viršija naujo plano limitus, bus archyvuoti. Norint juos atkurti, reikės grįžti prie aukštesnio plano."
     }
   ]
 }

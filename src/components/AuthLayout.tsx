@@ -10,8 +10,7 @@ export default function AuthLayout() {
   const { toggleColorMode, colorMode } = useColorMode();
 
   // Google Client ID for OAuth
-  const GOOGLE_CLIENT_ID: string =
-    "249438603447-gat0thlv1mho7oat13eohuo1ja1ggbqc.apps.googleusercontent.com";
+  const GOOGLE_CLIENT_ID: string = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   // Return the JSX for the AuthLayout component
   return (

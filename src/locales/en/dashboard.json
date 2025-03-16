@@ -1,7 +1,7 @@
 {
   "pageTitle": "Fitrone | Personal Dashboard & Insights",
   "systemLimits": "System Limits",
-  "systemLimitsDescription": "Here you can see the system limits and your current usage.",
+  "systemLimitsDescription": "Below you can see the system limits and your current usage.",
   "usage": "Usage: {{count}}",
   "unlimited": "Unlimited",
   "enabled": "Enabled",
@@ -17,86 +17,392 @@
   "clientRequestForm": "Client request form",
   "plan": "plan",
   "systemGuide": "System Guide",
-  "systemGuideDescription": "Here you can find a guide on how to use the system. ",
+  "systemGuideDescription": "Below are the main system features and steps on how to use them.",
   "refresh": "Refresh limits details",
   "guideTopics": "Guide Topics",
+  "note": "Note",
+  "steps": "Steps",
 
   "guideContainer": [
     {
       "title": "Adding and Managing Ingredients",
-      "description": "Learn how to efficiently add, update, manage, and remove ingredients from the system.",
+      "description": "In the system, you can easily add, edit, and delete ingredients used to create meals.",
       "steps": [
-        "Add ingredients manually or using AI.",
-        "Edit existing ingredients with automatic recalculation.",
-        "Delete ingredients from the system.",
-        "View nutritional values of ingredients."
+        {
+          "title": "Add an Ingredient",
+          "actions": [
+            "Go to the 'Ingredients' section in the dashboard.",
+            "Click the 'Add Ingredient' button.",
+            "Enter the ingredient name and nutritional value.",
+            "Click 'Add Ingredient' to save it to the system."
+          ]
+        },
+        {
+          "title": "Edit an Ingredient",
+          "actions": [
+            "Find the ingredient in the list.",
+            "Click 'Edit'.",
+            "Update the necessary information.",
+            "Save the changes."
+          ]
+        },
+        {
+          "title": "Delete an Ingredient",
+          "actions": [
+            "Find the ingredient in the list.",
+            "Click 'Delete' next to the ingredient."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Deleting an ingredient will not remove it from existing meals, so the history will remain unaffected.",
+      "url": ""
     },
     {
-      "title": "Creating and Editing Meals",
-      "description": "Create nutritious meals from ingredients, manage meal information, and use AI for ingredient search.",
+      "title": "Creating and Managing Meals",
+      "description": "Meals are composed of ingredients and can be added to weekly menus.",
       "steps": [
-        "Create meals using available or new ingredients.",
-        "Update meal information and photos.",
-        "Use AI for ingredient search during meal creation.",
-        "Delete meals from the system."
+        {
+          "title": "Create a Meal",
+          "actions": [
+            "Go to the 'Meals' section.",
+            "Click 'Add Meal'.",
+            "Enter the meal name and optionally a description and photo.",
+            "Select the meal category."
+          ]
+        },
+        {
+          "title": "Add Ingredients",
+          "methods": [
+            {
+              "name": "Use AI Search (PRO and PREMIUM members)",
+              "actions": [
+                "Click 'Find Ingredient'.",
+                "Enter the ingredient name and select the quantity.",
+                "Click the green 'checkmark' to add the ingredient."
+              ]
+            },
+            {
+              "name": "Use Personal Ingredients",
+              "actions": [
+                "Select 'My Personal Ingredients'.",
+                "Choose an ingredient from the list.",
+                "Enter the quantity and confirm the selection."
+              ]
+            },
+            {
+              "name": "Add Ingredient Manually",
+              "actions": [
+                "Click 'Add Ingredient Manually'.",
+                "Enter the ingredient name, nutritional value, and quantity.",
+                "Click 'Add' to save the ingredient."
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Save the Meal",
+          "actions": [
+            "Review all the data.",
+            "Click 'Add New Meal' to create the meal."
+          ]
+        },
+        {
+          "title": "Edit or Delete a Meal",
+          "actions": ["Find the meal in the list.", "Click 'Edit' or 'Delete'."]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Deleting a meal will not affect meals already added to weekly menus or orders.",
+      "url": ""
     },
     {
-      "title": "Efficient Weekly Menu Planning",
-      "description": "Create weekly menus tailored to dietary needs and restrictions.",
+      "title": "Managing Weekly Menus",
+      "description": "Weekly menus allow you to plan meals and create a weekly eating schedule. Meals added to weekly menus are copied and are independent of the original meal data, so future changes to the meal will not affect previously created menus.",
       "steps": [
-        "Create a new weekly menu.",
-        "Manage menu dietary needs and restrictions.",
-        "Add or remove meals from the weekly menu.",
-        "Archive and restore unused weekly menus."
+        {
+          "title": "Create a Weekly Menu",
+          "actions": [
+            "Go to the 'Weekly Menu' section.",
+            "Click the 'Create Menu' button.",
+            "Enter the menu name, dietary preferences, and restrictions (if needed).",
+            "Click 'Create Menu' to save it.",
+            "The successfully created menu will appear in the list, where it can be populated with meals."
+          ]
+        },
+        {
+          "title": "Add Meals to Weekly Menu",
+          "actions": [
+            "Find the created weekly menu in the list.",
+            "Click 'Manage Menu'.",
+            "Select the day of the week to which you want to add a meal.",
+            "Choose the desired meal from the list and add it to the selected day.",
+            "When a meal is added to the weekly menu, it is copied. This means that if the meal is edited or deleted in the 'Meals' section in the future, it will remain unchanged in this weekly menu.",
+            "Repeat the steps for each day of the week you want to assign meals to."
+          ]
+        },
+        {
+          "title": "Manage and Edit Menus",
+          "actions": [
+            "Edit menu information – Click 'Edit Bio' to change its name, dietary preferences, or restrictions.",
+            "Copy menu – Click 'Create Copy' to quickly duplicate the weekly menu with all assigned meals.",
+            "Archive menu – If the menu is no longer in use, click 'Archive' to free up the limit for new menus.",
+            "Unarchive menu – To restore an archived menu, find it using search filters and click 'Unarchive'."
+          ]
+        },
+        {
+          "title": "Important Notes on Editing Meals and Menus",
+          "actions": [
+            "Once a meal is added to a weekly menu, it becomes an independent copy. This means that if the original meal is edited, it will not reflect in already existing weekly menus.",
+            "If you want to update weekly menu meals to the latest versions of meals, you will need to delete the old meals from the weekly menu and add the new versions.",
+            "If a weekly menu is already assigned to a weekly plan, it cannot be edited. To make changes, you must first remove the menu from the active weekly plan."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Weekly menus allow organizing meals and their schedules, but it is important to note that all meals are copied into the weekly menu. This means that later changes to the main meals will not affect already created weekly menus.",
+      "url": ""
+    },
+    {
+      "title": "Managing Customers",
+      "description": "In the customer management section, you can add new customers, update their information, assign menus, and remove them from the system.",
+      "steps": [
+        {
+          "title": "Add a New Customer",
+          "actions": [
+            "Go to the 'Customers' section.",
+            "Click the 'Add Customer Manually' button.",
+            "Enter the required information to create the customer's profile.",
+            "Click 'Add New Customer' to save."
+          ]
+        },
+        {
+          "title": "Customer Request Form (PRO and PREMIUM members)",
+          "actions": [
+            "Click 'Send Form to Customer'.",
+            "Enter the customer's email address.",
+            "Send the form.",
+            "Once the customer fills out the form, their data will be automatically added to your customer list."
+          ]
+        },
+        {
+          "title": "View Customer Information",
+          "actions": [
+            "To find a customer, use the search or browse the customer list.",
+            "Find the customer's entry and go to the right side.",
+            "Click the three-dot button.",
+            "Select 'Customer Information' to view detailed information."
+          ]
+        },
+        {
+          "title": "Change Customer Status",
+          "actions": [
+            "Find the customer in the list.",
+            "Click the three-dot button.",
+            "Select 'Change Status'.",
+            "If the customer is assigned to an active weekly plan, you will not be able to change their status."
+          ]
+        },
+        {
+          "title": "Change Customer Menu Quantity",
+          "actions": [
+            "Click the three-dot button next to the customer.",
+            "Select 'Change Menu Quantity'.",
+            "Specify how many menus the customer can receive.",
+            "If the customer is already assigned to an active weekly plan, the menu quantity cannot be changed."
+          ]
+        },
+        {
+          "title": "Delete a Customer",
+          "actions": [
+            "Click the three-dot button next to the customer.",
+            "Select 'Delete'.",
+            "If the customer is assigned to an active weekly plan, they cannot be deleted."
+          ]
+        }
+      ],
+      "note": "To delete a customer or change their menu quantity, they must not be assigned to an active weekly plan. First, remove the customer from the plan.",
+      "url": ""
     },
     {
       "title": "Managing Weekly Plans",
-      "description": "Efficiently assign menus and manage weekly plans and clients.",
+      "description": "The weekly plan links weekly menus to a specific week and assigns them to customers.",
       "steps": [
-        "Set your time zone for accurate planning.",
-        "Assign weekly menus to your plans.",
-        "Manage client assignments to the corresponding weekly menu.",
-        "Publish or unpublish weekly menus."
+        {
+          "title": "Create a Weekly Plan",
+          "actions": [
+            "Go to the 'Weekly Plan' section.",
+            "Select your time zone to activate the weekly planning feature.",
+            "Use the menu bar to navigate between weeks and select the week for which you want to assign weekly menus.",
+            "Click 'Assign Menus'.",
+            "Select the desired weekly menus from the list.",
+            "Click 'Assign Menus' to save the assignment."
+          ]
+        },
+        {
+          "title": "Assign Customers to Weekly Plan",
+          "actions": [
+            "Find the weekly menu in the list.",
+            "Click 'Assigned Customers'.",
+            "In the opened window, you will see already assigned customers and the option to add new customers.",
+            "Select customers from the list and click 'Assign'."
+          ]
+        },
+        {
+          "title": "Publish Menus",
+          "actions": [
+            "Once all customers are assigned, the menu must be 'published' to generate orders.",
+            "Find the weekly menu in the list and click 'Publish'.",
+            "When the weekly menu is published, orders will be generated, including ingredient lists and meal quantities."
+          ]
+        },
+        {
+          "title": "Manage and Edit Weekly Plans",
+          "actions": [
+            "If you want to edit the weekly plan, you must first 'unpublish' the weekly menu.",
+            "To unpublish, click 'Unpublish Menu'.",
+            "After unpublishing, you can change the menu or assigned customers.",
+            "After making changes, click 'Publish' again."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Once the weekly menu is assigned and published, it cannot be edited. If you want to make changes, you must first 'unpublish' the menu. However, if at least one day is marked as 'Ready', the weekly menu cannot be unpublished.",
+      "url": ""
     },
     {
-      "title": "Adding and Managing Customers",
-      "description": "Conveniently manage clients and change customer  settings.",
+      "title": "ORDERS: General Order List",
+      "description": "In this section, you can view all weekly orders, see their statuses, and select days for order review or management.",
       "steps": [
-        "Add customers manually or using electronic forms.",
-        "Change customer status (active/inactive).",
-        "Adjust the number of menu choices for the customer.",
-        "Calculate recommended nutritional values for the customer."
+        {
+          "title": "View Weekly Orders",
+          "actions": [
+            "Go to the 'Orders' section.",
+            "You will see the week's dates and the status of each day's orders.",
+            "The active day will be highlighted to easily find the current day."
+          ]
+        },
+        {
+          "title": "Select a Day's Order",
+          "actions": [
+            "Find the day whose order you want to manage.",
+            "Click 'Manage Order'.",
+            "The daily order management window will open, showing all necessary information."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Days with orders marked as 'Ready' can no longer be edited.",
+      "url": ""
     },
     {
-      "title": "Tracking Orders and Ingredients",
-      "description": "Efficiently track orders and manage your ingredient inventory.",
+      "title": "ORDERS: Daily Order Management",
+      "description": "In this section, you can manage specific daily orders, view meal compositions, and assigned customers.",
       "steps": [
-        "View daily and weekly orders.",
-        "Combine ingredient lists for multiple days.",
-        "Enter ingredient inventory and recalculate required amounts.",
-        "Generate ingredient lists in PDF format."
+        {
+          "title": "View Daily Order",
+          "actions": [
+            "Click the 'Manage Order' button next to the desired day.",
+            "At the top of the page, you will see the order date and its status.",
+            "To view meals assigned to customers, click 'Orders insight'.",
+            "A window will open showing how many portions and which meals each customer should receive."
+          ]
+        },
+        {
+          "title": "Manage Meals and Ingredients",
+          "actions": [
+            "Select a food category (breakfast, lunch, dinner, etc.) to see related orders.",
+            "You will see a list of meals with their statuses and required portion quantities.",
+            "Next to each meal, the total ingredient quantity needed to prepare all assigned portions will be displayed."
+          ]
+        },
+        {
+          "title": "Change Meal Status",
+          "actions": [
+            "When starting to prepare a meal, mark it as 'Preparing'.",
+            "When the meal is ready, change its status to 'Done'.",
+            "When all meals for the day are prepared, mark the day as 'Done' by clicking 'Mark as Done'.",
+            "All meals for that day will be marked as 'Done'."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Each day's orders are linked to the weekly menu assignment to the weekly plan. If at least one day is marked as 'Done', the weekly menu cannot be unpublished.",
+      "url": ""
     },
     {
-      "title": "Managing Subscription Limits",
-      "description": "Understand subscription limits and efficiently manage your plan.",
+      "title": "ORDERS: Ingredient List Review",
+      "description": "In this section, suppliers can review the ingredient list for daily orders, add available ingredients, and download the list as a PDF. This helps efficiently prepare for production and ensure all necessary ingredients are available.",
       "steps": [
-        "View subscription plan limits.",
-        "Manage system alerts about limits.",
-        "Understand the data archiving process when changing plans."
+        {
+          "title": "View Ingredient List",
+          "actions": [
+            "Go to the 'Orders' section.",
+            "At the top, click 'Ingredient List'.",
+            "Select the day for which you want to review the ingredient list.",
+            "Click 'View & Enter Stock'.",
+            "You will see the ingredient list with required quantities calculated based on orders."
+          ]
+        },
+        {
+          "title": "Add Available Ingredients",
+          "actions": [
+            "Select a day or multiple days (using the combination feature).",
+            "Review the ingredient list.",
+            "If you have certain ingredients in stock, enter their available quantity.",
+            "The system will automatically recalculate the missing ingredient quantities based on your input."
+          ]
+        },
+        {
+          "title": "Download Ingredient List",
+          "actions": [
+            "To download the ingredient list as a PDF, click 'Download PDF'.",
+            "The PDF document will include all required ingredients and their quantities for the selected day or combination."
+          ]
+        },
+        {
+          "title": "Combine Ingredient Lists for Multiple Days",
+          "actions": [
+            "If you want to combine ingredient lists for multiple days, click 'Generate Combined List' in the top menu.",
+            "Select the days and click 'Generate Combined List'.",
+            "The generated list will appear at the bottom of the page in the 'Combined List' section.",
+            "You can also add available ingredients and download the PDF."
+          ]
+        }
       ],
-      "url": "https://www.youtube.com/watch?v=sn7UgD7m8NI"
+      "note": "Suppliers cannot track inventory but can review the ingredient list and add available quantities. The system will automatically calculate missing ingredients to help plan production and ensure smooth supply.",
+      "url": ""
+    },
+    {
+      "title": "Changing Subscription Plan",
+      "description": "The system allows changing the subscription plan to a higher or lower tier. During the change, access to certain data or features may be restricted.",
+      "steps": [
+        {
+          "title": "Upgrade Plan",
+          "actions": [
+            "Go to the 'Subscription' section.",
+            "Click 'Manage Subscription & Payments'.",
+            "Select a new subscription plan.",
+            "Confirm the changes and make the payment.",
+            "After the upgrade, all new features will be activated immediately.",
+            "NOTE: If you cannot see your new plan, try refreshing the page or logging in again."
+          ]
+        },
+        {
+          "title": "Downgrade Plan",
+          "actions": [
+            "Go to the 'Subscription' section.",
+            "Click 'Manage Subscription & Payments'.",
+            "Select a new subscription plan.",
+            "Confirm the changes and make the payment.",
+            "Certain data will be automatically archived if it exceeds the new plan limits.",
+            "NOTE: If you cannot see your new plan, try refreshing the page or logging in again."
+          ]
+        },
+        {
+          "title": "Archived Data When Downgrading",
+          "actions": [
+            "Ingredients and meals exceeding the new plan limits will be archived.",
+            "Weekly menus will be archived if they no longer fit into the new plan.",
+            "Archived data cannot be actively used but will remain accessible for review if allowed by the plan."
+          ]
+        }
+      ],
+      "note": "When downgrading the plan, data exceeding the new plan limits will be archived. To restore them, you will need to return to a higher plan."
     }
   ]
 }

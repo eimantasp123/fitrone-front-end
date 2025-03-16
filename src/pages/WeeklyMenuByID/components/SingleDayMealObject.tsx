@@ -22,34 +22,34 @@ const SingleDayMealObject: React.FC<SingleDayMealObjectProps> = ({
 }) => {
   return (
     <>
-      <div className="flex h-full items-center gap-3 rounded-lg border border-neutral-200/50 bg-backgroundSecondary p-1 dark:border-neutral-800 dark:bg-background">
+      <div className="grid-col-8 grid-auto grid items-center gap-3 rounded-lg border border-neutral-200/50 bg-backgroundSecondary p-3 dark:border-neutral-800 dark:bg-background xl:gap-2">
         {/* Meal Image */}
         <div
           style={{
-            backgroundImage: `url(${meal?.image})`,
+            backgroundImage: `url(${encodeURI(meal.image)})`,
           }}
-          className="h-16 w-20 flex-shrink-0 overflow-hidden rounded-md bg-cover bg-center"
+          className="col-span-1 row-start-1 row-end-2 h-12 w-16 flex-shrink-0 overflow-hidden rounded-md bg-cover bg-center 2xl:row-end-3"
         />
-        <div className="flex flex-1 flex-col items-start gap-2">
-          <p className="text-sm font-medium">
-            {capitalizeFirstLetter(meal?.title)}
-          </p>
-          {/* Description and Nutrition information popover */}
-          {meal && <DescriptionAndNutritionPopover t={t} meal={meal} />}
-        </div>
-
-        <div className="mr-1 flex h-full flex-col justify-center gap-2">
-          <Tooltip
-            label={t("common:removeMeal")}
-            aria-label={t("common:removeMeal")}
-          >
-            <button
-              onClick={() => handleMealDelete()}
-              className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-md text-xs text-red-500 transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-300/20"
+        <div className="col-span-7 row-start-1 row-end-2 flex w-full flex-col gap-1">
+          <div className="flex flex-1 items-start justify-between gap-2">
+            <p className="w-[90%] text-sm font-medium">
+              {capitalizeFirstLetter(meal?.title)}
+            </p>
+            <Tooltip
+              label={t("common:removeMeal")}
+              aria-label={t("common:removeMeal")}
             >
-              <FaTrash />
-            </button>
-          </Tooltip>
+              <button
+                onClick={() => handleMealDelete()}
+                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-md text-xs text-red-500 transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-300/20"
+              >
+                <FaTrash />
+              </button>
+            </Tooltip>
+          </div>
+        </div>
+        <div className="col-span-8 mr-1 flex gap-2 2xl:col-span-6 2xl:col-start-2 2xl:row-start-2">
+          {meal && <DescriptionAndNutritionPopover t={t} meal={meal} />}
         </div>
       </div>
     </>

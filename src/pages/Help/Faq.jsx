@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import { HiPlus } from "react-icons/hi";
 
 // FAQ data
@@ -69,30 +70,33 @@ const faqs = [
 
 export default function Faq() {
   const [openIndex, setOpenIndex] = useState(null);
+  const { t } = useTranslation("faq");
 
   const handleToggle = (index) => {
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
+  const faqs = t("quastionsAndAnswers", { returnObjects: true });
+
   return (
     <>
       <Helmet>
-        <title> Frequently Asked Questions</title>
+        <title>{t("title")}</title>
       </Helmet>
       <div className="flex w-full overflow-y-auto p-4 scrollbar-thin md:px-14 md:py-10">
         <div className="container mx-auto mb-4 h-full w-full max-w-[1400px] md:mb-0">
           <section id="faq" className="flex select-none flex-col">
             <div className="flex flex-col items-center justify-center gap-5">
-              <h2 className="mt-2 text-xl font-semibold text-textPrimary md:text-2xl lg:text-2xl">
-                Frequently Asked Questions
+              <h2 className="text-md mt-2 text-center font-semibold text-textPrimary md:text-2xl lg:text-2xl">
+                {t("title")}
               </h2>
             </div>
 
             {/* FAQ SECTIONS */}
-            <div className="my-10 flex flex-col gap-6 lg:my-10 lg:flex-row">
+            <div className="my-6 flex flex-col gap-3 lg:my-10 lg:flex-row">
               {/* Left Column */}
-              <div className="flex w-full flex-col gap-3 lg:w-1/2 lg:gap-4">
-                {faqs.slice(0, 6).map((faq, index) => (
+              <div className="flex w-full flex-col gap-3 lg:w-1/2">
+                {faqs.slice(0, 4).map((faq, index) => (
                   <Accordion
                     key={index}
                     faq={faq}
@@ -103,8 +107,8 @@ export default function Faq() {
               </div>
 
               {/* Right Column */}
-              <div className="flex w-full flex-col gap-3 lg:w-1/2 lg:gap-4">
-                {faqs.slice(6, 12).map((faq, index) => (
+              <div className="flex w-full flex-col gap-3 lg:w-1/2">
+                {faqs.slice(4, 8).map((faq, index) => (
                   <Accordion
                     key={index + 6}
                     faq={faq}
@@ -144,7 +148,7 @@ const Accordion = ({ faq, isOpen, onToggle }) => {
         className="flex cursor-pointer items-center justify-between"
         onClick={onToggle}
       >
-        <h3 className="w-[80%] text-base font-normal text-textPrimary">
+        <h3 className="w-[80%] text-sm font-normal text-textPrimary">
           {faq.question}
         </h3>
         <HiPlus
@@ -160,7 +164,7 @@ const Accordion = ({ faq, isOpen, onToggle }) => {
         className="max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
         style={{ maxHeight: "0px" }}
       >
-        <p className="mt-3 text-textSecondary">{faq.answer}</p>
+        <p className="mt-3 text-sm text-textSecondary">{faq.answer}</p>
       </div>
     </div>
   );

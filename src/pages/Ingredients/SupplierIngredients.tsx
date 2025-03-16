@@ -5,16 +5,15 @@ import IntersectionObserverForFetchPage from "@/components/IntersectionObserverF
 import { useDeleteIngredient } from "@/hooks/Ingredients/useDeleteIngredient";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
 import { usePageStates } from "@/hooks/usePageStatus";
+import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 import { IngredientFromServer } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React, { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ThreeDots } from "react-loader-spinner";
 import IngredientAddModal from "./IngredientAddModal";
 import IngredientCard from "./IngredientCard";
 import IngredientsHeader from "./IngredientsHeader";
-import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 
 /**
  *  Supplier Ingredients Component
@@ -101,7 +100,7 @@ const SupplierIngredients: React.FC = () => {
         ref={scrollContainerRef}
         className="w-full overflow-y-auto scrollbar-thin"
       >
-        <div className="container mx-auto flex max-w-[1700px] flex-col">
+        <div className="container mx-auto flex max-w-[1450px] flex-col md:px-3 2xl:max-w-[1500px] 3xl:max-w-[1600px]">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <IngredientsHeader
               setSearchQuery={setSearchQuery}
@@ -156,7 +155,7 @@ const SupplierIngredients: React.FC = () => {
           {/* Display Ingredients */}
           {hasItems && (
             <>
-              <span className="pl-5 text-sm">
+              <span className="my-1 pl-5 text-sm">
                 {t("common:showingData", {
                   from: ingredients?.length || 0,
                   general: data?.pages[0]?.total || 0,
@@ -176,16 +175,10 @@ const SupplierIngredients: React.FC = () => {
                 )}
               </div>
 
-              {/* Bottom Spinner for Loading Next Page */}
-              {isFetchingNextPage && (
-                <div className="flex w-full justify-center pb-4">
-                  <ThreeDots color="#AFDF3F" height={30} width={40} />
-                </div>
-              )}
-
               <IntersectionObserverForFetchPage
                 onIntersect={fetchNextPage}
                 hasNextPage={!!hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
               />
             </>
           )}

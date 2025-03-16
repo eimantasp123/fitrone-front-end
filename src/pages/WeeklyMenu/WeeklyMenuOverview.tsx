@@ -13,7 +13,7 @@ const WeeklyMenuOverview: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{t("menu")}</title>
+        <title>{t("weekly-menu")}</title>
       </Helmet>
       {user.plan === "base" && <LockPage userPlan={user.plan} />}
       {user.role === "supplier" && user.plan !== "base" && (

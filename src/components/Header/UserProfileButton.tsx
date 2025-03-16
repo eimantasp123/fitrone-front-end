@@ -49,7 +49,7 @@ const UserProfileButton: React.FC = () => {
         >
           <div className="flex items-center justify-center gap-3">
             <img
-              src={user?.profileImage}
+              src={encodeURI(user?.profileImage || "")}
               alt="Profile"
               className="objet-top size-[32px] rounded-full object-cover lg:size-[33px]"
             />

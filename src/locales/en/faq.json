@@ -1,0 +1,37 @@
+{
+  "title": "Frequently Asked Questions (FAQ)",
+  "quastionsAndAnswers": [
+    {
+      "question": "Will my customers have access to this platform?",
+      "answer": "No, only the manufacturer works on the platform. Customer data is stored only in your system, there is no customer login."
+    },
+    {
+      "question": "How does ingredient management work?",
+      "answer": "You can quickly add, edit, and manage ingredient nutritional values, and all changes are immediately updated in linked meals."
+    },
+    {
+      "question": "Can I manage multiple weekly menus at once?",
+      "answer": "Yes, you can create multiple menus, edit them separately, and assign them to different weeks."
+    },
+    {
+      "question": "How does the platform help manage orders?",
+      "answer": "By publishing weekly menus, you automatically generate orders that you can view and manage by day. The platform shows how many meals are needed for each customer, allows you to manage ingredients and stocks, generate PDF reports, and, if necessary, combine ingredient lists for multiple days into one."
+    },
+    {
+      "question": "What does data archiving mean when changing plans?",
+      "answer": "When switching from a higher subscription plan to a lower one, the system archives some data. Archived meals and ingredients will not be viewable, but saved weekly menus will be visible to a limited extent."
+    },
+    {
+      "question": "Do I have access to AI ingredient search?",
+      "answer": "Yes, AI integration is offered in the 'Pro' and 'Premium' plans, which helps to find and process ingredients faster during meal creation."
+    },
+    {
+      "question": "Are there customer quantity limits in the plans?",
+      "answer": "It depends on the selected plan. The 'Basic' and 'Pro' plans have a set number of customers, while the 'Premium' plan has unlimited customers."
+    },
+    {
+      "question": "How does Fitrone simplify my business processes?",
+      "answer": "The system combines the most important operations in one place – from ingredient and menu creation to order and ingredient stock management, reducing errors and saving your time."
+    }
+  ]
+}

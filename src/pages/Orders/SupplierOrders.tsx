@@ -56,7 +56,7 @@ const SupplierOrders = () => {
   return (
     <>
       <div className="w-full select-none overflow-y-auto scrollbar-thin">
-        <div className="container mx-auto flex max-w-[1700px] flex-col items-center">
+        <div className="container mx-auto flex max-w-[1450px] flex-col items-center md:px-3 2xl:max-w-[1500px] 3xl:max-w-[1600px]">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <SupplierOrderHeader
               t={t}

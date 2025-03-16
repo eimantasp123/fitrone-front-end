@@ -1,0 +1,37 @@
+{
+  "title": "Dažniausiai užduodami klausimai (DUK)",
+  "quastionsAndAnswers": [
+    {
+      "question": "Ar mano klientai turės prieigą prie šios platformos?",
+      "answer": "Ne, platformoje dirba tik gamintojas. Klientų duomenys saugomi tik jūsų sistemoje, nėra jokio klientų prisijungimo."
+    },
+    {
+      "question": "Kaip veikia ingredientų valdymas?",
+      "answer": "Ingredientus galite greitai pridėti, redaguoti ir tvarkyti jų mitybines vertes, o visi pakeitimai iškart atsinaujina susietuose patiekaluose."
+    },
+    {
+      "question": "Ar galiu valdyti kelis savaitinius meniu vienu metu?",
+      "answer": "Taip, galite sudaryti kelis meniu, redaguoti juos atskirai ir priskirti skirtingoms savaitėms."
+    },
+    {
+      "question": "Kaip platforma padeda valdyti užsakymus?",
+      "answer": "Publikuodami savaitės meniu, automatiškai sugeneruojate užsakymus, kuriuos galite matyti bei tvarkyti pagal dienas. Platforma rodo, kiek patiekalų reikia kiekvienam klientui, leidžia valdyti ingredientus bei likučius, generuoti PDF ataskaitas ir, jei reikia, sujungti kelių dienų ingredientų sąrašus į vieną."
+    },
+    {
+      "question": "Ką reiškia duomenų archyvavimas keičiant planus?",
+      "answer": "Kai pereinama nuo aukštesnio prenumeratos plano prie žemesnio, sistema dalį duomenų archyvuoja. Archyvuotų patiekalų ir ingredientų peržiūrėti negalėsite, tačiau išsaugoti savaitės meniu bus matomi ribotai."
+    },
+    {
+      "question": "Ar turiu galimybę naudoti AI paiešką ingredientams?",
+      "answer": "Taip, „Pro“ ir „Premium“ planuose siūloma AI integracija, kuri padeda greičiau rasti ir apdoroti ingredientus patiekalų kūrimo metu."
+    },
+    {
+      "question": "Ar planuose yra numatytas klientų kiekio limitas?",
+      "answer": "Priklauso nuo pasirinkto plano. „Basic“ bei „Pro“ planai turi nustatytą klientų skaičių, o „Premium“ – neribotą."
+    },
+    {
+      "question": "Kaip Fitrone palengvina mano verslo procesus?",
+      "answer": "Sistema apjungia svarbiausias operacijas vienoje vietoje – nuo ingredientų ir meniu kūrimo iki užsakymų ir ingredientų likučių valdymo, todėl sumažėja klaidų ir taupomas jūsų laikas."
+    }
+  ]
+}

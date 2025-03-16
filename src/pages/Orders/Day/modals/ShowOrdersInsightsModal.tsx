@@ -99,7 +99,7 @@ const ShowOrdersInsightsModal = ({
                             key={`${mealCategory.category}-${categoryIndex}`}
                             className="w-full rounded-lg border p-2"
                           >
-                            <div className="mb-1">
+                            <div className="mb-2">
                               {t("category")}:{" "}
                               <span className="font-medium">
                                 {

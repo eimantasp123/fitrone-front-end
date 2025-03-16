@@ -40,7 +40,7 @@ const IngredientAddModal: React.FC<IngredientAddModalProps> = ({
   setIngredients = undefined,
   editIngredient = null,
 }) => {
-  const { t } = useTranslation("meals");
+  const { t } = useTranslation(["meals", "common"]);
   const [unit, setUnit] = useState<string>("g");
 
   // Close modal
@@ -120,7 +120,7 @@ const IngredientAddModal: React.FC<IngredientAddModalProps> = ({
         >
           <div className="flex items-center gap-3 border-b-[1px] border-borderPrimary pb-5">
             <div className="flex items-center gap-4">
-              <h4 className="text-xl font-semibold">
+              <h4 className="text-lg font-semibold md:text-xl">
                 {editIngredient
                   ? `${t("editIngredient")}`
                   : `${t("addIngredient")}`}

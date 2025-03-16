@@ -13,6 +13,8 @@
   "createdAt": "Created at",
   "additionalInformation": "Additional information",
 
+  "showMore": "Show more",
+
   "feedbackModal": {
     "title": "Feedback",
     "description": " Your feedback is valuable in helping us better understand your needs and tailor our service accordingly.",
@@ -54,6 +56,7 @@
   "remove": "Remove",
   "category": "Category",
   "update": "Update",
+  "save": "Save",
   "search": "Search",
   "publish": "Publish",
   "published": "Published",
@@ -132,5 +135,14 @@
   "longitude": "Longitude",
 
   "removeMember": "Remove member",
-  "removeGroup": "Remove group"
+  "removeGroup": "Remove group",
+
+  "howToSearchAddress": "How to search for an address?",
+  "openGoogleMaps": "Open Google Maps:",
+  "searchYourAddress": "Search for your address or click on a location on the map.",
+  "copyDisplayedAddress": "Copy the address displayed by Google Maps (as shown in the image below).",
+  "pasteAddressInForm": "Return to our form and paste the copied address into the search field.",
+  "clickSearchToFind": "Click the search button to find your address.",
+  "selectCorrectAddress": "Select the correct address from the suggestions – clicking will add it automatically.",
+  "helpToFindAddress": "Help/Instruction"
 }

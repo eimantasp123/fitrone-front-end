@@ -122,9 +122,8 @@
   "editAndView": "Redaguoti",
   "deleteMealTitle": "Ištrinti patiekalą ",
   "deleteIngredientTitle": "Ištrinti ingredientą",
-  "deleteIngredientDescription": "Jei tęsite, ingredientas bus visam laikui pašalintas iš duomenų bazės. Šis veiksmas turės įtakos visiems patiekalams ar receptams, kuriuose naudojamas šis ingredientas, nes ingrediento duomenys nebebus pasiekiami.",
-  "deleteMealDescription": " Ar tikrai norite visam laikui ištrinti šį patiekalą? Šis veiksmas negali būti atšauktas, ir patiekalas bus pašalintas iš jūsų įrašų.",
-  "ingredientDeletedSuccessfully": "Ingredientas sėkmingai ištrintas",
+  "deleteIngredientDescription": "Jei tęsite, ingredientas bus visam laikui pašalintas iš duomenų bazės. Tai neturės įtakos patiekalams, kuriuose jis buvo naudojamas. Tačiau ateityje šio ingrediento nebegalėsite pridėti prie naujų patiekalų.",
+  "deleteMealDescription": "Ar tikrai norite visam laikui ištrinti šį patiekalą? Šis veiksmas negali būti atšauktas. Ištrynus patiekalą, jis nebebus prieinamas naujuose savaitės meniu, tačiau ankstesniuose savaitės planuose patiekalas išliks be pokyčių.",
 
   "errors": {
     "fieldIsRequired": "Laukas yra privalomas",

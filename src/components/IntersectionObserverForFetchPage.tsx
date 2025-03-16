@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import CustomButton from "./common/CustomButton";
+import { useTranslation } from "react-i18next";
 
 interface IntersectionObserverForFetchPageProps {
   onIntersect: () => void;
   hasNextPage: boolean;
-  threshold?: number;
-  rootMargin?: string;
-  height?: string; // Height of the target element
+  isFetchingNextPage: boolean;
 }
 
 /**
@@ -13,38 +13,24 @@ interface IntersectionObserverForFetchPageProps {
  */
 const IntersectionObserverForFetchPage: React.FC<
   IntersectionObserverForFetchPageProps
-> = ({
-  onIntersect,
-  hasNextPage,
-  threshold = 1.0,
-  rootMargin = "0px",
-  height = "1px",
-}) => {
-  const observerRef = useRef<HTMLDivElement | null>(null);
+> = ({ onIntersect, hasNextPage, isFetchingNextPage }) => {
+  const { t } = useTranslation("common");
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage) {
-          onIntersect();
-        }
-      },
-      { threshold, rootMargin },
-    );
-
-    const currentRef = observerRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [onIntersect, hasNextPage, threshold, rootMargin]);
-
-  return <div ref={observerRef} style={{ height }} />;
+  return (
+    <>
+      {hasNextPage && (
+        <div className="mb-10 flex justify-center">
+          <CustomButton
+            loading={isFetchingNextPage}
+            paddingX="px-10"
+            loadingSpinner={false}
+            text={t("showMore")}
+            onClick={onIntersect}
+          />
+        </div>
+      )}
+    </>
+  );
 };
 
 export default IntersectionObserverForFetchPage;

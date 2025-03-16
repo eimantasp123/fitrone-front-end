@@ -19,7 +19,6 @@ import {
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ThreeDots } from "react-loader-spinner";
 import AssignCustomersModalHeader from "./components/ManageGroupsModalHeader";
 
 interface AssignCustomerToGroupModalProps {
@@ -238,15 +237,12 @@ const AssignCustomerToGroupModal: React.FC<AssignCustomerToGroupModalProps> = ({
 
                 {/* Bottom Spinner for Loading Next Page */}
                 <div className="col-span-1 flex w-full justify-center pb-4 pt-2 md:col-span-2 xl:col-span-3">
-                  {isFetchingNextPage ? (
-                    <ThreeDots color="#AFDF3F" height={30} width={40} />
-                  ) : null}
+                  <IntersectionObserverForFetchPage
+                    onIntersect={fetchNextPage}
+                    hasNextPage={!!hasNextPage}
+                    isFetchingNextPage={isFetchingNextPage}
+                  />
                 </div>
-
-                <IntersectionObserverForFetchPage
-                  onIntersect={fetchNextPage}
-                  hasNextPage={!!hasNextPage}
-                />
               </div>
 
               <div className="mt-4">

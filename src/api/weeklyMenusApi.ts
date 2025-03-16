@@ -13,7 +13,7 @@ export const fetchPaginatedWeeklyMenus = async ({
   const response = await axiosInstance.get("weekly-menu", {
     params: {
       page: pageParam,
-      limit: 14,
+      limit: 28,
       query: searchQuery,
       archived: archived,
       preference: preference,
@@ -52,6 +52,14 @@ export const unarchiveWeeklyMenuApi = async (id: string) => {
  */
 export const createWeeklyMenuApi = async (data: CreateWeeklyMenuModalForm) => {
   const response = await axiosInstance.post("weekly-menu", data);
+  return response.data;
+};
+
+/**
+ * Create a copy of the weekly menu
+ */
+export const createCopyWeeklyMenuApi = async (id: string) => {
+  const response = await axiosInstance.post(`weekly-menu/copy/${id}`);
   return response.data;
 };
 

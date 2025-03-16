@@ -59,27 +59,32 @@ const UserDetailsFormComponent = <T extends FieldValues>({
         onSubmit={methods.handleSubmit(onSubmit)}
       >
         {/* Name */}
-        <CustomInput name="firstName" label={t("common:firstName")} />
+        <CustomInput name="firstName" required label={t("common:firstName")} />
 
         {/* Last Name */}
-        <CustomInput name="lastName" label={t("common:lastName")} />
+        <CustomInput name="lastName" required label={t("common:lastName")} />
 
         {/* Email*/}
         <span className="col-span-2">
-          <CustomInput name="email" type="email" label={t("email")} />
+          <CustomInput name="email" type="email" required label={t("email")} />
         </span>
 
         {/* Phone Number */}
-        <CustomInput name="phone" type="tel" label={t("common:phoneNumber")} />
+        <CustomInput
+          name="phone"
+          type="tel"
+          required
+          label={t("common:phoneNumber")}
+        />
 
         {/* Age */}
-        <NumberInputs name="age" label={t("common:age")} />
+        <NumberInputs name="age" required label={t("common:age")} />
 
         {/* Height */}
-        <NumberInputs name="height" label={t("common:height")} />
+        <NumberInputs name="height" required label={t("common:height")} />
 
         {/* Weight */}
-        <NumberInputs name="weight" label={t("common:weight")} />
+        <NumberInputs name="weight" required label={t("common:weight")} />
 
         {/* Weight Goals */}
         <NumberInputs name="weightGoal" label={t("common:weightGoal")} />
@@ -87,6 +92,7 @@ const UserDetailsFormComponent = <T extends FieldValues>({
         {/* Activity level */}
         <OptionsSelectAndRegisterToForm
           name="gender"
+          required
           placeholder={t("customers:genderSelectPlaceholder")}
           label={t("customers:genderTitle")}
           options={genderOptions}
@@ -95,6 +101,7 @@ const UserDetailsFormComponent = <T extends FieldValues>({
         {/* Activity level */}
         <OptionsSelectAndRegisterToForm
           name="physicalActivityLevel"
+          required
           label={t("common:physicalActivityLevel")}
           placeholder={t("select")}
           options={physicalActivityLevelOptions}
@@ -103,6 +110,7 @@ const UserDetailsFormComponent = <T extends FieldValues>({
         {/* Fitness goal */}
         <OptionsSelectAndRegisterToForm
           name="fitnessGoal"
+          required
           placeholder={t("select")}
           label={t("common:fitnessGoal")}
           options={fitnessGoalOptionsTranslated}
@@ -111,6 +119,7 @@ const UserDetailsFormComponent = <T extends FieldValues>({
         {/* Dietary preference */}
         <MultipleOptionsSelectAndRegisterToForm
           name="preferences"
+          required
           label={t("meals:preferencesTitle")}
           placeholder={t("select")}
           options={dietaryPreferences}
@@ -144,6 +153,7 @@ const UserDetailsFormComponent = <T extends FieldValues>({
         <div className="col-span-2 h-full">
           <CustomAddressSearch
             name="address"
+            required={true}
             setSelectedPlace={setSelectedPlace}
             selectedPlace={selectedPlace}
             disableForm={disableForm}

@@ -4,6 +4,7 @@ import ActiveBadge from "@/components/common/ActiveBadge";
 import CustomButton from "@/components/common/CustomButton";
 import EmptyState from "@/components/common/EmptyState";
 import EmptyStateForSmallComponents from "@/components/common/EmptyStateForSmallComponents";
+import { useAssignMenuForWeek } from "@/hooks/WeeklyPlan/useAssignMenuForWeek";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
 import { usePageStates } from "@/hooks/usePageStatus";
 import { capitalizeFirstLetter } from "@/utils/helper";
@@ -20,9 +21,7 @@ import {
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ThreeDots } from "react-loader-spinner";
 import AssignExistingMenuModalHeader from "./AssignExistingMenuModalHeader";
-import { useAssignMenuForWeek } from "@/hooks/WeeklyPlan/useAssignMenuForWeek";
 
 interface AssignExistingMenuModalProps {
   isOpen: boolean;
@@ -220,15 +219,12 @@ const AssignExistingMenuModal: React.FC<AssignExistingMenuModalProps> = ({
 
                   {/* Bottom Spinner for Loading Next Page */}
                   <div className="col-span-1 flex w-full justify-center pb-4 pt-2 md:col-span-2 xl:col-span-3">
-                    {isFetchingNextPage ? (
-                      <ThreeDots color="#AFDF3F" height={30} width={40} />
-                    ) : null}
+                    <IntersectionObserverForFetchPage
+                      onIntersect={fetchNextPage}
+                      hasNextPage={!!hasNextPage}
+                      isFetchingNextPage={isFetchingNextPage}
+                    />
                   </div>
-
-                  <IntersectionObserverForFetchPage
-                    onIntersect={fetchNextPage}
-                    hasNextPage={!!hasNextPage}
-                  />
                 </div>
 
                 <div className="mt-4 px-4">

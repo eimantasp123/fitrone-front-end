@@ -34,7 +34,7 @@ const MealOverviewCard: React.FC<MealOverviewCardProps> = ({
       <div className="flex h-full w-full flex-col gap-2 overflow-hidden rounded-lg bg-background p-2 shadow-custom-light2 dark:bg-backgroundSecondary sm:flex-row">
         {/* Left side  */}
         <div
-          style={{ backgroundImage: `url(${meal.image})` }}
+          style={{ backgroundImage: `url(${encodeURI(meal.image || "")})` }}
           className="relative h-40 w-full overflow-hidden rounded-lg bg-cover bg-center sm:h-full sm:w-[35%]"
         />
 

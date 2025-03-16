@@ -88,7 +88,7 @@ const SupplierIngredientListModal = ({
               <span className="font-semibold">{t("days")}:</span>{" "}
               {translatedDays ?? "-"}
             </h4>
-            <div className="relative mt-4 flex h-auto max-h-[570px] w-[1100px] flex-col gap-2 overflow-auto px-2 scrollbar-thin md:h-auto md:max-h-[600px] xl:max-h-[750px]">
+            <div className="relative mt-4 flex h-auto max-h-[450px] w-[1100px] flex-col gap-2 overflow-auto px-2 scrollbar-thin md:h-auto xl:max-h-[500px] 3xl:max-h-[700px]">
               <div className="sticky top-0 grid w-full grid-cols-[200px_120px_180px_180px_180px_1fr] bg-background px-3 py-2 text-sm">
                 {Object.entries(modalField).map(([key, field], index) => (
                   <div

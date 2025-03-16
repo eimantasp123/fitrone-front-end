@@ -25,7 +25,7 @@ const WeekOrderContext = createContext<WeekOrderContextType | undefined>(
 export const WeekOrderProvider = ({ children }: { children: ReactNode }) => {
   const { details: user } = useAppSelector((state) => state.personalDetails);
   const { weekNumber, formattedWeekRange, year, navigateWeeks } = useTime(
-    user.timezone ?? null,
+    user?.timezone ?? null,
   );
   const [week, setWeek] = useState<number>(weekNumber);
   const [currentYear, setCurrentYear] = useState<number>(year);

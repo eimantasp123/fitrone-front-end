@@ -13,6 +13,31 @@ import AccordionForDashboard from "./components/Accordion";
 import LineIndicator from "./components/LineIndicator";
 import TurnOnOrOffComponent from "./components/TurnOnOrOffComponent";
 
+// Define the main GuideContainer type
+type GuideContainer = {
+  title: string;
+  description: string;
+  steps: GuideStep[];
+  note: string;
+  url: string;
+};
+
+// Define a single step, which can be either a basic step or a grouped step with methods
+type GuideStep = {
+  title: string;
+  actions?: string[];
+  methods?: GuideMethod[];
+};
+
+// Define methods for cases like adding ingredients in different ways (AI search, personal list, manual entry)
+type GuideMethod = {
+  name: string;
+  actions: string[];
+};
+
+// Full guide container array type
+type GuideContainerArray = GuideContainer[];
+
 /**
  * Supplier Dashboard Page Component
  */
@@ -40,16 +65,13 @@ export default function SupplierDashboard() {
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
-  const guide = t("guideContainer", { returnObjects: true }) as {
-    title: string;
-    description: string;
-    steps: string[];
-    url: string;
-  }[];
+  const guide = t("guideContainer", {
+    returnObjects: true,
+  }) as GuideContainerArray;
 
   return (
     <div className="w-full overflow-y-auto scrollbar-thin">
-      <div className="mx-auto flex max-w-[1700px] flex-col">
+      <div className="mx-auto flex max-w-[1450px] flex-col md:px-3 2xl:max-w-[1500px] 3xl:max-w-[1600px]">
         <div className="my-4 flex w-full flex-col gap-4 px-3 md:flex-row">
           {/* Limits container */}
           <div className="max-h-fit min-h-[400px] rounded-lg bg-background p-4 text-sm dark:bg-backgroundSecondary md:flex-1">
@@ -62,7 +84,9 @@ export default function SupplierDashboard() {
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h6 className="font-semibold">{t("systemLimits")}</h6>
-                    <p className="text-sm">{t("systemLimitsDescription")}</p>
+                    <p className="mt-1 text-sm">
+                      {t("systemLimitsDescription")}
+                    </p>
                     {data?.data.plan !== "base" && (
                       <span className="mt-2 inline-block items-center justify-start text-nowrap rounded-full border border-primary px-3 py-1">
                         {`${capitalizeFirstLetter(data?.data.plan)} ${t("plan")}`}
@@ -136,7 +160,7 @@ export default function SupplierDashboard() {
           {/* Guide container */}
           <div className="h-fit flex-1 rounded-lg bg-background p-4 text-sm dark:bg-backgroundSecondary">
             <h6 className="font-semibold">{t("systemGuide")}</h6>
-            <p className="text-sm">{t("systemGuideDescription")}</p>
+            <p className="mt-1 text-sm">{t("systemGuideDescription")}</p>
             <div className="mt-4 flex flex-col gap-3">
               {guide.map((obj, index) => (
                 <AccordionForDashboard

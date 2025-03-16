@@ -50,6 +50,7 @@ const SupplierWeeklyMenyById: React.FC = () => {
     }
 
     if (id && data) {
+      console.log(data.data);
       return (
         <>
           <div className="sticky top-0 z-30 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
@@ -66,10 +67,10 @@ const SupplierWeeklyMenyById: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{id && data && capitalizeFirstLetter(data.data.title)}</title>
+        <title>{id && data && capitalizeFirstLetter(data?.data.title)}</title>
       </Helmet>
       <div className="w-full select-none overflow-y-auto scrollbar-thin">
-        <div className="container mx-auto flex max-w-[1700px] flex-col items-center">
+        <div className="container mx-auto flex max-w-[1450px] flex-col items-center md:px-3 2xl:max-w-[1500px] 3xl:max-w-[1600px]">
           {renderContent()}
         </div>
       </div>

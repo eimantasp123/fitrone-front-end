@@ -37,6 +37,8 @@ import enGroups from "./locales/en/groups.json";
 import ltGroups from "./locales/lt/groups.json";
 import enOrders from "./locales/en/orders.json";
 import ltOrders from "./locales/lt/orders.json";
+import enFaq from "./locales/en/faq.json";
+import ltFaq from "./locales/lt/faq.json";
 
 /**
  *  Instance of i18n
@@ -63,6 +65,7 @@ i18n
         customers: enCustomers,
         groups: enGroups,
         orders: enOrders,
+        faq: enFaq,
       },
       lt: {
         common: ltCommon,
@@ -81,6 +84,7 @@ i18n
         customers: ltCustomers,
         groups: ltGroups,
         orders: ltOrders,
+        faq: ltFaq,
       },
     },
     fallbackLng: "en", // Fallback language if the current language is not available
@@ -88,14 +92,8 @@ i18n
       escapeValue: false, // React already does escaping
     },
     detection: {
-      order: [
-        "localStorage",
-        "cookie",
-        "navigator",
-        "htmlTag",
-        "path",
-        "subdomain",
-      ],
+      order: ["querystring", "localStorage", "cookie", "navigator"],
+      lookupQuerystring: "lang", // Explicitly define the query parameter
       caches: ["localStorage", "cookie"],
     },
   });

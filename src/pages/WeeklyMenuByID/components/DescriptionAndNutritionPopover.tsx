@@ -20,10 +20,10 @@ const DescriptionAndNutritionPopover: React.FC<
   DescriptionAndNutritionPopoverProps
 > = ({ t, meal }) => {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 3xl:flex-nowrap">
       <Popover placement="top-start">
         <PopoverTrigger>
-          <button className="cursor-pointer rounded-full bg-background px-3 py-[3px] text-xs transition-opacity duration-200 ease-in-out hover:opacity-80 dark:bg-backgroundSecondary md:px-4">
+          <button className="cursor-pointer text-nowrap rounded-full bg-background px-3 py-[3px] text-xs transition-opacity duration-200 ease-in-out hover:opacity-80 dark:bg-backgroundSecondary">
             {t("common:description")}
           </button>
         </PopoverTrigger>
@@ -42,7 +42,7 @@ const DescriptionAndNutritionPopover: React.FC<
 
       <Popover placement="top-start">
         <PopoverTrigger>
-          <button className="cursor-pointer rounded-full bg-background px-3 py-[3px] text-xs transition-opacity duration-200 ease-in-out hover:opacity-80 dark:bg-backgroundSecondary md:px-4">
+          <button className="cursor-pointer text-nowrap rounded-full bg-background px-3 py-[3px] text-xs transition-opacity duration-200 ease-in-out hover:opacity-80 dark:bg-backgroundSecondary">
             {t("common:nutrition")}
           </button>
         </PopoverTrigger>
@@ -68,7 +68,7 @@ const DescriptionAndNutritionPopover: React.FC<
       {/*  */}
       <Popover placement="top-start">
         <PopoverTrigger>
-          <button className="cursor-pointer rounded-full bg-background px-3 py-[3px] text-xs transition-opacity duration-200 ease-in-out hover:opacity-80 dark:bg-backgroundSecondary md:px-4">
+          <button className="cursor-pointer text-nowrap rounded-full bg-background px-3 py-[3px] text-xs transition-opacity duration-200 ease-in-out hover:opacity-80 dark:bg-backgroundSecondary">
             {t("common:ingredients")}
           </button>
         </PopoverTrigger>

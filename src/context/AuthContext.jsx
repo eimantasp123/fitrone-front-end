@@ -46,10 +46,23 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         prefetchDashboardAndOtherData(queryClient);
       } catch (error) {
-        console.error(error);
-        if (error.response && error.response.status === 401) {
+        if (
+          axios.isAxiosError(error) &&
+          error.response &&
+          error.response.status === 401
+        ) {
           setIsAuthenticated(false);
           dispatch(setUserDetails(null));
+        }
+        if (
+          axios.isAxiosError(error) &&
+          error.response &&
+          error.status === 429
+        ) {
+          showCustomToast({
+            status: "error",
+            description: error.response.data,
+          });
         }
       } finally {
         setAuthChecking(false);
@@ -77,7 +90,7 @@ export const AuthProvider = ({ children }) => {
       setUserId(response.data.userId);
       setIs2FAStep(true);
     } else {
-      localStorage.setItem("authenticated", true);
+      localStorage.setItem("authenticated", "true");
       setAuthChecking(true);
     }
   });
@@ -92,7 +105,7 @@ export const AuthProvider = ({ children }) => {
     clearMessages();
     setIs2FAStep(false);
     dispatch(setUserDetails(response.data));
-    localStorage.setItem("authenticated", true);
+    localStorage.setItem("authenticated", "true");
     setAuthChecking(true);
   });
 
@@ -153,7 +166,7 @@ export const AuthProvider = ({ children }) => {
       setUserId(response.data.userId);
       setIs2FAStep(true);
     } else {
-      localStorage.setItem("authenticated", true);
+      localStorage.setItem("authenticated", "true");
       setAuthChecking(true);
     }
   });
@@ -176,7 +189,7 @@ export const AuthProvider = ({ children }) => {
       setUserId(response.data.userId);
       setIs2FAStep(true);
     } else {
-      localStorage.setItem("authenticated", true);
+      localStorage.setItem("authenticated", "true");
       setAuthChecking(true);
     }
   });
@@ -203,7 +216,7 @@ export const AuthProvider = ({ children }) => {
   // Complete registration function
   const completeRegistration = useAsync(async (data, signal, config) => {
     await API.post("/auth/complete-registration", data, { signal, ...config });
-    localStorage.setItem("authenticated", true);
+    localStorage.setItem("authenticated", "true");
     setAuthChecking(true);
   });
 

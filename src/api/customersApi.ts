@@ -36,7 +36,7 @@ export const fetchPaginatedCustomers = async ({
   const response = await axiosInstance.get("customers", {
     params: {
       page: pageParam,
-      limit: 14,
+      limit: 42,
       query: searchQuery,
       status,
       preference,

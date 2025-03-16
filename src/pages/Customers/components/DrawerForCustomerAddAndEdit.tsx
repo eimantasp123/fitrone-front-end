@@ -174,7 +174,7 @@ const DrawerForCustomerAddAndEdit: React.FC<
           >
             <div className="w-full pt-8 md:pt-3">
               {customer && customer.status !== "pending" && (
-                <div className="md:-mb-3 md:px-8">
+                <div className="pb-6 md:px-8 md:pb-0">
                   <CustomButton
                     widthFull={true}
                     loading={isPendingNutrition}
@@ -187,7 +187,7 @@ const DrawerForCustomerAddAndEdit: React.FC<
                   />
 
                   {customer.recommendedNutrition && (
-                    <div className="mt-4 space-y-2">
+                    <div className="-mb-6 mt-4 space-y-2 md:-mb-2">
                       <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
                         {Object.entries(customer.recommendedNutrition).map(
                           ([key, value]) => (
@@ -200,7 +200,7 @@ const DrawerForCustomerAddAndEdit: React.FC<
                           ),
                         )}
                       </div>
-                      <p className="px-3 pb-6 text-[13px] font-medium leading-tight text-textSecondary md:pb-0">
+                      <p className="px-3 pb-6 text-xs font-normal leading-tight text-textSecondary md:pb-0">
                         {t("aiRecommendationDescription")}
                       </p>
                     </div>

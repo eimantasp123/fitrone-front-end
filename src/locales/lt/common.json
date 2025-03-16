@@ -13,6 +13,8 @@
   "createdAt": "Sukurta",
   "additionalInformation": "Papildoma informacija",
 
+  "showMore": "Rodyti daugiau",
+
   "feedbackModal": {
     "title": "Atsiliepimas",
     "description": " Jūsų atsiliepimas yra vertingas, padedantis mums geriau suprasti jūsų poreikius ir pritaikyti mūsų paslaugas atitinkamai.",
@@ -55,9 +57,10 @@
   "category": "Kategorija",
   "update": "Atnaujinti",
   "search": "Ieškoti",
-  "publish": "Paskelbti",
-  "published": "Paskelbta",
-  "unpublish": "Nebeskelbti",
+  "publish": "Publikuoti",
+  "save": "Išsaugoti",
+  "published": "Publikuota",
+  "unpublish": "Išpublikuoti",
   "clean": "Išvalyti",
   "submitForm": "Pateikti formą",
   "resend": "Persiųsti",
@@ -132,5 +135,14 @@
   "longitude": "Ilguma",
 
   "removeMember": "Pašalinti narį",
-  "removeGroup": "Pašalinti grupę"
+  "removeGroup": "Pašalinti grupę",
+
+  "howToSearchAddress": "Kaip ieškoti adreso?",
+  "openGoogleMaps": "Atidarykite Google Maps:",
+  "searchYourAddress": "Ieškokite savo adreso arba spustelėkite vietą žemėlapyje.",
+  "copyDisplayedAddress": "Nukopijuokite adresą, kurį rodo Google Maps (parodyta žemiau esančioje nuotraukoje).",
+  "pasteAddressInForm": "Grįžkite į mūsų formą ir įklijuokite nukopijuotą adresą į paieškos laukelį.",
+  "clickSearchToFind": "Paspauskite paieškos mygtuką, kad sistema surastų jūsų adresą.",
+  "selectCorrectAddress": "Pasirinkite teisingą adresą iš pasiūlymų – paspaudus, jis bus pridėtas automatiškai.",
+  "helpToFindAddress": "Pagalba/instrukcija"
 }

@@ -3,19 +3,18 @@ import EmptyState from "@/components/common/EmptyState";
 import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
 import { usePageStates } from "@/hooks/usePageStatus";
+import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 import { useAction } from "@/hooks/WeeklyMenu/useAction";
 import { WeeklyMenyFilters } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ThreeDots } from "react-loader-spinner";
 import PopoverForStatusDescription from "./components/PopoverForStatusDescription";
 import WeeklyMenuItemCard from "./components/WeeklyMenuItemCard";
 import PerformActionModal from "./modals/PerformActionModal";
 import WeeklyMenuAddModal from "./modals/WeeklyMenuAddModal";
 import WeeklyMenuPageHeader from "./WeeklyMenuPageHeader";
-import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 
 /**
  *  Supplier weekly menu central station
@@ -140,7 +139,7 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
         ref={scrollContainerRef}
         className="w-full select-none overflow-y-auto scrollbar-thin"
       >
-        <div className="container mx-auto flex max-w-[1700px] flex-col">
+        <div className="container mx-auto flex max-w-[1450px] flex-col md:px-3 2xl:max-w-[1500px] 3xl:max-w-[1600px]">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <WeeklyMenuPageHeader
               setSearchQuery={setSearchQuery}
@@ -212,16 +211,10 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
                 ))}
               </div>
 
-              {/* Bottom Spinner for Loading Next Page */}
-              {isFetchingNextPage && (
-                <div className="flex w-full justify-center pb-4">
-                  <ThreeDots color="#AFDF3F" height={30} width={40} />
-                </div>
-              )}
-
               <IntersectionObserverForFetchPage
                 onIntersect={fetchNextPage}
                 hasNextPage={!!hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
               />
             </>
           )}

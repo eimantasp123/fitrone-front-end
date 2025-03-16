@@ -122,9 +122,8 @@
   "editAndView": "Edit",
   "deleteMealTitle": "Delete Permanently",
   "deleteIngredientTitle": "Delete Ingredient",
-  "deleteIngredientDescription": "If you proceed, the ingredient will be removed from your database permanently. This action will affect all meals or recipes that use this ingredient, as the ingredient's data will no longer be available.",
-  "deleteMealDescription": "Are you sure you want to permanently delete this meal? This action cannot be undone, and the meal will be removed from your records.",
-  "ingredientDeletedSuccessfully": "Ingredient deleted successfully",
+  "deleteIngredientDescription": "If you proceed, the ingredient will be permanently removed from the database. This will not affect the meals where it was used. However, you will no longer be able to add this ingredient to new meals in the future.",
+  "deleteMealDescription": "Are you sure you want to permanently delete this meal? This action cannot be undone. Once deleted, the meal will no longer be available in new weekly menus, but it will remain unchanged in previous weekly plans.",
 
   "errors": {
     "fieldIsRequired": "Field is required",

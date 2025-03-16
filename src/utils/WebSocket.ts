@@ -21,20 +21,29 @@ const WebSocketListener: React.FC = () => {
     const WS_URL = `${import.meta.env.VITE_WS_URL}?userId=${userDetails._id}`;
 
     webSocketInstance.connect(WS_URL);
-
-    // Add event listener for WebSocket messages
-    webSocketInstance.addEventListener("ingredient_updated_in_meals", () => {
+    // Add event listeners
+    const ingredientUpdateHandler = () => {
       console.log("ingredient_updated_in_meals");
       queryClient.invalidateQueries({ queryKey: ["meals"] });
-    });
+    };
 
-    // Add event listener for WebSocket to listen for customer form confirmation
-    webSocketInstance.addEventListener("customer_form_confirmed", () => {
+    const customerFormHandler = () => {
       console.log("customer_form_confirmed");
       queryClient.invalidateQueries({ queryKey: ["customers"] });
-    });
+    };
+
+    webSocketInstance.addEventListener(
+      "ingredient_updated_in_meals",
+      ingredientUpdateHandler,
+    );
+    webSocketInstance.addEventListener(
+      "customer_form_confirmed",
+      customerFormHandler,
+    );
 
     return () => {
+      webSocketInstance.removeEventListener("ingredient_updated_in_meals");
+      webSocketInstance.removeEventListener("customer_form_confirmed");
       webSocketInstance.disconnect();
     };
   }, [queryClient, isAuthenticated, userDetails?._id]);

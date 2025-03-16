@@ -3,6 +3,7 @@ import CustomButton from "@/components/common/CustomButton";
 import EmptyState from "@/components/common/EmptyState";
 import EmptyStateForSmallComponents from "@/components/common/EmptyStateForSmallComponents";
 import { useMeals } from "@/hooks/Meals/useMeals";
+import { useAddMealsForCurrentDay } from "@/hooks/WeeklyMenuById/useAddMealsForCurrentDay";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
 import useFiltersOptions from "@/hooks/useFiltersOptions";
 import { usePageStates } from "@/hooks/usePageStatus";
@@ -19,9 +20,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ThreeDots } from "react-loader-spinner";
 import AssignMealForCurrentDayModalHeader from "./AssignMealForCurrentDayModalHeader";
-import { useAddMealsForCurrentDay } from "@/hooks/WeeklyMenuById/useAddMealsForCurrentDay";
 
 interface AssignMealForCurrentDayModalProps {
   isOpen: boolean;
@@ -205,15 +204,12 @@ const AssignMealForCurrentDayModal: React.FC<
 
                   {/* Bottom Spinner for Loading Next Page */}
                   <div className="col-span-1 flex w-full justify-center pb-4 pt-2 md:col-span-2 xl:col-span-3">
-                    {isFetchingNextPage ? (
-                      <ThreeDots color="#AFDF3F" height={30} width={40} />
-                    ) : null}
+                    <IntersectionObserverForFetchPage
+                      onIntersect={fetchNextPage}
+                      hasNextPage={!!hasNextPage}
+                      isFetchingNextPage={isFetchingNextPage}
+                    />
                   </div>
-
-                  <IntersectionObserverForFetchPage
-                    onIntersect={fetchNextPage}
-                    hasNextPage={!!hasNextPage}
-                  />
                 </div>
 
                 <div className="mt-4 px-4">

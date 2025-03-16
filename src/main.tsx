@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <App />
         </HelmetProvider>
       </Router>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>,
 );

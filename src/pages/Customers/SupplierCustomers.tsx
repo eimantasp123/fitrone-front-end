@@ -3,28 +3,27 @@ import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import CustomButton from "@/components/common/CustomButton";
 import EmptyState from "@/components/common/EmptyState";
 import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
+import { useChangeMenuQuantity } from "@/hooks/Customers/useChangeMenuQuantity";
 import { useDeleteOrResendCustomerAction } from "@/hooks/Customers/useDeleteOrResendCustomer";
 import { showCustomToast } from "@/hooks/showCustomToast";
 import useCustomDebounced from "@/hooks/useCustomDebounced";
 import { useDynamicDisclosure } from "@/hooks/useDynamicDisclosure";
 import { usePageStates } from "@/hooks/usePageStatus";
 import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
+import { useAppSelector } from "@/store";
 import { CustomerEditForm, CustomersFilters } from "@/utils/types";
 import { Spinner } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ThreeDots } from "react-loader-spinner";
 import ClientListLabels from "./components/ClientListLabels";
 import CustomerCard from "./components/CustomerCard";
+import CustomerChangeMenuQuantityModal from "./components/CustomerChangeMenuQuantityModal";
 import ChangeCustomerStatus from "./components/CustomerChangeStatus";
 import DrawerForCustomerAddAndEdit from "./components/DrawerForCustomerAddAndEdit";
 import PopoverClientStatusExplain from "./components/PopoverClientStatusExplain";
 import SendFormToCustomerModal from "./components/SendFormToCustomerModal";
 import SupplierGeneralHeader from "./SupplierGeneralHeader";
-import { useAppSelector } from "@/store";
-import CustomerChangeMenuQuantityModal from "./components/CustomerChangeMenuQuantityModal";
-import { useChangeMenuQuantity } from "@/hooks/Customers/useChangeMenuQuantity";
 
 /**
  *  Supplier weekly menu central station
@@ -232,7 +231,7 @@ const SupplierCustomers: React.FC = () => {
         ref={scrollContainerRef}
         className="w-full overflow-y-auto scrollbar-thin"
       >
-        <div className="mx-auto flex max-w-[1700px] flex-col">
+        <div className="mx-auto flex max-w-[1450px] flex-col md:px-3 2xl:max-w-[1500px] 3xl:max-w-[1600px]">
           <div className="sticky top-0 z-10 w-full bg-backgroundSecondary pb-2 dark:bg-background md:p-3">
             <SupplierGeneralHeader
               setSearchQuery={setSearchQuery}
@@ -311,7 +310,7 @@ const SupplierCustomers: React.FC = () => {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 gap-2 px-3 pb-10 pt-2">
+              <div className="grid grid-cols-1 gap-4 px-3 pb-10 pt-2 md:gap-2">
                 <ClientListLabels t={t} />
                 {customers.map((client, index) => (
                   <CustomerCard
@@ -326,16 +325,10 @@ const SupplierCustomers: React.FC = () => {
                 ))}
               </div>
 
-              {/* Bottom Spinner for Loading Next Page */}
-              {isFetchingNextPage && (
-                <div className="flex w-full justify-center pb-4">
-                  <ThreeDots color="#AFDF3F" height={30} width={40} />
-                </div>
-              )}
-
               <IntersectionObserverForFetchPage
                 onIntersect={fetchNextPage}
                 hasNextPage={!!hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
               />
             </>
           )}

@@ -22,7 +22,7 @@ import { Navigate } from "react-router-dom";
 import SignUpPrompt from "../../components/common/SignUpPrompt";
 import AuthContext from "../../context/AuthContext";
 
-const FACEBOOK_APP_ID = "1552748628609748";
+const FACEBOOK_APP_ID = import.meta.env.VITE_FACEBOOK_APP_ID;
 
 // Define the types for form data
 interface LoginFormData {

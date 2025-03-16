@@ -52,7 +52,7 @@ export const useAction = (onCleanup: () => void) => {
         queryClient.invalidateQueries({ queryKey: ["weeklyMenus"] });
 
         const cachedData = queryClient.getQueryData(["weeklyMenuById", id]);
-        if (cachedData) {
+        if (cachedData && type !== "delete") {
           // Invalidate the weekly menu by id query
           queryClient.invalidateQueries({ queryKey: ["weeklyMenuById", id] });
         }
@@ -60,6 +60,9 @@ export const useAction = (onCleanup: () => void) => {
         // Redirect to weekly menu page if on weekly menu details page
         if (type === "delete" && location.pathname === `/weekly-menu/${id}`) {
           navigate("/weekly-menu");
+
+          // Remove the weekly menu by id cache completely when type is "delete"
+          queryClient.removeQueries({ queryKey: ["weeklyMenuById", id] });
         }
 
         // Call onCleanup function

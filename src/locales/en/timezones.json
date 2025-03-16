@@ -4,10 +4,13 @@
     { "key": "Europe/Paris", "title": "Paris (UTC+1)" },
     { "key": "Europe/Vilnius", "title": "Vilnius (UTC+2)" },
     { "key": "Europe/Athens", "title": "Athens (UTC+2)" },
+    { "key": "Europe/Istanbul", "title": "Istanbul (UTC+3)" },
+    { "key": "Asia/Dubai", "title": "Dubai (UTC+4)" },
     { "key": "America/New_York", "title": "New York (UTC-5)" },
     { "key": "America/Chicago", "title": "Chicago (UTC-6)" },
     { "key": "America/Denver", "title": "Denver (UTC-7)" },
     { "key": "America/Los_Angeles", "title": "Los Angeles (UTC-8)" },
+    { "key": "America/Phoenix", "title": "Phoenix (UTC-7)" },
     { "key": "America/Anchorage", "title": "Anchorage (UTC-9)" },
     { "key": "America/Honolulu", "title": "Honolulu (UTC-10)" }
   ]
