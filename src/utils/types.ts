@@ -580,3 +580,15 @@ export interface DashboardLimitsResponse {
     };
   };
 }
+
+/**
+ * Meal response interface for the meal response object
+ */
+export interface MealResponse {
+  status: string;
+  results: number;
+  total: number;
+  currentPage: number;
+  totalPages: number;
+  data: Meal[] | [];
+}

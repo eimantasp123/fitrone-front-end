@@ -112,8 +112,6 @@ const DayManagement: React.FC<DayManagementProps> = React.memo(
       );
     }, [meals]);
 
-    console.log("sortedCategories", sortedCategories);
-
     return (
       <>
         <div className="h-full w-full">

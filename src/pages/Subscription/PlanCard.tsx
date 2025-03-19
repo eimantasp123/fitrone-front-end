@@ -76,17 +76,26 @@ const PlanCard: React.FC<PlanCardProps> = ({
 
         {/* Button */}
         {visible && (
-          <button
-            disabled={selectedPlan === planName}
-            className={`border-borderColor mt-5 w-full cursor-pointer border ${
-              selectedPlan === planName
-                ? "border-primary bg-primary text-black"
-                : "bg-neutral-200 hover:bg-neutral-300 dark:border-backgroundSecondary dark:bg-backgroundSecondary dark:text-white dark:hover:bg-background"
-            } : "border-buttonPrimaryDark bg-buttonPrimaryDark hover:bg-buttonPrimaryDarkHover text-white" } rounded-full py-2 transition-all duration-300 ease-in-out`}
-            onClick={() => onSelect()}
-          >
-            {hasUsedFreeTrial ? `${t("selectPlan")}` : `${t("startFreeTrial")}`}
-          </button>
+          <>
+            <button
+              disabled={selectedPlan === planName}
+              className={`border-borderColor mt-5 w-full cursor-pointer border ${
+                selectedPlan === planName
+                  ? "border-primary bg-primary text-black"
+                  : "bg-neutral-200 hover:bg-neutral-300 dark:border-backgroundSecondary dark:bg-backgroundSecondary dark:text-white dark:hover:bg-background"
+              } : "border-buttonPrimaryDark bg-buttonPrimaryDark hover:bg-buttonPrimaryDarkHover text-white" } rounded-full py-2 transition-all duration-300 ease-in-out`}
+              onClick={() => onSelect()}
+            >
+              {hasUsedFreeTrial
+                ? `${t("selectPlan")}`
+                : `${t("startFreeTrial")}`}
+            </button>
+            {!hasUsedFreeTrial && (
+              <p className="mt-3 text-center text-[14px] text-neutral-500 dark:text-neutral-400">
+                {t("buttonDescription")}
+              </p>
+            )}
+          </>
         )}
       </div>
     </div>

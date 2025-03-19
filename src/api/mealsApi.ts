@@ -1,4 +1,5 @@
 import axiosInstance from "@/utils/axiosInterceptors";
+import { MealResponse } from "@/utils/types";
 import { QueryFunctionContext, QueryKey } from "@tanstack/react-query";
 
 /**
@@ -11,15 +12,15 @@ export const fetchPaginatedMeals = async ({
   const [, searchQuery, category, preference, restriction] = queryKey;
   const response = await axiosInstance.get("/meals", {
     params: {
-      page: pageParam || 1,
-      limit: 40,
+      page: pageParam,
+      limit: 20,
       query: searchQuery,
       category,
       preference,
       restriction,
     },
   });
-  return response.data;
+  return response.data as MealResponse;
 };
 
 /**

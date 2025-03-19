@@ -12,7 +12,7 @@ export default function SuccessulAlert({
   return (
     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-lg border border-borderPrimary bg-backgroundSecondary p-6 text-center shadow-custom-light2">
       <BsInfoCircle className="text-lg text-textPrimary" />
-      <div className="font-semibold text-textPrimary">{successMessage}</div>
+      <div className="font-normal text-textPrimary">{successMessage}</div>
       {description && (
         <div className="font-normal text-textSecondary">{description}</div>
       )}

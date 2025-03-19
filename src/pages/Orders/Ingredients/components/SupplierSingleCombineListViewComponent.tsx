@@ -62,8 +62,8 @@ const SupplierSingleCombineListViewComponent = ({
 
   return (
     <>
-      <div className="pl-1 text-sm font-medium md:w-[40%] xl:w-[60%]">
-        <span className="font-semibold">{t("combinedDays")}:</span>
+      <div className="pl-1 text-sm md:w-[40%] xl:w-[60%]">
+        <span className="font-medium">{t("combinedDays")}:</span>
         <span className="ml-1">{translatedDays}</span>
       </div>
 

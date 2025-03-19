@@ -224,7 +224,7 @@ export default function LoginForm() {
                   appId={FACEBOOK_APP_ID}
                   onSuccess={executeFacebookLogin}
                   onFail={(error) =>
-                    console.error("Facebook login error:", error)
+                    console.warn("Facebook login error:", error)
                   }
                   render={(renderProps) => (
                     <button

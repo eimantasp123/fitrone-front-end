@@ -2,12 +2,13 @@ import { useColorMode } from "@chakra-ui/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useTranslation } from "react-i18next";
 import { CiDark, CiLight } from "react-icons/ci";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import LanguageSelector from "./LanguageSelector";
 
 export default function AuthLayout() {
   const { t } = useTranslation("auth");
   const { toggleColorMode, colorMode } = useColorMode();
+  const navigate = useNavigate();
 
   // Google Client ID for OAuth
   const GOOGLE_CLIENT_ID: string = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -20,7 +21,8 @@ export default function AuthLayout() {
         <img
           src={`${colorMode === "light" ? "/logo-black.png" : "/logo-white.png"}`}
           alt="logo"
-          className="w-[110px]"
+          onClick={() => navigate("/")}
+          className="w-[110px] cursor-pointer"
         />
         <div className="space-y-4 text-textPrimary">
           <p className="text-md font-medium">{t("authLayout.quote")}</p>
@@ -34,7 +36,8 @@ export default function AuthLayout() {
         <img
           src={`${colorMode === "light" ? "/logo-black.png" : "/logo-white.png"}`}
           alt="logo"
-          className="absolute left-3 top-3 w-[100px] lg:hidden"
+          onClick={() => navigate("/")}
+          className="absolute left-3 top-3 w-[100px] cursor-pointer lg:hidden"
         />
 
         {/* Language change */}

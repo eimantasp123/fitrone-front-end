@@ -105,9 +105,7 @@ export default function RegisterForm() {
               <FacebookLogin
                 appId={FACEBOOK_APP_ID}
                 onSuccess={executeFacebookLogin}
-                onFail={(error) =>
-                  console.error("Facebook login error:", error)
-                }
+                onFail={(error) => console.warn("Facebook login error:", error)}
                 render={(renderProps) => (
                   <button
                     type="button"

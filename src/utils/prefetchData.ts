@@ -38,8 +38,6 @@ const prefetchDashboardAndOtherData = async (queryClient: QueryClient) => {
       initialPageParam: 1,
       staleTime: 1000 * 60 * 5, // Keep data fresh for 5 minutes
     });
-
-    console.log("✅ Prefetching completed!");
   } catch (error) {
     console.error("❌ Error prefetching data:", error);
   }

@@ -82,8 +82,6 @@ const IngredientSearchFromDatabase: React.FC<
     setSearchQuery("");
   };
 
-  console.log("amounts", amounts);
-
   return (
     <>
       <Modal

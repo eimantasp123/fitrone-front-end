@@ -14,7 +14,7 @@ import { useAppSelector } from "@/store";
 import { CustomerEditForm, CustomersFilters } from "@/utils/types";
 import { Spinner } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ClientListLabels from "./components/ClientListLabels";
 import CustomerCard from "./components/CustomerCard";
@@ -46,8 +46,9 @@ const SupplierCustomers: React.FC = () => {
   });
 
   const [clientData, setClientData] = useState<CustomerEditForm | null>(null);
-  const [activeStatus, setActiveStatus] = useState<string>("");
+  const [activeStatus, setActiveStatus] = useState("");
   const [menuQuantity, setMenuQuantity] = useState<number | null>(null);
+  const [displayedPages, setDisplayedPages] = useState(1);
 
   // Search query state and debounced value
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
@@ -56,6 +57,13 @@ const SupplierCustomers: React.FC = () => {
     500,
     (value) => !value || value.length < 1,
   );
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDisplayedPages(1);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [filters, debouncedValue]);
 
   // Mutation to perform action on customer
   const { mutate: actionMutation, isPending } = useDeleteOrResendCustomerAction(
@@ -118,8 +126,18 @@ const SupplierCustomers: React.FC = () => {
 
   // Memoized customers data
   const customers = useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) || [];
-  }, [data]);
+    return (
+      data?.pages.slice(0, displayedPages).flatMap((page) => page.data) || []
+    );
+  }, [data, displayedPages]);
+
+  const handleFetchNextPage = () => {
+    if (!isFetchingNextPage) {
+      fetchNextPage().then(() => {
+        setDisplayedPages((prev) => prev + 1);
+      });
+    }
+  };
 
   // Custom hook to check the state of the customers
   const { noItemsAdded, noResultsForSearchAndFilters, hasItems } =
@@ -264,10 +282,24 @@ const SupplierCustomers: React.FC = () => {
               <EmptyState
                 title={t("noClientsYet")}
                 description={t("noClientsYetExplanation")}
-                secondButtonText={t("addCustomerManually")}
-                firstButtonText={t("sendFormToCustomer")}
-                onClickSecondButton={() => openModal("clientInfoDrawer")}
-                onClickFirstButton={() => openModal("sendFormToCustomer")}
+                firstButtonText={
+                  user.plan == "basic"
+                    ? t("addCustomerManually")
+                    : t("sendFormToCustomer")
+                }
+                secondButtonText={
+                  user.plan !== "basic" ? t("addCustomerManually") : undefined
+                }
+                onClickFirstButton={
+                  user.plan == "basic"
+                    ? () => openModal("clientInfoDrawer")
+                    : () => openModal("sendFormToCustomer")
+                }
+                onClickSecondButton={
+                  user.plan !== "basic"
+                    ? () => openModal("clientInfoDrawer")
+                    : undefined
+                }
                 height="h-[73vh]"
               />
             </div>
@@ -284,9 +316,12 @@ const SupplierCustomers: React.FC = () => {
 
           {hasItems && (
             <>
-              <div className="my-1 flex items-center justify-between px-4 text-sm">
-                <span>
-                  {t("clientsFound")}: {customers?.length || 0}
+              <div className="my-2 flex items-center justify-between px-4 text-sm">
+                <span className="text-sm">
+                  {t("common:showingData", {
+                    from: customers?.length || 0,
+                    general: data?.pages[0]?.total || 0,
+                  })}
                 </span>
                 <PopoverClientStatusExplain t={t} />
               </div>
@@ -326,8 +361,10 @@ const SupplierCustomers: React.FC = () => {
               </div>
 
               <IntersectionObserverForFetchPage
-                onIntersect={fetchNextPage}
-                hasNextPage={!!hasNextPage}
+                onIntersect={handleFetchNextPage}
+                hasNextPage={
+                  (data && data.pages.length > displayedPages) || hasNextPage
+                }
                 isFetchingNextPage={isFetchingNextPage}
               />
             </>

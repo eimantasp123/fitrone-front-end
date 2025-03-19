@@ -13,7 +13,7 @@ export const fetchPaginatedWeeklyMenus = async ({
   const response = await axiosInstance.get("weekly-menu", {
     params: {
       page: pageParam,
-      limit: 28,
+      limit: 20,
       query: searchQuery,
       archived: archived,
       preference: preference,

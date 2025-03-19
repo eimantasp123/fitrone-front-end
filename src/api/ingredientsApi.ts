@@ -16,7 +16,7 @@ export const fetchPaginatedIngredients = async ({
   const response = await axiosInstance.get<PaginatedIngredientsResponse>(
     "ingredients",
     {
-      params: { query: searchQuery, page: pageParam, limit: 48 },
+      params: { query: searchQuery, page: pageParam, limit: 36 },
     },
   );
   return response.data;

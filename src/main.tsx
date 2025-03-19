@@ -10,6 +10,7 @@ import "./styles/index.css";
 
 // Create a Query Client
 const queryClient = new QueryClient();
+const isDev = import.meta.env.VITE_MODE === "development"; // Check if dev mode
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -19,7 +20,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <App />
         </HelmetProvider>
       </Router>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {isDev && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   </React.StrictMode>,
 );

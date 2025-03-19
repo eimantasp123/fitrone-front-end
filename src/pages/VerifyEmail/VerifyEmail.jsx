@@ -41,7 +41,6 @@ export default function ResetPasswordForm() {
   const resendVerifyCode = async () => {
     const response = await resendEmailVerifyCodeHandler();
     if (response) {
-      console.log(response);
       showCustomToast({
         status: "success",
         description: response.message,

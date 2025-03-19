@@ -46,7 +46,7 @@ const WeeklyMenuByIdPageHeader: React.FC<WeeklyMenuByIdPageHeaderProps> = ({
           <CustomButton
             paddingX="px-6 md:px-8"
             text={t("goBack")}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/weekly-menu")}
           />
         </div>
 

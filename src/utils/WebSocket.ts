@@ -3,13 +3,16 @@ import { useAppSelector } from "@/store";
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useContext, useEffect } from "react";
 import webSocketInstance from "./webSocketInstance";
+import { useNavigate } from "react-router-dom";
 
 /**
  *  WebSocketListener listens for WebSocket messages and invalidates queries based on the message type.
  */
 const WebSocketListener: React.FC = () => {
   const queryClient = useQueryClient();
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setAuthChecking, setIsAuthenticated } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
   const { details: userDetails } = useAppSelector(
     (state) => state.personalDetails,
   );
@@ -23,12 +26,10 @@ const WebSocketListener: React.FC = () => {
     webSocketInstance.connect(WS_URL);
     // Add event listeners
     const ingredientUpdateHandler = () => {
-      console.log("ingredient_updated_in_meals");
       queryClient.invalidateQueries({ queryKey: ["meals"] });
     };
 
     const customerFormHandler = () => {
-      console.log("customer_form_confirmed");
       queryClient.invalidateQueries({ queryKey: ["customers"] });
     };
 
@@ -46,7 +47,14 @@ const WebSocketListener: React.FC = () => {
       webSocketInstance.removeEventListener("customer_form_confirmed");
       webSocketInstance.disconnect();
     };
-  }, [queryClient, isAuthenticated, userDetails?._id]);
+  }, [
+    queryClient,
+    isAuthenticated,
+    userDetails?._id,
+    setAuthChecking,
+    navigate,
+    setIsAuthenticated,
+  ]);
 
   return null;
 };

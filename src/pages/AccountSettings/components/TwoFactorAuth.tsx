@@ -45,7 +45,6 @@ const TwoFactorAuth: React.FC = () => {
   const action = user.is2FAEnabled
     ? t("2fa.modal.disable")
     : t("2fa.modal.enable");
-  const phone = methods.watch("phone");
 
   // Set form data when user details are fetched from the server
   useEffect(() => {
@@ -58,7 +57,7 @@ const TwoFactorAuth: React.FC = () => {
 
   // Toggle Two-Factor Authentication
   const handleToggle = async () => {
-    if (!user.is2FAEnabled && !methods.watch("phone")) {
+    if (!user.is2FAEnabled && !user.phone) {
       // Check if phone number is provided before enabling 2FA
       showCustomToast({
         status: "error",
@@ -215,7 +214,7 @@ const TwoFactorAuth: React.FC = () => {
                 <Trans
                   i18nKey="2fa.modal.verificationMessage"
                   ns="profileSettings"
-                  values={{ phone, action }}
+                  values={{ phone: user.phone, action }}
                   components={{ strong: <strong /> }}
                 />
               </p>

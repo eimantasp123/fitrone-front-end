@@ -104,8 +104,7 @@ const CustomAddressSearch: React.FC<CustomAddressSearchProps> = ({
           placeholder as HTMLDivElement,
         );
       } else {
-        console.error("Google Maps Placeholder not found!");
-        return;
+        return null;
       }
     }
 

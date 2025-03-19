@@ -11,7 +11,6 @@ import { IoMdSettings } from "react-icons/io";
 import {
   MdCardMembership,
   MdDashboard,
-  MdGroupAdd,
   MdOutlineRestaurantMenu,
 } from "react-icons/md";
 import { PiBowlFoodFill } from "react-icons/pi";

@@ -107,7 +107,6 @@ const WeeklyPlanCarouselForHeader: React.FC<
               if (isDragging) {
                 return;
               }
-              console.log("Clicked");
             }}
             className="flex cursor-pointer items-center gap-2 text-nowrap rounded-lg bg-neutral-200/50 px-3 py-1 text-sm font-medium text-textPrimary transition-colors duration-200 ease-in hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700"
           >

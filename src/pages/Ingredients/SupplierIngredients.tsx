@@ -9,7 +9,7 @@ import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependency
 import { IngredientFromServer } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import IngredientAddModal from "./IngredientAddModal";
 import IngredientCard from "./IngredientCard";
@@ -22,6 +22,7 @@ const SupplierIngredients: React.FC = () => {
   const { t } = useTranslation(["meals", "common"]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ingredientId, setIngredientId] = useState<string>("");
+  const [displayedPages, setDisplayedPages] = useState(1);
 
   // Delete ingredient mutation hook
   const { mutate: deleteIngredient } = useDeleteIngredient();
@@ -63,10 +64,29 @@ const SupplierIngredients: React.FC = () => {
     retry: 3,
   });
 
-  // Aggregate all ingredients into a single array
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setDisplayedPages(1);
+    }, 300);
+
+    return () => clearTimeout(time);
+  }, [debouncedValue]);
+
+  // Ingredients to display
   const ingredients = useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) || [];
-  }, [data]);
+    return (
+      data?.pages.slice(0, displayedPages).flatMap((page) => page.data) || []
+    );
+  }, [data, displayedPages]);
+
+  // When fetch next page, increase displayed pages
+  const handleFetchNextPage = () => {
+    if (!isFetchingNextPage) {
+      fetchNextPage().then(() => {
+        setDisplayedPages((prev) => prev + 1);
+      });
+    }
+  };
 
   // Custom hook to check the state of the weekly menus
   const { noItemsAdded, noResultsForSearchAndFilters, hasItems } =
@@ -94,6 +114,7 @@ const SupplierIngredients: React.FC = () => {
     if (!ingredientId) return;
     deleteIngredient({ id: ingredientId, onCloseModal: onClose });
   };
+
   return (
     <>
       <div
@@ -176,8 +197,10 @@ const SupplierIngredients: React.FC = () => {
               </div>
 
               <IntersectionObserverForFetchPage
-                onIntersect={fetchNextPage}
-                hasNextPage={!!hasNextPage}
+                onIntersect={handleFetchNextPage}
+                hasNextPage={
+                  (data && data.pages.length > displayedPages) || hasNextPage
+                }
                 isFetchingNextPage={isFetchingNextPage}
               />
             </>

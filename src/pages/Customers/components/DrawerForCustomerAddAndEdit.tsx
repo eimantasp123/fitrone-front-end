@@ -114,8 +114,6 @@ const DrawerForCustomerAddAndEdit: React.FC<
     };
   }, [customer, methods]);
 
-  console.log("clientData", customer);
-
   // Function to handle the submission for each step
   const onSubmit = async (data: CustomerAddForm) => {
     if (!selectedPlace) return;

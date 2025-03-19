@@ -62,7 +62,6 @@ const SupportModal: React.FC<SupportModalProps> = ({
 
   // Close modal and reset form fields
   const handleModalClose = () => {
-    console.log("handleModalClose");
     onClose();
     methods.reset();
     methods.clearErrors();

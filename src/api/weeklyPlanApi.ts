@@ -64,7 +64,6 @@ export const managePublishWeeklyPlan = async (
   menuId: string,
   publish: boolean,
 ) => {
-  console.log("menuId", menuId);
   const response = await axiosInstance.patch(
     `weekly-plan/manage-publish-menu`,
     {

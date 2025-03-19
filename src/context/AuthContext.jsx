@@ -1,21 +1,17 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
 import { useAppDispatch } from "@/store";
+import API from "@/utils/API";
+import prefetchDashboardAndOtherData from "@/utils/prefetchData";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAsync from "../hooks/useAsync";
 import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
-import axiosInstance from "../utils/axiosInterceptors";
-import { useQueryClient } from "@tanstack/react-query";
-import prefetchDashboardAndOtherData from "@/utils/prefetchData";
+import axiosInstance, { fetchCsrfToken } from "../utils/axiosInterceptors";
 
 const AuthContext = createContext();
-const MOCK_API = import.meta.env.VITE_API_URL;
-const API = axios.create({
-  baseURL: MOCK_API,
-  withCredentials: true,
-});
 
 /**
  *  AuthProvider component
@@ -30,21 +26,25 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
-
   useEffect(() => {
     const checkAuth = async () => {
-      const isAutenticated = localStorage.getItem("authenticated") === "true";
-      if (!isAutenticated) {
+      const isAuth = localStorage.getItem("authenticated") === "true";
+      if (!isAuth) {
         setIsAuthenticated(false);
         setAuthChecking(false);
         queryClient.clear();
         return;
       }
       try {
+        if (isAuthenticated) return;
         const response = await axiosInstance.get("/auth/user");
         dispatch(setUserDetails(response.data.user));
         setIsAuthenticated(true);
-        prefetchDashboardAndOtherData(queryClient);
+        setAuthChecking(false);
+        localStorage.setItem("authenticated", "true");
+        if (response.data.user && response.data.user.plan !== "base") {
+          prefetchDashboardAndOtherData(queryClient);
+        }
       } catch (error) {
         if (
           axios.isAxiosError(error) &&
@@ -70,7 +70,12 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkAuth();
-  }, [dispatch, authChecking, queryClient]);
+  }, [dispatch, authChecking, queryClient, isAuthenticated, navigate]);
+
+  // Fetch CSRF token
+  useEffect(() => {
+    fetchCsrfToken();
+  }, []);
 
   // Clear messages function
   const clearMessages = () => {
@@ -270,6 +275,7 @@ export const AuthProvider = ({ children }) => {
         handleFacebookLogin,
         clearMessages,
         setIsAuthenticated,
+        setAuthChecking,
         handleSignUp: () => {
           navigate("/register");
           clearMessages();

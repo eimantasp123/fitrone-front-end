@@ -77,7 +77,6 @@ const MultipleOptionsSelectAndRegisterToForm: React.FC<
 
                   // Fallback for invalid keys
                   if (!translatedItem) {
-                    console.warn(`Invalid key "${item}" in field.value`);
                     return null;
                   }
 

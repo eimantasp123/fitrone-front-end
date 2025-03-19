@@ -8,7 +8,7 @@ import { useAction } from "@/hooks/WeeklyMenu/useAction";
 import { WeeklyMenyFilters } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PopoverForStatusDescription from "./components/PopoverForStatusDescription";
 import WeeklyMenuItemCard from "./components/WeeklyMenuItemCard";
@@ -22,6 +22,7 @@ import WeeklyMenuPageHeader from "./WeeklyMenuPageHeader";
 const SupplierWeeklyMenuCentralStation: React.FC = () => {
   const { t } = useTranslation(["weeklyMenu", "meals", "common"]);
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const [displayedPages, setDisplayedPages] = useState(1);
 
   // Modal state for delete, archive, unarchive actions
   const [modalState, setModalState] = useState<{
@@ -48,6 +49,11 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
   const { mutate: performAction, isPending } = useAction(() =>
     setModalState({ type: null, id: null }),
   );
+
+  // Reset displayed pages on filter/search change
+  useEffect(() => {
+    setDisplayedPages(1);
+  }, [filters, debouncedValue]);
 
   // Fetch ingredients from the server using infinite query
   const {
@@ -78,10 +84,28 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
     retry: 3,
   });
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDisplayedPages(1);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [filters, debouncedValue]);
+
   // Memoized meals data
   const weeklyMenus = useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) || [];
-  }, [data]);
+    return (
+      data?.pages.slice(0, displayedPages).flatMap((page) => page.data) || []
+    );
+  }, [data, displayedPages]);
+
+  // When fetch next page, increase displayed pages
+  const handleFetchNextPage = () => {
+    if (!isFetchingNextPage) {
+      fetchNextPage().then(() => {
+        setDisplayedPages((prev) => prev + 1);
+      });
+    }
+  };
 
   // Custom hook to check the state of the weekly menus
   const { noItemsAdded, noResultsForSearchAndFilters, hasItems } =
@@ -212,8 +236,10 @@ const SupplierWeeklyMenuCentralStation: React.FC = () => {
               </div>
 
               <IntersectionObserverForFetchPage
-                onIntersect={fetchNextPage}
-                hasNextPage={!!hasNextPage}
+                onIntersect={handleFetchNextPage}
+                hasNextPage={
+                  (data && data.pages.length > displayedPages) || hasNextPage
+                }
                 isFetchingNextPage={isFetchingNextPage}
               />
             </>

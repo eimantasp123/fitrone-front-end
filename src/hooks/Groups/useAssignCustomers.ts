@@ -22,8 +22,6 @@ export const useAssignCustomersAction = (onCleanup?: () => void) => {
     onSuccess: (data, { groupId }) => {
       const { message } = data;
 
-      console.log("message", data);
-
       if (data.status === "warning") {
         showCustomToast({
           status: "warning",

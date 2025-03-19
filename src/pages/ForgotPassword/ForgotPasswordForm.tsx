@@ -54,7 +54,7 @@ export default function ForgotPasswordForm() {
           <>
             <SuccessulAlert successMessage={successMessage} />
             <div className="mt-10 flex flex-col text-center text-[15px]">
-              <span className="text-textPrimary">
+              <span className="font-normal text-textPrimary">
                 {t("forgotPassword.didNotReceiveEmail")}
               </span>
               <span

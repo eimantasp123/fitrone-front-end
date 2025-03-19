@@ -1,7 +1,6 @@
 import * as yup from "yup";
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import { transform } from "lodash";
 
 // Login schema for login form validation
 export const useLoginSchema = () => {

@@ -1,8 +1,8 @@
 import { UseCustomerFormProps } from "@/hooks/CustomerPageForm/useCustomerForm";
 import { SendFormToCustomerForm } from "@/pages/Customers/components/SendFormToCustomerModal";
+import API from "@/utils/API";
 import axiosInstance from "@/utils/axiosInterceptors";
 import { QueryFunctionContext, QueryKey } from "@tanstack/react-query";
-import axios from "axios";
 
 const MOCK_API = import.meta.env.VITE_API_URL;
 
@@ -18,7 +18,7 @@ export const createCustomer = async ({
   data: UseCustomerFormProps;
   recaptchaToken: string;
 }) => {
-  const response = await axios.post(
+  const response = await API.post(
     `${MOCK_API}/customers/confirm-form/${token}?recaptchaToken=${recaptchaToken}`,
     data,
   );
@@ -36,7 +36,7 @@ export const fetchPaginatedCustomers = async ({
   const response = await axiosInstance.get("customers", {
     params: {
       page: pageParam,
-      limit: 42,
+      limit: 4,
       query: searchQuery,
       status,
       preference,

@@ -1,4 +1,3 @@
-import ConfirmActionModal from "@/components/common/ConfirmActionModal";
 import EmptyState from "@/components/common/EmptyState";
 import IntersectionObserverForFetchPage from "@/components/IntersectionObserverForFetchPage";
 import { useDeleteMeal } from "@/hooks/Meals/useDeleteMeal";
@@ -8,19 +7,31 @@ import { usePageStates } from "@/hooks/usePageStatus";
 import useScrollToTopOnDependencyChange from "@/hooks/useScrollToTopOnDependencyChange";
 import { Filters, Meal } from "@/utils/types";
 import { Spinner, useDisclosure } from "@chakra-ui/react";
-import React, { useMemo, useRef, useState } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import MealOverviewCard from "./components/MealOverviewCard";
-import MealAddModal from "./MealAddModal";
 import MealsPageHeader from "./MealsPageHeader";
 
+const MealAddModal = lazy(() => import("./MealAddModal"));
+const ConfirmActionModal = lazy(
+  () => import("@/components/common/ConfirmActionModal"),
+);
 /**
  * Supplier Meals Component to display the meals added by the supplier
  */
+
 const SupplierMeals: React.FC = () => {
   const { t } = useTranslation(["meals", "common"]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [mealId, setMeal] = useState<string | null>(null);
+  const [displayedPages, setDisplayedPages] = useState(1);
   const { mutate: deleteMeal } = useDeleteMeal();
   const [modalState, setModalState] = useState<{
     type: "create" | "edit" | null;
@@ -42,6 +53,13 @@ const SupplierMeals: React.FC = () => {
     (value) => !value || value.length < 1,
   );
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDisplayedPages(1);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [filters, debouncedValue]);
+
   // Fetch meals
   const {
     data,
@@ -57,10 +75,22 @@ const SupplierMeals: React.FC = () => {
     restriction: filters.restriction?.key || null,
   });
 
-  // Memoized meals data
   const meals = useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) || [];
-  }, [data]);
+    return (
+      data?.pages
+        .slice(0, displayedPages) // ✅ Only show explicitly requested pages
+        .flatMap((page) => page.data) || []
+    );
+  }, [data, displayedPages]);
+
+  // When fetch next page, increase displayed pages
+  const handleFetchNextPage = () => {
+    if (!isFetchingNextPage) {
+      fetchNextPage().then(() => {
+        setDisplayedPages((prev) => prev + 1);
+      });
+    }
+  };
 
   // Custom hook to check the state of the meals
   const { noItemsAdded, noResultsForSearchAndFilters, hasItems } =
@@ -198,8 +228,10 @@ const SupplierMeals: React.FC = () => {
               </div>
 
               <IntersectionObserverForFetchPage
-                onIntersect={fetchNextPage}
-                hasNextPage={!!hasNextPage}
+                onIntersect={handleFetchNextPage}
+                hasNextPage={
+                  (data && data.pages.length > displayedPages) || hasNextPage
+                }
                 isFetchingNextPage={isFetchingNextPage}
               />
             </>
@@ -209,28 +241,32 @@ const SupplierMeals: React.FC = () => {
 
       {/* Add meal modal */}
       {modalState.type && (
-        <MealAddModal
-          isOpenModal={!!modalState.type}
-          onClose={() => setModalState({ type: null, meal: null })}
-          mealToEdit={modalState.meal}
-        />
+        <Suspense fallback={<Spinner />}>
+          <MealAddModal
+            isOpenModal={!!modalState.type}
+            onClose={() => setModalState({ type: null, meal: null })}
+            mealToEdit={modalState.meal}
+          />
+        </Suspense>
       )}
 
       {/* Delete confirm */}
       {isOpen && (
-        <ConfirmActionModal
-          isOpen={isOpen}
-          onClose={() => {
-            setMeal(null);
-            onClose();
-          }}
-          loading={false}
-          onAction={handleDelete}
-          title={t("deleteMealTitle")}
-          description={t("deleteMealDescription")}
-          cancelButtonText={t("cancel")}
-          confirmButtonText={t("deleteMealTitle")}
-        />
+        <Suspense fallback={<Spinner />}>
+          <ConfirmActionModal
+            isOpen={isOpen}
+            onClose={() => {
+              setMeal(null);
+              onClose();
+            }}
+            loading={false}
+            onAction={handleDelete}
+            title={t("deleteMealTitle")}
+            description={t("deleteMealDescription")}
+            cancelButtonText={t("cancel")}
+            confirmButtonText={t("deleteMealTitle")}
+          />
+        </Suspense>
       )}
     </>
   );
