@@ -78,6 +78,7 @@ axiosInstance.interceptors.response.use(
         await refreshToken();
         return axiosInstance(originalRequest);
       } catch (refreshError) {
+        localStorage.removeItem("authenticated");
         return Promise.reject(refreshError);
       }
     }
