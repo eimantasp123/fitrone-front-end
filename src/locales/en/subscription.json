@@ -31,15 +31,15 @@
   "plans": {
     "basic-plan": {
       "title": "Basic plan",
-      "description": "Ideal for starting out with meal planning and basic client management."
+      "description": "A great start for a new business!"
     },
     "pro-plan": {
       "title": "Pro plan",
-      "description": "Designed for professionals seeking advanced meal planning and client management tools."
+      "description": "For business growth – more possibilities!"
     },
     "premium-plan": {
       "title": "Premium plan",
-      "description": "Perfect for medium-sized businesses requiring unlimited functionality and personalized support."
+      "description": "Maximum freedom for professionals!"
     }
   },
 

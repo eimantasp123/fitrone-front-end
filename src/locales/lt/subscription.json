@@ -31,15 +31,15 @@
   "plans": {
     "basic-plan": {
       "title": "Basic planas",
-      "description": "Idealus pradedantiesiems, norintiems pradėti su mitybos planavimu ir pagrindiniu klientų valdymu."
+      "description": "Puikus startas naujam verslui!"
     },
     "pro-plan": {
       "title": "Pro planas",
-      "description": "Sukurtas profesionalams, ieškantiems pažangaus mitybos planavimo ir klientų valdymo įrankių."
+      "description": "Verslo augimui – daugiau galimybių!"
     },
     "premium-plan": {
       "title": "Premium planas",
-      "description": "Puikiai tinka vidutiniam verslui, kuriam reikalingas neribotas funkcionalumas ir asmeninis palaikymas."
+      "description": "Maksimali laisvė profesionalams!"
     }
   },
 

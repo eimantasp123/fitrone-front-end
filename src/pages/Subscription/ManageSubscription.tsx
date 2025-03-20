@@ -7,7 +7,7 @@ import { showCustomToast } from "../../hooks/showCustomToast";
 import axiosInstance from "../../utils/axiosInterceptors";
 import MessagesForSubscription from "./MessagesForSubscription";
 import Tabel from "./Tabel";
-import { plans } from "./mockData/mockData";
+import { plans, plansProduction } from "./mockData/mockData";
 
 const ManageSubscription = () => {
   const { t } = useTranslation("subscription");
@@ -59,6 +59,9 @@ const ManageSubscription = () => {
     }
   };
 
+  const plansMap =
+    import.meta.env.VITE_MODE === "development" ? plans : plansProduction;
+
   return (
     <div className="h-fit-content flex w-full flex-col gap-10 overflow-y-auto p-4 scrollbar-thin md:p-10 md:px-14 2xl:flex-col">
       <div className="container mx-auto flex w-full max-w-[1600px] flex-col gap-6 xl:flex-col">
@@ -85,7 +88,7 @@ const ManageSubscription = () => {
             onClick={handleManageSubscription}
           />
           <div className="mt-0 grid grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:mt-2 xl:grid-cols-3">
-            {plans.map((plan, index) => (
+            {plansMap.map((plan, index) => (
               <div
                 key={plan.key}
                 className={` ${
