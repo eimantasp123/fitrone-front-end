@@ -26,7 +26,7 @@ API.interceptors.response.use(
     // If CSRF token is invalid (403 Forbidden), refresh token and retry request
     if (
       error.response?.status === 403 &&
-      error.response.data?.error.code === "EBADCSRFTOKEN" &&
+      error.response.data?.code === "EBADCSRFTOKEN" &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;

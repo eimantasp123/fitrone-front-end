@@ -21,8 +21,7 @@ const refreshToken = async () => {
 
 // Helper function to read CSRF token from cookies
 export const getCsrfTokenFromCookie = () => {
-  const csrfToken = localStorage.getItem("csrfToken"); // Assuming CSRF token is stored in local storage
-  return csrfToken;
+  return localStorage.getItem("csrfToken"); // Assuming CSRF token is stored in local storage
 };
 
 // Helper function to fetch CSRF token
@@ -53,29 +52,33 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    // Initialize retry flags if not present
+    if (!originalRequest._csrfRetry) originalRequest._csrfRetry = false;
+    if (!originalRequest._authRetry) originalRequest._authRetry = false;
+
+    // If CSRF token is invalid (403 Forbidden), refresh token and retry request
+    if (
+      error.response?.status === 403 &&
+      error.response.data?.code === "EBADCSRFTOKEN" &&
+      !originalRequest._csrfRetry
+    ) {
+      originalRequest._csrfRetry = true;
+      const newCsrfToken = await fetchCsrfToken();
+
+      if (newCsrfToken) {
+        originalRequest.headers["x-csrf-token"] = newCsrfToken; // Attach new token
+        return axiosInstance(originalRequest); // Retry request
+      }
+    }
+
     // If the error is 401 Unauthorized and the request has not been retried
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (error.response?.status === 401 && !originalRequest._authRetry) {
+      originalRequest._authRetry = true;
       try {
         await refreshToken();
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         return Promise.reject(refreshError);
-      }
-    }
-
-    // If CSRF token is invalid (403 Forbidden), refresh token and retry request
-    if (
-      error.response?.status === 403 &&
-      error.response.data?.error.code === "EBADCSRFTOKEN" &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retry = true;
-      const newCsrfToken = await fetchCsrfToken();
-
-      if (newCsrfToken) {
-        originalRequest.headers["x-csrf-token"] = newCsrfToken; // Attach new token
-        return API(originalRequest); // Retry request
       }
     }
 
