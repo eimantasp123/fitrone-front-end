@@ -93,7 +93,7 @@ const ManageSubscription = () => {
                 key={plan.key}
                 className={` ${
                   index === 2 &&
-                  "md:col-span-2 md:block md:w-full xl:col-span-1 xl:flex"
+                  "md:col-span-2 md:block md:w-full xl:col-span-1"
                 }`}
               >
                 <PlanCard
