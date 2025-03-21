@@ -1,7 +1,7 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
 import { useAppDispatch } from "@/store";
 import API from "@/utils/API";
-import prefetchDashboardAndOtherData from "@/utils/prefetchData";
+// import prefetchDashboardAndOtherData from "@/utils/prefetchData";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -42,9 +42,9 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         setAuthChecking(false);
         localStorage.setItem("authenticated", "true");
-        if (response.data.user && response.data.user.plan !== "base") {
-          prefetchDashboardAndOtherData(queryClient);
-        }
+        // if (response.data.user && response.data.user.plan !== "base") {
+        //   prefetchDashboardAndOtherData(queryClient);
+        // }
       } catch (error) {
         if (
           axios.isAxiosError(error) &&
