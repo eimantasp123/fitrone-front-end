@@ -170,7 +170,7 @@ const DrawerForCustomerAddAndEdit: React.FC<
               scrollbarWidth: "thin",
             }}
           >
-            <div className="mb-32 w-full pt-8 md:pb-8 md:pt-3 lg:pb-4">
+            <div className="mb-32 w-full pt-8 md:pb-8 md:pt-3 lg:mb-0 lg:pb-4">
               {customer && customer.status !== "pending" && (
                 <div className="pb-6 md:px-8 md:pb-0">
                   <CustomButton
