@@ -15,9 +15,9 @@ export default function AuthLayout() {
 
   // Return the JSX for the AuthLayout component
   return (
-    <div className="flex h-screen min-h-[700px] select-none">
-      {/* Left side on Authlayout page */}
-      <div className="hidden w-1/2 justify-between border-r-[1px] border-borderPrimary bg-backgroundSecondary p-10 dark:bg-background lg:flex lg:flex-col">
+    <div className="flex h-screen w-full select-none overflow-hidden">
+      {/* Left side (Auth layout info panel) */}
+      <div className="hidden w-1/2 flex-col justify-between border-r border-borderPrimary bg-backgroundSecondary p-10 dark:bg-background lg:flex">
         <img
           src={`${colorMode === "light" ? "/logo-black.png" : "/logo-white.png"}`}
           alt="logo"
@@ -31,8 +31,10 @@ export default function AuthLayout() {
           </p>
         </div>
       </div>
-      <div className="relative flex w-full flex-col items-center justify-center overflow-x-hidden bg-background dark:bg-backgroundSecondary lg:w-1/2">
-        {/* Logo on mobile screen */}
+
+      {/* Right side (Form/Outlet) */}
+      <div className="relative flex h-screen w-full flex-col items-center justify-start overflow-auto bg-background px-4 py-6 dark:bg-backgroundSecondary lg:w-1/2">
+        {/* Logo for mobile */}
         <img
           src={`${colorMode === "light" ? "/logo-black.png" : "/logo-white.png"}`}
           alt="logo"
@@ -40,13 +42,15 @@ export default function AuthLayout() {
           className="absolute left-3 top-3 w-[100px] cursor-pointer lg:hidden"
         />
 
-        {/* Language change */}
-        <div className="absolute right-16 top-3 flex gap-4 text-sm font-semibold">
+        {/* Language selector */}
+        <div className="absolute right-16 top-3 flex gap-4 text-sm font-semibold lg:right-20">
           <LanguageSelector />
         </div>
+
+        {/* Theme toggle */}
         <div
           onClick={toggleColorMode}
-          className="absolute right-3 top-4 flex size-8 cursor-pointer items-center justify-center rounded-full border border-borderPrimary text-textPrimary transition-colors duration-200 ease-in-out"
+          className="absolute right-3 top-4 flex size-8 cursor-pointer items-center justify-center rounded-full border border-borderPrimary text-textPrimary transition-colors duration-200 ease-in-out lg:right-7"
         >
           {colorMode === "light" ? (
             <CiLight className="text-lg" />
@@ -55,10 +59,12 @@ export default function AuthLayout() {
           )}
         </div>
 
-        {/* Outlet for nested routes */}
-        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-          <Outlet />
-        </GoogleOAuthProvider>
+        {/* Actual content */}
+        <div className="mx-auto my-auto w-full max-w-[500px] py-24">
+          <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+            <Outlet />
+          </GoogleOAuthProvider>
+        </div>
       </div>
     </div>
   );

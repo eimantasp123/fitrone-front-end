@@ -55,13 +55,13 @@ export default function RegisterDone() {
       <Helmet>
         <title>{t("registerDone.title")}</title>
       </Helmet>
-      <div className="flex w-full max-w-md flex-col justify-center px-6 text-textPrimary">
+      <div className="flex w-full max-w-md flex-col justify-center overflow-y-auto px-6 text-textPrimary">
         <div className="text-center">
-          <h2 className="mb-6 text-2xl font-semibold lg:text-3xl">
+          <h2 className="mb-3 text-2xl font-semibold lg:mb-6 lg:text-3xl">
             {t("registerDone.title")}
           </h2>
           <div className="flex items-center justify-center">
-            <div className="border-border mb-8 rounded-full border px-8 py-[7px] text-[14px] text-textSecondary shadow-custom-light3">
+            <div className="border-border mb-4 rounded-full border px-8 py-[7px] text-[14px] text-textSecondary shadow-custom-light3 lg:mb-9">
               {userEmail}
             </div>
           </div>
