@@ -33,7 +33,7 @@ export default function AuthLayout() {
       </div>
 
       {/* Right side (Form/Outlet) */}
-      <div className="relative flex h-screen w-full flex-col items-center justify-start overflow-auto overflow-x-hidden bg-background px-4 py-6 dark:bg-backgroundSecondary lg:w-1/2">
+      <div className="relative flex h-screen w-full flex-col items-center justify-start overflow-auto overflow-x-hidden bg-background px-2 py-6 dark:bg-backgroundSecondary lg:w-1/2">
         {/* Logo for mobile */}
         <img
           src={`${colorMode === "light" ? "/logo-black.png" : "/logo-white.png"}`}
