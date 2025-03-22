@@ -48,7 +48,7 @@ const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
         isOpen={isOpen}
         onClose={onClose}
         isCentered
-        size={{ base: "xs", md: "lg" }}
+        size={{ base: "sm", md: "lg" }}
       >
         <ModalOverlay />
         <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>

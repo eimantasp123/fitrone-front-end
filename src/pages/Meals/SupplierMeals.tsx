@@ -241,7 +241,13 @@ const SupplierMeals: React.FC = () => {
 
       {/* Add meal modal */}
       {modalState.type && (
-        <Suspense fallback={<Spinner />}>
+        <Suspense
+          fallback={
+            <div className="absolute left-0 top-0 mt-80 flex w-full justify-center overflow-hidden">
+              <Spinner size="lg" />
+            </div>
+          }
+        >
           <MealAddModal
             isOpenModal={!!modalState.type}
             onClose={() => setModalState({ type: null, meal: null })}

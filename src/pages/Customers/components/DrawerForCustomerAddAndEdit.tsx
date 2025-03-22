@@ -170,7 +170,7 @@ const DrawerForCustomerAddAndEdit: React.FC<
               scrollbarWidth: "thin",
             }}
           >
-            <div className="w-full pt-8 md:pt-3">
+            <div className="w-full pb-14 pt-8 md:pb-0 md:pt-3">
               {customer && customer.status !== "pending" && (
                 <div className="pb-6 md:px-8 md:pb-0">
                   <CustomButton
@@ -210,6 +210,7 @@ const DrawerForCustomerAddAndEdit: React.FC<
                 selectedPlace={selectedPlace}
                 setSelectedPlace={setSelectedPlace}
                 onSubmit={onSubmit}
+                disableForm={false}
                 methods={methods}
                 loading={isPending}
                 submitButtonText={

@@ -1,5 +1,11 @@
 import LightAndDarkMode from "@/components/common/LightAndDarkMode";
 import LanguageSelector from "@/components/LanguageSelector";
+import {
+  useCustomerForm,
+  UseCustomerFormProps,
+} from "@/hooks/CustomerPageForm/useCustomerForm";
+import { showCustomToast } from "@/hooks/showCustomToast";
+import { CustomerAddForm } from "@/utils/types";
 import { useCustomerDetails } from "@/utils/validationSchema";
 import { useColorMode } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,14 +14,8 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import UserDetailsFormComponent from "../Customers/components/UserDetailsFormComponent";
-import { CustomerAddForm } from "@/utils/types";
-import {
-  useCustomerForm,
-  UseCustomerFormProps,
-} from "@/hooks/CustomerPageForm/useCustomerForm";
-import { showCustomToast } from "@/hooks/showCustomToast";
 import { SelectedPlace } from "../Customers/components/DrawerForCustomerAddAndEdit";
+import UserDetailsFormComponent from "../Customers/components/UserDetailsFormComponent";
 
 /**
  *  Customer page form component

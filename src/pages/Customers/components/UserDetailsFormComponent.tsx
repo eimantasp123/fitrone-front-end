@@ -34,7 +34,7 @@ const UserDetailsFormComponent = <T extends FieldValues>({
   selectedPlace,
   setSelectedPlace,
   submitButtonText = "Submit",
-  disableForm = false,
+  disableForm = true,
   loading = false,
   setRecaptchaToken,
 }: UserDetailsFormComponentProps<T>) => {

@@ -13,14 +13,14 @@ const queryClient = new QueryClient();
 const isDev = import.meta.env.VITE_MODE === "development"; // Check if dev mode
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <HelmetProvider>
-          <App />
-        </HelmetProvider>
-      </Router>
-      {isDev && <ReactQueryDevtools initialIsOpen={false} />}
-    </QueryClientProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <Router>
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
+    </Router>
+    {isDev && <ReactQueryDevtools initialIsOpen={false} />}
+  </QueryClientProvider>,
+  // </React.StrictMode>,
 );

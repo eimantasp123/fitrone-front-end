@@ -7,13 +7,15 @@ import { MdSearch } from "react-icons/md";
 import { SelectedPlace } from "./DrawerForCustomerAddAndEdit";
 import GeneralModalToSearchAddressGuide from "@/components/GeneralModalToSearchAddressGuide";
 import { useDisclosure } from "@chakra-ui/react";
+import loadGoogleMapsScript from "@/utils/loadGoogleAPIKey";
+import { IoSearchOutline } from "react-icons/io5";
 
 interface CustomAddressSearchProps {
   selectedPlace: SelectedPlace | null;
   setSelectedPlace: React.Dispatch<React.SetStateAction<SelectedPlace | null>>;
   name: string;
   required?: boolean;
-  disableForm?: boolean;
+  disableForm: boolean;
 }
 
 /**
@@ -24,7 +26,7 @@ const CustomAddressSearch: React.FC<CustomAddressSearchProps> = ({
   setSelectedPlace,
   required = false,
   name,
-  disableForm = false,
+  disableForm = true,
 }) => {
   const { t } = useTranslation(["common", "auth", "customers"]);
   const [inputValue, setInputValue] = useState(""); // User's input
@@ -52,10 +54,12 @@ const CustomAddressSearch: React.FC<CustomAddressSearchProps> = ({
 
   // Initialize Google services when the API is loaded
   useEffect(() => {
-    if (!autocompleteService.current && window.google) {
-      autocompleteService.current =
-        new google.maps.places.AutocompleteService();
-    }
+    loadGoogleMapsScript().then(() => {
+      if (!autocompleteService.current && window.google?.maps?.places) {
+        autocompleteService.current =
+          new google.maps.places.AutocompleteService();
+      }
+    });
   }, []);
 
   // Close the results dropdown when clicked outside
@@ -172,6 +176,7 @@ const CustomAddressSearch: React.FC<CustomAddressSearchProps> = ({
                 : "rounded-lg transition-shadow duration-300 ease-in-out focus:shadow-custom-light4"
             } border border-borderDark placeholder-placeholder outline-none dark:border-borderPrimary`}
           />
+
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -179,14 +184,15 @@ const CustomAddressSearch: React.FC<CustomAddressSearchProps> = ({
             }}
             type="submit"
             disabled={disableForm}
-            className={`absolute right-[2px] m-1 flex h-[34px] cursor-pointer items-center rounded-lg bg-primary px-4 text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
+            className={`absolute right-[2px] m-1 flex h-[34px] cursor-pointer items-center rounded-lg bg-primary px-3 text-sm text-black transition-colors duration-200 ease-in-out hover:bg-primaryLight dark:hover:bg-primaryDark`}
           >
-            {t("search")}
+            <IoSearchOutline className="text-lg" />
           </button>
+
           {inputValue && (
             <span
               onClick={cleanSearch}
-              className={`absolute right-[82px] m-1 flex h-[34px] cursor-pointer items-center rounded-lg bg-backgroundSecondary px-3 text-sm`}
+              className={`absolute right-[50px] m-1 flex h-[34px] cursor-pointer items-center rounded-lg bg-backgroundSecondary px-3 text-sm`}
             >
               <IoIosCloseCircleOutline className="text-lg" />
             </span>
