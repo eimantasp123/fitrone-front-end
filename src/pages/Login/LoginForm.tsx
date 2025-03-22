@@ -242,7 +242,7 @@ export default function LoginForm() {
               handleSignUp={handleSignUp}
               message={t("login.noAccount")}
               linkText={t("login.signUp")}
-              className="mt-10"
+              className="mt-5"
             />
           </>
         )}
