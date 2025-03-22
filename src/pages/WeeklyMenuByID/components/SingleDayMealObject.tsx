@@ -22,7 +22,7 @@ const SingleDayMealObject: React.FC<SingleDayMealObjectProps> = ({
 }) => {
   return (
     <>
-      <div className="grid-col-8 grid-auto grid items-center gap-3 rounded-lg border border-neutral-200/50 bg-backgroundSecondary p-3 dark:border-neutral-800 dark:bg-background xl:gap-2">
+      <div className="grid-col-8 grid-auto grid items-center gap-3 rounded-lg border border-neutral-200/50 bg-backgroundSecondary p-2 dark:border-neutral-800 dark:bg-background md:p-3 xl:gap-2">
         {/* Meal Image */}
         <div
           style={{

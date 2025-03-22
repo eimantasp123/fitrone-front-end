@@ -31,7 +31,7 @@ export default function AuthLayout() {
           </p>
         </div>
       </div>
-      <div className="relative flex w-full flex-col items-center justify-center overflow-y-auto bg-background dark:bg-backgroundSecondary lg:w-1/2">
+      <div className="relative flex w-full flex-col items-center justify-center overflow-x-hidden bg-background dark:bg-backgroundSecondary lg:w-1/2">
         {/* Logo on mobile screen */}
         <img
           src={`${colorMode === "light" ? "/logo-black.png" : "/logo-white.png"}`}
