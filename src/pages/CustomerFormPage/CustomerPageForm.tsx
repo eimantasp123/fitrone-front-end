@@ -83,7 +83,7 @@ const CustomerPageForm: React.FC = () => {
             <LightAndDarkMode />
           </div>
         </header>
-        <div className="mx-auto flex max-w-[1400px] flex-col px-6 pt-8 md:pt-14 lg:px-10">
+        <div className="mx-auto mb-32 flex max-w-[1400px] flex-col px-6 pt-8 md:mb-20 md:pt-14 lg:mb-8 lg:px-10">
           {token === "sample" && (
             <div className="mb-4 space-y-2 px-2 md:mb-0 md:px-9">
               <h4 className="text-lg font-semibold">{t("sampleFormTitle")}</h4>
