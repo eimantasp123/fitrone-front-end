@@ -14,6 +14,9 @@
     "saveChanges": "Save Changes",
     "noChange": "No changes made"
   },
+  "businessInfo": {
+    "title": "Business Information"
+  },
   "changePassword": {
     "title": "Change Password",
     "edit": "Edit",

@@ -72,6 +72,13 @@ const PlanCard: React.FC<PlanCardProps> = ({
           >
             / {t("perMonth")}
           </span>
+          <span
+            className={`text-sm font-medium ${
+              selectedPlan === planName ? "text-white/70" : "text-textSecondary"
+            }`}
+          >
+            + {t("tax")}
+          </span>
         </div>
 
         {/* Button */}

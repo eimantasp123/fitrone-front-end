@@ -9,7 +9,6 @@ class WebSocketClient {
   private maxReconnectAttempts: number = 5; // Maximum number of retries
   private shouldReconnect = true; // Flag to control reconnection
   private reconnectTimeout: NodeJS.Timeout | null = null;
-  private heartbeatInterval: NodeJS.Timeout | null = null;
 
   private constructor() {} // Private constructor
 
@@ -23,14 +22,20 @@ class WebSocketClient {
 
   // Publick: Initialize WebSocket connection
   public connect(url: string) {
-    if (this.socket) return; // Already connected
+    // Only connect if socket is null or closed
+    if (
+      this.socket &&
+      ((this.socket as WebSocket).readyState === WebSocket.OPEN ||
+        (this.socket as WebSocket).readyState === WebSocket.CONNECTING)
+    ) {
+      return;
+    }
 
     this.shouldReconnect = true; // Allow reconnection
     this.socket = new WebSocket(url); // Create a new WebSocket connection
 
     this.socket.onopen = () => {
       this.reconnectAttempts = 0; // Reset the number of attempts
-      this.startHeartbeat(); // Start the heartbeat
     };
 
     this.socket.onmessage = (event) => {
@@ -46,10 +51,6 @@ class WebSocketClient {
 
     this.socket.onclose = () => {
       this.socket = null;
-      if (this.heartbeatInterval) {
-        clearInterval(this.heartbeatInterval); // Clear the interval
-        this.heartbeatInterval = null; // Reset the interval
-      }
       if (
         this.shouldReconnect &&
         this.reconnectAttempts < this.maxReconnectAttempts
@@ -58,15 +59,6 @@ class WebSocketClient {
         this.reconnectTimeout = setTimeout(() => this.connect(url), 3000); // Reconnect after 3 seconds
       }
     };
-  }
-
-  private startHeartbeat() {
-    if (this.heartbeatInterval) return; // Already started
-    this.heartbeatInterval = setInterval(() => {
-      if (this.socket?.readyState === WebSocket.OPEN) {
-        this.socket.send(JSON.stringify({ type: "ping" })); // Send ping
-      }
-    }, 25000); // Send ping every 25 seconds
   }
 
   // Public: Add an event listener for specific message types
@@ -86,13 +78,12 @@ class WebSocketClient {
       clearTimeout(this.reconnectTimeout); // Clear the timeout
       this.reconnectTimeout = null; // Reset the timeout
     }
-    if (this.heartbeatInterval) {
-      clearInterval(this.heartbeatInterval); // Clear the interval
-      this.heartbeatInterval = null; // Reset the interval
-    }
     if (this.socket) {
       this.socket.close(); // Close the connection
       this.socket = null; // Reset the socket
+    }
+    if (this.listeners.size > 0) {
+      this.listeners.clear(); // Clear the listeners
     }
   }
 }

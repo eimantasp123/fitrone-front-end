@@ -1,5 +1,5 @@
 import { showCustomToast } from "@/hooks/showCustomToast";
-import { useAppDispatch } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
 import API from "@/utils/API";
 // import prefetchDashboardAndOtherData from "@/utils/prefetchData";
 import { useQueryClient } from "@tanstack/react-query";
@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import useAsync from "../hooks/useAsync";
 import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
 import axiosInstance, { fetchCsrfToken } from "../utils/axiosInterceptors";
+import { getOrCreateTabDeviceId } from "@/utils/getDeviceId";
+import webSocketInstance from "@/utils/webSocketInstance";
 
 const AuthContext = createContext();
 
@@ -23,9 +25,14 @@ export const AuthProvider = ({ children }) => {
   const [authChecking, setAuthChecking] = useState(true);
   const [userEmail, setUserEmail] = useState("example@gmail.com");
   const [successMessage, setSuccessMessage] = useState("");
+  const { details: userDetails } = useAppSelector(
+    (state) => state.personalDetails,
+  );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
+
+  // Check if user is authenticated
   useEffect(() => {
     const checkAuth = async () => {
       const isAuth = localStorage.getItem("authenticated") === "true";
@@ -76,6 +83,57 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     fetchCsrfToken();
   }, []);
+
+  // Connect to WebSocket
+  useEffect(() => {
+    if (!isAuthenticated || !userDetails?._id) return;
+
+    const deviceId = getOrCreateTabDeviceId();
+    const WS_URL = `${import.meta.env.VITE_WS_URL}?userId=${userDetails._id}&deviceId=${deviceId}`;
+
+    // Connect to WebSocket
+    webSocketInstance.connect(WS_URL);
+
+    // Add event listeners
+    const ingredientUpdateHandler = () => {
+      queryClient.invalidateQueries({ queryKey: ["meals"] });
+    };
+
+    const customerFormHandler = () => {
+      queryClient.invalidateQueries({ queryKey: ["customers"] });
+    };
+
+    const subscriptionHandler = async () => {
+      const response = await axiosInstance.get("/auth/user");
+      dispatch(setUserDetails(response.data.user));
+    };
+
+    webSocketInstance.addEventListener(
+      "ingredient_updated_in_meals",
+      ingredientUpdateHandler,
+    );
+    webSocketInstance.addEventListener(
+      "customer_form_confirmed",
+      customerFormHandler,
+    );
+    webSocketInstance.addEventListener(
+      "subscription_updated",
+      subscriptionHandler,
+    );
+
+    return () => {
+      webSocketInstance.removeEventListener("ingredient_updated_in_meals");
+      webSocketInstance.removeEventListener("customer_form_confirmed");
+      webSocketInstance.removeEventListener("subscription_updated");
+      webSocketInstance.disconnect();
+    };
+  }, [
+    queryClient,
+    isAuthenticated,
+    userDetails?._id,
+    setIsAuthenticated,
+    dispatch,
+  ]);
 
   // Clear messages function
   const clearMessages = () => {
@@ -244,6 +302,7 @@ export const AuthProvider = ({ children }) => {
       dispatch(setUserDetails(null));
       queryClient.clear();
       localStorage.removeItem("authenticated");
+      webSocketInstance.disconnect();
       setAuthChecking(true);
     } catch {
       localStorage.removeItem("authenticated");

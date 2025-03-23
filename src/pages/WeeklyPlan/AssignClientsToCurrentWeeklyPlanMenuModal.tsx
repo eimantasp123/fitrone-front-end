@@ -177,8 +177,8 @@ const AssignClientsToCurrentWeeklyPlanMenuModal: React.FC<
             {menuData && !isError && !isLoading && (
               <div className="grid-col-1 mt-4 grid gap-2 md:grid-rows-1 md:gap-0">
                 {/* Assigned customers */}
-                <div className="min-h-[350px] w-full flex-col gap-3 px-2 md:min-h-[600px]">
-                  <div className="sticky top-0 flex w-full flex-col gap-2 bg-background px-2 pb-3 pt-2 dark:bg-backgroundSecondary">
+                <div className="min-h-[350px] w-full flex-col gap-3 md:min-h-[600px] lg:px-4">
+                  <div className="sticky top-0 flex w-full flex-col gap-2 bg-background pb-3 pt-2 dark:bg-backgroundSecondary">
                     <h4 className="text-sm">{t("clients")}</h4>
                     {!menuData.expired && (
                       <CustomButton
@@ -190,7 +190,7 @@ const AssignClientsToCurrentWeeklyPlanMenuModal: React.FC<
 
                   {/* Display all client */}
                   {menuData.menuDetails.assignedClients.length > 0 && (
-                    <div className="grid max-h-[350px] grid-cols-1 gap-2 overflow-y-auto px-2 scrollbar-thin md:max-h-[600px] md:grid-cols-2">
+                    <div className="grid max-h-[350px] grid-cols-1 gap-2 overflow-y-auto scrollbar-thin md:max-h-[600px] md:grid-cols-2">
                       {menuData.menuDetails.assignedClients.map(
                         (client, index) => (
                           <div
