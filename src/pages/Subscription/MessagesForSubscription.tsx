@@ -87,7 +87,6 @@ const MessagesForSubscription: React.FC<MessagesForSubscriptionProps> = ({
               <span className="px-1 font-semibold">
                 {trialEnd && trialEnd.slice(0, 10)}.
               </span>
-              {t("messages.upgradeToEnjoyFeatures")}
             </div>
           </div>
         )}
