@@ -32,8 +32,8 @@ const DescriptionAndNutritionPopover: React.FC<
             {t("common:description")}
           </PopoverHeader>
           <PopoverCloseButton />
-          <PopoverBody>
-            <p className="text-[13px]">
+          <PopoverBody overflow="auto" maxH="200px">
+            <p className="whitespace-pre-wrap text-[13px]">
               {meal.description || t("common:noDescription")}
             </p>
           </PopoverBody>

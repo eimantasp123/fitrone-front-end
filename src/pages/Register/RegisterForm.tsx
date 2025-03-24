@@ -17,7 +17,7 @@ interface RegisterFormInputs {
   email: string;
 }
 
-const FACEBOOK_APP_ID = "1552748628609748";
+const FACEBOOK_APP_ID = import.meta.env.VITE_FACEBOOK_APP_ID;
 
 // Register form component
 export default function RegisterForm() {
@@ -101,7 +101,7 @@ export default function RegisterForm() {
                 <FaGoogle className="text-[16px]" /> Google
               </button>
             </div>
-            <div className="text-center">
+            {/* <div className="text-center">
               <FacebookLogin
                 appId={FACEBOOK_APP_ID}
                 onSuccess={executeFacebookLogin}
@@ -118,7 +118,7 @@ export default function RegisterForm() {
                   </button>
                 )}
               />
-            </div>
+            </div> */}
           </div>
 
           <SignUpPrompt

@@ -403,6 +403,40 @@
         }
       ],
       "note": "When downgrading the plan, data exceeding the new plan limits will be archived. To restore them, you will need to return to a higher plan."
+    },
+    {
+      "title": "Providing Business Information for Invoices",
+      "description": "To ensure that invoices include correct company or individual business information, users must add their business details to the payment system. This ensures that each issued invoice contains the company name, address, VAT number, and other important details.",
+      "steps": [
+        {
+          "title": "Log in to the Payment Account",
+          "actions": [
+            "Go to the 'Subscription' section.",
+            "Click the 'Manage Subscription & Payments' button.",
+            "You will be redirected to the payment management page."
+          ]
+        },
+        {
+          "title": "Filling in Business Information in the Account",
+          "actions": [
+            "On the payment management page, find the 'Billing Information' section and click 'Update Information'.",
+            "Enter the company name or personal name (if using individual business).",
+            "Enter the business or residential address.",
+            "If applicable, enter the VAT (Value Added Tax) number and business identification number.",
+            "Save the changes. This information will automatically appear on all future generated invoices."
+          ]
+        },
+        {
+          "title": "Important Notes",
+          "actions": [
+            "If the user does not have a VAT number (e.g., operates under an individual business certificate), only standard personal details will be included on the invoice without VAT identification.",
+            "Invoices are generated automatically, so it is crucial to ensure that the provided information is accurate and up-to-date.",
+            "If no business information is provided, the invoice may only display basic user details (e.g., email)."
+          ]
+        }
+      ],
+      "note": "This setting is necessary to ensure that invoices comply with legal requirements. We recommend providing all required information in the payment account in advance.",
+      "url": ""
     }
   ]
 }

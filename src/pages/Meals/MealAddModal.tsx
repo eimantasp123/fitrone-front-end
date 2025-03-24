@@ -152,6 +152,7 @@ const MealAddModal: React.FC<MealAddModalProps> = ({
                 {/* Meal description */}
                 <CustomTextarea
                   name="description"
+                  height={200}
                   label={t("descriptionTile")}
                 />
 

@@ -11,7 +11,6 @@
     { "key": "America/Denver", "title": "Denver (UTC-7)" },
     { "key": "America/Los_Angeles", "title": "Los Angeles (UTC-8)" },
     { "key": "America/Phoenix", "title": "Phoenix (UTC-7)" },
-    { "key": "America/Anchorage", "title": "Anchorage (UTC-9)" },
-    { "key": "America/Honolulu", "title": "Honolulu (UTC-10)" }
+    { "key": "America/Anchorage", "title": "Anchorage (UTC-9)" }
   ]
 }

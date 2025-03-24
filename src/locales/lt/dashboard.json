@@ -406,6 +406,40 @@
         }
       ],
       "note": "Keičiant planą į žemesnį, duomenys, kurie viršija naujo plano limitus, bus archyvuoti. Norint juos atkurti, reikės grįžti prie aukštesnio plano."
+    },
+    {
+      "title": "Verslo informacijos pateikimas sąskaitoms faktūroms",
+      "description": "Kad sąskaitose faktūrose būtų pateikta teisinga įmonės ar individualios veiklos informacija, vartotojai turi pridėti savo verslo informaciją prie mokėjimų sistemos. Tai padeda užtikrinti, kad kiekviena išrašyta sąskaita turėtų įmonės pavadinimą, adresą, PVM kodą ir kitą svarbią informaciją.",
+      "steps": [
+        {
+          "title": "Prisijungti prie mokėjimų paskyros",
+          "actions": [
+            "Apsilankykite puslapio skiltyje „Prenumerata“.",
+            "Paspauskite mygtuką „Tvarkyti prenumeratą ir mokėjimus“.",
+            "Jūs būsite nukreipti į mokėjimų valdymo puslapį."
+          ]
+        },
+        {
+          "title": "Verslo informacijos užpildymas paskyroje",
+          "actions": [
+            "Mokėjimų valdymo puslapyje raskite sekciją „Billing Information“ ir spauskite „Update Information“.",
+            "Įveskite įmonės pavadinimą arba asmens vardą ir pavardę (jei naudojate individualią veiklą).",
+            "Įveskite verslo arba gyvenamosios vietos adresą.",
+            "Jei turite – įrašykite PVM (VAT) kodą ir verslo identifikacinį numerį (jei taikoma).",
+            "Išsaugokite pakeitimus. Ši informacija automatiškai atsispindės visose būsimose sugeneruotose sąskaitose."
+          ]
+        },
+        {
+          "title": "Svarbios pastabos",
+          "actions": [
+            "Jei vartotojas neturi PVM kodo (pavyzdžiui, dirba pagal individualios veiklos pažymą), į sąskaitą bus įtraukti tik įprasti asmeniniai duomenys be PVM identifikacijos.",
+            "Sąskaitos generuojamos automatiškai, todėl labai svarbu užtikrinti, kad pateikta informacija būtų tiksli ir atnaujinta.",
+            "Jei nepateikta verslo informacija, sąskaitoje gali būti rodomi tik baziniai vartotojo duomenys (pvz., el. paštas)."
+          ]
+        }
+      ],
+      "note": "Šis nustatymas būtinas, jei norite, kad sąskaitos faktūros atitiktų teisės aktų reikalavimus. Rekomenduojame iš anksto pasirūpinti visos reikiamos informacijos pateikimu mokėjimų paskyroje.",
+      "url": ""
     }
   ]
 }

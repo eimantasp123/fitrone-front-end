@@ -88,10 +88,12 @@ const SupplierDaySingleMealView = ({
             })}
           </h6>
           {meal.mealDescription && (
-            <h6>
-              <span className="font-semibold">{t("mealDescription")}:</span>{" "}
-              {capitalizeFirstLetter(meal.mealDescription)}
-            </h6>
+            <div>
+              <span className="font-semibold">{t("mealDescription")}:</span>
+              <p className="whitespace-pre-wrap">
+                {capitalizeFirstLetter(meal.mealDescription)}
+              </p>
+            </div>
           )}
         </div>
         {/* Right side */}

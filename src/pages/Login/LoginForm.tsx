@@ -219,7 +219,7 @@ export default function LoginForm() {
                   Google
                 </button>
               </div>
-              <div className="text-center">
+              {/* <div className="text-center">
                 <FacebookLogin
                   appId={FACEBOOK_APP_ID}
                   onSuccess={executeFacebookLogin}
@@ -237,7 +237,7 @@ export default function LoginForm() {
                     </button>
                   )}
                 />
-              </div>
+              </div> */}
             </div>
             <SignUpPrompt
               handleSignUp={handleSignUp}

@@ -14,12 +14,14 @@ interface CustomTextareaProps extends TextareaProps {
   required?: boolean;
   placeholder?: string;
   isDisabled?: boolean;
+  height?: number;
 }
 
 const CustomTextarea: FC<CustomTextareaProps> = ({
   name,
   label,
   required = false,
+  height = 70,
   placeholder,
   isDisabled,
   ...rest
@@ -47,7 +49,7 @@ const CustomTextarea: FC<CustomTextareaProps> = ({
       )}
       <Textarea
         id={name}
-        height={70}
+        height={height}
         rounded={"8px"}
         {...register(name)}
         placeholder={placeholder}

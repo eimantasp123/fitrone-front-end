@@ -302,10 +302,10 @@ export const useMealInputSchema = () => {
       .string()
       .trim()
       .required(t("errors.fieldIsRequired"))
-      .max(70, t("errors.titleMaxLength", { count: 70 })),
+      .max(100, t("errors.titleMaxLength", { count: 100 })),
     description: yup
       .string()
-      .max(500, t("errors.titleMaxLength", { count: 500 })), // Optional
+      .max(2500, t("errors.titleMaxLength", { count: 2500 })), // Optional
     ingredients: yup
       .array()
       .of(

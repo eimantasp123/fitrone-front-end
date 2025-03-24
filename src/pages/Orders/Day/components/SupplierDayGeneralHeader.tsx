@@ -42,7 +42,7 @@ const SupplierDayGeneralHeader: React.FC<SupplierDayGeneralHeaderProps> = ({
         {/* Go back button*/}
         <div className="col-span-2 row-start-1 flex items-center sm:col-span-1 xl:row-auto">
           <CustomButton
-            text="Go back"
+            text={t("common:back")}
             widthFull={true}
             width="w-full sm:w-[120px]"
             type="lightSecondary"

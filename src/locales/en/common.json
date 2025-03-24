@@ -63,6 +63,7 @@
   "unpublish": "Unpublish",
   "clean": "Clean",
   "submitForm": "Submit form",
+  "back": "Back",
   "resend": "Resend",
   "create": "Create",
   "results": "Results: {{count}}",
