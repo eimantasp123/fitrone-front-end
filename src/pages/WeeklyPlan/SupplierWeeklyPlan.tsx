@@ -72,6 +72,9 @@ const SupplierWeeklyPlan: React.FC = () => {
     }
   };
 
+  console.log("data", data);
+  console.log("mainObject", mainObject);
+
   // Handle open delete week plan modal
   const handleOpenDeleteWeeklyPlanModal = (menuId: string) => {
     setWeeklyPlanMenuId(menuId);
@@ -107,8 +110,8 @@ const SupplierWeeklyPlan: React.FC = () => {
 
   // Enabled weekly plan
   const disableWeeklyPlan = useMemo(() => {
-    return mainObject?.status === "expired";
-  }, [mainObject]);
+    return mainObject?.status === "expired" || data?.status === "expired_week";
+  }, [mainObject, data]);
 
   // Assign action handler
   const assignAction = (weeklyPlanMenuId: string) => {
