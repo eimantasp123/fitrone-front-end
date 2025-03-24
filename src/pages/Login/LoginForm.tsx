@@ -223,7 +223,7 @@ export default function LoginForm() {
                 <FacebookLogin
                   appId={FACEBOOK_APP_ID}
                   onSuccess={executeFacebookLogin}
-                  scope="email"
+                  scope="public_profile,email"
                   onFail={(error) =>
                     console.warn("Facebook login error:", error)
                   }
