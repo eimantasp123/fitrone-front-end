@@ -50,6 +50,7 @@ const CustomTextarea: FC<CustomTextareaProps> = ({
       <Textarea
         id={name}
         height={height}
+        minHeight={height}
         rounded={"8px"}
         {...register(name)}
         placeholder={placeholder}

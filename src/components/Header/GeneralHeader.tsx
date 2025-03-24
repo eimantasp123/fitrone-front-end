@@ -102,11 +102,14 @@ const GeneralHeader: React.FC = () => {
               <MdOutlineClose className="text-xl text-textPrimary" />
             </div>
 
-            <img
-              src="/logo-white.png"
-              alt="Logo"
-              className="mx-4 my-3 h-auto w-[100px]"
-            />
+            <div className="my-1 flex h-14 items-center pl-6">
+              <img
+                src="/logo-white.png"
+                alt="Logo"
+                className="h-auto w-[100px]"
+              />
+            </div>
+
             <div
               className={`mb-5 h-[0.5px] w-full border-none ${colorMode === "dark" ? "bg-neutral-700" : "bg-neutral-200"} outline-none`}
             />
