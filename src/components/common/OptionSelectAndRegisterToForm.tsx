@@ -76,7 +76,7 @@ const OptionsSelectAndRegisterToForm: React.FC<
             className={`relative flex w-full ${errors[name] ? "border-2 border-red-400 dark:border-red-400" : ""} cursor-pointer items-center justify-between text-nowrap rounded-lg border border-borderDark py-3 pl-4 pr-2 text-sm transition-all duration-300 ease-in-out ${isOpen ? "ring-[1.5px] ring-neutral-400/70 dark:ring-primary" : "ring-0 ring-transparent"} ease-in-out hover:border-neutral-300 dark:border-borderLight dark:hover:border-neutral-600`}
             onClick={() => setIsOpen(!isOpen)}
           >
-            <span className="overflow-hidden overflow-ellipsis">
+            {/* <span className="overflow-hidden overflow-ellipsis">
               {
                 // Case 1: Show selected option's translated title
                 field.value && options.find((opt) => opt.key === field.value)
@@ -89,6 +89,20 @@ const OptionsSelectAndRegisterToForm: React.FC<
                     : // Case 3: Otherwise show placeholder
                       placeholder
               }
+            </span> */}
+            <span className="overflow-hidden overflow-ellipsis">
+              {(() => {
+                const selectedOption = options.find(
+                  (opt) => opt.key === field.value,
+                );
+                const defaultOption = setDefaultValueKey
+                  ? options.find((opt) => opt.key === setDefaultValueKey)
+                  : null;
+
+                if (selectedOption) return selectedOption.title;
+                if (defaultOption) return defaultOption.title;
+                return placeholder;
+              })()}
             </span>
             <MdKeyboardArrowDown
               className={`text-lg text-textSecondary transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : ""}`}
