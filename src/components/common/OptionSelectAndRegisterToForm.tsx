@@ -77,10 +77,18 @@ const OptionsSelectAndRegisterToForm: React.FC<
             onClick={() => setIsOpen(!isOpen)}
           >
             <span className="overflow-hidden overflow-ellipsis">
-              {field.value
-                ? options.find((opt) => opt.key === field.value)?.title
-                : placeholder ||
-                  options.find((opt) => opt.key === setDefaultValueKey)?.title}
+              {
+                // Case 1: Show selected option's translated title
+                field.value && options.find((opt) => opt.key === field.value)
+                  ? options.find((opt) => opt.key === field.value)?.title
+                  : // Case 2: Use default value key if passed
+                    setDefaultValueKey &&
+                      options.find((opt) => opt.key === setDefaultValueKey)
+                    ? options.find((opt) => opt.key === setDefaultValueKey)
+                        ?.title
+                    : // Case 3: Otherwise show placeholder
+                      placeholder
+              }
             </span>
             <MdKeyboardArrowDown
               className={`text-lg text-textSecondary transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : ""}`}
