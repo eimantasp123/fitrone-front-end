@@ -1,16 +1,22 @@
 {
   "timezones": [
     { "key": "Europe/London", "title": "London (UTC+0)" },
+    { "key": "Europe/Lisbon", "title": "Lisbon (UTC+0)" },
     { "key": "Europe/Paris", "title": "Paris (UTC+1)" },
+    { "key": "Europe/Berlin", "title": "Berlin (UTC+1)" },
+    { "key": "Europe/Madrid", "title": "Madrid (UTC+1)" },
+    { "key": "Europe/Rome", "title": "Rome (UTC+1)" },
+    { "key": "Europe/Warsaw", "title": "Warsaw (UTC+1)" },
     { "key": "Europe/Vilnius", "title": "Vilnius (UTC+2)" },
     { "key": "Europe/Athens", "title": "Athens (UTC+2)" },
+    { "key": "Europe/Bucharest", "title": "Bucharest (UTC+2)" },
+    { "key": "Europe/Helsinki", "title": "Helsinki (UTC+2)" },
     { "key": "Europe/Istanbul", "title": "Istanbul (UTC+3)" },
-    { "key": "Asia/Dubai", "title": "Dubai (UTC+4)" },
     { "key": "America/New_York", "title": "New York (UTC-5)" },
     { "key": "America/Chicago", "title": "Chicago (UTC-6)" },
     { "key": "America/Denver", "title": "Denver (UTC-7)" },
-    { "key": "America/Los_Angeles", "title": "Los Angeles (UTC-8)" },
     { "key": "America/Phoenix", "title": "Phoenix (UTC-7)" },
+    { "key": "America/Los_Angeles", "title": "Los Angeles (UTC-8)" },
     { "key": "America/Anchorage", "title": "Anchorage (UTC-9)" }
   ]
 }

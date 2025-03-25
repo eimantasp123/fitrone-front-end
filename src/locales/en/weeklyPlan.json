@@ -28,7 +28,8 @@
   "weekExpiredDescription": "The selected week has already passed, so you cannot create a plan.",
 
   "selectTimezone": "Select Timezone",
-  "selectTimezoneDescription": "Choose a timezone to manage your weekly menu plan and other features that depend on time, ensuring accuracy across all schedules and reports.",
+  "selectTimezoneDescription": "Please select your timezone carefully. It will be used to generate weekly plans, schedule menus, and ensure accurate timing across your account. Once plans are created, the timezone cannot be changed.",
+  "changeTimezoneSupportNotice": "To change your timezone after starting your weekly plans, please contact support at support@fitrone.com.",
   "updateTimezoneDescription": "Updating your timezone will adjust all background operations such as reports, weekly menu plans, and other time-sensitive features to align with your selected timezone.",
   "noTimezoneSelected": "No timezone selected. Choose a timezone to manage your weekly menu plan and other features that depend on time, ensuring accuracy across all schedules and reports.",
 

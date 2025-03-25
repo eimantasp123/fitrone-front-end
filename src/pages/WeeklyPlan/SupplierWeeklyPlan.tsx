@@ -72,9 +72,6 @@ const SupplierWeeklyPlan: React.FC = () => {
     }
   };
 
-  console.log("data", data);
-  console.log("mainObject", mainObject);
-
   // Handle open delete week plan modal
   const handleOpenDeleteWeeklyPlanModal = (menuId: string) => {
     setWeeklyPlanMenuId(menuId);

@@ -81,7 +81,9 @@ const SetTimezoneModal: React.FC<SetTimezoneModalProps> = ({
           <ModalCloseButton marginTop="3" />
           <ModalBody style={{ padding: "10px 0px" }}>
             <div className="space-y-2">
-              <p className="text-[15px]">{t("selectTimezoneDescription")}</p>
+              {!timezone && (
+                <p className="text-[15px]">{t("selectTimezoneDescription")}</p>
+              )}
               <CustomSelect
                 options={timezones}
                 defaultOption={
@@ -92,22 +94,29 @@ const SetTimezoneModal: React.FC<SetTimezoneModalProps> = ({
                 selectedOption={timezoneSelected?.title}
                 onChange={(option) => setTimezoneSelected(option)}
               />
-              <CustomButton
-                text={timezone ? t("updateTimezone") : t("setTimezone")}
-                widthFull={true}
-                loading={loading}
-                disabled={
-                  timezone === timezoneSelected.key ||
-                  !timezoneSelected.key ||
-                  loading
-                }
-                loadingSpinner={false}
-                onClick={
-                  timezone
-                    ? () => onOpenConfirmModal()
-                    : () => handleSetTimezone()
-                }
-              />
+              {!timezone && (
+                <CustomButton
+                  text={timezone ? t("updateTimezone") : t("setTimezone")}
+                  widthFull={true}
+                  loading={loading}
+                  disabled={
+                    timezone === timezoneSelected.key ||
+                    !timezoneSelected.key ||
+                    loading
+                  }
+                  loadingSpinner={false}
+                  onClick={
+                    timezone
+                      ? () => onOpenConfirmModal()
+                      : () => handleSetTimezone()
+                  }
+                />
+              )}
+              {timezone && (
+                <p className="text-center text-sm">
+                  {t("changeTimezoneSupportNotice")}
+                </p>
+              )}
             </div>
           </ModalBody>
         </ModalContent>
