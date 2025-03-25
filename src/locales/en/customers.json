@@ -50,6 +50,7 @@
   "noClientsYetExplanation": "To add a client, click the button at the bottom.",
 
   "sendFormToCustomerDescription": "Send an information form to the customer so they can fill out the information you need. A sample form link is provided below.",
+  "sendFormWillBeValidFor": "The form will be valid for 36 hours after sending. If the form is not completed within this time frame, you will need to resend it.",
 
   "noResults": "No clients found",
   "noResultsDescription": "We couldn't find any clients matching your search or filter criteria. Try adjusting the filters or modifying the search query to find the desired results.",

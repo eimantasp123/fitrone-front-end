@@ -80,6 +80,10 @@ const SendFormToCustomerModal: React.FC<SendFormToCustomerModalProps> = ({
                 text={t("previewForm")}
                 onClick={() => window.open("/customer-form/sample")}
               />
+
+              <p className="my-4 text-center text-sm">
+                {t("sendFormWillBeValidFor")}
+              </p>
             </div>
             <FormProvider {...methods}>
               <form

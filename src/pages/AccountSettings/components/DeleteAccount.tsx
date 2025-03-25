@@ -78,7 +78,7 @@ const DeleteAccount: React.FC = () => {
           isOpen={isOpen}
           onClose={closeModal}
           isCentered
-          size={{ base: "xs", md: "lg" }}
+          size={{ base: "sm", md: "lg" }}
         >
           <ModalOverlay />
           <ModalContent sx={{ padding: "1em", borderRadius: "0.75rem" }}>

@@ -50,6 +50,7 @@
   "noClientsYetExplanation": "Norėdami pridėti klientą, spustelėkite mygtuką esantį apačioje.",
 
   "sendFormToCustomerDescription": "Išsiųskite informacijos formą klientui, kad jis galėtų užpildyti jums reikalingą informaciją. Formos pavyzdžio nuoroda pateikta žemiau.",
+  "sendFormWillBeValidFor": "Forma bus galiojanti 36 valandas po išsiuntimo. Jei forma nebus užpildyta per šį laikotarpį, ją reikės išsiųsti iš naujo.",
 
   "noResults": "Nerasta klientų",
   "noResultsDescription": "Nepavyko rasti klientų, atitinkančių jūsų paieškos arba filtravimo kriterijus. Pabandykite pakeisti filtrus arba pakoreguoti paieškos užklausą, kad rastumėte norimus rezultatus.",
