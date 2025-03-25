@@ -8,7 +8,10 @@ import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAsync from "../hooks/useAsync";
-import { setUserDetails } from "../services/reduxSlices/Profile/personalDetailsSlice";
+import {
+  setUserDetails,
+  setWeeklyPlanExpiredLoading,
+} from "../services/reduxSlices/Profile/personalDetailsSlice";
 import axiosInstance, { fetchCsrfToken } from "../utils/axiosInterceptors";
 import { getOrCreateTabDeviceId } from "@/utils/getDeviceId";
 import webSocketInstance from "@/utils/webSocketInstance";
@@ -108,6 +111,24 @@ export const AuthProvider = ({ children }) => {
       dispatch(setUserDetails(response.data.user));
     };
 
+    const ordersHandler = (data) => {
+      queryClient.refetchQueries({
+        queryKey: ["orders", data.year, data.weekNumber],
+      });
+      queryClient.removeQueries({ queryKey: ["orderById"] });
+      queryClient.removeQueries({
+        queryKey: [
+          "ingredientsList",
+          String(data.year),
+          String(data.weekNumber),
+        ],
+      });
+    };
+
+    const weekPlanHandler = () => {
+      dispatch(setWeeklyPlanExpiredLoading(false));
+    };
+
     webSocketInstance.addEventListener(
       "ingredient_updated_in_meals",
       ingredientUpdateHandler,
@@ -120,11 +141,15 @@ export const AuthProvider = ({ children }) => {
       "subscription_updated",
       subscriptionHandler,
     );
+    webSocketInstance.addEventListener("orders", ordersHandler);
+    webSocketInstance.addEventListener("weeklyPlanExpired", weekPlanHandler);
 
     return () => {
       webSocketInstance.removeEventListener("ingredient_updated_in_meals");
       webSocketInstance.removeEventListener("customer_form_confirmed");
       webSocketInstance.removeEventListener("subscription_updated");
+      webSocketInstance.removeEventListener("orders");
+      webSocketInstance.removeEventListener("weeklyPlanExpired");
       webSocketInstance.disconnect();
     };
   }, [

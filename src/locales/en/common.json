@@ -53,6 +53,7 @@
   "removeMeal": "Remove meal",
   "editMeal": "Edit meal",
   "cancel": "Cancel",
+  "processing": "Processing",
   "remove": "Remove",
   "category": "Category",
   "update": "Update",
@@ -72,6 +73,7 @@
 
   "menuCreated": "Created at",
   "lastUpdatedAt": "Updated at",
+  "markAsDone": "Mark as done",
 
   "selected": "Selected",
   "preferencesTitle": "Dietary Preferences",

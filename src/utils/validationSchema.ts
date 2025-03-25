@@ -136,6 +136,18 @@ export const useEditProfileSchema = () => {
   });
 };
 
+// Edit business information
+export const useEditBusinessInfoSchema = () => {
+  const { t } = useTranslation("profileSettings");
+
+  return yup.object().shape({
+    businessName: yup
+      .string()
+      .trim()
+      .max(50, t("validation.businessNameMax", { count: 50 })),
+  });
+};
+
 // Edit email schema for edit email form validation
 export const useEditPhoneNumberSchema = () => {
   const { t } = useTranslation("profileSettings");

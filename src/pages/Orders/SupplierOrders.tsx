@@ -26,7 +26,7 @@ const SupplierOrders = () => {
     queryKey: ["orders", currentYear, week],
     queryFn: () => fetchOrders(currentYear!, week!),
     enabled: Boolean(currentYear) && Boolean(week),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 5, // 5 minutes
     placeholderData: (prev) => prev,
   });
 

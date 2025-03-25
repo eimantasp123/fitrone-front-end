@@ -14,6 +14,8 @@ const initialState: PersonalDetailsState = {
   updateDetailsLoading: false,
   request2FALoading: false,
   verify2FALoading: false,
+  weekPlanExpiredLoading: false,
+  updateBusinessInfoLoading: false,
 };
 
 /**
@@ -182,6 +184,27 @@ export const markArchivedDataAsRead = createAsyncThunk(
 );
 
 /**
+ * Update business name
+ */
+export const updateBusinessName = createAsyncThunk(
+  "personalDetails/updateBusinessName",
+  async (businessName: string, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.patch("/profile/business-name", {
+        businessName,
+      });
+      return response.data;
+    } catch (error: unknown) {
+      const typedError = error as ApiError;
+      if (typedError.response?.data?.message) {
+        return rejectWithValue(typedError.response.data.message);
+      }
+      return rejectWithValue("Failed to update business name");
+    }
+  },
+);
+
+/**
  * Personal details slice for the user
  */
 const personalDetailsSlice = createSlice({
@@ -200,6 +223,9 @@ const personalDetailsSlice = createSlice({
       if (state.details) {
         state.details = { ...state.details, timezone: action.payload };
       }
+    },
+    setWeeklyPlanExpiredLoading: (state, action: PayloadAction<boolean>) => {
+      state.weekPlanExpiredLoading = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -356,8 +382,31 @@ const personalDetailsSlice = createSlice({
       .addCase(markArchivedDataAsRead.rejected, (state) => {
         state.updateLoading = false;
       });
+
+    /**
+     * Update business name
+     * */
+    builder
+      .addCase(updateBusinessName.pending, (state) => {
+        state.updateBusinessInfoLoading = true;
+      })
+      .addCase(updateBusinessName.fulfilled, (state, action) => {
+        state.updateBusinessInfoLoading = false;
+        state.details.businessName = action.payload.businessName;
+        showCustomToast({
+          status: "success",
+          description: action.payload.message as string,
+        });
+      })
+      .addCase(updateBusinessName.rejected, (state) => {
+        state.updateBusinessInfoLoading = false;
+      });
   },
 });
-export const { setUserDetails, updatePersonalPlan, setTimezone } =
-  personalDetailsSlice.actions;
+export const {
+  setUserDetails,
+  updatePersonalPlan,
+  setTimezone,
+  setWeeklyPlanExpiredLoading,
+} = personalDetailsSlice.actions;
 export default personalDetailsSlice.reducer;

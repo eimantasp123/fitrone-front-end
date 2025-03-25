@@ -1,41 +1,34 @@
 import FormButton from "@/components/common/FormButton";
 import CustomInput from "@/components/common/NewCharkaInput";
-import { updatePersonalDetails } from "@/services/reduxSlices/Profile/personalDetailsSlice";
+import { updateBusinessName } from "@/services/reduxSlices/Profile/personalDetailsSlice";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { useEditProfileSchema } from "@/utils/validationSchema";
+import { capitalizeFirstLetter } from "@/utils/helper";
+import { useEditBusinessInfoSchema } from "@/utils/validationSchema";
 import { Spinner } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdEdit } from "react-icons/md";
-import ChangeProfileImage from "./ChangeProfileImage";
-import { capitalizeFirstLetter } from "@/utils/helper";
 
 interface EditBusinessInfoProps {
-  firstName: string;
-  lastName?: string;
-  email?: string;
-  phone?: string;
+  businessName?: string;
 }
 
 // EditProfile component
 const EditBusinessInfo: React.FC = () => {
   const { t } = useTranslation("profileSettings");
-  const { details: user, updateDetailsLoading } = useAppSelector(
+  const { details: user, updateBusinessInfoLoading } = useAppSelector(
     (state) => state.personalDetails,
   );
   const [editMode, setEditMode] = useState(false);
   const dispatch = useAppDispatch();
-  const schema = useEditProfileSchema();
+  const schema = useEditBusinessInfoSchema();
 
   const methods = useForm<EditBusinessInfoProps>({
     resolver: yupResolver(schema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
+      businessName: "",
     },
   });
 
@@ -43,18 +36,15 @@ const EditBusinessInfo: React.FC = () => {
   useEffect(() => {
     if (user) {
       methods.reset({
-        firstName: capitalizeFirstLetter(user.firstName || "") || "",
-        lastName: capitalizeFirstLetter(user.lastName || "") || "",
-        email: user.email || "",
-        phone: user.phone || "",
+        businessName: user.businessName || "",
       });
     }
   }, [user, methods]);
 
   // Submit form data to update user details
   const onSubmit: SubmitHandler<EditBusinessInfoProps> = async (data) => {
-    const result = await dispatch(updatePersonalDetails(data));
-    if (updatePersonalDetails.fulfilled.match(result)) {
+    const result = await dispatch(updateBusinessName(data.businessName || ""));
+    if (updateBusinessName.fulfilled.match(result)) {
       setEditMode(false);
     }
   };
@@ -71,11 +61,8 @@ const EditBusinessInfo: React.FC = () => {
       <div className="flex flex-col gap-5">
         {/* Profile settings form */}
         <FormProvider {...methods}>
-          <div className="w-full space-y-8">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[15px] font-medium">
-                {t("accountSettings.subTitle")}
-              </h3>
+          <div className="w-full">
+            <div className="flex items-center justify-end">
               <button
                 type="button"
                 onClick={handleOpen}
@@ -93,28 +80,11 @@ const EditBusinessInfo: React.FC = () => {
             </div>
             <form
               onSubmit={methods.handleSubmit(onSubmit)}
-              className="grid grid-cols-1 gap-x-8 gap-y-4 overflow-hidden px-1 md:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2"
+              className="flex flex-col gap-4 overflow-y-hidden"
             >
               <CustomInput
-                name="firstName"
-                label={t("accountSettings.firstName")}
-                isDisabled={!editMode}
-              />
-              <CustomInput
-                name="lastName"
-                label={t("accountSettings.lastName")}
-                isDisabled={!editMode}
-              />
-              <CustomInput
-                name="email"
-                label={t("accountSettings.email")}
-                isDisabled={true}
-              />
-              <CustomInput
-                name="phone"
-                type="phone"
-                label={t("accountSettings.phoneNumber")}
-                placeholder="+000"
+                name="businessName"
+                label={t("businessInfo.businessName")}
                 isDisabled={!editMode}
               />
 
@@ -127,12 +97,10 @@ const EditBusinessInfo: React.FC = () => {
               >
                 <div className="w-full">
                   <FormButton
-                    isFormValid={
-                      methods.watch("firstName") && methods.watch("email")
-                    }
+                    isFormValid={editMode}
                     loading={methods.formState.isSubmitting}
                   >
-                    {updateDetailsLoading ? (
+                    {updateBusinessInfoLoading ? (
                       <Spinner size="sm" />
                     ) : (
                       `${t("accountSettings.saveChanges")}`

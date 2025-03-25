@@ -20,6 +20,7 @@ export interface UserDetails {
   firstName: string;
   lastName?: string;
   profileImage: string;
+  businessName?: string;
   role: string;
   plan?: string;
   googleId?: string;
@@ -286,6 +287,8 @@ export interface PersonalDetailsState {
   updateDetailsLoading: boolean;
   request2FALoading: boolean;
   verify2FALoading: boolean;
+  weekPlanExpiredLoading: boolean;
+  updateBusinessInfoLoading: boolean;
 }
 
 /**

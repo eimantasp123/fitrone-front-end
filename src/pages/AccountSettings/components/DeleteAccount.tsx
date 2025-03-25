@@ -34,15 +34,15 @@ const DeleteAccount: React.FC = () => {
   });
 
   // Delete user account from the server
-  const handleDelete = async () => {
-    const result = await dispatch(deleteAccount());
-    if (deleteAccount.fulfilled.match(result)) {
-      localStorage.removeItem("authenticated");
-      onClose();
-      setIsAuthenticated(false);
-      navigate("/login", { replace: true });
-    }
-  };
+  // const handleDelete = async () => {
+  //   const result = await dispatch(deleteAccount());
+  //   if (deleteAccount.fulfilled.match(result)) {
+  //     localStorage.removeItem("authenticated");
+  //     onClose();
+  //     setIsAuthenticated(false);
+  //     navigate("/login", { replace: true });
+  //   }
+  // };
 
   // Close modal
   const closeModal = () => {
@@ -89,13 +89,16 @@ const DeleteAccount: React.FC = () => {
             <ModalBody sx={{ padding: "1rem" }}>
               <FormProvider {...methods}>
                 <p className="mb-4 pl-1 text-sm text-textSecondary md:text-base">
-                  <Trans
+                  {t("deleteAccount.modal.description", {
+                    email: "support@fitrone.com",
+                  })}
+                  {/* <Trans
                     i18nKey="deleteAccount.modal.description"
                     ns="profileSettings"
-                    components={{ 1: <strong /> }}
-                  />
+                    components={{ 1: <a /> }}
+                  /> */}
                 </p>
-                <form
+                {/* <form
                   onSubmit={methods.handleSubmit(handleDelete)}
                   className="flex flex-col gap-3"
                 >
@@ -109,8 +112,7 @@ const DeleteAccount: React.FC = () => {
                       "deleteAccount.modal.inputPlaceholderConfirm",
                     )}
                   />
-
-                  {/*  */}
+             
                   <div className="mt-3 flex gap-2 md:justify-end">
                     <RedButton
                       updateLoading={updateLoading}
@@ -122,7 +124,7 @@ const DeleteAccount: React.FC = () => {
                       onClick={closeModal}
                     />
                   </div>
-                </form>
+                </form> */}
               </FormProvider>
             </ModalBody>
           </ModalContent>

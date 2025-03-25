@@ -15,7 +15,8 @@
     "noChange": "Pakeitimų neaptikta"
   },
   "businessInfo": {
-    "title": "Verslo informacija"
+    "title": "Verslo informacija",
+    "businessName": "Verslo pavadinimas"
   },
   "changePassword": {
     "title": "Pakeisti slaptažodį",
@@ -61,8 +62,8 @@
     "warningInfo": "Šis veiksmas yra negrįžtamas ir ištrins visus jūsų paskyros duomenis, įskaitant nustatymus, nuostatas ir naudojimo istoriją.",
     "delete": "Ištrinti paskyrą",
     "modal": {
-      "title": "Patvirtinti paskyros ištrynimą",
-      "description": "Prašome įvesti DELETE laukeliuose žemiau, kad patvirtintumėte, jog norite <1>ištrinti</1> savo paskyrą.",
+      "title": "Paskyros ištrynimą",
+      "description": "Jei pageidaujate ištrinti paskyrą, turite susisiekti su mūsų komanda. Galite tai padaryti el. paštu: {{email}}",
       "inputPlaceholder": "Įveskite DELETE, kad patvirtintumėte",
       "inputPlaceholderConfirm": "Įveskite DELETE dar kartą, kad patvirtintumėte",
       "cancel": "Atšaukti",
@@ -80,6 +81,7 @@
     "bothMustMatch": "Abu laukai turi sutapti",
     "invalidEmail": "Neteisingas el. pašto adresas",
     "requiredEmail": "El. paštas yra privalomas",
-    "maxEmail": "El. pašto adresas turi būti ne ilgesnis kaip {{count}} simbolių"
+    "maxEmail": "El. pašto adresas turi būti ne ilgesnis kaip {{count}} simbolių",
+    "businessNameMax": "Verslo pavadinimas turi būti ne ilgesnis kaip {{count}} simbolių"
   }
 }

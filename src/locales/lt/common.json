@@ -53,6 +53,7 @@
   "removeMeal": "Pašalinti patiekalą",
   "editMeal": "Redaguoti patiekalą",
   "cancel": "Atšaukti",
+  "processing": "Apdorojama",
   "remove": "Pašalinti",
   "back": "Atgal",
   "category": "Kategorija",
@@ -72,6 +73,7 @@
 
   "menuCreated": "Sukurta",
   "lastUpdatedAt": "Atnaujinta",
+  "markAsDone": "Savaitė baigta",
 
   "selected": "Pasirinkta",
   "preferencesTitle": "Dietiniai pasirinkimai",

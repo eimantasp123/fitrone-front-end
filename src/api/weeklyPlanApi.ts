@@ -178,3 +178,13 @@ export const removeGroupFromWeeklyPlanMenu = async ({
   );
   return response.data;
 };
+
+/**
+ * Set week plan as done
+ */
+export const setWeekPlanAsDone = async (weekPlanId: string) => {
+  const response = await axiosInstance.patch(
+    `weekly-plan/${weekPlanId}/expire-now`,
+  );
+  return response.data;
+};

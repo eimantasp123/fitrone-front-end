@@ -25,7 +25,7 @@ const SupplierIngredientsGeneralHeader: React.FC<Props> = ({
         {/* Go back button*/}
         <div className="col-span-2 row-start-1 row-end-2 flex items-center sm:col-auto sm:row-auto sm:row-start-1">
           <CustomButton
-            text="Go back"
+            text={t("common:back")}
             width="w-[100%] sm:w-[120px]"
             type="lightSecondary"
             onClick={() => navigate(-1)}

@@ -27,6 +27,10 @@
   "weekExpired": "Pasirinktos savaitės plano sudaryti neįmanoma.",
   "weekExpiredDescription": "Pasirinkta savaitė jau praėjo, todėl negalite kurti plano.",
 
+  "titleForExpiredModal": "Pažymėti savaitę kaip užbaigtą",
+  "descriptionForExpiredModal": "Ar tikrai norite pažymėti šį savaitės planą kaip užbaigtą? Šis veiksmas negali būti atšauktas. Patvirtinus:\n\n- Jūs nebegalėsite redaguoti šio savaitės plano.\n- Visi šios savaitės užsakymai automatiškai bus pažymėti kaip 'Atlikti'.\n\nŠis veiksmas yra galutinis ir turėtų būti atliekamas tik tada, kai visi savaitės užsakymai yra įvykdyti — paprastai penktadienį, šeštadienį arba sekmadienį.\n\nAtkreipkite dėmesį: šis procesas gali užtrukti kelias akimirkas. Neatnaujinkite puslapio šio proceso metu. Kai procesas bus baigtas, duomenys automatiškai atsinaujins.",
+  "endWeek": "Užbaigti savaitę",
+
   "selectTimezone": "Pasirinkite laiko juostą",
   "selectTimezoneDescription": "Pasirinkite savo laiko juostą atsakingai. Ji bus naudojama savaitiniams planams kurti, meniu planuoti ir tiksliai laikyti laiko visoje paskyroje. Sukūrus planus, laiko juostos pakeisti nebebus galima.",
   "changeTimezoneSupportNotice": "Jei norite pakeisti laiko juostą po savaitinių planų sukūrimo, susisiekite su mūsų pagalba el. paštu: support@fitrone.com.",

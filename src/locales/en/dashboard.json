@@ -34,6 +34,7 @@
             "Go to the 'Ingredients' section in the dashboard.",
             "Click the 'Add Ingredient' button.",
             "Enter the ingredient name and nutritional value.",
+            "Note: each ingredient has a default value of 100 g/ml. This makes it easier to calculate the nutritional value for any quantity used in meals.",
             "Click 'Add Ingredient' to save it to the system."
           ]
         },
@@ -77,24 +78,25 @@
               "name": "Use AI Search (PRO and PREMIUM members)",
               "actions": [
                 "Click 'Find Ingredient'.",
-                "Enter the ingredient name and select the quantity.",
-                "Click the green 'checkmark' to add the ingredient."
+                "Enter the ingredient name and click 'Search'.",
+                "Enter the required quantity for the meal next to the found ingredient and click the green checkmark.",
+                "The ingredient with the specified required quantity will be added to the meal, and the ingredient with 100g/ml nutritional value will be added to your ingredient list."
               ]
             },
             {
               "name": "Use Personal Ingredients",
               "actions": [
                 "Select 'My Personal Ingredients'.",
-                "Choose an ingredient from the list.",
-                "Enter the quantity and confirm the selection."
+                "Enter the ingredient name and click 'Search'.",
+                "Select the ingredient from the list, enter the required quantity, and click the green checkmark."
               ]
             },
             {
               "name": "Add Ingredient Manually",
               "actions": [
                 "Click 'Add Ingredient Manually'.",
-                "Enter the ingredient name, nutritional value, and quantity.",
-                "Click 'Add' to save the ingredient."
+                "Enter the ingredient name, nutritional value, required quantity for the meal, and click 'Add Ingredient'.",
+                "The ingredient with the specified required quantity will be added to the meal, and the ingredient with 100g/ml nutritional value will be added to your ingredient list."
               ]
             }
           ]
@@ -176,10 +178,12 @@
         {
           "title": "Customer Request Form (PRO and PREMIUM members)",
           "actions": [
-            "Click 'Send Form to Customer'.",
-            "Enter the customer's email address.",
+            "Click 'Send Form to Client'.",
+            "Enter the client's email address.",
             "Send the form.",
-            "Once the customer fills out the form, their data will be automatically added to your customer list."
+            "Once the client fills out the form, their data will be automatically added to your customer list.",
+            "If you want your business name to appear in the emails sent to clients, go to 'Account Settings' > 'Business Information' and update the business name.",
+            "If the business name is not provided, your name will be used in the emails."
           ]
         },
         {
@@ -205,8 +209,7 @@
           "actions": [
             "Click the three-dot button next to the customer.",
             "Select 'Change Menu Quantity'.",
-            "Specify how many menus the customer can receive.",
-            "If the customer is already assigned to an active weekly plan, the menu quantity cannot be changed."
+            "Specify how many menus the customer can receive."
           ]
         },
         {
@@ -218,7 +221,7 @@
           ]
         }
       ],
-      "note": "To delete a customer or change their menu quantity, they must not be assigned to an active weekly plan. First, remove the customer from the plan.",
+      "note": "To delete a customer, they must not be assigned to an active weekly plan. First, remove the customer from the plan.",
       "url": ""
     },
     {
@@ -260,6 +263,18 @@
             "To unpublish, click 'Unpublish Menu'.",
             "After unpublishing, you can change the menu or assigned customers.",
             "After making changes, click 'Publish' again."
+          ]
+        },
+        {
+          "title": "Completing the Weekly Plan (Marking as Done)",
+          "actions": [
+            "When all daily orders are prepared and the weekly plan is completed, you can mark the weekly plan as 'Done'.",
+            "Go to the 'Weekly Plan' section and select the current week.",
+            "At the top, you will see the 'Mark as Done' button.",
+            "Once confirmed, the weekly plan will be marked as 'Completed' and this action cannot be undone.",
+            "All orders for this week will automatically be marked as 'Done'.",
+            "All weekly menus that are not currently assigned to future weeks will become editable (you will be able to update them).",
+            "NOTE: The weekly plan is automatically marked as completed on Monday night according to your time zone, but it can also be manually marked as done at any time (e.g., Friday, Saturday, or Sunday) once the weekly orders are fulfilled."
           ]
         }
       ],

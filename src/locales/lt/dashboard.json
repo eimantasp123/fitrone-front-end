@@ -34,6 +34,7 @@
             "Eikite į skiltį 'Ingredientai' prietaisų skydelyje.",
             "Paspauskite mygtuką 'Pridėti ingredientą'.",
             "Įveskite ingrediento pavadinimą ir maistinę vertę.",
+            "Pastaba: kiekvienas ingredientas pagal numatytąją reikšmę turi 100 g/ml vertę. Tai leidžia lengviau apskaičiuoti maistinę vertę pagal bet kokį kiekį, naudojamą patiekaluose.",
             "Paspauskite 'Pridėti ingredientą', kad ingredientas būtų įrašytas į sistemą."
           ]
         },
@@ -77,24 +78,25 @@
               "name": "Naudoti AI paiešką (PRO ir PREMIUM nariams)",
               "actions": [
                 "Paspauskite 'Rasti ingredientą'.",
-                "Įveskite ingrediento pavadinimą ir pasirinkite kiekį.",
-                "Paspauskite žalią 'varnelę' norėdami pridėti ingredientą."
+                "Įveskite ingrediento pavadinimą ir spauskite 'Ieškoti'.",
+                "Prie rasto ingrediento įveskite patiekalui reikiamą kiekį ir spauskite žalią varnelę.",
+                "Ingredientas pagal nurodytą reikiamą kiekį bus pridėtas prie patiekalo, o ingredientas su 100g/ml maistine verte bus pridėtas prie jūsų ingredientų sąrašo."
               ]
             },
             {
               "name": "Naudoti asmeninius ingredientus",
               "actions": [
                 "Pasirinkite 'Mano asmeniniai ingredientai'.",
-                "Pasirinkite ingredientą iš sąrašo.",
-                "Įveskite kiekį ir patvirtinkite pasirinkimą."
+                "Įveskite ingrediento pavadinimą ir spauskite 'Ieškoti'.",
+                "Pasirinkite ingredientą iš sąrašo, įveskite reikiamą kiekį ir spauskite žalią varnelę."
               ]
             },
             {
               "name": "Pridėti ingredientą rankiniu būdu",
               "actions": [
                 "Paspauskite 'Pridėti ingredientą savarankiškai'.",
-                "Įveskite ingrediento pavadinimą, maistinę vertę ir kiekį.",
-                "Paspauskite 'Pridėti', kad ingredientas būtų išsaugotas."
+                "Įveskite ingrediento pavadinimą, maistinę vertę, reikiamą kiekį patiekalui ir spauskite 'Pridėti ingredientą'.",
+                "Ingredientas pagal nurodytą reikiamą kiekį bus pridėtas prie patiekalo, o ingredientas su 100g/ml maistine verte bus pridėtas prie jūsų ingredientų sąrašo."
               ]
             }
           ]
@@ -182,7 +184,9 @@
             "Spauskite 'Išsiųsti formą klientui'.",
             "Įveskite kliento el. pašto adresą.",
             "Išsiųskite formą.",
-            "Kai klientas užpildys formą, jo duomenys bus automatiškai įkelti į jūsų klientų sąrašą."
+            "Kai klientas užpildys formą, jo duomenys bus automatiškai įkelti į jūsų klientų sąrašą.",
+            "Jei norite, kad jūsų verslo pavadinimas būtų matomas kliento gautuose el. laiškuose, nueikite į 'Paskyros nustatymai' > 'Verslo informacija' ir atnaujinkite verslo pavadinimą.",
+            "Jeigu verslo pavadinimas nebus nurodytas, el. laiškuose bus naudojamas jūsų vardas."
           ]
         },
         {
@@ -208,8 +212,7 @@
           "actions": [
             "Paspauskite trijų taškų mygtuką prie kliento.",
             "Pasirinkite 'Pakeisti meniu kiekį'.",
-            "Nurodykite, kiek meniu klientas gali gauti.",
-            "Jei klientas jau priskirtas prie aktyvaus savaitės plano, meniu kiekis negali būti pakeistas."
+            "Nurodykite, kiek meniu klientas gali gauti."
           ]
         },
         {
@@ -221,7 +224,7 @@
           ]
         }
       ],
-      "note": "Norint ištrinti klientą arba keisti jo meniu kiekį, jis negali būti priskirtas aktyviam savaitės planui. Pirmiausia pašalinkite klientą iš plano.",
+      "note": "Norint ištrinti klientą, jis negali būti priskirtas aktyviam savaitės planui. Pirmiausia pašalinkite klientą iš plano.",
       "url": ""
     },
     {
@@ -243,7 +246,7 @@
           "title": "Klientų priskyrimas prie savaitės plano",
           "actions": [
             "Raskite savaitės meniu sąraše.",
-            "Paspauskite 'Priskirti klientus'.",
+            "Paspauskite 'Priskirti klientai'.",
             "Atsidariusiame lange bus rodomi jau priskirti klientai bei galimybė pridėti naujus klientus.",
             "Pasirinkite klientus iš sąrašo ir paspauskite 'Priskirti'."
           ]
@@ -263,6 +266,18 @@
             "Norėdami išpublikuoti, paspauskite 'Išpublikuoti meniu'.",
             "Po išpublikavimo galėsite pakeisti meniu ar priskirtus klientus.",
             "Po atliktų pakeitimų vėl spauskite 'Publikuoti'."
+          ]
+        },
+        {
+          "title": "Savaitės plano užbaigimas (pažymėjimas kaip atliktas)",
+          "actions": [
+            "Kai visų dienų užsakymai yra paruošti ir savaitės planas yra užbaigtas, savaitės planą galite pažymėti kaip 'Atliktą'.",
+            "Eikite į 'Savaitės planas' skiltį ir pasirinkite einamąją savaitę.",
+            "Viršuje pamatysite mygtuką 'Savaitė baigta'.",
+            "Patvirtinus, savaitės planas bus pažymėtas kaip 'Užbaigtas' ir šio veiksmo nebegalėsite atšaukti.",
+            "Visi užsakymai šiai savaitei bus automatiškai pažymėti kaip 'Atlikta'.",
+            "Visi savaitės meniu, kurie šiuo metu nėra priskirti ateities savaitėms, taps redaguojami (juos galėsite atnaujinti).",
+            "NOTE: Savaitės planas automatiškai pažymimas kaip užbaigtas pirmadienio naktį pagal jūsų laiko juostą, tačiau jį taip pat galima pažymėti rankiniu būdu bet kuriuo metu (pvz., penktadienį, šeštadienį ar sekmadienį), kai tik savaitės užsakymai yra įvykdyti."
           ]
         }
       ],

@@ -124,12 +124,14 @@ const SupplierWeeklyPlan: React.FC = () => {
             <WeeklyPlanHeader
               timezone={user.timezone ?? null}
               t={t}
+              weekPlanId={data?.data?._id ?? null}
               isOpen={isOpen}
               openModal={openModal}
               closeModal={closeModal}
               closeAllModals={closeAllModals}
               navigateWeeks={navigateWeeks}
               weekNumber={weekNumber}
+              disableWeeklyPlan={mainObject?.status === "expired"}
               formattedWeekRange={formattedWeekRange}
             />
           </div>

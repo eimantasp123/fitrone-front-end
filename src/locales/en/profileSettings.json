@@ -15,7 +15,8 @@
     "noChange": "No changes made"
   },
   "businessInfo": {
-    "title": "Business Information"
+    "title": "Business Information",
+    "businessName": "Business Name"
   },
   "changePassword": {
     "title": "Change Password",
@@ -61,8 +62,8 @@
     "warningInfo": "This action is irreversible and will delete all your account data, including settings, preferences, and usage history.",
     "delete": "Delete Account",
     "modal": {
-      "title": "Confirm Account Deletion",
-      "description": "Please type DELETE in the fields below to confirm you want to <1>delete</1> your account.",
+      "title": "Account Deletion",
+      "description": "If you wish to delete your account, you must contact our team. You can do so via email: {{email}}",
       "inputPlaceholder": "Type DELETE to confirm",
       "inputPlaceholderConfirm": "Type DELETE again to confirm",
       "cancel": "Cancel",
@@ -80,6 +81,7 @@
     "bothMustMatch": "Both fields must match",
     "invalidEmail": "Invalid email address",
     "requiredEmail": "Email address is required",
-    "maxEmail": "Email address must be at most {{count}} characters long"
+    "maxEmail": "Email address must be at most {{count}} characters long",
+    "businessNameMax": "Business name must be at most {{count}} characters long"
   }
 }

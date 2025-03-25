@@ -55,7 +55,7 @@ const ConfirmActionModal: React.FC<ConfirmActionModalProps> = ({
           <h2 className="p-1 font-medium">{title}</h2>
           <ModalCloseButton marginTop="2" />
           <ModalBody sx={{ padding: "4px" }}>
-            <p className="mb-4 mt-2 pl-1 text-sm text-textSecondary md:text-[15px]">
+            <p className="mb-4 mt-2 whitespace-pre-wrap pl-1 text-sm text-textSecondary md:text-[15px]">
               {description}
             </p>
             <div className={buttonSectionClassName}>

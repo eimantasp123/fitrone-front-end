@@ -27,6 +27,10 @@
   "weekExpired": "It is not possible to create a plan for the selected week.",
   "weekExpiredDescription": "The selected week has already passed, so you cannot create a plan.",
 
+  "titleForExpiredModal": "Mark This Week as Done",
+  "descriptionForExpiredModal": "Are you sure you want to mark this weekly plan as completed? This action cannot be undone. Upon confirmation:\n\n- You will no longer be able to edit this weekly plan.\n- All orders for this week will automatically be marked as 'Done'.\n\nThis action is final and should only be performed when all weekly orders have been fulfilled — typically on Friday, Saturday, or Sunday.\n\nPlease note: this process may take a few moments. Do not refresh the page during this process. Once completed, the data will automatically update.",
+  "endWeek": "Finish this week",
+
   "selectTimezone": "Select Timezone",
   "selectTimezoneDescription": "Please select your timezone carefully. It will be used to generate weekly plans, schedule menus, and ensure accurate timing across your account. Once plans are created, the timezone cannot be changed.",
   "changeTimezoneSupportNotice": "To change your timezone after starting your weekly plans, please contact support at support@fitrone.com.",
