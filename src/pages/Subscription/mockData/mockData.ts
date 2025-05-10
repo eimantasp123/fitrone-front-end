@@ -88,17 +88,17 @@ export const plans = [
 export const plansProduction = [
   {
     key: "basic-plan",
-    price: "€49",
-    priceId: "price_1R4rPAAVASYOGHJkYDw8LsvA",
+    price: "€29",
+    priceId: "price_1RNArHAVASYOGHJkRFKUILRk",
   },
   {
     key: "pro-plan",
-    price: "€99",
-    priceId: "price_1R4rPhAVASYOGHJkIiT9h500",
+    price: "€49",
+    priceId: "price_1RNArmAVASYOGHJkScDis5hO",
   },
   {
     key: "premium-plan",
-    price: "€199",
-    priceId: "price_1R4rQ3AVASYOGHJkwAuhwzAd",
+    price: "€99",
+    priceId: "price_1RNAsAAVASYOGHJkK537dweM",
   },
 ];

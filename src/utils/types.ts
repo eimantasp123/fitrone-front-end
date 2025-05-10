@@ -34,6 +34,7 @@ export interface UserDetails {
   subscriptionStatus?: string;
   subscriptionCancelAtPeriodEnd?: boolean;
   trialEnd?: string;
+  testMode?: boolean;
   subscriptionId?: string;
   subscriptionPlan?: string;
   subscriptionCancelAt?: string;

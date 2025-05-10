@@ -32,9 +32,11 @@ const ManageSubscription = () => {
     }
   };
 
-  const buttonVisible = ["base", "canceled", "incomplete_expired"].includes(
-    user.subscriptionStatus || "",
-  );
+  const buttonVisible =
+    user.testMode === false &&
+    ["base", "canceled", "incomplete_expired"].includes(
+      user.subscriptionStatus || "",
+    );
 
   // Redirect the user to the Stripe Checkout
   const handleSelectPlan = async (priceId: string) => {
@@ -73,7 +75,8 @@ const ManageSubscription = () => {
             {user.subscriptionStatus &&
               ["active", "trialing", "past_due", "incomplete"].includes(
                 user.subscriptionStatus,
-              ) && (
+              ) &&
+              user.testMode === false && (
                 <PrimaryButton
                   onClick={handleManageSubscription}
                   className="flex w-full items-center py-3 md:w-fit md:px-6"
@@ -83,10 +86,12 @@ const ManageSubscription = () => {
                 </PrimaryButton>
               )}
           </div>
-          <MessagesForSubscription
-            user={user}
-            onClick={handleManageSubscription}
-          />
+          {user.testMode === false && (
+            <MessagesForSubscription
+              user={user}
+              onClick={handleManageSubscription}
+            />
+          )}
           <div className="mt-0 grid grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:mt-2 xl:grid-cols-3">
             {plansMap.map((plan, index) => (
               <div
