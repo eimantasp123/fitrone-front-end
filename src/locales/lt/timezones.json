@@ -1,22 +1,22 @@
 {
   "timezones": [
-    { "key": "Europe/London", "title": "Londonas (UTC+0)" },
-    { "key": "Europe/Lisbon", "title": "Lisabona (UTC+0)" },
-    { "key": "Europe/Paris", "title": "Paryžius (UTC+1)" },
-    { "key": "Europe/Berlin", "title": "Berlynas (UTC+1)" },
-    { "key": "Europe/Madrid", "title": "Madridas (UTC+1)" },
-    { "key": "Europe/Rome", "title": "Roma (UTC+1)" },
-    { "key": "Europe/Warsaw", "title": "Varšuva (UTC+1)" },
-    { "key": "Europe/Vilnius", "title": "Vilnius (UTC+2)" },
-    { "key": "Europe/Athens", "title": "Atėnai (UTC+2)" },
-    { "key": "Europe/Bucharest", "title": "Bukareštas (UTC+2)" },
-    { "key": "Europe/Helsinki", "title": "Helsinkis (UTC+2)" },
+    { "key": "Europe/London", "title": "Londonas (UTC+1)" },
+    { "key": "Europe/Lisbon", "title": "Lisabona (UTC+1)" },
+    { "key": "Europe/Paris", "title": "Paryžius (UTC+2)" },
+    { "key": "Europe/Berlin", "title": "Berlynas (UTC+2)" },
+    { "key": "Europe/Madrid", "title": "Madridas (UTC+2)" },
+    { "key": "Europe/Rome", "title": "Roma (UTC+2)" },
+    { "key": "Europe/Warsaw", "title": "Varšuva (UTC+2)" },
+    { "key": "Europe/Vilnius", "title": "Vilnius (UTC+3)" },
+    { "key": "Europe/Athens", "title": "Atėnai (UTC+3)" },
+    { "key": "Europe/Bucharest", "title": "Bukareštas (UTC+3)" },
+    { "key": "Europe/Helsinki", "title": "Helsinkis (UTC+3)" },
     { "key": "Europe/Istanbul", "title": "Stambulas (UTC+3)" },
-    { "key": "America/New_York", "title": "Niujorkas (UTC-5)" },
-    { "key": "America/Chicago", "title": "Čikaga (UTC-6)" },
-    { "key": "America/Denver", "title": "Denveris (UTC-7)" },
+    { "key": "America/New_York", "title": "Niujorkas (UTC-4)" },
+    { "key": "America/Chicago", "title": "Čikaga (UTC-5)" },
+    { "key": "America/Denver", "title": "Denveris (UTC-6)" },
     { "key": "America/Phoenix", "title": "Feniksas (UTC-7)" },
-    { "key": "America/Los_Angeles", "title": "Los Andželas (UTC-8)" },
-    { "key": "America/Anchorage", "title": "Ankoridžas (UTC-9)" }
+    { "key": "America/Los_Angeles", "title": "Los Andželas (UTC-7)" },
+    { "key": "America/Anchorage", "title": "Ankoridžas (UTC-8)" }
   ]
 }
